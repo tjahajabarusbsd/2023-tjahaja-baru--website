@@ -1,0 +1,40 @@
+.navbar {
+    position: relative;
+    width: 100%;
+    background-color: #183f9e;
+    z-index: 1;
+}
+
+.navbar-brand-0 img {
+    height: 45px;
+}
+
+.navbar .navbar-nav .nav-link {
+    text-transform: uppercase;
+    color: white;
+    border-radius: 5px;
+}
+
+li>a::after {
+    content: "";
+    display: block;
+    margin: auto;
+    height: 3px;
+    width: 0;
+    top: 5px;
+    background: transparent;
+    transition: all 0.3s;
+
+}
+
+li>a:hover::after,
+li>a.active-nav::after {
+    width: 100%;
+    background: white;
+}
+
+@media only screen and (max-width: 425px) {
+    .navbar-brand-0 img {
+        height: 30px;
+    }
+}

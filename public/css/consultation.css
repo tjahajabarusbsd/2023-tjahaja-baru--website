@@ -1,0 +1,70 @@
+.consultation .consultation-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.consultation .banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.consultation .banner .image {
+    max-height: 355px;
+    width: auto;
+    filter: brightness(.4);
+}
+
+.consultation .banner .text {
+    position: absolute;
+    color: white;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 10vw;
+}
+
+.consultation .consultation-form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: none;
+}
+
+.btn-primary {
+    background-color: #183f9d;
+    border-color: #183f9d;
+    color: #ffffff;
+}
+
+.btn:hover {
+    background-color: #ffffff;
+    color: #183f9d;
+}
+
+@media screen and (min-width: 768px) {
+    .consultation .consultation-wrapper {
+        flex-direction: row;
+    }
+
+    .consultation .banner {
+        width: 55%;
+        min-height: 100vh;
+        padding: 10px 20px;
+        overflow: hidden;
+    }
+
+    .consultation .banner .image {
+        max-height: none;
+        width: auto;
+        scale: 1.4;
+    }
+
+    .consultation .banner .text {
+        font-size: 57px;
+    }
+
+    .consultation .consultation-form {
+        width: 45%;
+    }
+}

@@ -1,0 +1,174 @@
+.article a {
+    text-decoration: none;
+}
+
+.article img {
+    width: 100%;
+    /* height: auto; */
+}
+
+.article .breadcrumb {
+    padding: 8px 15px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    list-style: none;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+
+.article .breadcrumb li {
+    font-weight: bold;
+    color: #000000;
+}
+
+.article .breadcrumb>li+li:before {
+    padding: 0 5px;
+    color: #000000;
+    content: "/\00a0";
+}
+
+.article .page-title {
+    font-size: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.article .article-list {
+    display: flex;
+    overflow: hidden;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.article .article-list .article-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 80px;
+    background-color: #f3f3f3;
+}
+
+.article .article-list .article-wrapper p {
+    color: #000000;
+}
+
+.article .article-list .article-wrapper .fa {
+    font-weight: bold;
+}
+
+.article .article-list .article-wrapper .date-time .fa-calendar,
+.article .article-list .article-wrapper .info-count .fa-eye {
+    margin-right: 15px;
+}
+
+.article .article-list .article-wrapper .hashtag {
+    font-weight: bold;
+}
+
+.article .article-list .article-wrapper .hashtag p {
+    margin-bottom: 0;
+}
+
+.article .article-list .article-wrapper .article-title {
+    display: -webkit-box;
+    overflow: hidden;
+    color: #002fb8;
+    font-weight: bold;
+    font-size: 22px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.article .article-list .article-wrapper .article-content {
+    display: -webkit-box;
+    overflow: hidden;
+    width: 96%;
+    margin: 11px 0;
+    font-size: 17px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    word-break: break-word;
+}
+
+.article .article-list .article-wrapper .article-wrapper-left {
+    width: 30%;
+    margin-right: 10px;
+}
+
+.article .article-list .article-wrapper .article-wrapper-right {
+    width: 70%;
+}
+
+.article .article-list .article-wrapper .article-wrapper-left .article-img {
+    object-fit: cover;
+}
+
+.load-more {
+    position: relative;
+    top: -35px;
+    text-align: center;
+}
+
+.btn-block {
+    position: relative;
+    background-color: #1645ca;
+    border-radius: 0px;
+    border: 1px solid #1645ca;
+    color: white;
+}
+
+.btn-block:hover {
+    border: 1px solid #1645ca;
+    color: #1645ca;
+    background-color: transparent;
+}
+
+@media screen and (max-width: 768px) {
+    .article .article-list .article-wrapper {
+        height: auto;
+        padding: 6px;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+        justify-content: unset;
+    }
+
+    .article .article-list .article-wrapper .news-title {
+        min-height: 18px;
+        margin-bottom: 6px;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 16px;
+    }
+
+    .article .article-list .article-wrapper .article-content {
+        margin: 1px;
+        margin-bottom: 12px;
+        font-size: 12px;
+        line-height: 18px;
+        -webkit-line-clamp: 3;
+    }
+
+    .article .article-list .article-wrapper .article-wrapper-left,
+    .article .article-list .article-wrapper .article-wrapper-right {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .article .article-list .article-wrapper .article-wrapper-left .article-img {
+        max-width: 550px;
+    }
+
+    .article .article-list .article-wrapper .article-wrapper-right .fa {
+        font-size: 12px;
+    }
+
+    .article .article-list .article-wrapper .article-wrapper-right .hashtag {
+        font-size: 12px;
+    }
+
+    .load-more {
+        margin-bottom: 20px;
+        top: 0;
+    }
+}

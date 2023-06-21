@@ -1,0 +1,150 @@
+.banner {
+    display: flex;
+    align-items: center;
+    background-color: grey;
+    height: 400px;
+}
+
+.banner h1,
+.banner h2 {
+    margin: 0 auto;
+    color: #ffffff;
+}
+
+.section2 {
+    margin-bottom: 30px;
+}
+
+.section2 .background-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 390px;
+    z-index: 0;
+}
+
+.section2 .background-wrapper .background {
+    width: 100%;
+    height: 100%;
+    background: url("/images/bg.png");
+}
+
+.section2 .title {
+    margin: 35px auto 20px;
+    color: #1f3781;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.section2 .version-row {
+    justify-content: center;
+}
+
+.section2 .version {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 27px;
+    margin: 0 3px;
+    width: 110px;
+    z-index: 1;
+    /* transform: skew(-30deg); */
+    border-radius: 25px;
+    background-color: #6dcbb1;
+    cursor: pointer;
+}
+
+.section2 .version.active {
+    background-color: #1f3781;
+}
+
+.section2 .version .text {
+    text-transform: uppercase;
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 9px;
+    margin-bottom: 0;
+    /* transform: skew(30deg); */
+}
+
+.section2 .caption-box {
+    flex-direction: column;
+}
+
+.section2 .caption-box .price {
+    text-align: center;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.section2 .caption-box .area-price {
+    text-align: center;
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.section2 .carousel {
+    width: 300px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+
+.section2 .carousel-indicators {
+    bottom: -40px;
+}
+
+.section2 .carousel-control-prev {
+    left: -50px;
+}
+
+.section2 .carousel-control-next {
+    right: -50px;
+}
+
+@media only screen and (min-width: 768px) {
+    .section2 .background-wrapper {
+        height: 390px;
+    }
+
+    /* .section2 .background {
+        background-size: 19%;
+    } */
+
+    .section2 .title {
+        font-size: 30px;
+    }
+
+    .section2 .version {
+        height: 40px;
+        width: 160px;
+    }
+
+    .section2 .version .text {
+        font-size: 27px;
+        line-height: 27px;
+    }
+
+    .section2 .carousel {
+        width: 520px;
+    }
+
+    .section2 .carousel-inner {
+        height: 500px;
+    }
+
+    .section2 .caption-box {
+        bottom: -85px;
+    }
+
+    .section2 .caption-box .price {
+        font-size: 25px;
+    }
+
+    .section2 .caption-box .area-price {
+        font-size: 15px;
+    }
+}

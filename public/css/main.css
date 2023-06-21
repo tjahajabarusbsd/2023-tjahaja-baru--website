@@ -1,0 +1,135 @@
+html,
+body,
+#main-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    display: block;
+    background-color: #FFFFFF;
+    font-family: 'Montserrat', sans-serif;
+}
+
+section {
+    width: 100%;
+    position: relative;
+    display: block;
+}
+
+section.separator {
+    height: 10px;
+    margin-bottom: 10px;
+    background-color: #6dcbb1;
+}
+
+footer {
+    font-weight: bold;
+    color: #183f9d;
+}
+
+footer .footer-row {
+    text-align: center;
+}
+
+footer .first-row .caption-first-row {
+    margin-bottom: 10px;
+}
+
+footer .first-row .sosmed {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+footer .first-row .sosmed a {
+    margin: 0 5%;
+}
+
+footer .first-row .sosmed img {
+    width: 33px;
+}
+
+footer .line {
+    border-bottom: 2px solid #6dcbb1;
+    margin: 5px 0;
+}
+
+footer .second-row {
+    font-size: 13px;
+}
+
+footer .second-row img {
+    width: 18px;
+    margin-right: 5px;
+}
+
+section.link-wa {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    /* width: 240px; */
+    width: 68px;
+    height: 62px;
+    right: 11px;
+    bottom: 15px;
+    margin-bottom: 0;
+    z-index: 1000;
+    background: #26d968;
+    border-radius: 10px;
+}
+
+section.link-wa:hover {
+    background-color: #52e086;
+}
+
+section.link-wa .konten-gambar {
+    width: 52px;
+}
+
+section.link-wa .konten-gambar img {
+    width: 40px;
+}
+
+a.btn-wa {
+    text-decoration: none;
+}
+
+section.link-wa .konten-wa h3 {
+    font-size: 20px;
+    color: white;
+    margin-bottom: 0;
+}
+
+section.link-wa:hover {
+    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+    transform: translate3d(0, 0, 0);
+    perspective: 1000px;
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+.grecaptcha-badge {
+    visibility: hidden !important;
+}

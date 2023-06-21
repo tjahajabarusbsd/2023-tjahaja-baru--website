@@ -1,0 +1,27 @@
+.error_number {
+    font-size: 156px;
+    font-weight: 600;
+    line-height: 100px;
+}
+
+.error_number small {
+    font-size: 56px;
+    font-weight: 700;
+}
+
+.error_number hr {
+    margin: 60px auto 0 auto;
+    width: 50px;
+}
+
+.error_title {
+    margin-top: 40px;
+    font-size: 26px;
+    font-weight: 400;
+}
+
+.error_description {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 400;
+}
