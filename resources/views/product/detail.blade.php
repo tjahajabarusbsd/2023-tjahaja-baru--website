@@ -58,7 +58,7 @@
                     $i = 0;
                 @endphp
                 @foreach ($data as $item)
-                <button type='button' data-bs-target='#carouselExampleDark' data-src='{{$item->color_name}}' data-bs-slide-to='{{$i}}' class='{{$item->color}} sign'></button>
+                <button type='button' data-bs-target='#carouselExampleDark' data-bs-slide-to='{{$i}}' class='sign'></button>
                 @php
                     $i++
                 @endphp
