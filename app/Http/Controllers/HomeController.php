@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Banner;
 
 class HomeController extends Controller
 {
@@ -38,8 +39,10 @@ class HomeController extends Controller
         }
 
         $latestVariants = $latestVariants->all();
-        // dd($latestVariants);
 
-        return view('home', compact('articles', 'latestVariants'));
+        // Fetch data articles
+        $banners = Banner::where('is_active', 1)->get();
+
+        return view('home', compact('articles', 'latestVariants', 'banners'));
     }
 }

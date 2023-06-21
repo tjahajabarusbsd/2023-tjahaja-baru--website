@@ -34,3 +34,4 @@
         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('variant') }}'><i class='nav-icon la la-question'></i> Variants</a></li>
     </ul>
 </li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('banner') }}'><i class='nav-icon la la-question'></i> Banners</a></li>
