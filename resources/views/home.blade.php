@@ -24,7 +24,7 @@
             </div> --}}
             <div class="carousel-inner">
                 @foreach ($banners as $banner)
-                    <div class="carousel-item active" data-bs-interval="5000">
+                    <div class="carousel-item" data-bs-interval="5000">
                         <img src="{{ url($banner->image) }}" class="d-block w-100" alt="...">
                     </div>
                 @endforeach
@@ -129,5 +129,11 @@
 @endsection
 
 @section('additional_script')
+<script>
+    var introCarousel = $(".carousel");
     
+
+    introCarousel.find(".carousel-inner").children(".carousel-item:first").addClass('active');
+    
+</script>
 @endsection
