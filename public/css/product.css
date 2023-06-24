@@ -52,6 +52,11 @@
     margin: 10px 0;
 }
 
+.product .second-section .product-logo-container .logo {
+    font-size: 25px;
+    font-weight: 700;
+}
+
 .product .second-section .logo {
     width: 120px;
 }

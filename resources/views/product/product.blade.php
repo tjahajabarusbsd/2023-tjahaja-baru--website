@@ -64,7 +64,7 @@
 				@elseif (Request::is('products/category/sport'))
 					<img src="{{ url('images/products/logos/bLUcRU.png') }}" alt="Sport Product" class="logo">
 				@elseif (Request::is('products/category/moped'))
-					<img src="{{ url('images/products/logos/bLUcRU.png') }}" alt="Moped Product" class="logo">
+					<p class="logo">MOPED</p>
 				@endif
 				
 			</div>
