@@ -28,11 +28,18 @@ Route::get('/', [HomeController::class, 'getData']);
 // });
 // Route::get('/news', [ArticleController::class, 'loadmore']);
 
-Route::get('/produk', function () {
-    return view('produk');
+Route::get('/products', function () {
+    return view('product/product');
 });
+
+Route::get('/products', [ProductController::class, 'getMaxi']);
+
 Route::prefix('/product')->group(function () {
     Route::get('{uri}', [VariantController::class, 'getDataVariant']);
+});
+
+Route::prefix('/products/category')->group(function () {
+    Route::get('{uri}', [ProductController::class, 'getCategory']);
 });
 
 Route::get('/myyamaha', function () {

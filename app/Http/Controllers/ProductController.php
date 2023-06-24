@@ -3,17 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Group;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function getData()
+    public function getCategory($uri)
     {
-        // Fetch data variant(unit) per category from the latest
-        $categories = Category::with(['groups.variants' => function ($query) {
-            $query->latest();
-        }])->get();
+        $category = Category::where('uri', $uri)->first();
 
-        return view('home', compact('categories'));
+        $groups = Group::where('category_id', $category->id)->get();
+
+        return view('product/product', compact('groups', 'maxis'));
+    }
+
+    public function getMaxi()
+    {
+        $maxis = Group::where('category_id', 1)->get();
+
+        return view('product/product', compact('maxis'));
     }
 }
