@@ -43,7 +43,7 @@ class VariantCrudController extends CrudController
         CRUD::column('name')->label('Variant Name');
         CRUD::column('price');
         // CRUD::column('color');
-        // CRUD::column('color_name');
+        CRUD::column('color_name')->label('Color Name');
 
         CRUD::column('created_at');
 
