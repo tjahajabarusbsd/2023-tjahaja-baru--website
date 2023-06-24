@@ -171,17 +171,12 @@ section.first-section .caption-container .price-area {
     padding: 3px 15px;
 }
 
-section.first-section .grid-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
-
 section.first-section .grid-container .grid-content {
+    display: block !important;
     position: relative;
-    width: 250px;
+    width: 250px !important;
     height: 304px;
-    margin: 10px 35px 15px 35px;
+    margin: 20px auto;
     box-shadow: 5px 7px 15px 0px rgb(0 0 0 / 60%);
     -webkit-box-shadow: 5px 7px 15px 0px rgb(0 0 0 / 60%);
     -moz-box-shadow: 5px 7px 15px 0px rgb(0 0 0 / 60%);
@@ -198,8 +193,6 @@ section.first-section .grid-container .grid-content .product-link .box-img {
 }
 
 section.first-section .grid-container .grid-content .box-img img {
-    /* object-fit: cover;
-    object-position: center; */
     transition: 0.5s all ease-in-out;
 }
 

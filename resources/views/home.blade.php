@@ -129,6 +129,7 @@
 @endsection
 
 @section('additional_script')
+<script src="{{ asset('js/home.js') }}"></script>
 <script>
     var introCarousel = $(".carousel");
     
