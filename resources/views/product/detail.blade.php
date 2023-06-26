@@ -20,7 +20,41 @@
 @endsection
 
 @section('content')
-<section class="section1">
+<section class="first-section">
+    <div class="container-fluid icon-container">
+        <div class="row icon-row">
+            <div class="product-icon-box">
+                <a href="/products/category/maxi">
+                    <img src="{{ url('images/products/icons/maxi_i.png')}}" alt="" class="icon">
+                    <p class="text">MAXi</p>
+                </a>
+            </div>
+            <div class="product-icon-box">
+                <a href="/products/category/classy">
+                    <img src="{{ url('images/products/icons/classy_i.png')}}" alt="" class="icon">
+                    <p class="text">Classy</p>
+                </a>
+            </div>
+            <div class="product-icon-box">
+                <a href="/products/category/matic">
+                    <img src="{{ url('images/products/icons/matic_i.png')}}" alt="" class="icon">
+                    <p class="text">Matic</p>
+                </a>
+            </div>
+            <div class="product-icon-box">
+                <a href="/products/category/sport">
+                    <img src="{{ url('images/products/icons/sport_i.png')}}" alt="" class="icon">
+                    <p class="text">Sport</p>
+                </a>
+            </div>
+            <div class="product-icon-box">
+                <a href="/products/category/moped">
+                    <img src="{{ url('images/products/icons/moped_i.png')}}" alt="" class="icon">
+                    <p class="text">Moped</p>
+                </a>
+            </div>
+        </div>
+    </div>
     <div class="banner">
         <picture>
             <img src="" alt="">
@@ -29,7 +63,7 @@
     </div>
 </section>
 
-<section class="section2">
+<section class="second-section">
     <div class="background-wrapper">
         <div class="background"></div>
     </div>
