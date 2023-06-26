@@ -12,7 +12,7 @@ class ConsultationController extends Controller
     public function getConsultationForm(Request $request)
     {
         $value = $request->query('sales');
-        $lists = Variant::all()->unique('name');
+        $lists = Variant::all()->unique('name')->sortBy('name');
 
         return view('consultation', compact('value', 'lists'));
     }
