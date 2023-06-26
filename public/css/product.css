@@ -25,6 +25,10 @@
     cursor: pointer;
 }
 
+.product .first-section .product-icon-box:hover {
+    background: linear-gradient(180deg, #100E5A 0%, rgba(255, 255, 255, 0) 53%);
+}
+
 .product .first-section .product-icon-box.active {
     background: linear-gradient(180deg, #100E5A 0%, rgba(255, 255, 255, 0) 53%);
 }
