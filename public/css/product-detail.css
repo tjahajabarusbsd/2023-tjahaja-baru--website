@@ -158,6 +158,10 @@
     width: 300px;
 }
 
+.second-section .carousel-inner {
+    height: 300px;
+}
+
 .second-section .carousel-indicators {
     bottom: -40px;
 }
