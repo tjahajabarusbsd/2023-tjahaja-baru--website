@@ -22,7 +22,39 @@
 @section('content')
 <section class="first-section">
     <div class="container-fluid icon-container">
-        <div class="row icon-row">
+        <div class="row icon-row pc">
+            <div class="product-icon-box">
+                <a href="/products/category/maxi">
+                    <img src="{{ url('images/products/icons/maxi_i.png')}}" alt="" class="icon">
+                    <p class="text">MAXi</p>
+                </a>
+            </div>
+            <div class="product-icon-box">
+                <a href="/products/category/classy">
+                    <img src="{{ url('images/products/icons/classy_i.png')}}" alt="" class="icon">
+                    <p class="text">Classy</p>
+                </a>
+            </div>
+            <div class="product-icon-box">
+                <a href="/products/category/matic">
+                    <img src="{{ url('images/products/icons/matic_i.png')}}" alt="" class="icon">
+                    <p class="text">Matic</p>
+                </a>
+            </div>
+            <div class="product-icon-box">
+                <a href="/products/category/sport">
+                    <img src="{{ url('images/products/icons/sport_i.png')}}" alt="" class="icon">
+                    <p class="text">Sport</p>
+                </a>
+            </div>
+            <div class="product-icon-box">
+                <a href="/products/category/moped">
+                    <img src="{{ url('images/products/icons/moped_i.png')}}" alt="" class="icon">
+                    <p class="text">Moped</p>
+                </a>
+            </div>
+        </div>
+        <div class="row icon-row mobile">
             <div class="product-icon-box">
                 <a href="/products/category/maxi">
                     <img src="{{ url('images/products/icons/maxi_i.png')}}" alt="" class="icon">
@@ -73,14 +105,18 @@
             <h2 class="title">variant & price</h2>
         </div>
         {{-- <div class="row version-row">
-            <div class="version active">
-                <h3 class="text">neo</h3>
-            </div>
-            <div class="version">
-                <h3 class="text">lux</h3>
-            </div>
+            @foreach ($variantNames as $item)
+            <a class="version" href="/product/{{ $groupUri }}/{{ $item }}">
+                <div class="">
+                    @php
+                    $item = explode(" ", $item);   
+                    $item = end($item);
+                    @endphp
+                    <h3 class="text">{{ $item }}</h3>
+                </div>
+            </a>
+            @endforeach
         </div> --}}
-        
         
         <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-interval="false">
             <div class="carousel-indicators">
@@ -165,7 +201,7 @@
             @endif
             <div class="form-group">
                 <label for="name">Nama Lengkap</label>
-                <input name="name" class="form-control" type="text"  required placeholder="Nama Lengkap" maxlength="50">
+                <input name="name" class="form-control" type="text" value="{{ old('name') }}" required placeholder="Nama Lengkap" maxlength="50">
                 @error('name')
                     <div class="error">{{ $message }}</div>
                 @enderror
@@ -209,6 +245,7 @@
 @endsection
 
 @section('additional_script')
+<script src="{{ asset('js/product.js') }}"></script>
 <script>
     var introCarousel = $(".carousel");
     var introCarouselIndicators = $(".carousel-indicators");
