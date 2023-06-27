@@ -13,7 +13,18 @@
     width: 100%;
     max-width: 950px;
     margin: 0 auto;
+}
 
+.product .first-section .icon-row .icon {
+    margin: 0 auto;
+}
+
+.product .first-section .icon-row.mobile .icon {
+    margin-top: 10px;
+}
+
+.product .first-section .icon-row.pc {
+    display: none;
 }
 
 .product .first-section .product-icon-box {
@@ -50,6 +61,10 @@
     margin-top: 10px;
 }
 
+.product .second-section {
+    margin-bottom: 100px;
+}
+
 .product .second-section .product-logo-container {
     display: flex;
     justify-content: center;
@@ -66,18 +81,14 @@
 }
 
 .product .second-section .grid-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    max-width: 950px;
-    margin: 0 auto;
+    display: block;
 }
 
 .product .second-section .grid-container .grid-content {
     position: relative;
     width: 260px;
-    height: 300px;
-    margin: 10px 27px 15px 27px;
+    height: 289px;
+    margin: 0 auto 20px auto;
     box-shadow: 5px 7px 15px 0px rgb(0 0 0 / 25%);
     -webkit-box-shadow: 5px 7px 15px 0px rgb(0 0 0 / 25%);
     -moz-box-shadow: 5px 7px 15px 0px rgb(0 0 0 / 25%);
@@ -125,7 +136,44 @@
     display: block;
     width: auto;
     height: auto;
-    bottom: -85px;
-    left: -50px;
-    scale: 0.3;
+    bottom: -76px;
+    left: -40px;
+    scale: 0.256;
+}
+
+@media only screen and (min-width: 338px) {
+    .product .second-section .grid-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        max-width: 950px;
+        margin: 0 auto;
+    }
+
+    .product .second-section .grid-container .grid-content {
+        height: 300px;
+        margin: 10px 27px 15px 27px;
+    }
+
+    .product .second-section .grid-container .grid-content .box-text .tombol-biru {
+        bottom: -85px;
+        left: -50px;
+        scale: 0.3;
+    }
+}
+
+@media only screen and (min-width: 545px) {
+    .product .first-section .icon-row.pc {
+        display: flex;
+    }
+
+    .product .first-section .icon-row.mobile {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 966px) {
+    .product .second-section .grid-container {
+        justify-content: flex-start
+    }
 }

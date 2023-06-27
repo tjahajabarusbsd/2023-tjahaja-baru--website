@@ -17,7 +17,39 @@
 @section('content')
 	<section class="first-section">
 		<div class="container-fluid icon-container">
-			<div class="row icon-row">
+			<div class="row icon-row pc">
+				<div class="product-icon-box">
+					<a href="/products/category/maxi">
+						<img src="{{ url('images/products/icons/maxi_i.png')}}" alt="" class="icon">
+						<p class="text">MAXi</p>
+					</a>
+				</div>
+				<div class="product-icon-box">
+					<a href="/products/category/classy">
+						<img src="{{ url('images/products/icons/classy_i.png')}}" alt="" class="icon">
+						<p class="text">Classy</p>
+					</a>
+				</div>
+				<div class="product-icon-box">
+					<a href="/products/category/matic">
+						<img src="{{ url('images/products/icons/matic_i.png')}}" alt="" class="icon">
+						<p class="text">Matic</p>
+					</a>
+				</div>
+				<div class="product-icon-box">
+					<a href="/products/category/sport">
+						<img src="{{ url('images/products/icons/sport_i.png')}}" alt="" class="icon">
+						<p class="text">Sport</p>
+					</a>
+				</div>
+				<div class="product-icon-box">
+					<a href="/products/category/moped">
+						<img src="{{ url('images/products/icons/moped_i.png')}}" alt="" class="icon">
+						<p class="text">Moped</p>
+					</a>
+				</div>
+			</div>
+			<div class="row icon-row mobile">
 				<div class="product-icon-box">
 					<a href="/products/category/maxi">
 						<img src="{{ url('images/products/icons/maxi_i.png')}}" alt="" class="icon">
@@ -116,6 +148,42 @@
 				link.parentNode.classList.add('active');
 			}
 		});
+
+		$('.icon-container .mobile').slick({
+			dots: false,
+			infinite: false,
+			speed: 300,
+			slidesToShow: 4,
+			slidesToScroll: 4,
+			arrows: false,
+			responsive: [
+				{
+					breakpoint: 545,
+					settings: {
+						slidesToShow: 5,
+						slidesToScroll: 1,
+					}
+				},
+				{
+					breakpoint: 500,
+					settings: {
+						slidesToShow: 4,
+						slidesToScroll: 1
+					}
+				},
+				{
+					breakpoint: 375,
+					settings: {
+						slidesToShow: 3,
+						slidesToScroll: 1
+					}
+				}
+				// You can unslick at a given breakpoint now by adding:
+				// settings: "unslick"
+				// instead of a settings object
+			]
+		});
+
     });	
 </script>
 @endsection
