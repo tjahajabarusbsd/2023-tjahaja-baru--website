@@ -12,10 +12,9 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
   @yield('meta_og')
-  <meta property="fb:app_id" content="{{ env('FACEBOOK_APP_ID') }}" />
   <title>@yield('title')</title>
 
-  <link rel="shortcut icon" href="http://tjahaja-baru.com/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="{{ url('/images/icons/favicon.ico') }}" type="image/x-icon" />
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
   @include('partials/page_css')
@@ -23,7 +22,7 @@
   {!! RecaptchaV3::initJs() !!}
 </head>
 <body>
-  <div id="fb-root"></div>
+  {{-- <div id="fb-root"></div>
   <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v16.0" nonce="50QOs4Mi"></script>
   <!-- Load Facebook SDK for JavaScript -->
   <div id="fb-root"></div>
@@ -34,15 +33,13 @@
   js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
   fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
-  </script>
-  @include('partials/navbar')
+  </script> --}}
   <div id="main-wrapper" class="z0 @yield('main_class')">
+    @include('partials/navbar')
     @yield('content')
-  </div>
+    @include('partials/footer')
 
-  @include('partials/footer')
-
-  <a class="btn-wa" href="https://api.whatsapp.com/send?phone=628126643288&amp;text=Halo admin, saya ingin menanyakan" target="_blank" rel="noopener noreferrer">
+    <a class="btn-wa" href="https://api.whatsapp.com/send?phone=628126643288&amp;text=Halo admin, saya ingin menanyakan" target="_blank" rel="noopener noreferrer">
     <section class="link-wa">
       <div class="konten-gambar">
         <img src="{{ url('/images/icons/wa.png')}}">
@@ -52,7 +49,7 @@
       </div> --}}
     </section>
   </a>
-  
+  </div>
   @include('partials/page_script')
   @yield('additional_script')
 </body>
