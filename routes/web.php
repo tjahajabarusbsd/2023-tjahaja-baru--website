@@ -38,6 +38,10 @@ Route::prefix('/product')->group(function () {
     Route::get('{uri}', [VariantController::class, 'getDataVariant']);
 });
 
+Route::prefix('/product')->group(function () {
+    Route::get('{uri}/{name}', [VariantController::class, 'getGroup']);
+});
+
 Route::prefix('/products/category')->group(function () {
     Route::get('{uri}', [ProductController::class, 'getCategory']);
 });
