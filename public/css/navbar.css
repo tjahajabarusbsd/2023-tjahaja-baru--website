@@ -15,7 +15,7 @@
     border-radius: 5px;
 }
 
-li>a::after {
+.navbar li>a::after {
     content: "";
     display: block;
     margin: auto;
@@ -27,8 +27,8 @@ li>a::after {
 
 }
 
-li>a:hover::after,
-li>a.active-nav::after {
+.navbar li>a:hover::after,
+.navbar li>a.active-nav::after {
     width: 100%;
     background: white;
 }

@@ -16,12 +16,19 @@
 
 @section('content')
     <section class="main-banner">
-        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-            {{-- <div class="carousel-indicators">
+        <div class="banner-wrapper">
+            @foreach ($banners as $banner)
+                <div class="banner">
+                    <img src="{{ url($banner->image) }}" class="banner-img">
+                </div>
+            @endforeach
+        </div>
+        {{-- <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div> --}}
+            </div>
             <div class="carousel-inner">
                 @foreach ($banners as $banner)
                     <div class="carousel-item" data-bs-interval="5000">
@@ -37,7 +44,7 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
-        </div>
+        </div> --}}
     </section>    
 
     <section class="first-section container-fluid">
