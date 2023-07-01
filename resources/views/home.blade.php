@@ -82,14 +82,14 @@
                         <div class="promo-banner-col col-sm-6">
                             <div class="promo-banner-item ">
                                 <a href="">
-                                    <img class="img-fluid" src="{{ url('/images/promo_1.png')}}" alt="">
+                                    <img class="img-fluid" src="{{ url('/images/promo_3.jpg')}}" alt="">
                                 </a>
                             </div>
                         </div>
                         <div class="promo-banner-col col-sm-6">
                             <div class="promo-banner-item ">
                                 <a href="">
-                                    <img class="img-fluid" src="{{ url('/images/promo_2.png')}}" alt="">
+                                    <img class="img-fluid" src="{{ url('/images/promo_4.jpg')}}" alt="">
                                 </a>
                             </div>
                         </div>
