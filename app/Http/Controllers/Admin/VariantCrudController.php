@@ -39,6 +39,34 @@ class VariantCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+
+
+        $this->crud->addFilter(
+            [
+                'type'  => 'text',
+                'name'  => 'name',
+                'label' => 'Variant Name'
+            ],
+            false,
+            function ($value) { // if the filter is active
+                $this->crud->addClause('where', 'name', 'LIKE', "%$value%");
+            }
+        );
+
+        // date filter
+        $this->crud->addFilter(
+            [
+                'type'  => 'date_range',
+                'name'  => 'updated_at',
+                'label' => 'Date range'
+            ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
+                $dates = json_decode($value);
+                $this->crud->addClause('where', 'updated_at', '>=', $dates->from);
+                $this->crud->addClause('where', 'updated_at', '<=', $dates->to . ' 23:59:59');
+            }
+        );
         CRUD::column('group_id');
         CRUD::column('name')->label('Variant Name');
         CRUD::column('price');

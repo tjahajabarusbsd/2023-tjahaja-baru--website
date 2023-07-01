@@ -12,6 +12,8 @@ class VariantController extends Controller
     {
         $group = Group::where('uri', $uri)->first();
 
+        $groupUri = $group->uri;
+
         $variantNames = Variant::where('group_id', $group->id)
             ->distinct('name')
             ->pluck('name');
@@ -20,6 +22,21 @@ class VariantController extends Controller
             ->orderBy('updated_at', 'ASC')
             ->get();
 
-        return view('product/detail', compact('group', 'data', 'variantNames'));
+        return view('product/detail', compact('group', 'data', 'variantNames', 'groupUri'));
+    }
+
+    public function getGroup($uri, $name)
+    {
+        $group = Group::where('uri', $uri)->first();
+
+        $groupUri = $group->uri;
+
+        $variantNames = Variant::where('group_id', $group->id)
+            ->distinct('name')
+            ->pluck('name');
+
+        $neo = Variant::where('group_id', $group->id)->where('name', $name)->get();
+
+        return view('product/detail2', compact('group', 'neo', 'variantNames', 'groupUri'));
     }
 }
