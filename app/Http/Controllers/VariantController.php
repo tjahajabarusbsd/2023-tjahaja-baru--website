@@ -35,8 +35,8 @@ class VariantController extends Controller
             ->distinct('name')
             ->pluck('name');
 
-        $neo = Variant::where('group_id', $group->id)->where('name', $name)->get();
+        $variantUnits = Variant::where('group_id', $group->id)->where('name', $name)->get();
 
-        return view('product/detail2', compact('group', 'neo', 'variantNames', 'groupUri'));
+        return view('product/detail2', compact('group', 'variantUnits', 'variantNames', 'groupUri'));
     }
 }
