@@ -25,13 +25,12 @@
 </li>
 @endif
 
-
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-motorcycle"></i> Products</a>
     <ul class="nav-dropdown-items">
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('category') }}'><i class='nav-icon la la-question'></i> Categories</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('group') }}'><i class='nav-icon la la-question'></i> Groups</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('variant') }}'><i class='nav-icon la la-question'></i> Variants</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('category') }}'><i class=''></i> Categories</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('group') }}'><i class=''></i> Groups</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('variant') }}'><i class=''></i> Variants</a></li>
     </ul>
 </li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('banner') }}'><i class='nav-icon la la-question'></i> Banners</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('banner') }}'><i class='nav-icon las la-images'></i>Home Banners</a></li>

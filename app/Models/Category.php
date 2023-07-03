@@ -5,7 +5,7 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
@@ -73,6 +73,16 @@ class Category extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($obj) {
+            Storage::disk('uploads')->delete(Str::replaceFirst('uploads/', '', $obj->image));
+        });
+    }
+
     public function setImageAttribute($value)
     {
         $attribute_name = "image";
@@ -90,13 +100,13 @@ class Category extends Model
             $this->{$attribute_name} &&
             $this->{$attribute_name} != null
         ) {
-            \Storage::disk($disk)->delete($this->{$attribute_name});
+            Storage::disk($disk)->delete(Str::replaceFirst('uploads/', '', $this->{$attribute_name}));
             $this->attributes[$attribute_name] = null;
         }
 
         // if the file input is empty, delete the file from the disk
         if (is_null($value) && $this->{$attribute_name} != null) {
-            \Storage::disk($disk)->delete($this->{$attribute_name});
+            Storage::disk($disk)->delete($this->{$attribute_name});
             $this->attributes[$attribute_name] = null;
         }
 

@@ -5,8 +5,8 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Illuminate\Support\Arr;
 use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\Storage;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Cocur\Slugify\Slugify;
@@ -79,6 +79,15 @@ class Group extends Model
     |--------------------------------------------------------------------------
     */
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($obj) {
+            Storage::disk('uploads')->delete(Str::replaceFirst('uploads/', '', $obj->image));
+        });
+    }
+
     public function setImageAttribute($value)
     {
         $attribute_name = "image";
@@ -96,13 +105,13 @@ class Group extends Model
             $this->{$attribute_name} &&
             $this->{$attribute_name} != null
         ) {
-            \Storage::disk($disk)->delete($this->{$attribute_name});
+            Storage::disk($disk)->delete(Str::replaceFirst('uploads/', '', $this->{$attribute_name}));
             $this->attributes[$attribute_name] = null;
         }
 
         // if the file input is empty, delete the file from the disk
         if (is_null($value) && $this->{$attribute_name} != null) {
-            \Storage::disk($disk)->delete($this->{$attribute_name});
+            Storage::disk($disk)->delete($this->{$attribute_name});
             $this->attributes[$attribute_name] = null;
         }
 
