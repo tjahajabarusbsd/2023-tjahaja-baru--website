@@ -22,7 +22,39 @@
 @section('content')
 <section class="first-section">
     <div class="container-fluid icon-container">
-        <div class="row icon-row">
+        <div class="row icon-row pc">
+            <div class="product-icon-box">
+                <a href="/products/category/maxi">
+                    <img src="{{ url('images/products/icons/maxi_i.png')}}" alt="" class="icon">
+                    <p class="text">MAXi</p>
+                </a>
+            </div>
+            <div class="product-icon-box">
+                <a href="/products/category/classy">
+                    <img src="{{ url('images/products/icons/classy_i.png')}}" alt="" class="icon">
+                    <p class="text">Classy</p>
+                </a>
+            </div>
+            <div class="product-icon-box">
+                <a href="/products/category/matic">
+                    <img src="{{ url('images/products/icons/matic_i.png')}}" alt="" class="icon">
+                    <p class="text">Matic</p>
+                </a>
+            </div>
+            <div class="product-icon-box">
+                <a href="/products/category/sport">
+                    <img src="{{ url('images/products/icons/sport_i.png')}}" alt="" class="icon">
+                    <p class="text">Sport</p>
+                </a>
+            </div>
+            <div class="product-icon-box">
+                <a href="/products/category/moped">
+                    <img src="{{ url('images/products/icons/moped_i.png')}}" alt="" class="icon">
+                    <p class="text">Moped</p>
+                </a>
+            </div>
+        </div>
+        <div class="row icon-row mobile">
             <div class="product-icon-box">
                 <a href="/products/category/maxi">
                     <img src="{{ url('images/products/icons/maxi_i.png')}}" alt="" class="icon">
@@ -89,7 +121,7 @@
                 @php
                     $i = 0;
                 @endphp
-                @foreach ($neo as $item)
+                @foreach ($variantUnits as $item)
                 <button type='button' data-bs-target='#carouselExampleDark' data-bs-slide-to='{{$i}}' class='sign' style="background: {{$item->color}}"></button>
                 @php
                     $i++
@@ -97,7 +129,7 @@
                 @endforeach
             </div>
             <div class="carousel-inner">
-                @foreach ($neo as $item)
+                @foreach ($variantUnits as $item)
                     <div class="carousel-item">
                         <img src="{{ url($item->image) }}" class="d-block w-100" alt="...">
                         <div class="caption-box carousel-caption">
@@ -204,6 +236,7 @@
 @endsection
 
 @section('additional_script')
+<script src="{{ asset('js/product.js') }}"></script>
 <script>
     var introCarousel = $(".carousel");
     var introCarouselIndicators = $(".carousel-indicators");
