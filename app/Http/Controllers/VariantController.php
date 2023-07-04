@@ -22,7 +22,7 @@ class VariantController extends Controller
             ->orderBy('updated_at', 'ASC')
             ->get();
 
-        return view('product/detail', compact('group', 'data', 'variantNames', 'groupUri'));
+        return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data'));
     }
 
     public function getGroup($uri, $name)
@@ -37,6 +37,6 @@ class VariantController extends Controller
 
         $variantUnits = Variant::where('group_id', $group->id)->where('name', $name)->get();
 
-        return view('product/detail2', compact('group', 'variantUnits', 'variantNames', 'groupUri'));
+        return view('product/detail2', compact('group', 'groupUri', 'variantNames', 'variantUnits'));
     }
 }

@@ -14,7 +14,7 @@ class ProductController extends Controller
 
         $groups = Group::where('category_id', $category->id)->get();
 
-        return view('product/product', compact('groups', 'maxis'));
+        return view('product/product', compact('groups'));
     }
 
     public function getMaxi()

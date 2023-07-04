@@ -40,7 +40,7 @@ class HomeController extends Controller
 
         $latestVariants = $latestVariants->all();
 
-        // Fetch data articles
+        // Fetch data banners
         $banners = Banner::where('is_active', 1)->get();
 
         return view('home', compact('articles', 'latestVariants', 'banners'));
