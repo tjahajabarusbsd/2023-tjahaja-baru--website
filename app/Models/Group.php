@@ -85,6 +85,7 @@ class Group extends Model
 
         static::deleting(function ($obj) {
             Storage::disk('uploads')->delete(Str::replaceFirst('uploads/', '', $obj->image));
+            Storage::disk('uploads')->delete(Str::replaceFirst('uploads/', '', $obj->banner));
         });
     }
 
@@ -93,6 +94,15 @@ class Group extends Model
         $attribute_name = "image";
         $disk = "uploads";
         $destination_path = "products/groups/thumbnail";
+
+        $this->storeImage($value, $attribute_name, $disk, $destination_path, $fileName = null);
+    }
+
+    public function setBannerAttribute($value)
+    {
+        $attribute_name = "banner";
+        $disk = "uploads";
+        $destination_path = "products/groups/banner";
 
         $this->storeImage($value, $attribute_name, $disk, $destination_path, $fileName = null);
     }

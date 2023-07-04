@@ -87,12 +87,20 @@
             </div>
         </div>
     </div>
+    @if(!empty($group->banner))
     <div class="banner">
+        <picture>
+            <img src="{{ url($group->banner) }}" alt="">
+        </picture>
+    </div>
+    @else
+    <div class="features">
         <picture>
             <img src="" alt="">
         </picture>
-        <h1>Banner</h1>
+        <h1>Banner</h2>
     </div>
+    @endif
 </section>
 
 <section class="second-section">
@@ -155,11 +163,11 @@
 </section>
 
 <section class="section3">
-    <div class="banner">
+    <div class="features">
         <picture>
             <img src="" alt="">
         </picture>
-        <h2>Features</h2>
+        <h1>Features</h1>
     </div>
 </section>
 
