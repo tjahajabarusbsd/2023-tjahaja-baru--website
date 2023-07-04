@@ -36,7 +36,7 @@
                         <li>
                           <i class="fa fa-phone"></i>
                           <strong>phone</strong>
-                          0811805898
+                          {{-- 0811805898 --}}
                       </li>
                         <li>
                           <i class="fa fa-envelope"></i>
