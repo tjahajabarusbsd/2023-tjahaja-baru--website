@@ -68,13 +68,14 @@ class WhatsAppController extends Controller
         $body .= "\nProduk yang diminati: " . $selectedOption . "\n";
         $body .= "\nMohon segera diproses. Terima kasih.";
 
-        $url = "https://api.1msg.io/434886/sendMessage?token=off_qEkYX33795ARuvTqG38zxXYbAK";
         $data = [
             'phone' => $phone,
             'body' => $body,
         ];
 
         dd($body, $phone);
+
+        $url = "https://api.1msg.io/434886/sendMessage?token=off_qEkYX33795ARuvTqG38zxXYbAK";
 
         $headers = [
             'Content-Type' => 'application/json',
