@@ -34,7 +34,7 @@ $(document).ready(function () {
             setErrorFor(phoneNumber, "Kolom wajib diisi.");
             enableButton()
         } else if (!/^\d+$/.test(phoneNumberValue)) {
-            setErrorFor(phoneNumber, "Phone number must contain only numbers");
+            setErrorFor(phoneNumber, "Kolom wajib menggunakan angka saja.");
             enableButton()
         } else {
             setSuccessFor(phoneNumber);
