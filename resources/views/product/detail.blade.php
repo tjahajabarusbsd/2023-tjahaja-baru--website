@@ -208,7 +208,7 @@
             
             <div class="form-group">
                 <label for="nohp">No. Handphone (WhatsApp)</label>
-                <input name="nohp" id="nohp" class="form-control" type="tel" value="{{ old('nohp') }}"  placeholder="08123456789" maxlength="15" required>
+                <input name="nohp" id="nohp" class="form-control" type="tel" value="{{ old('nohp') }}" placeholder="08123456789" maxlength="15" required>
                 @error('nohp')
                     <small>{{ $message }}</small>
                 @enderror

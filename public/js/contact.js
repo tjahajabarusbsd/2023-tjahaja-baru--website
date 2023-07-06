@@ -24,7 +24,10 @@ $(document).ready(function () {
         //  Checking for username
         if (userNameValue === "") {
             setErrorFor(userName, "Kolom wajib diisi.");
-            enableButton()
+            enableButton();
+        } else if (!/^[A-Za-z]+$/.test(userNameValue)) {
+            setErrorFor(userName, "Hanya diperbolehkan input alfabet.");
+            enableButton();
         } else {
             setSuccessFor(userName);
         }
@@ -34,7 +37,7 @@ $(document).ready(function () {
             setErrorFor(phoneNumber, "Kolom wajib diisi.");
             enableButton()
         } else if (!/^\d+$/.test(phoneNumberValue)) {
-            setErrorFor(phoneNumber, "Kolom wajib menggunakan angka saja.");
+            setErrorFor(phoneNumber, "Hanya diperbolehkan input angka.");
             enableButton()
         } else {
             setSuccessFor(phoneNumber);

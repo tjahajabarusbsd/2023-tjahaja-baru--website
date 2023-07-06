@@ -193,30 +193,30 @@
             </div>
         @endif
 
-        <form action="/send_message" method="post">
+        <form action="/send_message" method="post" onsubmit="disableButton()">
             @csrf
             @if (!empty($_GET['sales']))
                 <input name="sales" type="text" hidden value="{{ $_GET['sales'] }}">
             @endif
             <div class="form-group">
                 <label for="name">Nama Lengkap</label>
-                <input name="name" class="form-control" type="text"  required placeholder="Nama Lengkap" maxlength="50">
+                <input name="name" id="name" class="form-control" type="text" value="{{ old('name') }}" placeholder="Nama Lengkap" maxlength="50" required>
                 @error('name')
-                    <div class="error">{{ $message }}</div>
+                    <small>{{ $message }}</small>
                 @enderror
             </div>
             
             <div class="form-group">
                 <label for="nohp">No. Handphone (WhatsApp)</label>
-                <input name="nohp" class="form-control" type="tel" value="{{ old('nohp') }}" required placeholder="08123456789" maxlength="15">
+                <input name="nohp" id="nohp" class="form-control" type="tel" value="{{ old('nohp') }}" placeholder="08123456789" maxlength="15" required>
                 @error('nohp')
-                    <div class="error">{{ $message }}</div>
+                    <small>{{ $message }}</small>
                 @enderror
             </div>
             
             <div class="form-group">
                 <label for="lists">Produk yang diminati</label>
-                <select name="produk" class="form-select" aria-label="Default select example" >
+                <select name="produk" class="form-select" aria-label="Default select example" required>
                     <option selected disabled value=""> - pilih produk - </option>
                     @foreach ($variantNames as $variantName)
                         <option value="{{ $variantName }}">{{ $variantName }}</option>
@@ -224,7 +224,7 @@
                 </select>
                 {{-- <input name="produk" class="form-control" type="input" value="{{ $item->name }}" readonly="true"> --}}
                 @error('produk')
-                    <div class="error">{{ $message }}</div>
+                    <small>{{ $message }}</small>
                 @enderror
             </div>
             
@@ -236,7 +236,7 @@
             </div>
             
             <div class="form-group">
-                <input class="btn btn-primary" type="submit" value="Submit">
+                <input id="submitButton" class="btn btn-primary" type="submit" value="Submit">
             </div>
         </form>
     </div>
@@ -245,11 +245,16 @@
 
 @section('additional_script')
 <script src="{{ asset('js/product.js') }}"></script>
+<script src="{{ asset('js/contact.js') }}"></script>
 <script>
     var introCarousel = $(".carousel");
     var introCarouselIndicators = $(".carousel-indicators");
 
     introCarousel.find(".carousel-inner").children(".carousel-item:first").addClass('active');
     introCarouselIndicators.children(".sign:first").addClass('active');
+
+    function disableButton() {
+        document.getElementById('submitButton').setAttribute('disabled', 'disabled');
+    }
 </script>
 @endsection
