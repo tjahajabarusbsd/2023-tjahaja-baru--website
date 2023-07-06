@@ -44,9 +44,9 @@
       <div class="konten-gambar">
         <img src="{{ url('/images/icons/wa.png')}}">
       </div>
-      {{-- <div class="konten-wa">
+      <div class="konten-wa">
         <h3>Chat WhatsApp</h3>
-      </div> --}}
+      </div>
     </section>
   </a>
   </div>
