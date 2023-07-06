@@ -52,7 +52,7 @@ class WhatsAppController extends Controller
             $phone = $staff->phone; // Phone number retrieved from the staff record
             $phone = str_replace("+", "", $phone);
         } else {
-            $phone = '6281292144175'; // Default phone number
+            $phone = '62811805898'; // Default phone number
         }
 
         // $phone = '6281292144175'; // Phone number to send the message to

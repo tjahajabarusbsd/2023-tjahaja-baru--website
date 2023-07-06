@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
-@section('title', 'Tjahaja Baru | Product')
+@section('title', 'Product | Tjahaja Baru')
 
 @section('meta_og')
-	<meta property="og:title" content="Tjahaja Baru | Product">
+	<meta property="og:title" content="Product | Tjahaja Baru">
 	<meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
 	<meta property="og:type" content="website">
 @endsection
@@ -139,4 +139,10 @@
 
 @section('additional_script')
 <script src="{{ asset('js/product.js') }}"></script>
+<script>
+	let date = Date.now();
+	gtag('event', 'visit_time', {
+		'time': date,
+	});
+</script>
 @endsection

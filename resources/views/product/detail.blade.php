@@ -3,9 +3,9 @@
 @section('title', $group->name . ' | Tjahaja Baru')
 
 @section('meta_og')
-    <meta property="og:title" content="{{ $group->name }} | Tjahaja Baru">
+  	<meta property="og:title" content="{{ $group->name }} | Tjahaja Baru">
 	<meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
-    <meta property="og:type" content="website">
+  	<meta property="og:type" content="website">
 	{{-- <meta property="og:image" content="{{ url($image) }}"> --}}
 	<meta property="og:image:width" content="1000" />
 	<meta property="og:image:height" content="667" />

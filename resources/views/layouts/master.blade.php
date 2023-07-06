@@ -21,7 +21,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui">
-  <meta name="title" content="Yamaha Sumatera Barat - Tjahaja Baru" />
+  <meta name="title" content="@yield('title')" />
   <meta name="keywords" content="yamaha, sumbar, sumatera barat, padang, tjahaja baru, mio, mio j, soul gt, vixion, byson, minangkabau, scorpio, pameran yamaha, servis yamaha, motor yamaha">
   <meta name="description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
   <meta name="theme-color" content="#1645ca">
@@ -30,7 +30,6 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
   @yield('meta_og')
-  <meta property="fb:app_id" content="{{ env('FACEBOOK_APP_ID') }}" />
   <title>@yield('title')</title>
 
   <link rel="shortcut icon" href="{{ url('/images/icons/favicon.ico') }}" type="image/x-icon" />
@@ -50,7 +49,7 @@
     @yield('content')
     @include('partials/footer')
 
-    <a class="btn-wa" href="https://api.whatsapp.com/send?phone=628126643288&amp;text=Halo admin, saya ingin menanyakan" target="_blank" rel="noopener noreferrer">
+    <a class="btn-wa" href="https://api.whatsapp.com/send?phone=62811805898&amp;text=Halo admin, saya ingin menanyakan" target="_blank" rel="noopener noreferrer">
       <section class="link-wa">
       <div class="konten-gambar">
           <img src="{{ url('/images/icons/wa.png')}}">
