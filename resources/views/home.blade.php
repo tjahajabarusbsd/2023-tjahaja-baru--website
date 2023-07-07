@@ -18,9 +18,13 @@
     <section class="main-banner">
         <div class="banner-wrapper">
             @foreach ($banners as $banner)
-                <div class="banner">
+                {{-- <div class="banner">
                     <img src="{{ url($banner->image) }}" class="banner-img">
-                </div>
+                </div> --}}
+                <picture>
+                    <img src="{{ url($banner->image) }}" class="banner-img">
+                </picture>
+                
             @endforeach
         </div>
         {{-- <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -139,9 +143,6 @@
 <script src="{{ asset('js/home.js') }}"></script>
 <script>
     var introCarousel = $(".carousel");
-    
-
     introCarousel.find(".carousel-inner").children(".carousel-item:first").addClass('active');
-    
 </script>
 @endsection
