@@ -22,7 +22,7 @@
                     <img src="{{ url($banner->image) }}" class="banner-img">
                 </div> --}}
                 <picture>
-                    <img src="{{ url($banner->image) }}" class="banner-img">
+                    <img src="{{ url($banner->image) }}" loading="lazy" class="banner-img">
                 </picture>
                 
             @endforeach
