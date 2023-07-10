@@ -50,6 +50,10 @@ Route::get('/myyamaha', function () {
     return view('myyamaha');
 });
 
+Route::get('/dealers', function () {
+    return view('dealers');
+});
+
 Route::get('/consultation', [ConsultationController::class, 'getConsultationForm'])->name('consultation.get');
 // Route::post('/consultation', [ConsultationController::class, 'postConsultationForm'])->name('consultation.post');
 

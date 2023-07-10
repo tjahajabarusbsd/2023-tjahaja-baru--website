@@ -114,7 +114,7 @@
                 </a>
             </div>
             <div class="sec2-find col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <a href="">
+                <a href="/dealers">
                     <img src="{{ url('/images/find_dealer.jpg')}}" alt="">
                 </a>
             </div>
