@@ -26,7 +26,7 @@ class VariantRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'image' => 'required',
+            // 'image' => 'required',
             'color' => 'required',
             'color_name' => 'required',
             'price' => 'required'
@@ -54,7 +54,7 @@ class VariantRequest extends FormRequest
     {
         return [
             'name.required' => 'Name tidak boleh kosong.',
-            'image.required' => 'Image tidak boleh kosong.',
+            // 'image.required' => 'Image tidak boleh kosong.',
             'color.required' => 'Color tidak boleh kosong.',
             'color_name.required' => 'Color Name tidak boleh kosong.',
             'price.required' => 'Price tidak boleh kosong.',

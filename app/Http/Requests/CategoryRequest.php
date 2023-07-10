@@ -26,7 +26,7 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'image' => 'required'
+            // 'image' => 'required'
         ];
     }
 
@@ -51,7 +51,7 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name.required' => 'Name tidak boleh kosong.',
-            'image.required' => 'Image tidak boleh kosong.'
+            // 'image.required' => 'Image tidak boleh kosong.'
         ];
     }
 }

@@ -26,8 +26,8 @@ class GroupRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'image' => 'required',
-            'banner' => 'required',
+            // 'image' => 'required',
+            // 'banner' => 'required',
             'price' => 'required'
         ];
     }
@@ -53,8 +53,8 @@ class GroupRequest extends FormRequest
     {
         return [
             'name.required' => 'Name tidak boleh kosong.',
-            'image.required' => 'Image tidak boleh kosong.',
-            'banner.required' => 'Banner tidak boleh kosong.',
+            // 'image.required' => 'Image tidak boleh kosong.',
+            // 'banner.required' => 'Banner tidak boleh kosong.',
             'price.required' => 'Price tidak boleh kosong.',
         ];
     }
