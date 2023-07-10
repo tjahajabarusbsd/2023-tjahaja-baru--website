@@ -39,7 +39,7 @@
 				<div class="product-icon-box">
 					<a href="/products/category/sport">
 						<img src="{{ url('images/products/icons/sport_i.png')}}" alt="" class="icon">
-						<p class="text">bLU cRU</p>
+						<p class="text">bLUcRU</p>
 					</a>
 				</div>
 				<div class="product-icon-box">
