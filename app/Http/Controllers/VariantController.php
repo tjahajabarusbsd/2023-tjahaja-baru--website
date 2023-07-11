@@ -46,7 +46,7 @@ class VariantController extends Controller
 
     public function getRandomProduct()
     {
-        $products = Variant::inRandomOrder()->limit(3)->get();
+        $products = Group::inRandomOrder()->limit(3)->get();
 
         return view('dealers', compact('products'));
     }
