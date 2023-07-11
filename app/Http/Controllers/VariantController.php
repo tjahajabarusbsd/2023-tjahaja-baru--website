@@ -12,17 +12,21 @@ class VariantController extends Controller
     {
         $group = Group::where('uri', $uri)->first();
 
-        $groupUri = $group->uri;
+        if ($group != null) {
+            $groupUri = $group->uri;
 
-        $variantNames = Variant::where('group_id', $group->id)
-            ->distinct('name')
-            ->pluck('name');
+            $variantNames = Variant::where('group_id', $group->id)
+                ->distinct('name')
+                ->pluck('name');
 
-        $data = Variant::where('group_id', $group->id)
-            ->orderBy('updated_at', 'ASC')
-            ->get();
+            $data = Variant::where('group_id', $group->id)
+                ->orderBy('updated_at', 'ASC')
+                ->get();
 
-        return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data'));
+            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data'));
+        } else {
+            return view('errors/404');
+        }
     }
 
     public function getGroup($uri, $name)
@@ -38,5 +42,12 @@ class VariantController extends Controller
         $variantUnits = Variant::where('group_id', $group->id)->where('name', $name)->get();
 
         return view('product/detail2', compact('group', 'groupUri', 'variantNames', 'variantUnits'));
+    }
+
+    public function getRandomProduct()
+    {
+        $products = Variant::inRandomOrder()->limit(3)->get();
+
+        return view('dealers', compact('products'));
     }
 }

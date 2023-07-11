@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="address-container">
-                    <p class="address">JL. proklamasi NO. 49, Kota Padang, Sumatera Barat 25133</p>
+                    <p class="address">Jl. Proklamasi No. 49, Kota Padang, Sumatera Barat 25133</p>
                 </div>
                 <a href="tel:08126739873" class="btn btn-primary btn-tlpn"><img src="{{ url('/images/icons/phone.png')}}" alt="" class="phone">08126739873</a>
             </div>
@@ -64,6 +64,25 @@
                 </div>
                 <a href="tel:085378417444" class="btn btn-primary btn-tlpn"><img src="{{ url('/images/icons/phone.png')}}" alt="" class="phone">085378417444</a>
             </div>
+        </div>
+    </div>
+    <div class="product-list">
+        <h2>Rekomendasi Produk<br/>Untuk Anda</h2>
+        <div class="grid-container">
+            @foreach ($products as $product)
+            <div class="grid-content">
+                <a class="product-link" href="/product/{{ $product->uri }}">
+                    <div class="box-img">
+                        <img src="{{ url($product->image) }}" alt="" class="product-unit-image">
+                    </div>
+                    <div class="box-text">
+                        <p class="caption">OTR Sumatera Barat, Mulai Dari</p>
+                        <p class="product-price">{{ $product->price }}</p>
+                        <img class="tombol-biru" src="{{ url('/images/tombol1.png')}}" alt="">
+                    </div>
+                </a>
+            </div>
+            @endforeach
         </div>
     </div>
 </div>
