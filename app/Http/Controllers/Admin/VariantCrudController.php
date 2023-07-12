@@ -94,7 +94,7 @@ class VariantCrudController extends CrudController
 
         CRUD::field('group_id');
         CRUD::field('name');
-        CRUD::field('image')->type('upload')->upload(true);
+        CRUD::field('image')->type('image')->upload(true);
         CRUD::field('color')->type('color_picker');
         CRUD::field('color_name');
         CRUD::field('price');
