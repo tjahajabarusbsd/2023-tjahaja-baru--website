@@ -61,7 +61,7 @@ class CategoryCrudController extends CrudController
         CRUD::setValidation(CategoryRequest::class);
 
         CRUD::field('name');
-        CRUD::field('image')->type('upload')->upload(true);
+        CRUD::field('image')->type('image')->upload(true);
         CRUD::field('created_at');
         CRUD::field('updated_at');
 
