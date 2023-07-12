@@ -25,7 +25,8 @@ class BannerRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required',
+            'image' => 'required',
         ];
     }
 
@@ -49,7 +50,8 @@ class BannerRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'name.required' => 'Name tidak boleh kosong.',
+            'image.required' => 'Image tidak boleh kosong.',
         ];
     }
 }
