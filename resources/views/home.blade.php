@@ -83,20 +83,15 @@
                         <p class="promo-title">Promo</p>
                     </div>
                     <div class="promo-banner-container row">
-                        <div class="promo-banner-col col-sm-6">
-                            <div class="promo-banner-item ">
-                                <a href="">
-                                    <img class="img-fluid" src="{{ url('/images/promo_3.jpg')}}" alt="">
-                                </a>
+                        @foreach ($promos as $promo)
+                            <div class="promo-banner-col col-sm-6">
+                                <div class="promo-banner-item ">
+                                    <a href="">
+                                        <img class="img-fluid" src="{{ url($promo->image) }}" alt="">
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="promo-banner-col col-sm-6">
-                            <div class="promo-banner-item ">
-                                <a href="">
-                                    <img class="img-fluid" src="{{ url('/images/promo_4.jpg')}}" alt="">
-                                </a>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
