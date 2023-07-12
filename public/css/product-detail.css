@@ -133,13 +133,13 @@
     line-height: 15px;
 }
 
-.second-section .variant-wrapper li:active {
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
+.second-section .variant-wrapper li:hover {
     background: #183f9e;
 }
 
-.second-section .variant-wrapper li:hover {
+.second-section .variant-wrapper .variant-unit.active {
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
     background: #183f9e;
 }
 

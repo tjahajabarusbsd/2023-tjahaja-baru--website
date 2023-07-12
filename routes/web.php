@@ -38,9 +38,12 @@ Route::prefix('/product')->group(function () {
     Route::get('{uri}', [VariantController::class, 'getDataVariant']);
 });
 
-Route::prefix('/product')->group(function () {
-    Route::get('{uri}/{name}', [VariantController::class, 'getGroup']);
-});
+// Route::prefix('/product')->group(function () {
+//     Route::get('{uri}/{name}', [VariantController::class, 'getGroup']);
+// });
+
+
+Route::get('/get-data/{variant}', [VariantController::class, 'getData'])->name('get.data');
 
 Route::prefix('/products/category')->group(function () {
     Route::get('{uri}', [ProductController::class, 'getCategory']);

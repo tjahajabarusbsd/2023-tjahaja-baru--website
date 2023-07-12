@@ -139,10 +139,4 @@
 
 @section('additional_script')
 <script src="{{ asset('js/product.js') }}"></script>
-<script>
-	let date = Date.now();
-	gtag('event', 'visit_time', {
-		'time': date,
-	});
-</script>
 @endsection

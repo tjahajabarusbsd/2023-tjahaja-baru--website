@@ -20,7 +20,7 @@ class VariantController extends Controller
                 ->pluck('name');
 
             $data = Variant::where('group_id', $group->id)
-                ->orderBy('updated_at', 'ASC')
+                ->where('name', $variantNames[0])
                 ->get();
 
             return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data'));
@@ -29,25 +29,32 @@ class VariantController extends Controller
         }
     }
 
-    public function getGroup($uri, $name)
-    {
-        $group = Group::where('uri', $uri)->first();
+    // public function getGroup($uri, $name)
+    // {
+    //     $group = Group::where('uri', $uri)->first();
 
-        $groupUri = $group->uri;
+    //     $groupUri = $group->uri;
 
-        $variantNames = Variant::where('group_id', $group->id)
-            ->distinct('name')
-            ->pluck('name');
+    //     $variantNames = Variant::where('group_id', $group->id)
+    //         ->distinct('name')
+    //         ->pluck('name');
 
-        $variantUnits = Variant::where('group_id', $group->id)->where('name', $name)->get();
+    //     $variantUnits = Variant::where('group_id', $group->id)->where('name', $name)->get();
 
-        return view('product/detail2', compact('group', 'groupUri', 'variantNames', 'variantUnits'));
-    }
+    //     return view('product/detail2', compact('group', 'groupUri', 'variantNames', 'variantUnits'));
+    // }
 
     public function getRandomProduct()
     {
         $products = Group::inRandomOrder()->limit(3)->get();
 
         return view('dealers', compact('products'));
+    }
+
+    public function getData(Request $request, $variant)
+    {
+        $variantUnits = Variant::where('name', $variant)->get();
+
+        return response()->json($variantUnits);
     }
 }
