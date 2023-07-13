@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DealerController;
 use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
@@ -53,7 +54,8 @@ Route::get('/myyamaha', function () {
     return view('myyamaha');
 });
 
-Route::get('/dealers', [VariantController::class, 'getRandomProduct']);
+// Route::get('/dealers', [VariantController::class, 'getRandomProduct']);
+Route::get('/dealers', [DealerController::class, 'getDealer'])->name('dealer');
 
 Route::get('/consultation', [ConsultationController::class, 'getConsultationForm'])->name('consultation.get');
 // Route::post('/consultation', [ConsultationController::class, 'postConsultationForm'])->name('consultation.post');
@@ -69,3 +71,4 @@ Route::get('/import-xls', function () {
     return view('import');
 });
 Route::post('/import', [ExcelImportController::class, 'import'])->name('import');
+Route::post('/import-dealer', [ExcelImportController::class, 'importDealer'])->name('importDealer');
