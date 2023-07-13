@@ -7,6 +7,10 @@
     margin: 50px auto;
 }
 
+#searchForm {
+    margin: auto 0;
+}
+
 .dealer-card {
     width: 300px;
     margin-bottom: 20px;
@@ -31,7 +35,7 @@
     margin-right: 10px;
     color: #282828;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 17px;
 }
 
 .link {
@@ -56,6 +60,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    font-size: 12px;
 }
 
 .address-container {
@@ -63,13 +68,43 @@
     padding-top: 20px;
 }
 
+.address {
+    font-size: 15px;
+}
+
 .phone {
     width: 25px;
+}
+
+.load-more {
+    position: relative;
+    top: 10px;
+    text-align: center;
+}
+
+.btn-block {
+    position: relative;
+    background-color: #1645ca;
+    border-radius: 0px;
+    border: 1px solid #1645ca;
+    color: white;
+}
+
+.btn-block:hover {
+    border: 1px solid #1645ca;
+    color: #1645ca;
+    background-color: transparent;
 }
 
 .product-list {
     max-width: 1075px;
     margin: 0 auto;
+    margin-bottom: 50px;
+}
+
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
     margin-bottom: 50px;
 }
 

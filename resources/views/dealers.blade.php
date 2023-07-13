@@ -18,55 +18,76 @@
 <div class="container-fluid">
     <div class="dealer-header">
         <h1>Cari Dealer</h1>
-        <div class="input-group">
-            <input type="input" id="search-input" class="form-control rounded" placeholder="Cari dealer..." aria-label="Search" aria-describedby="search-addon" />
-        </div>
+        <form id="searchForm">
+            <div class="input-group">
+                <input type="text" name="search" id="searchInput" class="form-control" value="{{ $search }}" placeholder="Cari dealer..."  />
+                <button class="btn btn-primary" type="submit">Search</button>
+                <button class="btn btn-outline-secondary" type="button" onclick="resetSearch()">Reset</button>
+            </div>
+        </form>
+        
     </div>
     <div class="dealer-list">
+        @foreach ($dealers as $dealer)
         <div class="dealer-card">
             <div class="card-body">
                 <div class="box-header">
-                    <h5 class="card-title">TB Sentral Yamaha</h5>
+                    <h5 class="card-title">{{ $dealer->name_dealer}}</h5>
                     <div class="direction">
-                        <a href="https://goo.gl/maps/vd9vQePLctcjNEp9A" target="_blank" class="link"><img src="{{ url("images/icons/location.png")}}" alt="" class="location-icon"></a>
+                        <a href="https://www.google.co.id/maps?q={{ $dealer->latitude }},{{ $dealer->longitude }}" target="_blank" class="link"><img src="{{ url("images/icons/location.png")}}" alt="" class="location-icon"></a>
                     </div>
                 </div>
                 <div class="address-container">
-                    <p class="address">Jl. Damar No.59, Kota Padang, Sumatera Barat 25113</p>
+                    <p class="address">{{ $dealer->address }}</p>
                 </div>
-                <a href="tel:0811805898" class="btn btn-primary btn-tlpn"><img src="{{ url('/images/icons/phone.png')}}" alt="" class="phone">0811805898</a>
+                <a href="tel:{{ $dealer->nohp }}" class="btn btn-primary btn-tlpn"><img src="{{ url('/images/icons/phone.png')}}" alt="" class="phone">{{ $dealer->nohp }}</a>
             </div>
         </div>
-        <div class="dealer-card">
-            <div class="card-body">
-                <div class="box-header">
-                    <h5 class="card-title">Yamaha TB Proklamasi</h5>
-                    <div class="direction">
-                        <a href="https://goo.gl/maps/cCnX8P83HB2erhu29" target="_blank" class="link"><img src="{{ url("images/icons/location.png")}}" alt="" class="location-icon"></a>
-                    </div>
-                </div>
-                <div class="address-container">
-                    <p class="address">Jl. Proklamasi No. 49, Kota Padang, Sumatera Barat 25133</p>
-                </div>
-                <a href="tel:08126739873" class="btn btn-primary btn-tlpn"><img src="{{ url('/images/icons/phone.png')}}" alt="" class="phone">08126739873</a>
-            </div>
-        </div>
-        <div class="dealer-card">
-            <div class="card-body">
-                <div class="box-header">
-                    <h5 class="card-title">Yamaha TB Tabing</h5>
-                    <div class="direction">
-                        <a href="https://goo.gl/maps/BSfSusE49tFkFees9" target="_blank" class="link"><img src="{{ url("images/icons/location.png")}}" alt="" class="location-icon"></a>
-                    </div>
-                </div>
-                <div class="address-container">
-                <p class="address">Jl. Prof. Dr. Hamka No.56, Kota Padang, Sumatera Barat 25173</p>
-                </div>
-                <a href="tel:085378417444" class="btn btn-primary btn-tlpn"><img src="{{ url('/images/icons/phone.png')}}" alt="" class="phone">085378417444</a>
-            </div>
-        </div>
+        @endforeach
     </div>
-    <div class="product-list">
+    <div class="pagination-wrapper">
+        <!-- Tampilkan tautan navigasi halaman -->
+        {{ $dealers->appends(['search' => $search])->links() }}
+    </div>
+    
+    {{-- {{ $dealers->links() }} --}}
+    {{-- <ul class="pagination">
+        
+        @if ($dealers->onFirstPage())
+            <li class="page-item disabled">
+                <span class="page-link">&laquo;</span>
+            </li>
+        @else
+            <li class="page-item">
+                <a class="page-link" href="{{ $dealers->previousPageUrl() }}" rel="prev">&laquo;</a>
+            </li>
+        @endif
+    
+        
+        @foreach ($pageRange as $page)
+            @if ($page == $dealers->currentPage())
+                <li class="page-item active">
+                    <span class="page-link">{{ $page }}</span>
+                </li>
+            @else
+                <li class="page-item">
+                    <a class="page-link" href="{{ $dealers->url($page) }}">{{ $page }}</a>
+                </li>
+            @endif
+        @endforeach
+    
+        
+        @if ($dealers->hasMorePages())
+            <li class="page-item">
+                <a class="page-link" href="{{ $dealers->nextPageUrl() }}" rel="next">&raquo;</a>
+            </li>
+        @else
+            <li class="page-item disabled">
+                <span class="page-link">&raquo;</span>
+            </li>
+        @endif
+    </ul> --}}
+    {{-- <div class="product-list">
         <h2>Rekomendasi Produk<br/>Untuk Anda</h2>
         <div class="grid-container">
             @foreach ($products as $product)
@@ -84,12 +105,12 @@
             </div>
             @endforeach
         </div>
-    </div>
+    </div> --}}
 </div>
 @endsection
 
 @section('additional_script')
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             // Event handler saat tombol pencarian diklik
             $("#search-input").keyup(function() {
@@ -107,5 +128,15 @@
                 // $(".card-title:contains(" + searchTerm + ")").closest(".dealer-card").show();
             });
         });
+    </script> --}}
+    <script>
+        function resetSearch() {
+            var searchForm = document.getElementById('searchForm');
+            var searchInput = searchForm.querySelector('input[name="search"]');
+            searchInput.value = '';
+            searchForm.submit();
+        }
     </script>
+
+    
 @endsection
