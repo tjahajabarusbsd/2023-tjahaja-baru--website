@@ -17,7 +17,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="dealer-header">
-        <h1>Cari Lokasi Dealer</h1>
+        <h1>Cari Dealer</h1>
         <form id="searchForm">
             <div class="input-group">
                 <input type="text" name="search" id="searchInput" class="form-control" value="{{ $search }}" placeholder="Cari dealer..."  />
