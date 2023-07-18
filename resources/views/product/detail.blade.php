@@ -110,7 +110,7 @@
     
     <div class="container-fluid">
         <div class="row">
-            <h2 class="title">variant & price</h2>
+            <h2 class="title blue">variant & price</h2>
         </div>
         <div class="row version-row">
             <ul class="variant-wrapper">
@@ -162,13 +162,101 @@
     </div>
 </section>
 
-<section class="section3">
-    <div class="features">
-        <picture>
-            <img src="" alt="">
-        </picture>
-        <h1>Features</h1>
+<section class="third-section">
+    <div class="container-fluid">
+        <div class="features row">
+            <h2 class="title white">features</h2>
+            @if (Request::is('product/nmax-155'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/EPS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Electric Power Socket</p>
+                        <p class="feature-body">Semakin praktis dengan "Electric Power Socket" untuk mengisi daya gadget pengendara. (Handphone dan Kabel Charger tidak termasuk dalam paket pembelian)</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/KEYLESS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">KEYLESS (Smart Key System)</p>
+                        <p class="feature-body">Sistem Kunci Canggih Tanpa Anak Kunci (Keyless), dilengkapi fitur Answer Back System yang memudahkan mencari posisi parkir motor.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/SPEEDO.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Multifunction Full Digital Speedometer</p>
+                        <p class="feature-body">Modern dan informatif bagi pengendara. Kini dilengkapi dengan indikator Y-Connect Apps, Pesan & Telepon, TCS*, VVA dan Temperatur Mesin. *Hanya tersedia di Connected/ABS Version.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/ABS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Dual Channel Anti-Lock Braking System (ABS)</p>
+                        <p class="feature-body">Kontrol pengereman yang optimal dengan Dual Channel Anti-Lock Braking System.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/BAGASI.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Multifunction Big Luggage</p>
+                        <p class="feature-body">Bagasi luas dengan akses yang mudah dan fungsional yang dapat menyimpan helm full face ukuran XL.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/BLU CORE & VVA.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Blue Core & VVA</p>
+                        <p class="feature-body">Teknologi Blue Core & VVA menjaga mesin 155 cc tetap efisien bahan bakar dan tenaga serta torsi maksimum di setiap putaran mesin.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/FRONT & REAR DISC BRAKE.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Front & Rear Disc Brake</p>
+                        <p class="feature-body">Dengan sistem pengereman ganda dan cengkraman cakram yang kuat dan kokoh membuat pengalaman berkendara lebih maksimal.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/LED.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">LED Head & Tail Light with Hazard Lamp</p>
+                        <p class="feature-body">Desain lampu depan dan belakang mewarisi MAX Series DNA. Dilengkapi dengan lampu hazard untuk memberi tanda dalam situasi darurat.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/RAK KANAN.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Front Compartment</p>
+                        <p class="feature-body">Lebih mewah dan praktis dengan kompartemen tertutup.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/RELAX RIDING.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Relax Riding Position</p>
+                        <p class="feature-body">Posisi berkendara yang nyaman dengan ruang kaki yang luas, membuat posisi berkendara lebih rileks untuk jarak dekat atau jarak jauh.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/SEAT.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">MAXi Seat Design</p>
+                        <p class="feature-body">Jok dengan kontur ganda membuat pengendara lebih nyaman dan tampilan motor menjadi lebih berkelas.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/SHOCK.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Sub-tank Suspension</p>
+                        <p class="feature-body">Untuk mendukung performa berkendara yang lebih nyaman diberbagai kondisi jalan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/SSS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Stop & Start System</p>
+                        <p class="feature-body">Mengurangi konsumsi bahan bakar yang tidak perlu pada saat motor sedang berhenti.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/SWITCH.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Handlebar Switch Control</p>
+                        <p class="feature-body">Memilih tampilan informasi dan setting pada speedometer menjadi lebih mudah dengan tombol pengatur yang berada di handle sebelah kiri.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/TCS (Traction Control System).jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">TCS (Traction Control System)</p>
+                        <p class="feature-body">Sistem yang dirancang untuk mengurangi resiko ban belakang selip di segala situasi permukaan jalan pada saat akselerasi.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/nmax/SMG.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Motor Generator</p>
+                        <p class="feature-body">Membuat suara motor lebih halus saat dinyalakan.</p>
+                    </div>
+                </div>
+            @else
+            <div>
+                <h1>coming soon</h1>
+            </div>
+            @endif
+        </div>
     </div>
+    
 </section>
 
 <section class="main-form consultation-form">
@@ -332,7 +420,39 @@
 
     function disableButton() {
         document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-    }
-    
+    };
+
+    $('.features-wrapper').slick({
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        dots: true,
+        arrows: true,
+        autoplay: false,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 845,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 568,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false
+                }
+            }
+        ]
+    });
 </script>
 @endsection

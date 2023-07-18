@@ -1,12 +1,17 @@
-.features {
-    display: flex;
-    align-items: center;
-    background-color: grey;
-    height: 400px;
+.product-detail .title {
+    margin: 35px auto 20px;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    z-index: 1;
 }
 
-.features h1 {
-    margin: 0 auto;
+.product-detail .blue {
+    color: #1f3781;
+}
+
+.product-detail .white {
     color: #ffffff;
 }
 
@@ -204,6 +209,55 @@
     bottom: -65px;
 }
 
+.third-section {
+    padding: 0 5%;
+    padding-bottom: 15px;
+    background: grey;
+}
+
+.features {
+    text-align: center;
+}
+
+.feature-body {
+    text-align: left;
+}
+
+.features-wrapper {
+    max-width: 1350px;
+    margin: 0 auto;
+}
+
+.features-content {
+    /* width: 360px !important; pc  */
+    width: 100%;
+}
+
+.features-content p {
+    color: #ffffff;
+}
+
+.feature-img {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.slick-next {
+    right: -10px;
+    top: 175px;
+}
+
+.slick-prev {
+    left: -10px;
+    top: 175px;
+}
+
+@media only screen and (min-width: 400px) {
+    .features-content {
+        width: 320px !important;
+    }
+}
+
 @media only screen and (min-width: 545px) {
     .first-section .icon-row.pc {
         display: flex;
@@ -214,13 +268,19 @@
     }
 }
 
+@media only screen and (min-width: 568px) {
+    .features-content {
+        width: 245px !important;
+    }
+}
+
 @media only screen and (min-width: 768px) {
-    .second-section .background-wrapper {
-        height: 390px;
+    .product-detail .title {
+        font-size: 30px;
     }
 
-    .second-section .title {
-        font-size: 30px;
+    .second-section .background-wrapper {
+        height: 390px;
     }
 
     .second-section .version {
@@ -263,5 +323,27 @@
 
     .second-section .caption-box .area-price {
         font-size: 15px;
+    }
+
+    .features-content {
+        width: 300px !important;
+    }
+}
+
+@media only screen and (min-width: 844px) {
+    .features-content {
+        width: 230px !important;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .features-content {
+        width: 290px !important;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .features-content {
+        width: 335px !important;
     }
 }
