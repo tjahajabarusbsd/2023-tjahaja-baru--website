@@ -249,6 +249,84 @@
                         <p class="feature-body">Membuat suara motor lebih halus saat dinyalakan.</p>
                     </div>
                 </div>
+            @elseif (Request::is('product/aerox-155'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/5,5L Fuel Tank.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">5.5L Fuel Tank Capacity</p>
+                        <p class="feature-body">Kapasitas tangki bahan bakar lebih besar memberikan pengalaman berkendara yang lebih lama.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/ABS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Anti-Lock Braking System</p>
+                        <p class="feature-body">Kontrol pengereman yang lebih maksimal dengan ABS.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/EPS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Electric Power Socket</p>
+                        <p class="feature-body">Semakin praktis dengan "Electric Power Socket" untuk mengisi daya gadget pengendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/Fully Faired Aerodynamic Look.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Fully Faired Aerodynamic Look</p>
+                        <p class="feature-body">Desain aerodinamis dengan full fairing yang merupakan ciri khas dari motor sport.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/HANDLE BAR.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Handle Bar Switch Control</p>
+                        <p class="feature-body">Memilih tampilan informasi dan setting pada speedometer menjadi lebih mudah dengan tombol pengatur yang berada di handle sebelah kiri.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/BLUECORE & VVA.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Blue Core & VVA</p>
+                        <p class="feature-body">Teknologi Blue Core & VVA menjaga mesin 155 cc tetap efisien bahan bakar dan tenaga serta torsi maksimum di setiap putaran mesin.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/HAZARD LAMP.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Hazard Lamp</p>
+                        <p class="feature-body">Untuk memberi tanda dalam situasi darurat (sesuai UU no 22 tahun 2009 peraturan berlalulintas pasal 121 ayat 1).</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/LED TAIL.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Sporty-Integrated Rear Handle Grip</p>
+                        <p class="feature-body">Desain pegangan bagian belakang yang menyatu dengan body motor, memberikan kesan yang sporty.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/SEAT.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Comfortable Tandem Seat</p>
+                        <p class="feature-body">Jok dengan desain sporty berkontur ganda membuat pengendara lebih nyaman.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/Smart Key System.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Key System</p>
+                        <p class="feature-body">Sistem kunci canggih tanpa anak kunci (keyless), dilengkapi fitur Answer Back System, memudahkan pengendara mencari posisi parkir motor.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/Spacious Baggage.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Spacious Baggage</p>
+                        <p class="feature-body">Desain bagasi yang luas dapat memuat berbagai perlengkapan berkendara Anda.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/Super Wide Tubeless Tire.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Super Wide Tubeless Tire</p>
+                        <p class="feature-body">Ukuran ban depan 110/80-14", Ukuran ban belakang 140/70-14", Menjadikan tampilan lebih sporty serta memberikan pengalaman berkendara yang lebih nyaman dan maksimal saat bermanuver.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/Twin Sub-Tank Suspension.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Twin Sub-Tank Suspension</p>
+                        <p class="feature-body">Untuk mendukung performa berkendara yang lebih nyaman diberbagai kondisi jalan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/Y CONNECT.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Yamaha Motorcycle Connect</p>
+                        <p class="feature-body">Teknologi modern dan informatif yang menghubungkan antara motor dengan smartphone untuk menginformasikan rekomendasi perawatan, konsumsi BBM, Lokasi parkir terakhir, notifikasi malfungsi, dan lain-lain.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/aerox/SMG.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Motor Generator</p>
+                        <p class="feature-body">Membuat suara motor lebih halus saat dinyalakan.</p>
+                    </div>
+                </div>
             @else
             <div>
                 <h1>coming soon</h1>
