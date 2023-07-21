@@ -327,6 +327,84 @@
                         <p class="feature-body">Membuat suara motor lebih halus saat dinyalakan.</p>
                     </div>
                 </div>
+            @elseif (Request::is('product/lexi-125'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/ABS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Anti-Lock Braking System (ABS)</p>
+                        <p class="feature-body">Kontrol pengereman lebih optimal dengan ABS, membuat berkendara semakin nyaman.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/Grand LED Headlight.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Grand LED Headlight</p>
+                        <p class="feature-body">Lampu depan menggunakan sistem pencahayaan LED sehingga lebih terang serta didesain dengan ukuran besar memberikan kesan mewah dan elegan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/Full Digital Speedometer.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Full Digital Speedometer</p>
+                        <p class="feature-body">Full digital speedometer yang modern dan informatif bagi pengendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/Spacious Flat Foot Board.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Spacious Flat Foot Board</p>
+                        <p class="feature-body">Ruang pijakan kaki yang luas dan nyaman dengan dua posisi kaki berkendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/Long Seat.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Long Seat</p>
+                        <p class="feature-body">Seat dengan ukuran lebih panjang dengan desain yang elegan mendukung kenyamanan berkendara baik individu maupun sharing</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/Sub-Tank Suspension.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Sub-Tank Suspension</p>
+                        <p class="feature-body">Untuk mendukung performa berkendara yang lebih nyaman diberbagai kondisi jalan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/Bagasi.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Big Luggage Capacity</p>
+                        <p class="feature-body">Bagasi yang luas dan lega untuk menampung barang bawaan lebih banyak.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/Tubeless Wide Tire.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Tubeless Wide Tire</p>
+                        <p class="feature-body">Ukuran ban depan 90/90 - 14", Ukuran ban belakang 100/90 - 14" memberikan pengalaman berkendara yang nyaman saat bermanuver.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/Electric Power Socket.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Electric Power Socket</p>
+                        <p class="feature-body">Semakin praktis dengan "Electric Power Socket" untuk mengisi daya gadget pengendara *Handphone dan kabel charger tidak termasuk dalam paket pembelian.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/SMART KEY.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Key System (Keyless)</p>
+                        <p class="feature-body">Sistem kunci canggih tanpa anak kunci (keyless), dilengkapi fitur Answer Back System, memudahkan pengendara mencari posisi parkir motor.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/Grand LED Headlight.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Hazard Lamp</p>
+                        <p class="feature-body">Untuk memberi tanda dalam situasi darurat (sesuai UU no 22 tahun 2009 peraturan berlalulintas pasal 121 ayat 1).</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/BLUECORE & VVA.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">New Liquid Cooled 125cc Blue Core Engine With VVA</p>
+                        <p class="feature-body">Mesin generasi baru Blue Core 125cc yang dilengkapi dengan Liquid Cooled dan Variable Valve Actuation (VVA) yang menjaga tenaga dan torsi maksimum di setiap putaran mesin sehingga lebih efisien, bertenaga, dan Handal.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/SSS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Stop & Start System (SSS)</p>
+                        <p class="feature-body">Stop & Start System (SSS) yang berfungsi untuk mengurangi konsumsi bahan bakar yang tidak perlu pada saat motor sedang berhenti.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/Cylinder.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">DiASil Cylinder & Forged Piston</p>
+                        <p class="feature-body">Diasil Cylinder berbahan aluminium silicon, diproses dengan teknologi modern. Membuatnya cepat melepas panas. Piston dengan proses tempa sehingga lebih padat dibanding piston cetak.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/lexi/smg.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Motor Generator (SMG)</p>
+                        <p class="feature-body">Membuat suara motor lebih halus saat dinyalakan.</p>
+                    </div>
+                </div>
             @else
             <div>
                 <h1>coming soon</h1>
