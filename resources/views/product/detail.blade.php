@@ -443,7 +443,7 @@
                         <p class="feature-body">Velg dengan striping yang Sporty.</p>
                     </div>
                 </div>
-            @elseif (Request::is('product/mx-king'))
+            @elseif (Request::is('product/mx-king-150'))
                 <div class="features-wrapper">
                     <div class="features-content">
                         <img src="{{ url('/images/features/mx-king/Engine.jpg')}}" loading="lazy" class="feature-img">
