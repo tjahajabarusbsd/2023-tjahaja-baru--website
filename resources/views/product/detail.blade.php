@@ -443,6 +443,44 @@
                         <p class="feature-body">Velg dengan striping yang Sporty.</p>
                     </div>
                 </div>
+            @elseif (Request::is('product/mx-king'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mx-king/Engine.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">150cc FI, Engine Liquid Cooled System</p>
+                        <p class="feature-body">Teknologi mesin balap yang memaksimalkan perfoma dengan mesin 4 valve 150cc Fuel Injection dilengkapi dengan Forged Piston, DiAsil Cylinder serta Liquid Cooled System.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mx-king/LED Head Light.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">LED Head Light</p>
+                        <p class="feature-body">Sporty style design 3 LED ( 2 Low Beam, 1 High Beam ) Head Light memberikan penerangan maksimal saat berkendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mx-king/Master Desain MX KING.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Hazard Lamp</p>
+                        <p class="feature-body">Untuk memberikan tanda dalam situasi darurat, sesuai UU no 22 tahun 2009 peraturan berlalu lintas pasal 121 ayat 1.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mx-king/New Graphic Design.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">New Graphic Design</p>
+                        <p class="feature-body">Memiliki desain grafis yang simetris dan semakin sporty dengan garis yang tebal dan terinspirasi dari konsep downforce berwarna bold yang dipadukan aksen cerah untuk kesan speedy yang merupakan ciri khas kuat MX King 150.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mx-king/Rangka.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Light Frame Design</p>
+                        <p class="feature-body">Semakin lincah dengan Light Frame Design . Hadir dengan posisi berkendara sporty yang dilengkapi dengan suspensi Mono Shock dibagian belakang dan Pijakan kaki pengendara yang bisa dilipat membuat semakin nyaman dalam bermanuver & cornering.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mx-king/Speedo.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Full Digital Speedometer</p>
+                        <p class="feature-body">Tampil dengan teknologi yang baru dengan full LCD speedometer yang modern dan informatif bagi pengendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mx-king/Wide Tubeless Tire.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Wide Tubeless Tire</p>
+                        <p class="feature-body">Dengan ban tubeless yang lebar dikelasnya dilengkapi dengan Desain Velg ring 17 inch membuat tampilan MX KING semakin sporty dan memiliki Double Disk Brake yang memaksimalkan pengereman dan keamanan dalam berkendara.</p>
+                    </div>
+                </div>
             @else
             <div>
                 <h1>coming soon</h1>
