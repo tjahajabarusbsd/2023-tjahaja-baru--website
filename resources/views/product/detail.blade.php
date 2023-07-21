@@ -524,6 +524,59 @@
                         <p class="feature-body">Bagasi dengan kapasitas 9,2 Liter adalah yang terbesar di kelasnya, mampu menyimpan barang bawaan lebih banyak.</p>
                     </div>
                 </div>
+            @elseif (Request::is('product/wr-155'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/wr/Aluminium Rims.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Dual Purpose Tire With Aluminium Rims</p>
+                        <p class="feature-body">Dirancang berkendara diberbagai kondisi jalan untuk mendukung aktifitas adventure ataupun rutinitas berkendara sehari-hari.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/wr/Big Diameter & Long Suspension.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Big Diameter & Long Suspension</p>
+                        <p class="feature-body">Suspensi depan dengan diameter 41mm dan panjang 899.1mm yang kokoh sehingga memberikan pengendalian yang lebih maksimal disetiap aktifitas adventure.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/wr/Big Fuel Tank 8,1L.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Big Fuel Tank 8,1L</p>
+                        <p class="feature-body">Kapasitas tanki besar untuk persiapan adventure yang lebih jauh.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/wr/Frame.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Semi Double Cradle Frame</p>
+                        <p class="feature-body">Rangka Motor yang kokoh sehingga memberikan pengendalian yang lebih maksimal.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/wr/Hazard Lamp.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Hazard Lamp</p>
+                        <p class="feature-body">Untuk memberi tanda dalam situasi darurat (sesuai UU no 22 tahun 2009 peraturan berlalulintas pasal 121 ayat 1).</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/wr/LCD Multifunction Speedometer.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">LCD Multifunction Speedometer</p>
+                        <p class="feature-body">LCD Speedometer yang memberikan berbagai macam informasi yang sangat bermanfaat untuk aktifitas adventure seperti Odometer, Trip meter, Rata-rata konsumsi bahan bakar, Indikator transmisi, Jam dan lain-lain.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/wr/Linked-Type Monocross.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Linked-Type Monocross With Gas, Oil & Adjustable Pre Load</p>
+                        <p class="feature-body">Suspensi belakang dengan tingkat kekerasan yang dapat diatur sesuai kebutuhan pengendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/wr/Powerfull 155cc Engine with VVA.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Powerfull 155cc Engine with VVA</p>
+                        <p class="feature-body">Mesin 155cc, Liquid cooled, 4 langkah dengan VVA yang memberikan pengalaman adventure yang luar biasa.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/wr/Wave Double Disc Brake.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Wave Double Disc Brake</p>
+                        <p class="feature-body">Rem cakram ganda memberikan pengereman lebih maksimal.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/wr/YZ Stylish Seat.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">YZ Stylish Seat</p>
+                        <p class="feature-body">Desain jok yang lebih stylish dan rata yang memudahkan pengendara mengatur posisi berkendara di segala medan.</p>
+                    </div>
+                </div>
             @else
             <div>
                 <h1>coming soon</h1>
