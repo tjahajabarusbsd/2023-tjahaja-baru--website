@@ -405,6 +405,44 @@
                         <p class="feature-body">Membuat suara motor lebih halus saat dinyalakan.</p>
                     </div>
                 </div>
+            @elseif (Request::is('product/jupiter-z1'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/jupiter/Aerodynamic Air Flow.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Aerodynamic Air Flow</p>
+                        <p class="feature-body">Memberikan sirkulasi udara pada mesin agar tetap pada suhu optimal.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/jupiter/Arrow Tail Shaped Light.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Arrow Tail Shaped Light</p>
+                        <p class="feature-body">Design lampu belakang yang aerodinamis dan futuristik.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/jupiter/Double Head Lamp.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Double Head Lamp</p>
+                        <p class="feature-body">Lampu ganda futuristik yang memberikan penerangan lebih maksimal.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/jupiter/Forged Piston.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Forged Piston</p>
+                        <p class="feature-body">Teknologi Yamaha yang membuat mesin lebih awet dan kuat.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/jupiter/Fuel Injection.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Fuel Injection Yamaha</p>
+                        <p class="feature-body">Teknologi injeksi Yamaha yang membuat mesin lebih bertenaga dan irit.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/jupiter/New Striping Design.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">New Striping Design</p>
+                        <p class="feature-body">Striping bergaya racing memberikan kesan Sporty.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/jupiter/Sporty Casting.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Sporty Casting WheelSPORTY CASTING WHEEL</p>
+                        <p class="feature-body">Velg dengan striping yang Sporty.</p>
+                    </div>
+                </div>
             @else
             <div>
                 <h1>coming soon</h1>
