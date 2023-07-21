@@ -481,6 +481,49 @@
                         <p class="feature-body">Dengan ban tubeless yang lebar dikelasnya dilengkapi dengan Desain Velg ring 17 inch membuat tampilan MX KING semakin sporty dan memiliki Double Disk Brake yang memaksimalkan pengereman dan keamanan dalam berkendara.</p>
                     </div>
                 </div>
+            @elseif (Request::is('product/vega-force'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/vega/VELG.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Velg Balap Modern</p>
+                        <p class="feature-body">Velg balap bernuansa modern membuat penampilan semakin sporty.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/vega/SPEEDO.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Speedometer Modern</p>
+                        <p class="feature-body">Desain speedometer baru dengan indikator perpindahan gigi dan mesin.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/vega/Lampu Depan Modern.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Lampu Depan Modern</p>
+                        <p class="feature-body">Desain lampu depan dan sein yang tegas dan terang.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/vega/Lampu Belakang Sporty.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Lampu Belakang Sporty</p>
+                        <p class="feature-body">Desain Sporty membuat penampilan lebih gaya.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/vega/KUNCI.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Kunci Pengaman</p>
+                        <p class="feature-body">Kunci starter yang dilengkapi pengaman dan tombol penutup.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/vega/FUEL INJECTION.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Fuel Injection</p>
+                        <p class="feature-body">Mesin legenda yamaha dengan teknologi FI dan Euro 3, IRIT. Kapasitas mesin 114 CC dengan Forged Piston membuat lebih BERTENAGA dan BANDEL.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/vega/Desain Sporty.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Desain Sporty</p>
+                        <p class="feature-body">Tampil lebih sporty dengan desain striping baru berkarakter tegas.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/vega/BAGASI SERBAGUNA.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Bagasi Serbaguna 9.2 L</p>
+                        <p class="feature-body">Bagasi dengan kapasitas 9,2 Liter adalah yang terbesar di kelasnya, mampu menyimpan barang bawaan lebih banyak.</p>
+                    </div>
+                </div>
             @else
             <div>
                 <h1>coming soon</h1>
