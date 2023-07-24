@@ -673,6 +673,79 @@
                         <p class="feature-body">Ban dual purpose tubeless yang dirancang untuk berkendara dalam berbagai kondisi jalan.</p>
                     </div>
                 </div>
+            @elseif (Request::is('product/fazzio'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fazzio/BAGASI.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Spacious Luggage 17.8L</p>
+                        <p class="feature-body">Bagasi luas 17.8L yang dapat memuat berbagai perlengkapan berkendara berikut fashion item-mu!</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fazzio/Big Tire & Tubeless.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Big Tire & Tubeless</p>
+                        <p class="feature-body">Ukuran ban depan dan ban belakang 110/70 - 12" untuk memberikan pengalaman berkendara yang lebih nyaman pada saat bermanuver.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fazzio/Blue Core Hybrid.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Blue Core Hybrid</p>
+                        <p class="feature-body">Mesin Blue Core 125cc generasi terbaru yang memberikan pengalaman berkendara lebih bertenaga, ramah lingkungan dan handal. Dilengkapi dengan Electric Power Assist Start yang membuat akselerasi awal lebih bertenaga dan halus khususnya di tanjakan dan saat berboncengan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fazzio/EPS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Electric Power Socket</p>
+                        <p class="feature-body">Semakin praktis untuk mengisi daya gadget pengendara sehingga connection always on!</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fazzio/Fresh, Simple & Modern Design.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Fresh, Simple & Modern Design</p>
+                        <p class="feature-body">Ekspresikan dirimu dengan keunikan desain FAZZIO yang menjadikan style-mu semakin berkelas!</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fazzio/Fuel Tank Capacity 5.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Big Fuel Tank Capacity 5.1L</p>
+                        <p class="feature-body">Perjalanan semakin menyenangkan dengan daya jelajah yang semakin jauh berkat kapasitas tanki bensin yang besar.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fazzio/Hazard Lamp.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Hazard Lamp</p>
+                        <p class="feature-body">Untuk memberi tanda dalam situasi darurat (sesuai UU no 22 tahun 2009 peraturan berlalulintas pasal 121 ayat 1).</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fazzio/HOOK CARABINER.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Double Hook Carabiner</p>
+                        <p class="feature-body">Gantungan barang ganda dengan sistem pengunci model carabiner sehingga lebih praktis saat membawa banyak barang.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fazzio/Pocket.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Spacious Lidded & Open Pocket</p>
+                        <p class="feature-body">Semakin praktis membawa barang dengan pilihan ruang penyimpanan tertutup dan terbuka.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fazzio/Roomy Footspace & Light Weight.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Roomy Footspace & Light Weight</p>
+                        <p class="feature-body">Nyaman digunakan oleh siapa saja dengan pijakan kaki yang luas, posisi berkendara yang rileks dan juga ringan dikendarai.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fazzio/SKS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Key System</p>
+                        <p class="feature-body">Sistem kunci canggih tanpa anak kunci (keyless), dilengkapi fitur Answer Back System, memudahkan pengendara mencari posisi parkir motor.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fazzio/SPEEDOMETER.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Full Digital Speedometer</p>
+                        <p class="feature-body">Full digital speedometer dengan desain modern yang informatif, dengan indikator Electric Power Assist Start, baterai smartphone, notifikasi pesan & telepon, serta jam digital.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fazzio/Unique LED Headlight.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Unique LED Headlight</p>
+                        <p class="feature-body">Dilengkapi lampu depan LED dengan desain unik dan stylish yang menghasilkan cahaya lebih terang.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fazzio/Y-CONNECT.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Yamaha Motorcycle Connect</p>
+                        <p class="feature-body">Connection always on dengan teknologi Comunication Control Unit (CCU), menghubungkan sepeda motor dengan smartphone melalui aplikasi Y-Connect.</p>
+                    </div>
+                </div>
             @else
             <div>
                 <h1>coming soon</h1>
