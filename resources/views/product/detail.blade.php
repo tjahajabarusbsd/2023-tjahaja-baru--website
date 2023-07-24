@@ -635,6 +635,44 @@
                         <p class="feature-body">Teknologi Comunication Control Unit (CCU) merupakan pertama di motor buatan Indonesia dan terkoneksi dengan aplikasi Y-Connect (Yamaha Motorcycle Connect) berbasis bluetooth.</p>
                     </div>
                 </div>
+            @elseif (Request::is('product/xsr-155'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xsr/ENGINE.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">155cc LC4V With VVA Engine</p>
+                        <p class="feature-body">Engine 155cc, liquid cooled, SOHC, 4-valves, Fuel Injection with VVA. Mesin bertenaga untuk sensasi berkendara yang luar biasa.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xsr/LED Head Light.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">LED Head Light</p>
+                        <p class="feature-body">Desain lampu bergaya klasik dengan teknologi modern.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xsr/LED TAIL.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">LED Tail Light</p>
+                        <p class="feature-body">Desain lampu bergaya klasik dengan teknologi modern.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xsr/SEAT.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Single Seat Heritage</p>
+                        <p class="feature-body">Desain jok begaya klasik mempertegas karakter “Sport Heritage” XSR 155.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xsr/Speedo.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Full LCD Digital Speedometer</p>
+                        <p class="feature-body">Design bergaya klasik dengan layar full LCD yang dilengkapi dengan indikator transmisi.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xsr/Timeless Quality Impression.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Timeless Quality Impression</p>
+                        <p class="feature-body">Tanki dengan model drip shaped memberikan kesan klasik yang tak lekang oleh waktu.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xsr/TIRE.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Dual Purpose Tire</p>
+                        <p class="feature-body">Ban dual purpose tubeless yang dirancang untuk berkendara dalam berbagai kondisi jalan.</p>
+                    </div>
+                </div>
             @else
             <div>
                 <h1>coming soon</h1>
