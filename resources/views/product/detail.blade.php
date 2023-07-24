@@ -577,6 +577,64 @@
                         <p class="feature-body">Desain jok yang lebih stylish dan rata yang memudahkan pengendara mengatur posisi berkendara di segala medan.</p>
                     </div>
                 </div>
+            @elseif (Request::is('product/r15'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/r15/ABS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Dual Channel Anti-Lock Braking System (ABS)</p>
+                        <p class="feature-body">Sistem ABS (Anti-Lock Braking System) dual channel membuat kontrol pengereman semakin optimal.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/r15/BIG BIKE SWITCH.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Big Bike Engine Switch Off</p>
+                        <p class="feature-body">Tombol starter ciri khas "Big Bike". terdiri dari tombo l3in1 cut off/on dan Starter Engine.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/r15/LED Projector Headlight.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Twin Eyes LED Position Lights</p>
+                        <p class="feature-body">Tampilan dua lampu "Day Time Running Light" yang semakin mempertegas karakter agresif dari generasi terbaru R Series. YZR-M1 Styled Triple Clamp Fitur yang berfungsi untuk memberikan keseimbangan kekuatan dan kekakuan yang tidak hanya menciptakan handling yang sangat baik namun desainnya seperti yang digunakan pada MotoGP YZR-M1. YZF-R1 Styled Full Digital Speedometer Speedometer bergaya YZF-M1.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/r15/Powerfull155cc Engine With VVA.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Powerfull155cc Engine With VVA</p>
+                        <p class="feature-body">155 cc engine, Liquid Cooled, SOHC, 4 -Valves, Fuel Injection with VVA mesin bertenaga yang memberikan sensasi berkendara yang luar biasa.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/r15/QUICK SHIFTER.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Quick Shifter</p>
+                        <p class="feature-body">Fitur yang dapat membuat pengendara melakukan perpindahan gigi keatas tanpa menarik tuas kopling sehingga mempercepat dan mendapatkan akselerasi yang maksimal.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/r15/REAR ARM.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Alumunium Rear Arm</p>
+                        <p class="feature-body">Aluminium Banana Swing Arm yang kokoh dan memiliki bobot yang ringan, memberikan pengendalian sepeda motor yang lebih maksimal.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/r15/SEAT.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Special Seat Carbon Motif</p>
+                        <p class="feature-body">Cover bangku bermotif carbon yang memberikan kesan eksklusif kepada pengendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/r15/SPEEDO.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">YZF-R1 Styled Full Digital Speedometer</p>
+                        <p class="feature-body">Speedometer bergayaYZF-R1 dengan instrument LCD dan 2 display pilihan "Track Mode" & "Street Mode" yang dapat memberikan informasi lengkap kepada pengendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/r15/Traction Control System.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Traction Control System</p>
+                        <p class="feature-body">Teknologi yang dirancang untuk mengurangi risiko ban belakang selip disegala situasi permukaan jalan pada saat akselerasi.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/r15/Upside Down.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Upside Down Suspension</p>
+                        <p class="feature-body">Handling lebih baik, pengendalian lebih maksimal, dan terlihat semakin gagah saat berkendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/r15/Y-Connect.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Yamaha Motorcycle Connect</p>
+                        <p class="feature-body">Teknologi Comunication Control Unit (CCU) merupakan pertama di motor buatan Indonesia dan terkoneksi dengan aplikasi Y-Connect (Yamaha Motorcycle Connect) berbasis bluetooth.</p>
+                    </div>
+                </div>
             @else
             <div>
                 <h1>coming soon</h1>
