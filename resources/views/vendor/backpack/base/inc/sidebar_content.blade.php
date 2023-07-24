@@ -35,3 +35,4 @@
 </li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('banner') }}'><i class='nav-icon las la-images'></i>Home Banners</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('promo') }}'><i class='nav-icon la la-question'></i> Promos</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('contact') }}'><i class='nav-icon la la-question'></i> Contacts</a></li>

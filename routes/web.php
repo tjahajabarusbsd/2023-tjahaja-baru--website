@@ -61,7 +61,8 @@ Route::get('/consultation', [ConsultationController::class, 'getConsultationForm
 // Route::post('/consultation', [ConsultationController::class, 'postConsultationForm'])->name('consultation.post');
 
 Route::get('/contact', [ContactController::class, 'getContactForm'])->name('contact.get');
-Route::post('/contact', [ContactController::class, 'postContactForm'])->name('contact.post');
+// Route::post('/contact', [ContactController::class, 'postContactForm'])->name('contact.post');
+Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('contact.submit');
 
 // Route::post('/product', [ConsultationController::class, 'postConsultationForm'])->name('consultationProduct.post');
 

@@ -59,7 +59,7 @@
                         </div>
                         @endif
                 
-                        <form action="{{ route('contact.post') }}" method="post" class="myForm" onsubmit="disableButton()">
+                        <form action="{{ route('contact.submit') }}" method="post" class="myForm" onsubmit="disableButton()">
                             @csrf
                             @if(isset($_GET["dealer"]))
                                 <input name="dealer" type="text" hidden value="{{ $_GET["dealer"] }}">
