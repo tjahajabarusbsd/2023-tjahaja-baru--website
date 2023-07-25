@@ -955,6 +955,64 @@
                         <p class="feature-body">Teknologi pertama dikelasnya yang menghubungkan sepeda motor dengan smartphone melalui aplikasi Y-Connect untuk menginformasikan notifikasi pesan & telepon, konsumsi bahan bakar, rekomendasi perawatan, rincian berkendara serta lokasi parkir.</p>
                     </div>
                 </div>
+            @elseif (Request::is('product/x-ride-125'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xride/ANSWER BACK.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Answer Back System</p>
+                        <p class="feature-body">Fitur canggih untuk menemukan lokasi motor kamu.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xride/Ban Tubeless.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Ban Tubeless Tapak Lebar</p>
+                        <p class="feature-body">Lebih gagah dan stabil saat berkendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xride/Big Luggage.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Big Luggage</p>
+                        <p class="feature-body">Menampung lebih banyak barang bawaan di perjalanan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xride/Blue Core 125cc.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Blue Core Engine 125cc</p>
+                        <p class="feature-body">Lebih Efisien, Bertenaga, dan Handal.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xride/Hazard Light.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Hazard Light</p>
+                        <p class="feature-body">Untuk memberi tanda dalam situasi darurat (sesuai UU no 22 tahun 2009 peraturan berlalulintas pasal 121 ayat 1).</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xride/LED Head Light.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">LED Head Light With Day Running Light</p>
+                        <p class="feature-body">Kombinasi lampu depan LED & Daytime Running Light dengan image Armored Case membuat tampilan lebih tangguh, stylish, terang dan awet.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xride/SEAT.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Adventure Style Seat</p>
+                        <p class="feature-body">Jok dengan desain rata memudahkan mengatur posisi duduk saat berkendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xride/SPEEDOMETER.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Speedometer With Eco Indicator</p>
+                        <p class="feature-body">Indikator irit untuk berkendara lebih ekonomis dan efisien.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xride/STANG.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Adventure Handle Style</p>
+                        <p class="feature-body">Dengan dimensi lebih lebar, semakin mantap dan kokoh di segala kondisi jalan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xride/SUB-TANK.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Sub-Tank Suspension</p>
+                        <p class="feature-body">Untuk performa berkendara lebih nyaman di berbagai kondisi jalan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xride/Teknologi DiASil.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Teknologi DiASil Cylinder & Forged Piston</p>
+                        <p class="feature-body">Mesin lebih Ringan, Kuat, dan Awet.</p>
+                    </div>
+                </div>
             @else
             <div>
                 <h1>coming soon</h1>
