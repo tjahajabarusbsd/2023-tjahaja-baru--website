@@ -804,6 +804,74 @@
                     <p class="feature-body">Fitur canggih dengan sistem otomatis yang membuat mesin stop atau mati saat berhenti lebih dari 5 detik dan Start atau menyala kembali saat tuas gas diputar.</p>
                 </div>
             </div>
+            @elseif (Request::is('product/grand-filano'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/grand-filano/BAGASI.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Spacious Luggage 27L with LED Lamp</p>
+                        <p class="feature-body">Bagasi luas 27L yang dilengkapi dengan lampu LED untuk memuat berbagai perlengkapan berkendara serta fashion item-mu!</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/grand-filano/Blue Core Hybrid.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Blue Core Hybrid 125cc</p>
+                        <p class="feature-body">Mesin Blue Core 125cc generasi terbaru yang memberikan pengalaman berkendara lebih bertenaga, ramah lingkungan dan handal. Dilengkapi dengan Electric Power Assist Start yang membuat akselerasi awal lebih bertenaga dan halus khususnya di tanjakan dan saat berboncengan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/grand-filano/Convenience Footstepp.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Convenience Footstep</p>
+                        <p class="feature-body">Desain footstep yang lebih luas untuk kenyamanan saat berboncengan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/grand-filano/Hazard Lamp.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Hazard Lamp</p>
+                        <p class="feature-body">Untuk memberi tanda dalam situasi darurat (sesuai UU no 22 tahun 2009 peraturan berlalulintas pasal 121 ayat 1).</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/grand-filano/LED.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">All New LED Lighting System</p>
+                        <p class="feature-body">Seluruh sistem pencahayaan sudah menggunakan LED seperti Diamond Shaped LED Headlight, Unique LED Position Light, Front & Rear LED Turn Signals, LED Tailight & LED Lamp pada bagasi.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/grand-filano/Luxury & Premium Design.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Luxury & Premium Design</p>
+                        <p class="feature-body">Tampil semakin berkelas dengan desain mewah dan elegan!</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/grand-filano/Premium Seat with Embroidery Style.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Premium Seat with Embroidery Style</p>
+                        <p class="feature-body">Desain jok yang semakin berkelas dengan warna premium dan tekstur bordir yang unik.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/grand-filano/Smart Front Refuel.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Front Refuel</p>
+                        <p class="feature-body">Pengisian bensin lebih praktis tanpa membuka jok.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/grand-filano/Smart Key System.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Key System</p>
+                        <p class="feature-body">Berkendara semakin praktis dengan sistem kunci canggih tanpa anak kunci (keyless), dilengkapi dengan fitur Answer Back System untuk memudahkan pengendara mencari lokasi parkir motor.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/grand-filano/Spacious Front Pocket.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Spacious Front Pocket</p>
+                        <p class="feature-body">Semakin praktis membawa barang dengan pilihan ruang penyimpanan besar.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/grand-filano/SPEDDO METER.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Digital Speedometer with TFT Sub Display</p>
+                        <p class="feature-body">Pertama dikelasnya! Digital speedometer yang semakin informatif dengan tampilan berwarna dan animasi seperti Welcome-Goodbye Message, Odometer, Fuel Consumption, & Power Assist Indicator.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/grand-filano/Wide Tire & Tubeless.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Wide Tire & Tubeless</p>
+                        <p class="feature-body">Ukuran ban depan dan ban belakang 110/70 - 12" untuk memberikan kenyamanan berkendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/grand-filano/Y-CONNECT.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Yamaha Motorcycle Connect</p>
+                        <p class="feature-body">Connection always on dengan teknologi Comunication Control Unit (CCU), menghubungkan sepeda motor dengan smartphone melalui aplikasi Y-Connect.</p>
+                    </div>
+                </div>
             @else
             <div>
                 <h1>coming soon</h1>
