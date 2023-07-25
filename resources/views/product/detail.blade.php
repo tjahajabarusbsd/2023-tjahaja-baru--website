@@ -1071,6 +1071,54 @@
                         <p class="feature-body">Jok dengan desain berkelas untuk memberikan kenyamanan saat berkendara.</p>
                     </div>
                 </div>
+            @elseif (Request::is('product/mio-m3-125'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mio/Bagasi.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Bagasi Luas & Lega</p>
+                        <p class="feature-body">Bagasi yang luas dan lega cocok untuk harimu yang penuh aktivitas.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mio/Blue Core 125cc.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Blue Core</p>
+                        <p class="feature-body">Mesin Blue Core 125cc yang Efisien, Bertenaga & Handal.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mio/Eco Indicator.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Eco Indicator</p>
+                        <p class="feature-body">Indikator irit untuk berkendara lebih ekonomis.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mio/Multifunction Key.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Multifunction Key</p>
+                        <p class="feature-body">1 kunci dengan 3 fungsi untuk menyalakan motor, mengunci motor, dan membuka bagasi.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mio/Slim Body Design.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Slim Body Design</p>
+                        <p class="feature-body">Bodi yang ramping akan memudahkan mobilitas keseharian kamu.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mio/Smart Lock System.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Lock System</p>
+                        <p class="feature-body">Untuk mengunci rem saat berhenti di tanjakan atau turunan. Praktis, cukup dengan satu jari.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mio/SPEEDOMETER.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Speedometer Trendy</p>
+                        <p class="feature-body">Desain speedometer baru yang tampil lebih trendy.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mio/SSS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Stand Side Switch</p>
+                        <p class="feature-body">Lebih informatif menghindari pengendara lupa menaikan standart samping saat motor diparkir.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/mio/Tangki 4.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Tangki 4.2 L</p>
+                        <p class="feature-body">Kapasitas tangki bahan bakar yang besar.</p>
+                    </div>
+                </div>
             @else
                 <div>
                     <h1>coming soon</h1>
