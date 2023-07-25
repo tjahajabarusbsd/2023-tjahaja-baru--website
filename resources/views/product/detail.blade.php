@@ -877,6 +877,84 @@
                         <p class="feature-body">Connection always on dengan teknologi Comunication Control Unit (CCU), menghubungkan sepeda motor dengan smartphone melalui aplikasi Y-Connect.</p>
                     </div>
                 </div>
+            @elseif (Request::is('product/freego-125'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Active & Elegant Design.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Active & Elegant Design</p>
+                        <p class="feature-body">Semakin percaya diri saat berkendara dengan desain yang semakin sporty dan berkelas.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Bagasi Besar 25L.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Bagasi Besar 25L</p>
+                        <p class="feature-body">Bagasi luas seperti NMAX, untuk menampung barang bawaan termasuk Helm Full Face Standar Yamaha.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Blue Core 125cc.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Blue Core 125CC with SMG</p>
+                        <p class="feature-body">Mesin Blue Core 125 yang membuat akselerasi semakin bertenaga, serta dilengkapi Smart Motor Generator (SMG) yang menjadikan suara mesin lebih halus saat dinyalakan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Electric Power Socket.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Electric Power Socket</p>
+                        <p class="feature-body">Komunikasi selalu terhubung melalui fitur pengisian daya pada gadget pengendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Hazard Lamp.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Hazard Lamp</p>
+                        <p class="feature-body">Memberi tanda dalam situasi darurat (sesuai UU No. 22 Tahun 2009 peraturan berlalu lintas pasal 121 ayat1).</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Jok Yang Lapang.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Jok Yang Lapang</p>
+                        <p class="feature-body">Semakin nyaman saat berboncengan dengan jok yang luas.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Roomy Footspace.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Roomy Footspace</p>
+                        <p class="feature-body">Ruang pijakan kaki yang luas sehingga membuat berkendara semakin nyaman.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Smart Front Refuel.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Front Refuel</p>
+                        <p class="feature-body">Pengisian bensin lebih praktis tanpa membuka jok.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Smart Key System.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Key System</p>
+                        <p class="feature-body">Sistem kunci canggih tanpa anak kunci (keyless), dilengkapi fitur Answer Back System, memudahkan pengendara mencari posisi parkir motor.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Spacious Front Pocket.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Spacious Front Pocket</p>
+                        <p class="feature-body">Semakin praktis membawa barang dengan adanya tambahan ruang penyimpanan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Speedometer.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Digital Speedometer With Connected Function</p>
+                        <p class="feature-body">Digital speedometer dengan desain modern dan informatif yang dapat terhubung dengan aplikasi Y-Connect untuk mengetahui indikator notifikasi pesan & telepon, baterai smartphone, serta jam digital.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Sporty LED Headlight.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Sporty LED Headlight</p>
+                        <p class="feature-body">Lampu depan LED dengan tampilan desain baru yang lebih sporty, dilengkapi dengan "Blue Inner Lens" pada LED Position Light yang membuat tampilan semakin berkelas.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Stop & Start System.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Stop & Start System</p>
+                        <p class="feature-body">Fitur canggih dengan sistem otomatis yang membuat mesin stop atau mati saat berhenti lebih dari 5 detik dan Start atau menyala kembali saat tuas gas diputar.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Wide Tubeless Tire.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Wide Tubeless Tire</p>
+                        <p class="feature-body">Semakin stabil saat berkendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/freego/Y-CONNECT.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Yamaha Motorcycle Connect</p>
+                        <p class="feature-body">Teknologi pertama dikelasnya yang menghubungkan sepeda motor dengan smartphone melalui aplikasi Y-Connect untuk menginformasikan notifikasi pesan & telepon, konsumsi bahan bakar, rekomendasi perawatan, rincian berkendara serta lokasi parkir.</p>
+                    </div>
+                </div>
             @else
             <div>
                 <h1>coming soon</h1>
