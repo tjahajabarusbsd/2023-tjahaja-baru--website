@@ -747,63 +747,63 @@
                     </div>
                 </div>
             @elseif (Request::is('product/gear-125'))
-            <div class="features-wrapper">
-                <div class="features-content">
-                    <img src="{{ url('/images/features/gear/ANSWER BACK SYSTEM.jpg')}}" loading="lazy" class="feature-img">
-                    <p class="feature-title">Answer Back System</p>
-                    <p class="feature-body">Fitur yang membantu menemukan lokasi motor mu saat diparkiran. Tekan 1x pada remote, motor akan berbunyi dan lampu sein akan berkedip.</p>
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/gear/ANSWER BACK SYSTEM.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Answer Back System</p>
+                        <p class="feature-body">Fitur yang membantu menemukan lokasi motor mu saat diparkiran. Tekan 1x pada remote, motor akan berbunyi dan lampu sein akan berkedip.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/gear/Bagasi Luas.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Bagasi Luas</p>
+                        <p class="feature-body">Bagasi yang luas dan lega cocok untuk harimu yang penuh aktivitas.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/gear/Ban Tubeless.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Ban Tubeless dengan Tapak Lebar</p>
+                        <p class="feature-body">Ukuran ban depan 80/80 - 14", Ukuran ban belakang 100/70 - 14" memberikan pengalaman berkendara yang nyaman saat bermanuver.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/gear/Blue Core 125cc.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Blue Core 125cc dengan SMG</p>
+                        <p class="feature-body">Generasi baru Mesin bluecore 125 cc dengan Teknologi SMG (Smart Motor Generator) sehingga suara mesin lebih halus ketika dinyalakan dan memberikan pengalaman berkendara IRIT, Bertenaga & Handal, yang juga dilengkapi dengan eco indicator.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/gear/Desain Tangguh.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Desain Tangguh</p>
+                        <p class="feature-body">Bersama Desain Baru Yamaha GEAR, Nikmati Berkendara dengan Sensasi Berbeda yang Membuat Tampilanmu Terlihat Tangguh.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/gear/DOUBLE HOOK.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Double Hook</p>
+                        <p class="feature-body">Tambahan Hook yang memudahkan membawa banyak barang bawaan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/gear/Electric Power Socket.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Electric Power Socket</p>
+                        <p class="feature-body">Semakin praktis dengan “Electric Power Socket” untuk mengisi daya gadget pengendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/gear/Lampu LED & Hazard.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Lampu LED & Hazard</p>
+                        <p class="feature-body">Lampu LED Lebih Terang dan Awet. Lampu Hazard untuk memberi tanda dalam situasi darurat (sesuai UU no 22 tahun 2009 peraturan berlalulintas pasal 121 ayat 1).</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/gear/PIJAKAN KAKI UNTUK ANAK.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Pijakan Kaki Untuk Anak</p>
+                        <p class="feature-body">Tambahan Pijakan Kaki untuk anak kecil yang memberikan kenyamanan saat berboncengan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/gear/Side Stand Switch.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Side Stand Switch</p>
+                        <p class="feature-body">Mesin tidak dapat dinyalakan ketika standard samping digunakan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/gear/Stop & Start System.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Stop & Start System</p>
+                        <p class="feature-body">Fitur canggih dengan sistem otomatis yang membuat mesin stop atau mati saat berhenti lebih dari 5 detik dan Start atau menyala kembali saat tuas gas diputar.</p>
+                    </div>
                 </div>
-                <div class="features-content">
-                    <img src="{{ url('/images/features/gear/Bagasi Luas.jpg')}}" loading="lazy" class="feature-img">
-                    <p class="feature-title">Bagasi Luas</p>
-                    <p class="feature-body">Bagasi yang luas dan lega cocok untuk harimu yang penuh aktivitas.</p>
-                </div>
-                <div class="features-content">
-                    <img src="{{ url('/images/features/gear/Ban Tubeless.jpg')}}" loading="lazy" class="feature-img">
-                    <p class="feature-title">Ban Tubeless dengan Tapak Lebar</p>
-                    <p class="feature-body">Ukuran ban depan 80/80 - 14", Ukuran ban belakang 100/70 - 14" memberikan pengalaman berkendara yang nyaman saat bermanuver.</p>
-                </div>
-                <div class="features-content">
-                    <img src="{{ url('/images/features/gear/Blue Core 125cc.jpg')}}" loading="lazy" class="feature-img">
-                    <p class="feature-title">Blue Core 125cc dengan SMG</p>
-                    <p class="feature-body">Generasi baru Mesin bluecore 125 cc dengan Teknologi SMG (Smart Motor Generator) sehingga suara mesin lebih halus ketika dinyalakan dan memberikan pengalaman berkendara IRIT, Bertenaga & Handal, yang juga dilengkapi dengan eco indicator.</p>
-                </div>
-                <div class="features-content">
-                    <img src="{{ url('/images/features/gear/Desain Tangguh.jpg')}}" loading="lazy" class="feature-img">
-                    <p class="feature-title">Desain Tangguh</p>
-                    <p class="feature-body">Bersama Desain Baru Yamaha GEAR, Nikmati Berkendara dengan Sensasi Berbeda yang Membuat Tampilanmu Terlihat Tangguh.</p>
-                </div>
-                <div class="features-content">
-                    <img src="{{ url('/images/features/gear/DOUBLE HOOK.jpg')}}" loading="lazy" class="feature-img">
-                    <p class="feature-title">Double Hook</p>
-                    <p class="feature-body">Tambahan Hook yang memudahkan membawa banyak barang bawaan.</p>
-                </div>
-                <div class="features-content">
-                    <img src="{{ url('/images/features/gear/Electric Power Socket.jpg')}}" loading="lazy" class="feature-img">
-                    <p class="feature-title">Electric Power Socket</p>
-                    <p class="feature-body">Semakin praktis dengan “Electric Power Socket” untuk mengisi daya gadget pengendara.</p>
-                </div>
-                <div class="features-content">
-                    <img src="{{ url('/images/features/gear/Lampu LED & Hazard.jpg')}}" loading="lazy" class="feature-img">
-                    <p class="feature-title">Lampu LED & Hazard</p>
-                    <p class="feature-body">Lampu LED Lebih Terang dan Awet. Lampu Hazard untuk memberi tanda dalam situasi darurat (sesuai UU no 22 tahun 2009 peraturan berlalulintas pasal 121 ayat 1).</p>
-                </div>
-                <div class="features-content">
-                    <img src="{{ url('/images/features/gear/PIJAKAN KAKI UNTUK ANAK.jpg')}}" loading="lazy" class="feature-img">
-                    <p class="feature-title">Pijakan Kaki Untuk Anak</p>
-                    <p class="feature-body">Tambahan Pijakan Kaki untuk anak kecil yang memberikan kenyamanan saat berboncengan.</p>
-                </div>
-                <div class="features-content">
-                    <img src="{{ url('/images/features/gear/Side Stand Switch.jpg')}}" loading="lazy" class="feature-img">
-                    <p class="feature-title">Side Stand Switch</p>
-                    <p class="feature-body">Mesin tidak dapat dinyalakan ketika standard samping digunakan.</p>
-                </div>
-                <div class="features-content">
-                    <img src="{{ url('/images/features/gear/Stop & Start System.jpg')}}" loading="lazy" class="feature-img">
-                    <p class="feature-title">Stop & Start System</p>
-                    <p class="feature-body">Fitur canggih dengan sistem otomatis yang membuat mesin stop atau mati saat berhenti lebih dari 5 detik dan Start atau menyala kembali saat tuas gas diputar.</p>
-                </div>
-            </div>
             @elseif (Request::is('product/grand-filano'))
                 <div class="features-wrapper">
                     <div class="features-content">
@@ -1014,9 +1014,9 @@
                     </div>
                 </div>
             @else
-            <div>
-                <h1>coming soon</h1>
-            </div>
+                <div>
+                    <h1>coming soon</h1>
+                </div>
             @endif
         </div>
     </div>

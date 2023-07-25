@@ -96,7 +96,7 @@
                 </div>
             </div>
             <div class="top-container-col col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <a href="">
+                <a href="https://www.yamaha-motor.co.id/part-accessories/ygp/" target="_blank">
                     <img class="img" src="{{ url('/images/parts.jpg')}}" alt="">
                 </a>
             </div>
