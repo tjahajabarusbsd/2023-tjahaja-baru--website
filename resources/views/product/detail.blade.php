@@ -1013,6 +1013,64 @@
                         <p class="feature-body">Mesin lebih Ringan, Kuat, dan Awet.</p>
                     </div>
                 </div>
+            @elseif (Request::is('product/fino-125'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fino/Advance Key System.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Advance Key System (AKS)</p>
+                        <p class="feature-body">Fitur canggih dengan fungsi ganda untuk menemukan lokasi dan membuka penutup kunci.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fino/Ban Lebar.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Ban Lebar & Tubeless</p>
+                        <p class="feature-body">Membuat lebih nyaman saat berkendara. Ukuran Ban Depan : 80/80 - 14M/C 43P , 100/70 - 14M/C 51P.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fino/Blue Core 125cc.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Blue Core 125cc</p>
+                        <p class="feature-body">Mesin 125cc dengan teknologi Blue Core yang membuat motor Irit, Halus, dan Nyaman.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fino/Eco Indicator.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Eco Indicator</p>
+                        <p class="feature-body">Indikator irit untuk berkendara lebih ekonomis dan efisien.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fino/Helm Retro Stylish.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Helm Retro Stylish</p>
+                        <p class="feature-body">Helm berdesain retro stylish yang in line dengan warna motor untuk setiap pembelian New Fino 125 Blue Core.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fino/Led Head Light.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Led Head Light</p>
+                        <p class="feature-body">Dilengkapi lampu depan LED dengan desain elegan yang memberikan cahaya lebih terang dan fokus.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fino/Matte Color.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Matte Color</p>
+                        <p class="feature-body">Trend warna baru yang memberikan nuansa eksklusif.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fino/Smart Lock System.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Lock System</p>
+                        <p class="feature-body">Praktis ketika harus mengunci rem saat berhenti di tanjakan atau turunan. Praktis, cukup dengan 1 jari.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fino/Smart Stand Side Switch.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Stand Side Switch</p>
+                        <p class="feature-body">Lebih informatif menghindari pengendara lupa menaikan standard samping saat motor diparkirkan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fino/Stop & Start System.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Stop & Start System</p>
+                        <p class="feature-body">Semakin Irit dengan system otomatis yang membuat mesin STOP/Mati saat berhenti lebih dari 5 detik dan START/Menyala kembali saat tuas gas diputar.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/fino/Stylish Double Seat.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Stylish Double Seat</p>
+                        <p class="feature-body">Jok dengan desain berkelas untuk memberikan kenyamanan saat berkendara.</p>
+                    </div>
+                </div>
             @else
                 <div>
                     <h1>coming soon</h1>
