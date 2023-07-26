@@ -1119,6 +1119,79 @@
                         <p class="feature-body">Kapasitas tangki bahan bakar yang besar.</p>
                     </div>
                 </div>
+            @elseif (Request::is('product/xmax-250'))
+                <div class="features-wrapper">
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xmax/ABS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Anti-Lock Braking System</p>
+                        <p class="feature-body">Kontrol pengereman semakin optimal dengan Anti-Lock Braking System.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xmax/LED & HAZARD.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">All New Led Lightning System With Hazard Lamp</p>
+                        <p class="feature-body">Seluruh sistem pencahayaan lampu sudah menggunakan LED. Desain lampu depan berkarakter "X" yang terlihat sangat ikonik, modern dan sporty. Serta dilengkapi Lampu Hazard sebagai tanda keadaan darurat yang dialami pengendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xmax/MAXI Riding Style.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">MAXI Riding Style</p>
+                        <p class="feature-body">Posisi berkendara yang nyaman dengan ruang kaki yang luas serta memiliki 2 posisi pijakan kaki pengendara yang membuat posisi berkendara lebih rileks untuk jarak dekat dan jarak jauh.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xmax/EPS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Electric Power Socket</p>
+                        <p class="feature-body">Komunikasi yang selalu terhubung dengan dukungan electric power socket untuk mengisi daya gadget pengendara selama perjalanan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xmax/HANDLE BAR.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Adjustable Windshield & Handlebars</p>
+                        <p class="feature-body">Posisi Windshield dan Handlebars yang dapat disesuaikan secara manual untuk memberikan kenyamanan yang optimal ketika berkendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xmax/LCD SPEEDO.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Full LCD Speedometer</p>
+                        <p class="feature-body">Full LCD Speedometer yang informatif untuk pengendara.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xmax/NAVIGATION SYSTEM.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Navigation System</p>
+                        <p class="feature-body">Jelajahi tempat-tempat baru dengan bantuan sistem navigasi yang didukung oleh aplikasi Garmin Street Cross yang ditampilkan di TFT Infotainment Display.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xmax/TFT.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">TFT Infotainment Display</p>
+                        <p class="feature-body">Hadirnya sistem TFT Infotainment Display canggih yang dapat terhubung dengan smartphone untuk memberikan beragam informasi dan hiburan seperti: Informasi prakiraan cuaca, kondisi sepeda motor, notifikasi telepon & pesan, serta kontrol untuk memainkan musik favorit sehingga perjalanan Anda menjadi semakin menyenangkan.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xmax/Smart Key System.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Smart Key System</p>
+                        <p class="feature-body">Sistem kunci canggih tanpa anak kunci (keyless), dilengkapi fitur Answer Back System, memudahkan pengendara mencari posisi parkir motor.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xmax/BAGASI.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Large Underseat Storage With Led Light</p>
+                        <p class="feature-body">Bagasi yang luas (44.9 L) dan dilengkapi dengan lampu LED untuk mendukung aktifitas berkendara harian maupun touring jarak jauh.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xmax/TCS.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Traction Control System</p>
+                        <p class="feature-body">Sistem yang dirancang untuk mengurangi resiko ban belakang selip di segala situasi permukaan jalan pada saat akselerasi.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xmax/Y-CONNECT.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Yamaha Motorcycle Connect</p>
+                        <p class="feature-body">Teknologi modern dan informatif yang menghubungkan antara motor dengan smartphone untuk menginformasikan rekomendasi perawatan, konsumsi BBM, Lokasi parkir terakhir, notifikasi malfungsi, dan lain-lain.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xmax/Yamaha Executive Service 24 Hours.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Yamaha Executive Service 24 Hours</p>
+                        <p class="feature-body">Konsumen dapat menghubungi Call Center 1-500-552 jika membutuhkan bantuan/dalam kondisi darurat, lalu akan dikonfirmasi dari YES24. Layanan 24 jam yang diberikan yaitu derek, pengantaran bensin, pengecasan aki, & penanganan ban kempes. Rescuer YES24 akan menuju lokasi & membawa sepeda motor ke Yamaha Premium Shop terdekat.</p>
+                    </div>
+                    <div class="features-content">
+                        <img src="{{ url('/images/features/xmax/BLUECORE.jpg')}}" loading="lazy" class="feature-img">
+                        <p class="feature-title">Blue Core 250 CC</p>
+                        <p class="feature-body">Mesin BLUE CORE berkapasitas 250 cc yang dilengkapi dengan Liquid Cooled, SOHC, 4 Valves untuk performa dan akselerasi yang bertenaga sehingga berkendara menjadi lebih menyenangkan.</p>
+                    </div>
+                </div>
             @else
                 <div>
                     <h1>coming soon</h1>
