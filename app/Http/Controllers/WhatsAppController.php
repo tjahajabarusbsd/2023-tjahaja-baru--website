@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Consultation;
 use Illuminate\Http\Request;
 use App\Models\Staff;
 use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
@@ -41,7 +42,12 @@ class WhatsAppController extends Controller
             return abort(400, 'Anda kemungkinan besar adalah bot');
         }
 
-        $salesCode = $request->input('sales'); // get data from url 
+        // Get sales code
+        $salesCode = $request->input('sales');
+        // Get the current URL path
+        $currentURL = $request->input('url');
+        // Extract characters after the last '/'
+        $charactersAfterLastSlash = substr($currentURL, strrpos($currentURL, '/') + 1);
 
         if (!empty($salesCode)) {
             // Retrieve the phone number from the database based on the code
@@ -55,7 +61,6 @@ class WhatsAppController extends Controller
             $phone = '62811805898'; // Default phone number
         }
 
-        // $phone = '6281292144175'; // Phone number to send the message to
         $name = $request->input('name');
         $nohp = $request->input('nohp');
         $selectedOption = $request->input('produk');
@@ -87,6 +92,15 @@ class WhatsAppController extends Controller
             'headers' => $headers,
             'json' => $data,
         ]);
+
+        // Save to db
+        $save_consultation_data = new Consultation();
+        $save_consultation_data->name = $request->input('name');
+        $save_consultation_data->nohp = $request->input('nohp');
+        $save_consultation_data->product = $request->input('produk');
+        $save_consultation_data->url = $charactersAfterLastSlash;
+        $save_consultation_data->sales_code = $salesCode;
+        $save_consultation_data->save();
 
         $successMessage = "Pengajuan Anda telah diterima.\nDealer kami akan segera menghubungi Anda.";
 
