@@ -88,6 +88,13 @@
                                     <small>{{ $message }}</small>
                                 @enderror
                             </div>
+
+                            <div class="form-group">
+                                {!! RecaptchaV3::field('contact') !!}
+                                @error('g-recaptcha-response')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
+                            </div>
                             
                             <div class="form-group">
                                 <input id="submitButton" class="btn btn-primary" type="submit" value="Submit">
