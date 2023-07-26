@@ -1226,9 +1226,10 @@
 
         <form action="/send_message" method="post" onsubmit="disableButton()">
             @csrf
-            @if (!empty($value))
-                <input name="sales" type="text" hidden value="{{ $value }}">
+            @if (!empty($sales))
+                <input name="sales" type="text" hidden value="{{ $sales }}">
             @endif
+            <input name="url" type="text" hidden value="{{ Request::url() }}">
             <div class="form-group">
                 <label for="name">Nama Lengkap</label>
                 <input name="name" id="name" class="form-control" type="text" value="{{ old('name') }}"  placeholder="Nama Lengkap" maxlength="50" required>

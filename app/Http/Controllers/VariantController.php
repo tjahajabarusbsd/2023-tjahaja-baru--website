@@ -8,9 +8,10 @@ use App\Models\Variant;
 
 class VariantController extends Controller
 {
-    public function getDataVariant($uri)
+    public function getDataVariant($uri, Request $request)
     {
         $group = Group::where('uri', $uri)->first();
+        $sales = $request->query('sales');
 
         if ($group != null) {
             $groupUri = $group->uri;
@@ -23,7 +24,7 @@ class VariantController extends Controller
                 ->where('name', $variantNames[0])
                 ->get();
 
-            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data'));
+            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data', 'sales'));
         } else {
             return view('errors/404');
         }
