@@ -43,7 +43,6 @@ Route::prefix('/product')->group(function () {
 //     Route::get('{uri}/{name}', [VariantController::class, 'getGroup']);
 // });
 
-
 Route::get('/get-data/{variant}', [VariantController::class, 'getData'])->name('get.data');
 
 Route::prefix('/products/category')->group(function () {
@@ -68,8 +67,8 @@ Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('
 
 Route::post('/send_message', [WhatsAppController::class, 'sendMessage']);
 
-Route::get('/import-xls', function () {
-    return view('import');
-});
-Route::post('/import', [ExcelImportController::class, 'import'])->name('import');
-Route::post('/import-dealer', [ExcelImportController::class, 'importDealer'])->name('importDealer');
+// Route::get('/import-xls', function () {
+//     return view('import');
+// });
+// Route::post('/import', [ExcelImportController::class, 'import'])->name('import');
+// Route::post('/import-dealer', [ExcelImportController::class, 'importDealer'])->name('importDealer');
