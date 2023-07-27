@@ -14,8 +14,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 class ContactCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
+    // use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
@@ -28,7 +28,7 @@ class ContactCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Contact::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/contact');
-        CRUD::setEntityNameStrings('contact', 'contacts');
+        CRUD::setEntityNameStrings('contact', 'pesan & kritik');
     }
 
     /**
