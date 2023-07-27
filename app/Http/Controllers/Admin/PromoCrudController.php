@@ -28,7 +28,7 @@ class PromoCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Promo::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/promo');
-        CRUD::setEntityNameStrings('promo', 'promos');
+        CRUD::setEntityNameStrings('promo', 'promo');
     }
 
     /**
