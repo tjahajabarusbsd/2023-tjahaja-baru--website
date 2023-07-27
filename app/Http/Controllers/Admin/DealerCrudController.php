@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\PromoRequest;
+use App\Http\Requests\DealerRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class PromoCrudController
+ * Class DealerCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class PromoCrudController extends CrudController
+class DealerCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +26,9 @@ class PromoCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Promo::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/promo');
-        CRUD::setEntityNameStrings('promo', 'promo');
+        CRUD::setModel(\App\Models\Dealer::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/dealer');
+        CRUD::setEntityNameStrings('dealer', 'dealers');
     }
 
     /**
@@ -39,7 +39,10 @@ class PromoCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('name');
+        CRUD::column('id');
+        CRUD::column('kode_sales');
+        CRUD::column('name_dealer');
+        CRUD::column('kecamatan');
         CRUD::column('created_at');
         CRUD::column('updated_at');
 
@@ -58,13 +61,14 @@ class PromoCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(PromoRequest::class);
+        CRUD::setValidation(DealerRequest::class);
 
-        CRUD::field('name');
-        CRUD::field('image')->type('image')->upload(true);
-        CRUD::field('is_active')->label('show')->type('checkbox');
-        CRUD::field('created_at');
-        CRUD::field('updated_at');
+        // CRUD::field('id');
+        CRUD::field('kode_sales');
+        CRUD::field('name_dealer');
+        CRUD::field('kecamatan');
+        // CRUD::field('created_at');
+        // CRUD::field('updated_at');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
