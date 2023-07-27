@@ -60,7 +60,7 @@ class BannerCrudController extends CrudController
         CRUD::setValidation(BannerRequest::class);
 
         CRUD::field('name');
-        CRUD::field('image')->type('upload')->upload(true);
+        CRUD::field('image')->type('image')->upload(true);
         CRUD::field('is_active')->label('show')->type('checkbox');
         CRUD::field('created_at');
         CRUD::field('updated_at');

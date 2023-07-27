@@ -25,7 +25,10 @@ class GroupRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required',
+            'image' => 'required',
+            'banner' => 'required',
+            'price' => 'required'
         ];
     }
 
@@ -49,7 +52,10 @@ class GroupRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'name.required' => 'Name tidak boleh kosong.',
+            'image.required' => 'Image tidak boleh kosong.',
+            'banner.required' => 'Banner tidak boleh kosong.',
+            'price.required' => 'Price tidak boleh kosong.',
         ];
     }
 }

@@ -12,10 +12,10 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/">home</a>
 					</li>
-					{{-- <li class="nav-item">
-						<a class="nav-link" href="#">product</a>
-					</li>
 					<li class="nav-item">
+						<a class="nav-link" href="/products">products</a>
+					</li>
+					{{-- <li class="nav-item">
 						<a class="nav-link" href="#">promo</a>
 					</li>
 					<li class="nav-item">

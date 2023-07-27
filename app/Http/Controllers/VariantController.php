@@ -8,57 +8,54 @@ use App\Models\Variant;
 
 class VariantController extends Controller
 {
-    public function getDataVariant($uri)
+    public function getDataVariant($uri, Request $request)
     {
-        // $group = Group::where('uri', $uri)->first();
-
-        // $variantNames = Variant::where('group_id', $group->id)
-        //     ->pluck('name')
-        //     ->toArray();
-
-        // $data = Variant::where('group_id', $group->id)
-        //     ->whereIn('name', $variantNames)
-        //     ->get();
-
-        // ===================================
-
         $group = Group::where('uri', $uri)->first();
+        $sales = $request->query('sales');
 
-        $variantNames = Variant::where('group_id', $group->id)
-            ->distinct('name')
-            ->pluck('name');
+        if ($group != null) {
+            $groupUri = $group->uri;
 
-        $data = Variant::where('group_id', $group->id)->get();
+            $variantNames = Variant::where('group_id', $group->id)
+                ->distinct('name')
+                ->pluck('name');
 
+            $data = Variant::where('group_id', $group->id)
+                ->where('name', $variantNames[0])
+                ->get();
 
+            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data', 'sales'));
+        } else {
+            return view('errors/404');
+        }
+    }
 
-        // dd($names);
-        // $variants = Variant::where('group_id', $group->id)
-        //     ->whereIn('name', $variantNames)
-        //     ->get();
+    // public function getGroup($uri, $name)
+    // {
+    //     $group = Group::where('uri', $uri)->first();
 
-        // $variants = $variants->unique('name')->pluck('name');
+    //     $groupUri = $group->uri;
 
-        // foreach ($variants as $variant) {
-        //     $data = Variant::where('group_id', $group->id)
-        //         ->where('name', $variant)
-        //         ->get();
-        // }
-        // $data = Variant::where('group_id', $group->id)
-        //     ->where('name', $variants)
-        //     ->get();
+    //     $variantNames = Variant::where('group_id', $group->id)
+    //         ->distinct('name')
+    //         ->pluck('name');
 
-        // dd($data);
+    //     $variantUnits = Variant::where('group_id', $group->id)->where('name', $name)->get();
 
+    //     return view('product/detail2', compact('group', 'groupUri', 'variantNames', 'variantUnits'));
+    // }
 
-        // $data = Variant::where('group_id', $group->id)->get();
-        // dd($data->color_name);
-        // return view('product/detail', [
-        //     'name' => $data->name,
-        //     'price' => $data->price,
-        //     'color_name' => $data->color_name,
-        //     'image' => $data->image,
-        // ]);
-        return view('product/detail', compact('group', 'data', 'variantNames'));
+    public function getRandomProduct()
+    {
+        $products = Group::inRandomOrder()->limit(3)->get();
+
+        return view('dealers', compact('products'));
+    }
+
+    public function getData(Request $request, $variant)
+    {
+        $variantUnits = Variant::where('name', $variant)->get();
+
+        return response()->json($variantUnits);
     }
 }

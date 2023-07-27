@@ -41,8 +41,9 @@ class GroupCrudController extends CrudController
     {
         CRUD::column('name');
         CRUD::column('category_id');
+        CRUD::column('price');
         CRUD::column('created_at');
-        CRUD::column('updated_at');
+        // CRUD::column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -63,7 +64,8 @@ class GroupCrudController extends CrudController
 
         CRUD::field('name');
         CRUD::field('category_id');
-        CRUD::field('image')->type('upload')->upload(true);
+        CRUD::field('image')->type('image')->upload(true);
+        CRUD::field('banner')->type('image')->upload(true);
         CRUD::field('price');
         CRUD::field('created_at');
         CRUD::field('updated_at');

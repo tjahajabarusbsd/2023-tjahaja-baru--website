@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
-@section('title', 'Yamaha Sumatera Barat - Tjahaja Baru')
+@section('title', 'Yamaha Sumatera Barat | Tjahaja Baru')
 
 @section('meta_og')
-<meta property="og:title" content="Tjahaja Baru">
+  <meta property="og:title" content="Yamaha Sumatera Barat | Tjahaja Baru">
   <meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
   <meta property="og:type" content="website">
 @endsection
@@ -16,12 +16,23 @@
 
 @section('content')
     <section class="main-banner">
-        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-            {{-- <div class="carousel-indicators">
+        <div class="banner-wrapper">
+            @foreach ($banners as $banner)
+                {{-- <div class="banner">
+                    <img src="{{ url($banner->image) }}" class="banner-img">
+                </div> --}}
+                <picture>
+                    <img src="{{ url($banner->image) }}" loading="lazy" class="banner-img">
+                </picture>
+                
+            @endforeach
+        </div>
+        {{-- <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div> --}}
+            </div>
             <div class="carousel-inner">
                 @foreach ($banners as $banner)
                     <div class="carousel-item" data-bs-interval="5000">
@@ -37,7 +48,7 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
-        </div>
+        </div> --}}
     </section>    
 
     <section class="first-section container-fluid">
@@ -72,25 +83,20 @@
                         <p class="promo-title">Promo</p>
                     </div>
                     <div class="promo-banner-container row">
-                        <div class="promo-banner-col col-sm-6">
-                            <div class="promo-banner-item ">
-                                <a href="">
-                                    <img class="img-fluid" src="{{ url('/images/promo_1.png')}}" alt="">
-                                </a>
+                        @foreach ($promos as $promo)
+                            <div class="promo-banner-col col-sm-6">
+                                <div class="promo-banner-item ">
+                                    <a href="">
+                                        <img class="img-fluid" src="{{ url($promo->image) }}" alt="">
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="promo-banner-col col-sm-6">
-                            <div class="promo-banner-item ">
-                                <a href="">
-                                    <img class="img-fluid" src="{{ url('/images/promo_2.png')}}" alt="">
-                                </a>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
             <div class="top-container-col col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <a href="">
+                <a href="https://www.yamaha-motor.co.id/part-accessories/ygp/" target="_blank">
                     <img class="img" src="{{ url('/images/parts.jpg')}}" alt="">
                 </a>
             </div>
@@ -103,7 +109,7 @@
                 </a>
             </div>
             <div class="sec2-find col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <a href="">
+                <a href="/dealers">
                     <img src="{{ url('/images/find_dealer.jpg')}}" alt="">
                 </a>
             </div>
@@ -129,11 +135,9 @@
 @endsection
 
 @section('additional_script')
+<script src="{{ asset('js/home.js') }}"></script>
 <script>
     var introCarousel = $(".carousel");
-    
-
     introCarousel.find(".carousel-inner").children(".carousel-item:first").addClass('active');
-    
 </script>
 @endsection

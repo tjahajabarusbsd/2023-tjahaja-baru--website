@@ -5,8 +5,8 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Illuminate\Support\Arr;
 use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\Storage;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Cocur\Slugify\Slugify;
@@ -79,6 +79,16 @@ class Group extends Model
     |--------------------------------------------------------------------------
     */
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($obj) {
+            Storage::disk('uploads')->delete(Str::replaceFirst('uploads/', '', $obj->image));
+            Storage::disk('uploads')->delete(Str::replaceFirst('uploads/', '', $obj->banner));
+        });
+    }
+
     public function setImageAttribute($value)
     {
         $attribute_name = "image";
@@ -88,37 +98,48 @@ class Group extends Model
         $this->storeImage($value, $attribute_name, $disk, $destination_path, $fileName = null);
     }
 
+    public function setBannerAttribute($value)
+    {
+        $attribute_name = "banner";
+        $disk = "uploads";
+        $destination_path = "products/groups/banner";
+
+        $this->storeImage($value, $attribute_name, $disk, $destination_path, $fileName = null);
+    }
+
     public function storeImage($value, $attribute_name, $disk, $destination_path, $fileName = null)
     {
-        // if a new file is uploaded, delete the previous file from the disk
-        if (
-            request()->hasFile($attribute_name) &&
-            $this->{$attribute_name} &&
-            $this->{$attribute_name} != null
-        ) {
-            \Storage::disk($disk)->delete($this->{$attribute_name});
+        // if the image was erased
+        if ($value == null) {
+            // delete the image from disk
+            Storage::disk($disk)->delete(Str::replaceFirst('uploads/', '', $this->{$attribute_name}));
+
+            // set null in the database column
             $this->attributes[$attribute_name] = null;
         }
 
-        // if the file input is empty, delete the file from the disk
-        if (is_null($value) && $this->{$attribute_name} != null) {
-            \Storage::disk($disk)->delete($this->{$attribute_name});
-            $this->attributes[$attribute_name] = null;
-        }
+        // if a base64 was sent, store it in the db
+        if (Str::startsWith($value, 'data:image')) {
+            // 0. Make the image
+            $image = Image::make($value);
 
-        // if a new file is uploaded, store it on disk and its filename in the database
-        if (request()->hasFile($attribute_name) && request()->file($attribute_name)->isValid()) {
-            // 1. Generate a new file name
-            $file = request()->file($attribute_name);
+            // 1. Generate a filename with original extension.
+            $extension = explode('/', explode(':', substr($value, 0, strpos($value, ';')))[1])[1];
+            $filename = md5($value . time()) . '.' . $extension;
 
-            // use the provided file name or generate a random one
-            $new_file_name = $fileName ?? md5($file->getClientOriginalName() . random_int(1, 9999) . time()) . '.' . $file->getClientOriginalExtension();
+            // 2. Store the image on disk.
+            Storage::disk($disk)->put($destination_path . '/' . $filename, $image->stream());
 
-            // 2. Move the new file to the correct path
-            $file_path = $file->storeAs($destination_path, $new_file_name, $disk);
+            // 3. Delete the previous image, if there was one.
+            Storage::disk($disk)->delete(Str::replaceFirst('uploads/', '', $this->{$attribute_name}));
 
-            // 3. Save the complete path to the database
-            $this->attributes[$attribute_name] = $disk . '/' . $file_path;
+            // 4. Save the public path to the database
+            // but first, remove "public/" from the path, since we're pointing to it
+            // from the root folder; that way, what gets saved in the db
+            // is the public URL (everything that comes after the domain name)
+            $public_destination_path = Str::replaceFirst('public/', '', $destination_path);
+
+            $this->attributes[$attribute_name] =  $disk . '/' . $public_destination_path . '/' . $filename;
         }
     }
 }

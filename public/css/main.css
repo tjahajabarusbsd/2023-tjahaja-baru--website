@@ -22,6 +22,7 @@ section.separator {
 }
 
 footer {
+    padding-bottom: 10px;
     font-weight: bold;
     color: #183f9d;
 }
@@ -67,9 +68,10 @@ section.link-wa {
     justify-content: center;
     text-align: center;
     align-items: center;
-    /* width: 240px; */
-    width: 68px;
-    height: 62px;
+    /* width: 240px; pc */
+    width: 175px;
+    /* height: 62px; pc */
+    height: 47px;
     right: 11px;
     bottom: 15px;
     margin-bottom: 0;
@@ -83,11 +85,13 @@ section.link-wa:hover {
 }
 
 section.link-wa .konten-gambar {
-    width: 52px;
+    /* width: 52px; pc */
+    width: 40px;
 }
 
 section.link-wa .konten-gambar img {
-    width: 40px;
+    /* width: 40px; pc */
+    width: 30px;
 }
 
 a.btn-wa {
@@ -95,7 +99,9 @@ a.btn-wa {
 }
 
 section.link-wa .konten-wa h3 {
-    font-size: 20px;
+    font-size: 14px;
+    /* font-size: 20px; pc */
+    font-weight: 700;
     color: white;
     margin-bottom: 0;
 }

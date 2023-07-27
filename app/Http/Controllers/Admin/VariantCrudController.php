@@ -39,12 +39,40 @@ class VariantCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+
+
+        $this->crud->addFilter(
+            [
+                'type'  => 'text',
+                'name'  => 'name',
+                'label' => 'Variant Name'
+            ],
+            false,
+            function ($value) { // if the filter is active
+                $this->crud->addClause('where', 'name', 'LIKE', "%$value%");
+            }
+        );
+
+        // date filter
+        $this->crud->addFilter(
+            [
+                'type'  => 'date_range',
+                'name'  => 'updated_at',
+                'label' => 'Date range'
+            ],
+            false,
+            function ($value) { // if the filter is active, apply these constraints
+                $dates = json_decode($value);
+                $this->crud->addClause('where', 'updated_at', '>=', $dates->from);
+                $this->crud->addClause('where', 'updated_at', '<=', $dates->to . ' 23:59:59');
+            }
+        );
         CRUD::column('group_id');
         CRUD::column('name')->label('Variant Name');
         CRUD::column('price');
-        // CRUD::column('color');
-        // CRUD::column('color_name');
+        CRUD::column('color_name')->label('Color Name');
 
+        CRUD::column('updated_at');
         CRUD::column('created_at');
 
         /**
@@ -66,7 +94,7 @@ class VariantCrudController extends CrudController
 
         CRUD::field('group_id');
         CRUD::field('name');
-        CRUD::field('image')->type('upload')->upload(true);
+        CRUD::field('image')->type('image')->upload(true);
         CRUD::field('color')->type('color_picker');
         CRUD::field('color_name');
         CRUD::field('price');

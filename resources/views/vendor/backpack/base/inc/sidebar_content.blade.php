@@ -1,7 +1,7 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i> {{ trans('backpack::base.dashboard') }}</a></li>
 {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('tag') }}'><i class='nav-icon la la-tag'></i> Tags</a></li> --}}
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('article') }}'><i class='nav-icon la la-book'></i> Articles</a></li>
+{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('article') }}'><i class='nav-icon la la-book'></i> Articles</a></li> --}}
 
 {{-- <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-motorcycle"></i> Products</a>
@@ -25,13 +25,14 @@
 </li>
 @endif
 
-
 <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-motorcycle"></i> Products</a>
     <ul class="nav-dropdown-items">
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('category') }}'><i class='nav-icon la la-question'></i> Categories</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('group') }}'><i class='nav-icon la la-question'></i> Groups</a></li>
-        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('variant') }}'><i class='nav-icon la la-question'></i> Variants</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('category') }}'><i class=''></i> Categories</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('group') }}'><i class=''></i> Groups</a></li>
+        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('variant') }}'><i class=''></i> Variants</a></li>
     </ul>
 </li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('banner') }}'><i class='nav-icon la la-question'></i> Banners</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('banner') }}'><i class='nav-icon las la-images'></i>Home Banners</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('promo') }}'><i class='nav-icon la la-question'></i> Promos</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('contact') }}'><i class='nav-icon la la-question'></i> Contacts</a></li>

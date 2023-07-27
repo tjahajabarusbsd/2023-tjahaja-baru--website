@@ -36,7 +36,7 @@
                         <li>
                           <i class="fa fa-phone"></i>
                           <strong>phone</strong>
-                          (0751)89388
+                          0811805898
                       </li>
                         <li>
                           <i class="fa fa-envelope"></i>
@@ -59,7 +59,7 @@
                         </div>
                         @endif
                 
-                        <form action="{{ route('contact.post') }}" method="post" class="myForm">
+                        <form action="{{ route('contact.submit') }}" method="post" class="myForm" onsubmit="disableButton()">
                             @csrf
                             @if(isset($_GET["dealer"]))
                                 <input name="dealer" type="text" hidden value="{{ $_GET["dealer"] }}">
@@ -88,25 +88,31 @@
                                     <small>{{ $message }}</small>
                                 @enderror
                             </div>
-                            
+
                             <div class="form-group">
-                                <input class="btn btn-primary" type="submit" value="Submit">
+                                {!! RecaptchaV3::field('contact') !!}
+                                @error('g-recaptcha-response')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
                             </div>
                             
-                            
+                            <div class="form-group">
+                                <input id="submitButton" class="btn btn-primary" type="submit" value="Submit">
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        
     </div>
-    
 </section>
-
-
 @endsection
 
 @section('additional_script')
     <script src="{{ asset('js/contact.js') }}"></script>
+    <script>
+        function disableButton() {
+            document.getElementById('submitButton').setAttribute('disabled', 'disabled');
+        }
+    </script>
 @endsection

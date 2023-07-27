@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
-@section('title', 'Tjahaja Baru | Product')
+@section('title', 'Product | Tjahaja Baru')
 
 @section('meta_og')
-	<meta property="og:title" content="Tjahaja Baru | Product">
+	<meta property="og:title" content="Product | Tjahaja Baru">
 	<meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
 	<meta property="og:type" content="website">
 @endsection
@@ -17,7 +17,39 @@
 @section('content')
 	<section class="first-section">
 		<div class="container-fluid icon-container">
-			<div class="row icon-row">
+			<div class="row icon-row pc">
+				<div class="product-icon-box">
+					<a href="/products/category/maxi">
+						<img src="{{ url('images/products/icons/maxi_i.png')}}" alt="" class="icon">
+						<p class="text">MAXi</p>
+					</a>
+				</div>
+				<div class="product-icon-box">
+					<a href="/products/category/classy">
+						<img src="{{ url('images/products/icons/classy_i.png')}}" alt="" class="icon">
+						<p class="text">Classy</p>
+					</a>
+				</div>
+				<div class="product-icon-box">
+					<a href="/products/category/matic">
+						<img src="{{ url('images/products/icons/matic_i.png')}}" alt="" class="icon">
+						<p class="text">Matic</p>
+					</a>
+				</div>
+				<div class="product-icon-box">
+					<a href="/products/category/sport">
+						<img src="{{ url('images/products/icons/sport_i.png')}}" alt="" class="icon">
+						<p class="text">bLUcRU</p>
+					</a>
+				</div>
+				<div class="product-icon-box">
+					<a href="/products/category/moped">
+						<img src="{{ url('images/products/icons/moped_i.png')}}" alt="" class="icon">
+						<p class="text">Moped</p>
+					</a>
+				</div>
+			</div>
+			<div class="row icon-row mobile">
 				<div class="product-icon-box">
 					<a href="/products/category/maxi">
 						<img src="{{ url('images/products/icons/maxi_i.png')}}" alt="" class="icon">
@@ -64,7 +96,7 @@
 				@elseif (Request::is('products/category/sport'))
 					<img src="{{ url('images/products/logos/bLUcRU.png') }}" alt="Sport Product" class="logo">
 				@elseif (Request::is('products/category/moped'))
-					<img src="{{ url('images/products/logos/bLUcRU.png') }}" alt="Moped Product" class="logo">
+					<p class="logo">MOPED</p>
 				@endif
 				
 			</div>
@@ -106,16 +138,5 @@
 @endsection
 
 @section('additional_script')
-<script>
-    $(document).ready(function () {
-        var currentUrl = window.location.pathname;
-        var productLinks = document.querySelectorAll(".product-icon-box a");
-        
-		productLinks.forEach(link => {
-			if (link.getAttribute('href') === currentUrl) {
-				link.parentNode.classList.add('active');
-			}
-		});
-    });	
-</script>
+<script src="{{ asset('js/product.js') }}"></script>
 @endsection

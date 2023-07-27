@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
-@section('title', 'Tjahaja Baru | My Yamaha')
+@section('title', 'My Yamaha | Tjahaja Baru')
 
 @section('meta_og')
-	<meta property="og:title" content="Tjahaja Baru | My Yamaha">
+	<meta property="og:title" content="My Yamaha | Tjahaja Baru">
 	<meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
 	<meta property="og:type" content="website">
 @endsection

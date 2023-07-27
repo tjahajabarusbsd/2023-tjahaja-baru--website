@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Banner;
+use App\Models\Promo;
 
 class HomeController extends Controller
 {
@@ -40,9 +41,12 @@ class HomeController extends Controller
 
         $latestVariants = $latestVariants->all();
 
-        // Fetch data articles
+        // Fetch data banners
         $banners = Banner::where('is_active', 1)->get();
 
-        return view('home', compact('articles', 'latestVariants', 'banners'));
+        // Fetch data promos
+        $promos = Promo::where('is_active', 1)->get();
+
+        return view('home', compact('articles', 'latestVariants', 'banners', 'promos'));
     }
 }

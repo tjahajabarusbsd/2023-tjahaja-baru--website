@@ -10,6 +10,11 @@ $(document).ready(function () {
         handleInput();
     });
 
+    function enableButton() {
+        var submitButton = document.getElementById('submitButton');
+        submitButton.removeAttribute('disabled');
+    }
+
     // What to do with inputs ?
     function handleInput() {
         // Values from dom elements ( input )
@@ -19,6 +24,10 @@ $(document).ready(function () {
         //  Checking for username
         if (userNameValue === "") {
             setErrorFor(userName, "Kolom wajib diisi.");
+            enableButton();
+        } else if (!/^[A-Za-z]+$/.test(userNameValue)) {
+            setErrorFor(userName, "Hanya diperbolehkan input alfabet.");
+            enableButton();
         } else {
             setSuccessFor(userName);
         }
@@ -26,8 +35,10 @@ $(document).ready(function () {
         // Checking for phone number
         if (phoneNumberValue === "") {
             setErrorFor(phoneNumber, "Kolom wajib diisi.");
+            enableButton()
         } else if (!/^\d+$/.test(phoneNumberValue)) {
-            setErrorFor(phoneNumber, "Phone number must contain only numbers");
+            setErrorFor(phoneNumber, "Hanya diperbolehkan input angka.");
+            enableButton()
         } else {
             setSuccessFor(phoneNumber);
         }
@@ -72,7 +83,6 @@ $(document).ready(function () {
                 i.remove();
             });
         }
-
     }
 
     // Check if there are any input fields with errors
