@@ -78,7 +78,7 @@ class WhatsAppController extends Controller
             'body' => $body,
         ];
 
-        dd($body, $phone);
+        // dd($body, $phone);
 
         $url = "https://api.1msg.io/434886/sendMessage?token=off_qEkYX33795ARuvTqG38zxXYbAK";
 
