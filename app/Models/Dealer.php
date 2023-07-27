@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Dealer extends Model
 {
+    use CrudTrait;
+
     protected $table = 'dealers';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
