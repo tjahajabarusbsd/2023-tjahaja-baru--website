@@ -24,10 +24,9 @@ use App\Http\Controllers\WhatsAppController;
 
 Route::get('/', [HomeController::class, 'getData']);
 
-// Route::prefix('/news')->group(function () {
-//     Route::get('{uri}', 'ArticleController@detail');
-// });
-// Route::get('/news', [ArticleController::class, 'loadmore']);
+Route::get('/myyamaha', function () {
+    return view('myyamaha');
+});
 
 Route::get('/products', function () {
     return view('product/product');
@@ -35,35 +34,22 @@ Route::get('/products', function () {
 
 Route::get('/products', [ProductController::class, 'getMaxi']);
 
-Route::prefix('/product')->group(function () {
-    Route::get('{uri}', [VariantController::class, 'getDataVariant']);
-});
-
-// Route::prefix('/product')->group(function () {
-//     Route::get('{uri}/{name}', [VariantController::class, 'getGroup']);
-// });
-
-Route::get('/get-data/{variant}', [VariantController::class, 'getData'])->name('get.data');
-
 Route::prefix('/products/category')->group(function () {
     Route::get('{uri}', [ProductController::class, 'getCategory']);
 });
 
-Route::get('/myyamaha', function () {
-    return view('myyamaha');
+Route::prefix('/product')->group(function () {
+    Route::get('{uri}', [VariantController::class, 'getDataVariant']);
 });
 
-// Route::get('/dealers', [VariantController::class, 'getRandomProduct']);
+Route::get('/get-data/{variant}', [VariantController::class, 'getData'])->name('get.data');
+
 Route::get('/dealers', [DealerController::class, 'getDealer'])->name('dealer');
 
 Route::get('/consultation', [ConsultationController::class, 'getConsultationForm'])->name('consultation.get');
-// Route::post('/consultation', [ConsultationController::class, 'postConsultationForm'])->name('consultation.post');
 
 Route::get('/contact', [ContactController::class, 'getContactForm'])->name('contact.get');
-// Route::post('/contact', [ContactController::class, 'postContactForm'])->name('contact.post');
 Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('contact.submit');
-
-// Route::post('/product', [ConsultationController::class, 'postConsultationForm'])->name('consultationProduct.post');
 
 Route::post('/send_message', [WhatsAppController::class, 'sendMessage']);
 
@@ -72,3 +58,20 @@ Route::post('/send_message', [WhatsAppController::class, 'sendMessage']);
 // });
 // Route::post('/import', [ExcelImportController::class, 'import'])->name('import');
 // Route::post('/import-dealer', [ExcelImportController::class, 'importDealer'])->name('importDealer');
+
+// Route::prefix('/news')->group(function () {
+//     Route::get('{uri}', 'ArticleController@detail');
+// });
+// Route::get('/news', [ArticleController::class, 'loadmore']);
+
+// Route::post('/contact', [ContactController::class, 'postContactForm'])->name('contact.post');
+
+// Route::post('/consultation', [ConsultationController::class, 'postConsultationForm'])->name('consultation.post');
+
+// Route::prefix('/product')->group(function () {
+//     Route::get('{uri}/{name}', [VariantController::class, 'getGroup']);
+// });
+
+// Route::post('/product', [ConsultationController::class, 'postConsultationForm'])->name('consultationProduct.post');
+
+// Route::get('/dealers', [VariantController::class, 'getRandomProduct']);
