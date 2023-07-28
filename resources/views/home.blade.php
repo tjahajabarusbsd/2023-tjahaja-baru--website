@@ -12,6 +12,12 @@
 
 @section('additional_css')
 <link rel="stylesheet" href="{{ asset('css/home.css') }}" />
+<style>
+    /* Content of modal div is center aligned */
+    .modal {
+        text-align: center;
+    }
+</style>
 @endsection
 
 @section('content')
@@ -83,14 +89,42 @@
                         <p class="promo-title">Promo</p>
                     </div>
                     <div class="promo-banner-container row">
+                        @php
+                            $i = 0;
+                        @endphp
                         @foreach ($promos as $promo)
                             <div class="promo-banner-col col-sm-6">
                                 <div class="promo-banner-item ">
-                                    <a href="">
-                                        <img class="img-fluid" src="{{ url($promo->image) }}" alt="">
-                                    </a>
+                                    {{-- <a href=""> --}}
+                                        <img class="img-fluid" src="{{ url($promo->image) }}" alt="" data-bs-toggle="modal"
+                                        data-bs-target="#promoModal{{$i}}">
+                                        <div class="modal fade" id="promoModal{{$i}}" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title w-100" id="exampleModalLabel">
+                                                            {{ $promo->name }}
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <!--Modal body with image-->
+                                                    <div class="modal-body">
+                                                        <img src="{{ url($promo->image) }}" />
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {{-- </a> --}}
                                 </div>
                             </div>
+                        @php
+                            $i++
+                        @endphp
                         @endforeach
                     </div>
                 </div>
