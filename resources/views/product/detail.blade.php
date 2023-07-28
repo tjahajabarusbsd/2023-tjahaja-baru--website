@@ -1310,6 +1310,9 @@
                     .addClass('sign')
                     .css('background', item.color);
                 carouselIndicators.append(indicatorButton);
+                if (index === 0) {
+                    carouselIndicators.children(".sign:first").addClass('active');
+                }
 
                 // Buat elemen item carousel untuk setiap item
                 var carouselItem = $('<div>')
@@ -1350,11 +1353,11 @@
                 // Append 
                 $('#carouselExampleDark').empty().append(carouselIndicators, carouselInner, carouselControlPrev, carouselControlNext);
 
-                var introCarousel = $(".carousel");
-                var introCarouselIndicators = $(".carousel-indicators");
+                // var introCarousel = $(".carousel");
+                // var introCarouselIndicators = $(".carousel-indicators");
 
-                introCarousel.find(".carousel-inner").children(".carousel-item:first").addClass('active');
-                introCarouselIndicators.children(".sign:first").addClass('active');
+                // introCarousel.find(".carousel-inner").children(".carousel-item:first").addClass('active');
+                // introCarouselIndicators.children(".sign:first").addClass('active');
             },
             error: function(xhr, status, error) {
                 console.log(error);
