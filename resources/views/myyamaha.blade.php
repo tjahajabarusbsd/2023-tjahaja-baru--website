@@ -179,8 +179,8 @@
                 </p>
             </div>
             <div class="download-container">
-                <a href=""><img src="{{ url('/images/myyamaha/8-apple.png')}}" alt=""></a>
-                <a href=""><img src="{{ url('/images/myyamaha/8-android.png')}}" alt=""></a>
+                <a href="https://apps.apple.com/id/app/id1516760365" target="_blank"><img src="{{ url('/images/myyamaha/8-apple.png')}}" alt=""></a>
+                <a href="https://play.google.com/store/apps/details?id=jp.co.yamahamotor.myyamahamotor" target="_blank"><img src="{{ url('/images/myyamaha/8-android.png')}}" alt=""></a>
             </div>
         </div>
     </section>
