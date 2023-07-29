@@ -1279,86 +1279,99 @@
 <script src="{{ asset('js/product.js') }}"></script>
 <script src="{{ asset('js/contact.js') }}"></script>
 <script>
-    var introCarousel = $(".carousel");
-    var introCarouselIndicators = $(".carousel-indicators");
+    $(document).ready(function() {
+        
+        var introCarousel = $(".carousel-inner");
+        var introCarouselIndicators = $(".carousel-indicators");
 
-    introCarousel.find(".carousel-inner").children(".carousel-item:first").addClass('active');
-    introCarouselIndicators.children(".sign:first").addClass('active');
+        introCarousel.children(".carousel-item:first").addClass('active');
+        introCarouselIndicators.children(".sign:first").addClass('active');
 
-    var variantUnit = $(".variant-unit:first").addClass('active');
-    
-    $('.variant-unit').click(function() {
-        var variant = $(this).attr('data-variant');
-        var url = "/get-data/" + variant;
+        var variantUnit = $(".variant-unit:first").addClass('active');
+        
+        $('.variant-unit').click(function() {
+            $('#carouselExampleDark').carousel();
+            var variant = $(this).attr('data-variant');
+            var url = "/get-data/" + variant;
 
-        $('.variant-unit').removeClass('active');
-        $(this).addClass('active');
+            $('.variant-unit').removeClass('active');
+            $(this).addClass('active');
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function(response) {
+                    var carouselExampleDark = $('#carouselExampleDark');
+                    if (carouselExampleDark.length === 0) {
+                        console.error("#carouselExampleDark element not found.");
+                        return;
+                    }
 
-        $.ajax({
-            url: url,
-            method: 'GET',
-            success: function(response) {
-                var carouselIndicators = $('<div>').addClass('carousel-indicators');
-                var carouselInner = $('<div>').addClass('carousel-inner');
-                
-                response.forEach(function(item, index) {
-                // Buat elemen indicator untuk setiap item
-                var indicatorButton = $('<button>')
-                    .attr('type', 'button')
-                    .attr('data-bs-target', '#carouselExampleDark')
-                    .attr('data-bs-slide-to', index)
-                    .addClass('sign')
-                    .css('background', item.color);
-                carouselIndicators.append(indicatorButton);
+                    var carouselIndicators = $(".carousel-indicators");
+                    var carouselInner = $(".carousel-inner");
+                    var carouselControlPrev = $(".carousel-control-prev");
+                    var carouselControlNext = $(".carousel-control-next");
 
-                // Buat elemen item carousel untuk setiap item
-                var carouselItem = $('<div>')
-                    .addClass('carousel-item');
-                if (index === 0) {
-                    carouselItem.addClass('active');
+                    carouselIndicators.empty();
+                    carouselInner.empty();
+                    $('#carouselExampleDark').empty(carouselControlPrev);
+                    $('#carouselExampleDark').empty(carouselControlNext);
+                    
+                    response.forEach(function(item, index) {
+                    // Buat elemen indicator untuk setiap item
+                    var indicatorButton = $('<button>')
+                        .attr('type', 'button')
+                        .attr('data-bs-target', '#carouselExampleDark')
+                        .attr('data-bs-slide-to', index)
+                        .addClass('sign')
+                        .css('background', item.color);
+                    carouselIndicators.append(indicatorButton);
+                    if (index === 0) {
+                        carouselIndicators.children(".sign:first").addClass('active');
+                    }
+                    
+                    // Buat elemen item carousel untuk setiap item
+                    var carouselItem = $('<div>')
+                        .addClass('carousel-item');
+                    if (index === 0) {
+                        carouselItem.addClass('active');
+                    }
+
+                    var itemImage = $('<img>')
+                        .attr('src', '{{ url('/') }}' + '/' + item.image)
+                        .addClass('d-block w-100')
+                        .attr('alt', '...');
+                    carouselItem.append(itemImage);
+
+                    var captionBox = $('<div>')
+                        .addClass('caption-box carousel-caption');
+                    var priceParagraph = $('<p>')
+                        .addClass('price')
+                        .text(item.price);
+                    var nameParagraph = $('<p>')
+                        .addClass('price')
+                        .text(item.name);
+                    captionBox.append(priceParagraph, nameParagraph);
+                    carouselItem.append(captionBox);
+
+                    carouselInner.append(carouselItem);
+                    });
+
+                    var carouselControlPrev = $('<button>').addClass('carousel-control-prev').attr('type', 'button').attr('data-bs-target', '#carouselExampleDark').attr('data-bs-slide', 'prev');
+                    var carouselControlPrevIcon = $('<span>').addClass('carousel-control-prev-icon').attr('aria-hidden', 'true');
+                    var carouselControlPrevText = $('<span>').addClass('visually-hidden').text('Previous');
+                    carouselControlPrev.append(carouselControlPrevIcon, carouselControlPrevText);
+                    var carouselControlNext = $('<button>').addClass('carousel-control-next').attr('type', 'button').attr('data-bs-target', '#carouselExampleDark').attr('data-bs-slide', 'next');
+                    var carouselControlNextIcon = $('<span>').addClass('carousel-control-next-icon').attr('aria-hidden', 'true');
+                    var carouselControlNextText = $('<span>').addClass('visually-hidden').text('Next');
+                    carouselControlNext.append(carouselControlNextIcon, carouselControlNextText);
+
+                    // Append 
+                    $('#carouselExampleDark').append(carouselIndicators, carouselInner, carouselControlPrev, carouselControlNext);
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
                 }
-
-                var itemImage = $('<img>')
-                    .attr('src', '{{ url('/') }}' + '/' + item.image)
-                    .addClass('d-block w-100')
-                    .attr('alt', '...');
-                carouselItem.append(itemImage);
-
-                var captionBox = $('<div>')
-                    .addClass('caption-box carousel-caption');
-                var priceParagraph = $('<p>')
-                    .addClass('price')
-                    .text(item.price);
-                var nameParagraph = $('<p>')
-                    .addClass('price')
-                    .text(item.name);
-                captionBox.append(priceParagraph, nameParagraph);
-                carouselItem.append(captionBox);
-
-                carouselInner.append(carouselItem);
-                });
-
-                var carouselControlPrev = $('<button>').addClass('carousel-control-prev').attr('type', 'button').attr('data-bs-target', '#carouselExampleDark').attr('data-bs-slide', 'prev');
-                var carouselControlPrevIcon = $('<span>').addClass('carousel-control-prev-icon').attr('aria-hidden', 'true');
-                var carouselControlPrevText = $('<span>').addClass('visually-hidden').text('Previous');
-                carouselControlPrev.append(carouselControlPrevIcon, carouselControlPrevText);
-                var carouselControlNext = $('<button>').addClass('carousel-control-next').attr('type', 'button').attr('data-bs-target', '#carouselExampleDark').attr('data-bs-slide', 'next');
-                var carouselControlNextIcon = $('<span>').addClass('carousel-control-next-icon').attr('aria-hidden', 'true');
-                var carouselControlNextText = $('<span>').addClass('visually-hidden').text('Next');
-                carouselControlNext.append(carouselControlNextIcon, carouselControlNextText);
-
-                // Append 
-                $('#carouselExampleDark').empty().append(carouselIndicators, carouselInner, carouselControlPrev, carouselControlNext);
-
-                var introCarousel = $(".carousel");
-                var introCarouselIndicators = $(".carousel-indicators");
-
-                introCarousel.find(".carousel-inner").children(".carousel-item:first").addClass('active');
-                introCarouselIndicators.children(".sign:first").addClass('active');
-            },
-            error: function(xhr, status, error) {
-                console.log(error);
-            }
+            });
         });
     });
 
