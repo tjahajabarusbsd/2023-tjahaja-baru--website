@@ -40,7 +40,7 @@
                       </li>
                         <li>
                           <i class="fa fa-envelope"></i>
-                          <strong>email</strong>ccs@tjahaja-baru.com
+                          <strong>email</strong>sales.online@tjahaja-baru.com
                         </li>
                     </ul>
                 </div>
