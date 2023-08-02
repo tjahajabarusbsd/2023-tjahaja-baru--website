@@ -20,6 +20,10 @@ class VariantController extends Controller
                 ->distinct('name')
                 ->pluck('name');
 
+            if ($variantNames->isEmpty()) {
+                return view('errors/404');
+            }
+
             $data = Variant::where('group_id', $group->id)
                 ->where('name', $variantNames[0])
                 ->get();
