@@ -67,6 +67,7 @@ class DealerCrudController extends CrudController
         CRUD::field('kode_sales');
         CRUD::field('name_dealer');
         CRUD::field('kecamatan');
+        CRUD::field('nohp');
         // CRUD::field('created_at');
         // CRUD::field('updated_at');
 
