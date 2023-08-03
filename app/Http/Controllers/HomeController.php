@@ -42,7 +42,7 @@ class HomeController extends Controller
         $latestVariants = $latestVariants->all();
 
         // Fetch data banners
-        $banners = Banner::where('is_active', 1)->get();
+        $banners = Banner::where('is_active', 1)->orderBy('created_at', 'desc')->get();
 
         // Fetch data promos
         $promos = Promo::where('is_active', 1)->get();
