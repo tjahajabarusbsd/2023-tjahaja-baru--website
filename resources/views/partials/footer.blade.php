@@ -12,7 +12,7 @@
     </div>
     <div class="line"></div>
     <div class="footer-row second-row">
-    <div class="caption-second-row">CV. TJAHAJA BARU I YAMAHA GROUP</div>
+    <div class="caption-second-row">CV. TJAHAJA BARU | YAMAHA GROUP</div>
     <div class="contact-second-row"><img src="{{ url('/images/icons/tlpn.png')}}" alt="">0811805898 <img src="{{ url('images/icons/mail.png')}}" alt="">sales.online@tjahaja-baru.com</div>
     <div class="address-second-row"><img src="{{ url('images/icons/lokasi.png')}}" alt="">Jl. Damar No. 59 (25133) Padang - Sumatera Barat INDONESIA</div>
     </div>
