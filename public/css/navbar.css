@@ -17,7 +17,7 @@
     align-items: flex-start;
 }
 
-.navbar-brand-0 img {
+.main-logo .logo-image {
     height: 45px;
     width: 95px;
 }
@@ -47,11 +47,11 @@
 }
 
 @media only screen and (max-width: 425px) {
-    .navbar-brand-0 {
+    .main-logo {
         margin-top: 5px;
     }
 
-    .navbar-brand-0 img {
+    .main-logo .logo-image {
         height: 30px;
         width: 64px;
     }

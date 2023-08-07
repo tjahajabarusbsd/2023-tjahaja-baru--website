@@ -1,8 +1,8 @@
 <header>
 	<nav class="navbar navbar-expand-lg navbar-dark static-top">
 		<div class="container">
-			<a class="navbar-brand-0" href="/">
-				<img src="{{ url('/images/logo.png')}}" title="Kembali ke Beranda" alt="TJAHAJA BARU">
+			<a class="main-logo" href="/">
+				<img src="{{ url('/images/logo.png')}}" title="Kembali ke Beranda" class="logo-image" alt="TJAHAJA BARU">
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
