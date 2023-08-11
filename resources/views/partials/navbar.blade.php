@@ -30,6 +30,9 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/contact">contact us</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/dealers">dealers</a>
+					</li>
 					{{-- <li class="nav-item">
 						<a class="nav-link" href="#">corporate</a>
 					</li> --}}
