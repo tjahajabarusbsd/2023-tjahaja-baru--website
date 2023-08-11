@@ -6,7 +6,9 @@ use App\Models\Consultation;
 use Illuminate\Http\Request;
 use App\Models\Staff;
 use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
+use Illuminate\Support\Facades\URL;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cookie;
 
 class WhatsAppController extends Controller
 {
@@ -43,7 +45,8 @@ class WhatsAppController extends Controller
         }
 
         // Get sales code
-        $salesCode = $request->input('sales');
+        // $salesCode = $request->input('sales');
+        $salesCode = $request->cookie('sales');
         // Get the current URL path
         $currentURL = $request->input('url');
         // Extract characters after the last '/'
@@ -104,6 +107,13 @@ class WhatsAppController extends Controller
 
         $successMessage = "Pengajuan Anda telah diterima.\nDealer kami akan segera menghubungi Anda.";
 
-        return redirect()->back()->with('success', $successMessage);
+        $deleteCookie = Cookie::forget('sales');
+
+        $previousUrl = URL::previous();
+        $previousUrlWithoutParams = strtok($previousUrl, '?');
+
+        // return redirect()->back()->with('success', $successMessage);
+        // return redirect()->route('consultation.get')->with('success', $successMessage);
+        return redirect($previousUrlWithoutParams)->withCookie($deleteCookie)->with('success', $successMessage);
     }
 }
