@@ -4014,14 +4014,22 @@
                 </div>
                 <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
                     <div class="review-wrapper row">
-                        {{-- <div class="review-item">
+                        <div class="review-item">
                             <picture>
-                                <img class="review-img" src="{{ url('/images/reviewmio.jpg') }}" alt="">
+                                <img class="review-img" src="{{ url('/images/reviewxsr.jpg') }}" alt="">
                             </picture>
-                            <a href="https://youtu.be/-nvMxbYhdYY" target="_blank">
-                                <p class="review-title">Product Knowledge New Mio M3 125 (Official)</p>
+                            <a href="https://youtu.be/hNAoZpJ7h6E" target="_blank">
+                                <p class="review-title">YAMAHA XSR 155 2023..!!! LEBIH CANGGIH dan KENCANG DIBANDING W175 | Otomotif TV</p>
                             </a>
-                        </div> --}}
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewxsr1.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/Or4jOLWAqwo" target="_blank">
+                                <p class="review-title">GARANG‼️YAMAHA XSR 155 2023 FULL BLACK</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
