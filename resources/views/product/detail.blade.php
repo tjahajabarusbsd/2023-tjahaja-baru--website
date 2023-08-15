@@ -3588,14 +3588,30 @@
                 </div>
                 <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
                     <div class="review-wrapper row">
-                        {{-- <div class="review-item">
+                        <div class="review-item">
                             <picture>
-                                <img class="review-img" src="{{ url('/images/reviewgear.jpg') }}" alt="">
+                                <img class="review-img" src="{{ url('/images/reviewmio.jpg') }}" alt="">
                             </picture>
-                            <a href="https://youtu.be/mwUXntI2-LI" target="_blank">
-                                <p class="review-title">Review Gear 125 - Fiturnya Banyak !</p>
+                            <a href="https://youtu.be/-nvMxbYhdYY" target="_blank">
+                                <p class="review-title">Product Knowledge New Mio M3 125 (Official)</p>
                             </a>
-                        </div> --}}
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewmio1.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/uLciBk7DOMU" target="_blank">
+                                <p class="review-title">THE LEGEND IS BACK ‼️ NEW MIO M3 2023 | LHO, KOK KEREN ⁉️😱</p>
+                            </a>
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewmio2.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/b75QLtDwNes" target="_blank">
+                                <p class="review-title">YAMAHA MIO M3 TERBARU 2023</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
