@@ -4906,14 +4906,30 @@
                 </div>
                 <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
                     <div class="review-wrapper row">
-                        {{-- <div class="review-item">
+                        <div class="review-item">
                             <picture>
-                                <img class="review-img" src="{{ url('/images/reviewwr.jpg') }}" alt="">
+                                <img class="review-img" src="{{ url('/images/reviewvega.jpg') }}" alt="">
                             </picture>
-                            <a href="https://youtu.be/2uOc_-nXnlI" target="_blank">
-                                <p class="review-title">TRABAS LANUD WILDTRACK - Tes Ride WR 155</p>
+                            <a href="https://youtu.be/EsoIh1OPjuc" target="_blank">
+                                <p class="review-title">NEW YAMAHA VEGA FORCE 2023🔥</p>
                             </a>
-                        </div> --}}
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewvega1.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/T-5zJjApTX0" target="_blank">
+                                <p class="review-title">YAMAHA VEGA FORCE TAMPIL SPORTY & GAYA || 2023 MOTOR HARIAN ENAK BANDEL.🔥‼️</p>
+                            </a>
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewvega2.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/UM1bx1efDKc" target="_blank">
+                                <p class="review-title">YAMAHA VEGA FORCE 2023 | ULAS SINGKAT</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
