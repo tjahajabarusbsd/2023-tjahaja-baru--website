@@ -2716,6 +2716,22 @@
                                 <p class="review-title">APA SIH BEDA FREEGO TERBARU DENGAN YANG LAMA???</p>
                             </a>
                         </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewfreego2.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/8GQLLx9MkPQ" target="_blank">
+                                <p class="review-title">Cara Menghubungkan Smartphone ke Yamaha FreeGo 125 Connected</p>
+                            </a>
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewfreego3.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/LAuKVA7wZT0" target="_blank">
+                                <p class="review-title">YAMAHA FreeGo buat kalian yang sat set</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
