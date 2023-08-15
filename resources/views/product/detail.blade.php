@@ -4464,14 +4464,30 @@
                 </div>
                 <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
                     <div class="review-wrapper row">
-                        {{-- <div class="review-item">
+                        <div class="review-item">
                             <picture>
-                                <img class="review-img" src="{{ url('/images/reviewwr.jpg') }}" alt="">
+                                <img class="review-img" src="{{ url('/images/reviewjupiterz1.jpg') }}" alt="">
                             </picture>
-                            <a href="https://youtu.be/2uOc_-nXnlI" target="_blank">
-                                <p class="review-title">TRABAS LANUD WILDTRACK - Tes Ride WR 155</p>
+                            <a href="https://youtu.be/UlznE-lSCjc" target="_blank">
+                                <p class="review-title">115 CC LEBIH KENCANG DARI 125 CC..!!! YAMAHA JUPITER Z1 VERSI 2023 | Otomotif TV</p>
                             </a>
-                        </div> --}}
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewjupiterz1_1.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/qvk5EbN7OPU" target="_blank">
+                                <p class="review-title">JUPITER REBORN ❓️ BEBEK "GHOIB" NEW YAMAHA Z-1 VERSI 2022 HIJAU TOSCA 🔥 | AKHIRNYA MASUK DEALER 👊</p>
+                            </a>
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewjupiterz1_2.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/HFysYGfVn5c" target="_blank">
+                                <p class="review-title">YAMAHA JUPITER Z1 2023</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
