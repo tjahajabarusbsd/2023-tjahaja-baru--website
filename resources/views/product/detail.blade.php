@@ -3809,14 +3809,30 @@
                 </div>
                 <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
                     <div class="review-wrapper row">
-                        {{-- <div class="review-item">
+                        <div class="review-item">
                             <picture>
-                                <img class="review-img" src="{{ url('/images/reviewmio.jpg') }}" alt="">
+                                <img class="review-img" src="{{ url('/images/reviewr15.jpg') }}" alt="">
                             </picture>
-                            <a href="https://youtu.be/-nvMxbYhdYY" target="_blank">
-                                <p class="review-title">Product Knowledge New Mio M3 125 (Official)</p>
+                            <a href="https://youtu.be/ubg_isTmR8Y" target="_blank">
+                                <p class="review-title">KUPAS YAMAHA R15 2022 VERSI TERMURAH, DAPAT APA AJA..??? l Otomotif TV</p>
                             </a>
-                        </div> --}}
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewr15_1.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/vYa1KG_Dxdg" target="_blank">
+                                <p class="review-title">AKHIRNYA..!!! NEW YAMAHA R15M CONNECTED ABS & R15 CONNECTED 2022 VERSI INDONESIA l Otomotif TV</p>
+                            </a>
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewr15_2.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/xVmXfmWYtNA" target="_blank">
+                                <p class="review-title">R1M Versi Murah!! KEREN R15M V4 Pake QuickShift, TCS, ABS - Review Fitur dan Harganya</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
