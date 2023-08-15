@@ -2511,6 +2511,1046 @@
                     </div>
                 </div>
             </div>
+        @elseif (Request::is('product/freego-125'))
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                    <div class="spec-wrapper">
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
+                            <div class="spec-part-title row">
+                                <b>Mesin</b>
+                            </div>
+                        </a>
+                        <div class="collapse row show" id="collapse-1">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Mesin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Air Cooled 4-Stroke,SOHC</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Susunan Silinder</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Silinder Tunggal</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Volume Silinder</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">125 cc</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Diameter x Langkah</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">52,4 x 57,9 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Perbandingan Kompresi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">9,5 : 1</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Daya Maksimum</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">7,0 kW / 8000 rpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Torsi Maksimum</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">9,5 Nm/ 5500 rpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Starter</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Electric Starter</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Pelumasan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Wet Sump</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Kapasitas Oli Mesin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Total = 0,84 L ; Berkala = 0,80 L</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Bahan Bakar</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Fuel Injection</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Kopling</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Dry, Centrifugal Automatic</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Transmisi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">V-belt Automatic</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-2" role="button" aria-expanded="false" aria-controls="collapse-2">
+                            <div class="spec-part-title row">
+                                <b>Rangka</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-2">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Rangka</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Underbone</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Suspensi Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Telescopic Fork</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Suspensi Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Unit Swing</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Ban Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">100/90 - 12M/C 59J - Tubeless</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Ban Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">110/90-12M/C 64L - Tubeless</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Rem Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Disc Brake</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Rem Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Drum Brake</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-3" role="button" aria-expanded="false" aria-controls="collapse-3">
+                            <div class="spec-part-title row">
+                                <b>Dimensi</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-3">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">P x L x T</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1905 x 690 x 1115 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Jarak Sumbu Roda</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1275 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Jarak Terendah Ke Tanah</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">135 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tinggi Tempat Duduk</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">780 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Berat Isi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">101 Kg (FreeGo 125), 102 Kg (FreeGo 125 Connected)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Kapasitas Tangki Bensin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">4,2 L</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-4" role="button" aria-expanded="false" aria-controls="collapse-4">
+                            <div class="spec-part-title row">
+                                <b>Kelistrikan</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-4">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem pengapian</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">TCI</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Battery</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">YTZ4V, GTZ4V, NTZ4V (FreeGo 125), YTZ6V (FreeGo 125 Connected)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Busi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">NGK/ CR6HSA</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
+                    <div class="review-wrapper row">
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewfreego.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/YlI2XdGjNYs" target="_blank">
+                                <p class="review-title">Review & Test Ride Yamaha FreeGo with Zakila Angel Mizia</p>
+                            </a>
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewfreego1.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/CEcXefc61xs" target="_blank">
+                                <p class="review-title">APA SIH BEDA FREEGO TERBARU DENGAN YANG LAMA???</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @elseif (Request::is('product/gear-125'))
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                    <div class="spec-wrapper">
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
+                            <div class="spec-part-title row">
+                                <b>Mesin</b>
+                            </div>
+                        </a>
+                        <div class="collapse row show" id="collapse-1">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Mesin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Berpendingin udara, 4 Langkah, SOHC</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Susunan Silinder</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Silinder Tunggal</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Volume Silinder</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">124.96 cc</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Diameter x Langkah</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">52,4 x 57,9 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Perbandingan Kompresi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">9,5 : 1</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Daya Maksimum</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">7,0 kW / 8000 rpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Torsi Maksimum</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">9,5 Nm/ 5500 rpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Starter</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Electric & Kick Starter</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Pelumasan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Pelumasan Basah</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Kapasitas Oli Mesin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Assembly = 0,84L ; Berkala = 0,80 L</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Bahan Bakar</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Fuel Injection</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Kopling</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Kopling Sentrifugal, Kering</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Transmisi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">V-Belt Otomatis</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-2" role="button" aria-expanded="false" aria-controls="collapse-2">
+                            <div class="spec-part-title row">
+                                <b>Rangka</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-2">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Rangka</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Underbone</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Suspensi Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Teleskopik</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Suspensi Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Unit Swing</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Ban Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">80/80-14M/C (43P)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Ban Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">100/70-14M/C (51P)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Rem Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Rem Cakram</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Rem Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Rem Tromol</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-3" role="button" aria-expanded="false" aria-controls="collapse-3">
+                            <div class="spec-part-title row">
+                                <b>Dimensi</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-3">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">P x L x T</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1870 mm X 685 mm X 1060 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Jarak Sumbu Roda</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1260 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Jarak Terendah Ke Tanah</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">135 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tinggi Tempat Duduk</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">750 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Berat Isi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">96 Kg (Tipe S) ; 95 Kg (Tipe Standard)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Kapasitas Tangki Bensin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">4,2 L</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-4" role="button" aria-expanded="false" aria-controls="collapse-4">
+                            <div class="spec-part-title row">
+                                <b>Kelistrikan</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-4">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem pengapian</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">TCI</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Battery</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">YTZ6V (Tipe S) ; YTZ4V/GTZ4V/NTZ4V (Tipe Standard)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Busi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">NGK/CR6HSA</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
+                    <div class="review-wrapper row">
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewgear.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/mwUXntI2-LI" target="_blank">
+                                <p class="review-title">Review Gear 125 - Fiturnya Banyak !</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @elseif (Request::is('product/fino-125'))
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                    <div class="spec-wrapper">
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
+                            <div class="spec-part-title row">
+                                <b>Mesin</b>
+                            </div>
+                        </a>
+                        <div class="collapse row show" id="collapse-1">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Mesin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Berpendingin udara, 4 Langkah, SOHC</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Susunan Silinder</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Silinder Tunggal</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Volume Silinder</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">124.96 cc</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Diameter x Langkah</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">52,4 x 57,9 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Perbandingan Kompresi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">9,5 : 1</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Daya Maksimum</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">7,0 kW / 8000 rpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Torsi Maksimum</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">9,5 Nm/ 5500 rpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Starter</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Electric & Kick Starter</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Pelumasan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Pelumasan Basah</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Kapasitas Oli Mesin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Assembly = 0,84L ; Berkala = 0,80 L</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Bahan Bakar</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Fuel Injection</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Kopling</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Kopling Sentrifugal, Kering</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Transmisi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">V-Belt Otomatis</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-2" role="button" aria-expanded="false" aria-controls="collapse-2">
+                            <div class="spec-part-title row">
+                                <b>Rangka</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-2">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Rangka</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Underbone</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Suspensi Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Teleskopik</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Suspensi Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Unit Swing</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Ban Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">80/80-14M/C (43P)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Ban Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">100/70-14M/C (51P)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Rem Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Rem Cakram</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Rem Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Rem Tromol</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-3" role="button" aria-expanded="false" aria-controls="collapse-3">
+                            <div class="spec-part-title row">
+                                <b>Dimensi</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-3">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">P x L x T</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1870 mm X 685 mm X 1060 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Jarak Sumbu Roda</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1260 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Jarak Terendah Ke Tanah</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">135 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tinggi Tempat Duduk</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">750 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Berat Isi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">96 Kg (Tipe S) ; 95 Kg (Tipe Standard)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Kapasitas Tangki Bensin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">4,2 L</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-4" role="button" aria-expanded="false" aria-controls="collapse-4">
+                            <div class="spec-part-title row">
+                                <b>Kelistrikan</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-4">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem pengapian</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">TCI</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Battery</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">YTZ6V (Tipe S) ; YTZ4V/GTZ4V/NTZ4V (Tipe Standard)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Busi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">NGK/CR6HSA</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
+                    <div class="review-wrapper row">
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewfino.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/U6TvmmC6ubw" target="_blank">
+                                <p class="review-title">MAKIN IMUT MAKIN RETRO - Review Yamaha New Fino Premium 125</p>
+                            </a>
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewfino1.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/TEkO691GDvM" target="_blank">
+                                <p class="review-title">Jalan Bareng Tasya Bersama Fino Grande</p>
+                            </a>
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewfino2.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/f5Yc6d3RBzg" target="_blank">
+                                <p class="review-title">Review Yamaha Fino Sporty Bersama Ebbyas</p>
+                            </a>
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewfino2.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/UN-_yllPeDk" target="_blank">
+                                <p class="review-title">Yamaha Fino</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @elseif (Request::is('product/x-ride-125'))
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                    <div class="spec-wrapper">
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
+                            <div class="spec-part-title row">
+                                <b>Mesin</b>
+                            </div>
+                        </a>
+                        <div class="collapse row show" id="collapse-1">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Mesin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">4 Langkah, 2 Valve SOHC, Berpendingin Angin, Bluecore</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Susunan Silinder</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Cylinder Tunggal</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Volume Silinder</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">125 cc</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Diameter x Langkah</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">52,4 x 57,9 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Perbandingan Kompresi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">9,5 : 1</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Daya Maksimum</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">7,0 kW / 8000 rpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Torsi Maksimum</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">9,6 Nm/ 5500 rpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Starter</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Electric & Kick Starter</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Pelumasan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Pelumasan Basah</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Kapasitas Oli Mesin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Total : 0,84 L ; Berkala : 0,80 L ; Ganti Filter Oli : 0,80 L</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Bahan Bakar</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Fuel Injection</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Kopling</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Kopling Sentrifugal, Kering</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Transmisi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Full Automatic</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-2" role="button" aria-expanded="false" aria-controls="collapse-2">
+                            <div class="spec-part-title row">
+                                <b>Rangka</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-2">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Rangka</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Underbone</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Suspensi Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Teleskopik</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Suspensi Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Unit Swing</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Ban Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">80/80-14M/C 43P Tubeless</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Ban Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">100/70-14M/C 51P Tubeless</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Rem Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Rem Cakram</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Rem Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Rem Tromol</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-3" role="button" aria-expanded="false" aria-controls="collapse-3">
+                            <div class="spec-part-title row">
+                                <b>Dimensi</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-3">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">P x L x T</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1860 mm x 740 mm x 1070 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Jarak Sumbu Roda</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1260 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Jarak Terendah Ke Tanah</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">135 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tinggi Tempat Duduk</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">760 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Berat Isi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">98 kg</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Kapasitas Tangki Bensin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">4,2 L</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-4" role="button" aria-expanded="false" aria-controls="collapse-4">
+                            <div class="spec-part-title row">
+                                <b>Kelistrikan</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-4">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem pengapian</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">TCI</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Battery</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">YTZ4V / GTZ4V</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Busi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">NGK/CR6HSA</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
+                    <div class="review-wrapper row">
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewxride.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/w0mczd4LZPA" target="_blank">
+                                <p class="review-title">Ekspresikan Kebebasan Bersama All New X-Ride 125</p>
+                            </a>
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewxride1.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/38O6L4iEXf0" target="_blank">
+                                <p class="review-title">Yamaha X-Ride 125 l Test Ride Review l GridOto</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @elseif (Request::is('product/mio-m3-125'))
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                    <div class="spec-wrapper">
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
+                            <div class="spec-part-title row">
+                                <b>Mesin</b>
+                            </div>
+                        </a>
+                        <div class="collapse row show" id="collapse-1">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Mesin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Air cooled 4-stroke, SOHC</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Susunan Silinder</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Cylinder Tunggal</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Volume Silinder</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">125 cc</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Diameter x Langkah</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">52,4 x 57,9 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Perbandingan Kompresi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">9,5 : 1</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Daya Maksimum</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">7,0 kW / 8000 rpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Torsi Maksimum</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">9,6 Nm/ 5500 rpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Starter</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Electric & Kick Starter</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Pelumasan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Pelumasan Basah</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Kapasitas Oli Mesin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Total = 0,84 L ; Berkala = 0,80 L</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Bahan Bakar</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Fuel Injection</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Kopling</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Dry, Centrifugal Automatic</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Transmisi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">V-Belt Automatic</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-2" role="button" aria-expanded="false" aria-controls="collapse-2">
+                            <div class="spec-part-title row">
+                                <b>Rangka</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-2">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Rangka</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Underbone</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Suspensi Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Teleskopik</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Suspensi Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Unit Swing</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Ban Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">70/90-14M/C (34P)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Ban Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">80/90-14M/C (40P)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Rem Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Hydraulic Single Disc Brake</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Rem Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Drum Brake</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-3" role="button" aria-expanded="false" aria-controls="collapse-3">
+                            <div class="spec-part-title row">
+                                <b>Dimensi</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-3">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">P x L x T</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1870mm X 685mm X 1035mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Jarak Sumbu Roda</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1260 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Jarak Terendah Ke Tanah</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">135 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tinggi Tempat Duduk</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">750 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Berat Isi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">92 kg</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Kapasitas Tangki Bensin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">4,2 L</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-4" role="button" aria-expanded="false" aria-controls="collapse-4">
+                            <div class="spec-part-title row">
+                                <b>Kelistrikan</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-4">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem pengapian</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">TCI</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Battery</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">YTZ4V/GTZ4V</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Busi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">NGK/CR6HSA</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
+                    <div class="review-wrapper row">
+                        {{-- <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewgear.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/mwUXntI2-LI" target="_blank">
+                                <p class="review-title">Review Gear 125 - Fiturnya Banyak !</p>
+                            </a>
+                        </div> --}}
+                    </div>
+                </div>
+            </div>
         @endif
     </div>
 </section>
