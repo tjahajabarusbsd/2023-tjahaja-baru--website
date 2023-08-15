@@ -4152,7 +4152,7 @@
                                 <tr>
                                     <td class="spec-part-td1">Suspensi Belakang</td>
                                     <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Monoshock/td>
+                                    <td class="spec-part-td3">Monoshock</td>
                                 </tr>
                                 <tr>
                                     <td class="spec-part-td1">Ban Depan</td>
@@ -4373,7 +4373,7 @@
                                 <tr>
                                     <td class="spec-part-td1">Suspensi Belakang</td>
                                     <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Swing Arm/td>
+                                    <td class="spec-part-td3">Swing Arm</td>
                                 </tr>
                                 <tr>
                                     <td class="spec-part-td1">Ban Depan</td>
@@ -4578,7 +4578,7 @@
                                 <tr>
                                     <td class="spec-part-td1">Suspensi Belakang</td>
                                     <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Monoshock/td>
+                                    <td class="spec-part-td3">Monoshock</td>
                                 </tr>
                                 <tr>
                                     <td class="spec-part-td1">Ban Depan</td>
@@ -4783,7 +4783,7 @@
                                 <tr>
                                     <td class="spec-part-td1">Suspensi Belakang</td>
                                     <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Swing Arm/td>
+                                    <td class="spec-part-td3">Swing Arm</td>
                                 </tr>
                                 <tr>
                                     <td class="spec-part-td1">Ban Depan</td>
