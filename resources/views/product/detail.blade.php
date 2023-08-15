@@ -3166,7 +3166,7 @@
                         </div>
                         <div class="review-item">
                             <picture>
-                                <img class="review-img" src="{{ url('/images/reviewfino2.jpg') }}" alt="">
+                                <img class="review-img" src="{{ url('/images/reviewfino3.jpg') }}" alt="">
                             </picture>
                             <a href="https://youtu.be/UN-_yllPeDk" target="_blank">
                                 <p class="review-title">Yamaha Fino</p>
@@ -3378,6 +3378,22 @@
                             </picture>
                             <a href="https://youtu.be/38O6L4iEXf0" target="_blank">
                                 <p class="review-title">Yamaha X-Ride 125 l Test Ride Review l GridOto</p>
+                            </a>
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewxride2.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/A9yhgB7ov9Y" target="_blank">
+                                <p class="review-title">MENOLAK PUNAH ‼️ INILAH NEW YAMAHA X-RIDE 125 VERSI 2022 🔥 | LAWAN ADV ⁉️🤔</p>
+                            </a>
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewxride3.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/_VXqI5dqYTc" target="_blank">
+                                <p class="review-title">TAMPIL BEDA‼️NEW YAMAHA XRIDE 125 2022</p>
                             </a>
                         </div>
                     </div>
