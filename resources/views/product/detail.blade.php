@@ -4669,14 +4669,30 @@
                 </div>
                 <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
                     <div class="review-wrapper row">
-                        {{-- <div class="review-item">
+                        <div class="review-item">
                             <picture>
-                                <img class="review-img" src="{{ url('/images/reviewwr.jpg') }}" alt="">
+                                <img class="review-img" src="{{ url('/images/reviewmxking.jpg') }}" alt="">
                             </picture>
-                            <a href="https://youtu.be/2uOc_-nXnlI" target="_blank">
-                                <p class="review-title">TRABAS LANUD WILDTRACK - Tes Ride WR 155</p>
+                            <a href="https://youtu.be/SQZcUNH5T2c" target="_blank">
+                                <p class="review-title">YAMAHA MX-KING 2023..!!! EDISI TERAKHIR..??? l Otomotif TV</p>
                             </a>
-                        </div> --}}
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewmxking1.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/hNXzn8puD7U" target="_blank">
+                                <p class="review-title">GARANG PARAH‼️ NEW MX-KING 2023 AKHIRNYA DATANG 🔥 | INIKAH EDISI TERAKHIR ??😱</p>
+                            </a>
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewmxking2.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/5eBRb6hlT_g" target="_blank">
+                                <p class="review-title">NEW MX KING 2023 RACING BLUE LAYAKNYA R15 KEREN BANGET NIH‼️</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
