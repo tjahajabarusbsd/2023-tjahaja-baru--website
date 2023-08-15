@@ -2932,6 +2932,22 @@
                                 <p class="review-title">Review Gear 125 - Fiturnya Banyak !</p>
                             </a>
                         </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewgear1.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/kR4NXZzPBEg" target="_blank">
+                                <p class="review-title">BONGKAR Keunggulan & Kekurangan YAMAHA GEAR 125 2021 Buat Harian l Otomotif TV</p>
+                            </a>
+                        </div>
+                        <div class="review-item">
+                            <picture>
+                                <img class="review-img" src="{{ url('/images/reviewgear2.jpg') }}" alt="">
+                            </picture>
+                            <a href="https://youtu.be/zi-mlFjrWtY" target="_blank">
+                                <p class="review-title">Yamaha GEAR 125</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
