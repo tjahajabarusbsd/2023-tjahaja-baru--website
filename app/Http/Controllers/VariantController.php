@@ -13,6 +13,9 @@ class VariantController extends Controller
         $group = Group::where('uri', $uri)->first();
         $sales = $request->query('sales');
 
+        $xmlObject = simplexml_load_file(public_path('features.xml'));
+        $features = $xmlObject->xpath("//feature[uri='{$uri}']");
+
         if ($group != null) {
             $groupUri = $group->uri;
 
@@ -28,7 +31,7 @@ class VariantController extends Controller
                 ->where('name', $variantNames[0])
                 ->get();
 
-            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data', 'sales'));
+            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data', 'sales', 'features'));
         } else {
             return view('errors/404');
         }
