@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ComparisonController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DealerController;
@@ -53,11 +54,15 @@ Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('
 
 Route::post('/send_message', [WhatsAppController::class, 'sendMessage']);
 
-// Route::get('/import-xls', function () {
-//     return view('import');
-// });
-// Route::post('/import', [ExcelImportController::class, 'import'])->name('import');
-// Route::post('/import-dealer', [ExcelImportController::class, 'importDealer'])->name('importDealer');
+Route::get('/compare_product', [ComparisonController::class, 'specComparison']);
+Route::get('/get_spec_details/{id}', [ComparisonController::class, 'getSpecDetails']);
+
+Route::get('/import-xls', function () {
+    return view('import');
+});
+Route::post('/import', [ExcelImportController::class, 'import'])->name('import');
+Route::post('/import-dealer', [ExcelImportController::class, 'importDealer'])->name('importDealer');
+Route::post('/import-spec', [ExcelImportController::class, 'importSpec'])->name('importSpec');
 
 // Route::prefix('/news')->group(function () {
 //     Route::get('{uri}', 'ArticleController@detail');
