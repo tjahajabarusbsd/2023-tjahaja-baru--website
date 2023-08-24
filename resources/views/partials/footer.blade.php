@@ -2,7 +2,7 @@
 
 <footer>
     <div class="footer-row first-row">
-    <div class="caption-first-row">Let's Follow Us</div>
+    <div class="caption-first-row">Follow Us On</div>
     <div class="sosmed">
         <a href="https://www.facebook.com/tjahajabaru/" target="_blank"><img src="{{ url('/images/icons/fb.png')}}" alt=""></a>
         <a href="https://www.tiktok.com/@tjahajabaru" target="_blank"><img src="{{ url('/images/icons/tiktok.png')}}" alt=""></a>
