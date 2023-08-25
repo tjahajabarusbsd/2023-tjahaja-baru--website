@@ -33,6 +33,9 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/dealers">dealers</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/compare_product">compare</a>
+					</li>
 					{{-- <li class="nav-item">
 						<a class="nav-link" href="#">corporate</a>
 					</li> --}}
