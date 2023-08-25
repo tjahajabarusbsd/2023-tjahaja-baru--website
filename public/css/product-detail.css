@@ -209,6 +209,11 @@
     bottom: -65px;
 }
 
+.second-section .button-compare {
+    text-align: center;
+    margin-top: 20px;
+}
+
 .third-section {
     padding: 0 5%;
     padding-bottom: 15px;

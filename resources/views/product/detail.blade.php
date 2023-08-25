@@ -159,6 +159,9 @@
         <div class="row caption-box">
             <p class="area-price">Harga OTR Sumatera Barat</p>
         </div>
+        <div class="button-compare">
+            <a href="/compare_product" class="btn btn-primary">Compare Product</a>
+        </div>
     </div>
 </section>
 
