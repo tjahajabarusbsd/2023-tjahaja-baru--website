@@ -7,6 +7,20 @@
     margin: 50px auto;
 }
 
+.dealer-header .title {
+    margin: 20px 0;
+    font-weight: 700;
+    color: #1f3781;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.map-container {
+    max-width: 1075px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+
 #searchForm {
     margin: auto 0;
 }
@@ -52,8 +66,7 @@
 }
 
 .location-icon {
-    width: 100%;
-    padding: 10px;
+    width: 20px;
 }
 
 .btn-tlpn {
