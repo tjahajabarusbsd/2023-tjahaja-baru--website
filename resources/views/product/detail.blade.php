@@ -191,9 +191,9 @@
                 {{-- <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button> --}}
             </div>
         </nav>
-        @if (Request::is('product/nmax-155'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                @if (Request::is('product/nmax-155'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -377,69 +377,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/thumbnail1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/XPRnLBhEU8k" target="_blank">
-                                <p class="review-title">REVIEW MOTOR TERLARIS DI SUMATERA BARAT! | ALL NEW NMAX 155 ABS</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/thumbnail2.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/tsOIxAvNob4" target="_blank">
-                                <p class="review-title">PERBANDINGAN ANTAR TIPE YAMAHA ALL NEW NMAX 155</p>
-                            </a>
-                        </div>
-                        {{-- <div class="review-left col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/thumbnail1.jpg') }}" alt="">
-                            </picture>
-                        </div>
-                        <div class="review-right col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                            <a href="https://youtu.be/XPRnLBhEU8k">
-                                <p class="review-title">REVIEW MOTOR TERLARIS DI SUMATERA BARAT! | ALL NEW NMAX 155 ABS</p>
-                            </a>
-                        </div> --}}
-                        {{-- <h2 class="title blue">videos</h2> --}}
-                        {{-- @if (Request::is('product/nmax-155'))
-                        <div class="videos-wrapper">
-                            <div id="carouselVideo" class="carousel carousel-dark slide" data-bs-interval="false">
-                                <div class="carousel-indicators">
-                                    <button type="button" data-bs-target="#carouselVideo" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                    <button type="button" data-bs-target="#carouselVideo" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                </div>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                    <iframe class="video-item" width="560" height="315" src="https://www.youtube.com/embed/ammWRb4dd7E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                                    </div>
-                                    <div class="carousel-item">
-                                    <iframe class="video-item" width="560" height="315" src="https://www.youtube.com/embed/lfrHE-yQgs8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                                    </div>
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselVideo" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carouselVideo" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
-                        </div>
-                        @endif --}}
-                    </div>
-                </div>
-                {{-- <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div> --}}
-            </div>
-        @elseif (Request::is('product/xmax-250'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                @elseif (Request::is('product/xmax-250'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -623,31 +561,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewxmax.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/WUi9KXqvLB0" target="_blank">
-                                <p class="review-title">Product Explanation - XMAX Connected</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewxmax1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/2_S7StYu0OU" target="_blank">
-                                <p class="review-title">PERTAMA di INDONESIA..!!! NGEGAS NEW XMAX 250 CONNECTED 2023, BEGINI RASANYA l Otomotif TV</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/aerox-155'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                @elseif (Request::is('product/aerox-155'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -831,31 +745,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewaerox.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/gf1PcJrNZhc" target="_blank">
-                                <p class="review-title">Selalu MAXImal with ALL NEW AEROX 155 CONNECTED - ft ADITIAABUMARYAM</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewaerox1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/3OFqCLiDOvQ" target="_blank">
-                                <p class="review-title">All New Aerox 155 Connected - Sport Scooter dengan Performa Terbaik</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/lexi-125'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                @elseif (Request::is('product/lexi-125'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -1044,47 +934,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewlexi.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/lniG6OaN9ZE" target="_blank">
-                                <p class="review-title">Review Yamaha Lexi With Affan</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewlexi1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/hOBJw-Pe73I" target="_blank">
-                                <p class="review-title">Review Yamaha Lexi Bersama Olivia</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewlexi2.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/jp98LpdrU8k" target="_blank">
-                                <p class="review-title">Review Yamaha Lexi bersama Razor</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewlexi3.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/tT3GD9nZ94Q" target="_blank">
-                                <p class="review-title">Review Yamaha Lexi bersama Tasya</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/grand-filano'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                @elseif (Request::is('product/grand-filano'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -1273,23 +1123,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewfilano.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/QSuJYwLKzBw" target="_blank">
-                                <p class="review-title">MEWAH & ELEGAN - REVIEW YAMAHA GRAND FILANO</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/fazzio'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                @elseif (Request::is('product/fazzio'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -1478,23 +1312,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewfazzio.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/BhY4hdnVDUg" target="_blank">
-                                <p class="review-title">Fitur-fitur dari Yamaha Fazzio Hybrid-Connected</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/freego-125'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                @elseif (Request::is('product/freego-125'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -1677,48 +1495,192 @@
                                 </tr>
                             </table>
                         </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewfreego.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/YlI2XdGjNYs" target="_blank">
-                                <p class="review-title">Review & Test Ride Yamaha FreeGo with Zakila Angel Mizia</p>
-                            </a>
+                    </div> 
+                @elseif (Request::is('product/gear-125'))
+                    <div class="spec-wrapper">
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
+                            <div class="spec-part-title row">
+                                <b>Mesin</b>
+                            </div>
+                        </a>
+                        <div class="collapse row show" id="collapse-1">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Mesin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Berpendingin udara, 4 Langkah, SOHC</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Susunan Silinder</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Silinder Tunggal</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Volume Silinder</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">124.96 cc</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Diameter x Langkah</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">52,4 x 57,9 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Perbandingan Kompresi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">9,5 : 1</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Daya Maksimum</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">7,0 kW / 8000 rpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Torsi Maksimum</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">9,5 Nm/ 5500 rpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Starter</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Electric & Kick Starter</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Pelumasan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Pelumasan Basah</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Kapasitas Oli Mesin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Assembly = 0,84L ; Berkala = 0,80 L</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Bahan Bakar</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Fuel Injection</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Kopling</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Kopling Sentrifugal, Kering</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Transmisi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">V-Belt Otomatis</td>
+                                </tr>
+                            </table>
                         </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewfreego1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/CEcXefc61xs" target="_blank">
-                                <p class="review-title">APA SIH BEDA FREEGO TERBARU DENGAN YANG LAMA???</p>
-                            </a>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-2" role="button" aria-expanded="false" aria-controls="collapse-2">
+                            <div class="spec-part-title row">
+                                <b>Rangka</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-2">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Rangka</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Underbone</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Suspensi Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Teleskopik</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Suspensi Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Unit Swing</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Ban Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">80/80-14M/C (43P)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Ban Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">100/70-14M/C (51P)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Rem Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Rem Cakram</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Rem Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Rem Tromol</td>
+                                </tr>
+                            </table>
                         </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewfreego2.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/8GQLLx9MkPQ" target="_blank">
-                                <p class="review-title">Cara Menghubungkan Smartphone ke Yamaha FreeGo 125 Connected</p>
-                            </a>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-3" role="button" aria-expanded="false" aria-controls="collapse-3">
+                            <div class="spec-part-title row">
+                                <b>Dimensi</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-3">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">P x L x T</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1870 mm X 685 mm X 1060 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Jarak Sumbu Roda</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1260 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Jarak Terendah Ke Tanah</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">135 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tinggi Tempat Duduk</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">750 mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Berat Isi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">96 Kg (Tipe S) ; 95 Kg (Tipe Standard)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Kapasitas Tangki Bensin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">4,2 L</td>
+                                </tr>
+                            </table>
                         </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewfreego3.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/LAuKVA7wZT0" target="_blank">
-                                <p class="review-title">YAMAHA FreeGo buat kalian yang sat set</p>
-                            </a>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-4" role="button" aria-expanded="false" aria-controls="collapse-4">
+                            <div class="spec-part-title row">
+                                <b>Kelistrikan</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-4">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem pengapian</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">TCI</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Battery</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">YTZ6V (Tipe S) ; YTZ4V/GTZ4V/NTZ4V (Tipe Standard)</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Busi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">NGK/CR6HSA</td>
+                                </tr>
+                            </table>
                         </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/gear-125'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                    </div>  
+                @elseif (Request::is('product/fino-125'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -1902,263 +1864,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewgear.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/mwUXntI2-LI" target="_blank">
-                                <p class="review-title">Review Gear 125 - Fiturnya Banyak !</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewgear1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/kR4NXZzPBEg" target="_blank">
-                                <p class="review-title">BONGKAR Keunggulan & Kekurangan YAMAHA GEAR 125 2021 Buat Harian l Otomotif TV</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewgear2.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/zi-mlFjrWtY" target="_blank">
-                                <p class="review-title">Yamaha GEAR 125</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/fino-125'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
-                    <div class="spec-wrapper">
-                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
-                            <div class="spec-part-title row">
-                                <b>Mesin</b>
-                            </div>
-                        </a>
-                        <div class="collapse row show" id="collapse-1">
-                            <table>
-                                <tr>
-                                    <td class="spec-part-td1">Tipe Mesin</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Berpendingin udara, 4 Langkah, SOHC</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Susunan Silinder</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Silinder Tunggal</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Volume Silinder</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">124.96 cc</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Diameter x Langkah</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">52,4 x 57,9 mm</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Perbandingan Kompresi</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">9,5 : 1</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Daya Maksimum</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">7,0 kW / 8000 rpm</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Torsi Maksimum</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">9,5 Nm/ 5500 rpm</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Sistem Starter</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Electric & Kick Starter</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Sistem Pelumasan</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Pelumasan Basah</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Kapasitas Oli Mesin</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Assembly = 0,84L ; Berkala = 0,80 L</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Sistem Bahan Bakar</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Fuel Injection</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Tipe Kopling</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Kopling Sentrifugal, Kering</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Tipe Transmisi</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">V-Belt Otomatis</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-2" role="button" aria-expanded="false" aria-controls="collapse-2">
-                            <div class="spec-part-title row">
-                                <b>Rangka</b>
-                            </div>
-                        </a>
-                        <div class="collapse row" id="collapse-2">
-                            <table>
-                                <tr>
-                                    <td class="spec-part-td1">Tipe Rangka</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Underbone</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Suspensi Depan</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Teleskopik</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Suspensi Belakang</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Unit Swing</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Ban Depan</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">80/80-14M/C (43P)</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Ban Belakang</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">100/70-14M/C (51P)</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Rem Depan</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Rem Cakram</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Rem Belakang</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">Rem Tromol</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-3" role="button" aria-expanded="false" aria-controls="collapse-3">
-                            <div class="spec-part-title row">
-                                <b>Dimensi</b>
-                            </div>
-                        </a>
-                        <div class="collapse row" id="collapse-3">
-                            <table>
-                                <tr>
-                                    <td class="spec-part-td1">P x L x T</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">1870 mm X 685 mm X 1060 mm</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Jarak Sumbu Roda</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">1260 mm</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Jarak Terendah Ke Tanah</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">135 mm</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Tinggi Tempat Duduk</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">750 mm</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Berat Isi</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">96 Kg (Tipe S) ; 95 Kg (Tipe Standard)</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Kapasitas Tangki Bensin</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">4,2 L</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-4" role="button" aria-expanded="false" aria-controls="collapse-4">
-                            <div class="spec-part-title row">
-                                <b>Kelistrikan</b>
-                            </div>
-                        </a>
-                        <div class="collapse row" id="collapse-4">
-                            <table>
-                                <tr>
-                                    <td class="spec-part-td1">Sistem pengapian</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">TCI</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Battery</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">YTZ6V (Tipe S) ; YTZ4V/GTZ4V/NTZ4V (Tipe Standard)</td>
-                                </tr>
-                                <tr>
-                                    <td class="spec-part-td1">Tipe Busi</td>
-                                    <td class="spec-part-td2">:</td>
-                                    <td class="spec-part-td3">NGK/CR6HSA</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewfino.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/U6TvmmC6ubw" target="_blank">
-                                <p class="review-title">MAKIN IMUT MAKIN RETRO - Review Yamaha New Fino Premium 125</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewfino1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/TEkO691GDvM" target="_blank">
-                                <p class="review-title">Jalan Bareng Tasya Bersama Fino Grande</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewfino2.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/f5Yc6d3RBzg" target="_blank">
-                                <p class="review-title">Review Yamaha Fino Sporty Bersama Ebbyas</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewfino3.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/UN-_yllPeDk" target="_blank">
-                                <p class="review-title">Yamaha Fino</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/x-ride-125'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                @elseif (Request::is('product/x-ride-125'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -2341,48 +2047,8 @@
                                 </tr>
                             </table>
                         </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewxride.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/w0mczd4LZPA" target="_blank">
-                                <p class="review-title">Ekspresikan Kebebasan Bersama All New X-Ride 125</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewxride1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/38O6L4iEXf0" target="_blank">
-                                <p class="review-title">Yamaha X-Ride 125 l Test Ride Review l GridOto</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewxride2.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/A9yhgB7ov9Y" target="_blank">
-                                <p class="review-title">MENOLAK PUNAH ‼️ INILAH NEW YAMAHA X-RIDE 125 VERSI 2022 🔥 | LAWAN ADV ⁉️🤔</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewxride3.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/_VXqI5dqYTc" target="_blank">
-                                <p class="review-title">TAMPIL BEDA‼️NEW YAMAHA XRIDE 125 2022</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/mio-m3-125'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                    </div>  
+                @elseif (Request::is('product/mio-m3-125'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -2565,40 +2231,8 @@
                                 </tr>
                             </table>
                         </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewmio.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/-nvMxbYhdYY" target="_blank">
-                                <p class="review-title">Product Knowledge New Mio M3 125 (Official)</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewmio1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/uLciBk7DOMU" target="_blank">
-                                <p class="review-title">THE LEGEND IS BACK ‼️ NEW MIO M3 2023 | LHO, KOK KEREN ⁉️😱</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewmio2.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/b75QLtDwNes" target="_blank">
-                                <p class="review-title">YAMAHA MIO M3 TERBARU 2023</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/r15'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                    </div>  
+                @elseif (Request::is('product/r15'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -2787,39 +2421,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewr15.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/ubg_isTmR8Y" target="_blank">
-                                <p class="review-title">KUPAS YAMAHA R15 2022 VERSI TERMURAH, DAPAT APA AJA..??? l Otomotif TV</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewr15_1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/vYa1KG_Dxdg" target="_blank">
-                                <p class="review-title">AKHIRNYA..!!! NEW YAMAHA R15M CONNECTED ABS & R15 CONNECTED 2022 VERSI INDONESIA l Otomotif TV</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewr15_2.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/xVmXfmWYtNA" target="_blank">
-                                <p class="review-title">R1M Versi Murah!! KEREN R15M V4 Pake QuickShift, TCS, ABS - Review Fitur dan Harganya</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/xsr-155'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                @elseif (Request::is('product/xsr-155'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -3008,31 +2610,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewxsr.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/hNAoZpJ7h6E" target="_blank">
-                                <p class="review-title">YAMAHA XSR 155 2023..!!! LEBIH CANGGIH dan KENCANG DIBANDING W175 | Otomotif TV</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewxsr1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/Or4jOLWAqwo" target="_blank">
-                                <p class="review-title">GARANG‼️YAMAHA XSR 155 2023 FULL BLACK</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/wr-155'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                @elseif (Request::is('product/wr-155'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -3220,40 +2798,8 @@
                                 </tr>
                             </table>
                         </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewwr.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/2uOc_-nXnlI" target="_blank">
-                                <p class="review-title">TRABAS LANUD WILDTRACK - Tes Ride WR 155</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewwr1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/VuOyXWhrNvU" target="_blank">
-                                <p class="review-title">YAMAHA WR 155R 2023, TENAGA MASIH PALING BESAR..!!! | Otomotif TV</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewwr2.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/MuOM6ttJ6bI" target="_blank">
-                                <p class="review-title">GANTENG PARAH ‼️ NEW YAMAHA WR-155 BLACK CYAN 2023 🔥 | GOKILL TAMPANGNYA 😱</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/jupiter-z1'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                    </div>    
+                @elseif (Request::is('product/jupiter-z1'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -3442,39 +2988,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewjupiterz1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/UlznE-lSCjc" target="_blank">
-                                <p class="review-title">115 CC LEBIH KENCANG DARI 125 CC..!!! YAMAHA JUPITER Z1 VERSI 2023 | Otomotif TV</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewjupiterz1_1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/qvk5EbN7OPU" target="_blank">
-                                <p class="review-title">JUPITER REBORN ❓️ BEBEK "GHOIB" NEW YAMAHA Z-1 VERSI 2022 HIJAU TOSCA 🔥 | AKHIRNYA MASUK DEALER 👊</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewjupiterz1_2.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/HFysYGfVn5c" target="_blank">
-                                <p class="review-title">YAMAHA JUPITER Z1 2023</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/mx-king-150'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                @elseif (Request::is('product/mx-king-150'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -3663,39 +3177,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewmxking.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/SQZcUNH5T2c" target="_blank">
-                                <p class="review-title">YAMAHA MX-KING 2023..!!! EDISI TERAKHIR..??? l Otomotif TV</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewmxking1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/hNXzn8puD7U" target="_blank">
-                                <p class="review-title">GARANG PARAH‼️ NEW MX-KING 2023 AKHIRNYA DATANG 🔥 | INIKAH EDISI TERAKHIR ??😱</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewmxking2.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/5eBRb6hlT_g" target="_blank">
-                                <p class="review-title">NEW MX KING 2023 RACING BLUE LAYAKNYA R15 KEREN BANGET NIH‼️</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @elseif (Request::is('product/vega-force'))
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
+                @elseif (Request::is('product/vega-force'))
                     <div class="spec-wrapper">
                         <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
                             <div class="spec-part-title row">
@@ -3884,37 +3366,23 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                    <div class="review-wrapper row">
+                @endif
+            </div>
+            <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
+                <div class="review-wrapper row">
+                    @foreach ($reviews as $review)
                         <div class="review-item">
                             <picture>
-                                <img class="review-img" src="{{ url('/images/reviewvega.jpg') }}" alt="">
+                                <img class="review-img" src="{{ url($review->thumbnail) }}" alt="">
                             </picture>
-                            <a href="https://youtu.be/EsoIh1OPjuc" target="_blank">
-                                <p class="review-title">NEW YAMAHA VEGA FORCE 2023🔥</p>
+                            <a href="{{$review->uri}}" target="_blank">
+                                <p class="review-title">{{$review->title}}</p>
                             </a>
                         </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewvega1.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/T-5zJjApTX0" target="_blank">
-                                <p class="review-title">YAMAHA VEGA FORCE TAMPIL SPORTY & GAYA || 2023 MOTOR HARIAN ENAK BANDEL.🔥‼️</p>
-                            </a>
-                        </div>
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url('/images/reviewvega2.jpg') }}" alt="">
-                            </picture>
-                            <a href="https://youtu.be/UM1bx1efDKc" target="_blank">
-                                <p class="review-title">YAMAHA VEGA FORCE 2023 | ULAS SINGKAT</p>
-                            </a>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
-        @endif
+        </div>
     </div>
 </section>
 
