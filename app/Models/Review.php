@@ -7,14 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
-use Cviebrock\EloquentSluggable\Sluggable;
-use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
-use Cocur\Slugify\Slugify;
 
-class Group extends Model
+class Review extends Model
 {
     use CrudTrait;
-    use Sluggable, SluggableScopeHelpers;
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +18,7 @@ class Group extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'groups';
+    protected $table = 'reviews';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
@@ -36,34 +32,15 @@ class Group extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function sluggable()
-    {
-        return [
-            'uri' => [
-                'source' => ['name'],
-            ],
-        ];
-    }
-
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
 
-    public function category()
+    public function group()
     {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function variants()
-    {
-        return $this->hasMany(Variant::class);
-    }
-
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
+        return $this->belongsTo(Group::class);
     }
 
     /*
@@ -89,25 +66,15 @@ class Group extends Model
         parent::boot();
 
         static::deleting(function ($obj) {
-            Storage::disk('uploads')->delete(Str::replaceFirst('uploads/', '', $obj->image));
-            Storage::disk('uploads')->delete(Str::replaceFirst('uploads/', '', $obj->banner));
+            Storage::disk('uploads')->delete(Str::replaceFirst('uploads/', '', $obj->thumbnail));
         });
     }
 
-    public function setImageAttribute($value)
+    public function setThumbnailAttribute($value)
     {
-        $attribute_name = "image";
+        $attribute_name = "thumbnail";
         $disk = "uploads";
-        $destination_path = "products/groups/thumbnail";
-
-        $this->storeImage($value, $attribute_name, $disk, $destination_path, $fileName = null);
-    }
-
-    public function setBannerAttribute($value)
-    {
-        $attribute_name = "banner";
-        $disk = "uploads";
-        $destination_path = "products/groups/banner";
+        $destination_path = "reviews/thumbnail";
 
         $this->storeImage($value, $attribute_name, $disk, $destination_path, $fileName = null);
     }

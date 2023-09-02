@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Models\Variant;
 
@@ -12,6 +13,7 @@ class VariantController extends Controller
     {
         $group = Group::where('uri', $uri)->first();
         $sales = $request->query('sales');
+        $reviews = Review::where('group_id', $group->id)->get();
 
         $xmlObject = simplexml_load_file(public_path('features.xml'));
         $features = $xmlObject->xpath("//feature[uri='{$uri}']");
@@ -31,7 +33,7 @@ class VariantController extends Controller
                 ->where('name', $variantNames[0])
                 ->get();
 
-            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data', 'sales', 'features'));
+            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data', 'sales', 'features', 'reviews'));
         } else {
             return view('errors/404');
         }
