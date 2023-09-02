@@ -40,7 +40,7 @@ class ReviewCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('group_id');
-        CRUD::column('title');
+        // CRUD::column('title');
         CRUD::column('created_at');
         CRUD::column('updated_at');
 
