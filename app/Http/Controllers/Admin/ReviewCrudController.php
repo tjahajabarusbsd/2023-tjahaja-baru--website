@@ -39,10 +39,27 @@ class ReviewCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('group_id');
+        $this->crud->addFilter(
+            [
+                'type'  => 'text',
+                'name'  => 'group_name', // Nama kolom untuk filter
+                'label' => 'Group Name'
+            ],
+            false,
+            function ($value) { // if the filter is active
+                $this->crud->addClause('whereHas', 'group', function ($query) use ($value) {
+                    $query->where('name', 'LIKE', "%$value%");
+                });
+            }
+        );
+
+        CRUD::addColumn([
+            'name' => 'group.name', // 'group.name' mengacu pada relasi antara tabel Anda
+            'label' => 'Group Name', // Label yang akan ditampilkan dalam daftar
+        ]);
         // CRUD::column('title');
         CRUD::column('created_at');
-        CRUD::column('updated_at');
+        // CRUD::column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
