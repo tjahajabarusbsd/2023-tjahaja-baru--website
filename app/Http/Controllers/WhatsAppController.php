@@ -83,7 +83,9 @@ class WhatsAppController extends Controller
 
         // dd($body, $phone);
 
-        $url = "https://api.1msg.io/434886/sendMessage?token=off_qEkYX33795ARuvTqG38zxXYbAK";
+        $token_wa = env('TOKEN_WA');
+
+        $url = "https://api.1msg.io/434886/sendMessage?token=$token_wa";
 
         $headers = [
             'Content-Type' => 'application/json',
