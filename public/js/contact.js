@@ -25,8 +25,8 @@ $(document).ready(function () {
         if (userNameValue === "") {
             setErrorFor(userName, "Kolom wajib diisi.");
             enableButton();
-        } else if (!/^[A-Za-z]+$/.test(userNameValue)) {
-            setErrorFor(userName, "Hanya diperbolehkan input alfabet.");
+        } else if (!/^[A-Za-z\s]+$/.test(userNameValue)) {
+            setErrorFor(userName, "Hanya diperbolehkan input huruf.");
             enableButton();
         } else {
             setSuccessFor(userName);
