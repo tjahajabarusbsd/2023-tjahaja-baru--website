@@ -3408,7 +3408,7 @@
             </div>
         @endif
 
-        <form action="/send_message" method="post" onsubmit="disableButton()">
+        <form action="/send_message" method="post" onsubmit="disableButton()" id="detail-product-forms">
             @csrf
             @if (!empty($sales))
                 <input name="sales" type="text" hidden value="{{ $sales }}">
