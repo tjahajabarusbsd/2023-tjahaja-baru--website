@@ -2,37 +2,33 @@
     position: fixed;
     width: 100%;
     background-color: #183f9e;
-    z-index: 99;
+    z-index: 99
 }
 
 header {
-    height: 61px;
+    height: 61px
 }
 
 .navbar .container {
     display: -webkit-box;
-    /* OLD - iOS 6-, Safari 3.1-6, BB7 */
     display: -ms-flexbox;
-    /* TWEENER - IE 10 */
     display: -webkit-flex;
-    /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
     display: flex;
-    /* NEW, Spec - Firefox, Chrome, Opera */
-    align-items: flex-start;
+    align-items: flex-start
 }
 
 .main-logo .logo-image {
     height: 45px;
-    width: 95px;
+    width: 95px
 }
 
 .navbar .navbar-nav .nav-link {
     text-transform: uppercase;
     text-align: center;
-    color: white;
+    color: #fff;
     border-radius: 5px;
     width: max-content;
-    margin: 0 auto;
+    margin: 0 auto
 }
 
 .navbar li>a::after {
@@ -42,27 +38,27 @@ header {
     height: 3px;
     width: 0;
     top: 5px;
-    background: transparent;
-    transition: all 0.3s;
+    background: 0 0;
+    transition: .3s
 }
 
-.navbar li>a:hover::after,
-.navbar li>a.active-nav::after {
+.navbar li>a.active-nav::after,
+.navbar li>a:hover::after {
     width: 100%;
-    background: white;
+    background: #fff
 }
 
-@media only screen and (max-width: 425px) {
+@media only screen and (max-width:425px) {
     header {
-        height: 56px;
+        height: 56px
     }
 
     .main-logo {
-        margin-top: 5px;
+        margin-top: 5px
     }
 
     .main-logo .logo-image {
         height: 30px;
-        width: 64px;
+        width: 64px
     }
 }

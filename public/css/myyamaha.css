@@ -1,114 +1,118 @@
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: smooth
 }
 
 .animated-element {
     opacity: 0;
     transform: translateY(50px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity .5s, transform .5s
 }
 
 .animate {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0)
 }
 
 img {
-    width: 100%;
+    width: 100%
 }
 
 .myyamaha .title {
     text-align: center;
     padding-top: 30px;
     font-weight: 700;
-    font-size: 30px;
+    font-size: 30px
 }
 
 .myyamaha .section1 {
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-around
 }
 
 .myyamaha .section1 .banner,
 .myyamaha .section2 .banner {
-    margin-bottom: 20px;
+    margin-bottom: 20px
 }
 
 .myyamaha .section1 .banner img,
 .myyamaha .section2 .banner img {
-    position: relative;
+    position: relative
 }
 
 .myyamaha .section1 .caption,
 .myyamaha .section2 .navpage {
     width: 80%;
-    margin: auto auto;
+    margin: auto
 }
 
 .myyamaha .section1 .caption h3 {
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 20px;
-    text-align: left;
+    text-align: left
 }
 
 .myyamaha .section1 .caption p {
-    font-size: 16px;
+    font-size: 16px
 }
 
 .myyamaha .section2 {
     position: relative;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap
 }
 
 .myyamaha .section2 .navdiv {
     display: flex;
     align-items: center;
     text-decoration: none;
-}
-
-.myyamaha .section2 .navdiv {
     height: 50px;
     background-color: #183f9e;
     border-radius: 25px;
     padding: 0 20px;
-    margin-bottom: 15px;
+    margin-bottom: 15px
+}
+
+.myyamaha .section4 .tier-content,
+.myyamaha .section7 .card-body {
+    background: linear-gradient(180deg, rgba(217, 217, 217, .1), rgba(109, 109, 109, .1))
 }
 
 .myyamaha .section2 .navimg {
-    width: 33px;
+    width: 33px
 }
 
 .myyamaha .section2 .navspan {
-    color: #ffffff;
+    color: #fff;
     font-weight: 700;
     margin-left: 5px;
-    font-size: 13px;
+    font-size: 13px
 }
 
 .myyamaha .section3,
 .myyamaha .section5 {
     padding-bottom: 40px;
-    background-color: #0f1851;
+    background-color: #0f1851
 }
 
 .myyamaha .section3 {
-    margin-top: 20px;
+    margin-top: 20px
 }
 
+.myyamaha .section3 .item-text,
 .myyamaha .section3 .title,
-.myyamaha .section3 .item-text {
-    color: #ffffff;
+.myyamaha .section5 .title,
+.myyamaha .section5 p {
+    color: #fff
 }
 
 .myyamaha .section3 .items-container {
     display: flex;
     flex-wrap: wrap;
     max-width: 1300px;
-    margin: 0 auto;
+    margin: 0 auto
 }
 
 .myyamaha .section3 .item {
@@ -116,282 +120,261 @@ img {
     flex-wrap: wrap;
     width: 220px;
     margin: 0 auto;
-    justify-content: center;
+    justify-content: center
 }
 
 .myyamaha .section4 .tier-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    margin-top: 50px;
+    margin-top: 50px
 }
 
 .myyamaha .section4 .tier-content {
-    background: linear-gradient(180deg, rgba(217, 217, 217, 0.1), rgba(109, 109, 109, 0.1));
     border-radius: 44px;
     max-width: 232px;
     width: 100%;
-    margin-bottom: 60px;
+    margin-bottom: 60px
 }
 
 .myyamaha .section4 .top-content {
     text-align: center;
-    border-bottom: 3px solid #6dcbb1;
+    border-bottom: 3px solid #6dcbb1
 }
-
 
 .myyamaha .section4 .tier-badge {
     position: relative;
     width: 55px;
-    top: -25px;
+    top: -25px
 }
 
 .myyamaha .section4 .tier-title {
-    font-size: 22px;
+    font-size: 22px
 }
 
 .myyamaha .section4 .tier-point {
-    font-weight: 700;
+    font-weight: 700
 }
 
 .myyamaha .section4 .bot-content {
-    padding: 10px 20px 20px 30px;
+    padding: 10px 20px 20px 30px
 }
 
 .myyamaha .section5 .poin-container {
     display: flex;
-}
-
-.myyamaha .section5 .title,
-.myyamaha .section5 p {
-    color: #ffffff;
+    max-width: 636px;
+    margin: 0 auto
 }
 
 .myyamaha .section5 .poin-container p {
     font-size: 13px;
     line-height: 40px;
-    height: 40px;
-}
-
-.myyamaha .section5 .poin-container {
-    max-width: 636px;
-    margin: 0 auto;
+    height: 40px
 }
 
 .myyamaha .section5 .poin-container .poin-desc {
-    margin: 0 auto;
+    margin: 0 auto
 }
 
 .myyamaha .section5 {
     max-width: 550px;
     margin: 20px auto;
-    border-radius: 50px;
+    border-radius: 50px
 }
 
 .myyamaha .section5 .poin-desc span {
     position: relative;
-    top: -23px;
+    top: -23px
 }
 
 .myyamaha .section6 {
     display: block;
     width: 90%;
-    margin: 0 auto;
-    margin-bottom: 20px;
+    margin: 0 auto 20px
 }
 
 .myyamaha .section6 .icon-apps {
-    width: 45px;
+    width: 45px
 }
 
 .myyamaha .section6 .banner img {
     display: block;
     width: 227px;
-    margin: 40px auto;
+    margin: 40px auto
 }
 
 .myyamaha .section6 .title-mb {
-    display: block;
+    display: block
 }
 
 .myyamaha .section6 .title-pc {
-    display: none;
+    display: none
 }
 
 .myyamaha .section6 .download-container {
     flex-direction: row;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: nowrap
 }
 
 .myyamaha .section6 .download-container img {
-    height: 40px;
+    height: 40px
 }
 
 .myyamaha .section6 .download-container a {
-    margin: 10px;
+    margin: 10px
 }
 
 .myyamaha .section7 {
     width: 80%;
-    margin: 0 auto;
-    max-width: 1300px;
-    margin-bottom: 20px;
+    margin: 0 auto 20px;
+    max-width: 1300px
 }
 
 .myyamaha .section7 a {
     margin: 5px;
-    background-color: #0f1851;
+    background-color: #0f1851
 }
 
-.myyamaha .section7 .card-body {
-    background: linear-gradient(180deg, rgba(217, 217, 217, 0.1), rgba(109, 109, 109, 0.1));
-}
-
-@media screen and (min-width: 575px) {
+@media screen and (min-width:575px) {
 
     .myyamaha .section1 .banner,
     .myyamaha .section2 .banner {
         max-height: 500px;
-        overflow: hidden;
+        overflow: hidden
     }
 
-    .myyamaha .section1 .banner img {
-        top: -6em;
-    }
-
+    .myyamaha .section1 .banner img,
     .myyamaha .section2 .banner img {
-        top: -6em;
+        top: -6em
     }
 }
 
-@media screen and (min-width: 767px) {
+@media screen and (min-width:767px) {
 
     .myyamaha .section1,
     .myyamaha .section2,
     .myyamaha .section4 {
         max-width: 1300px;
         margin: 0 auto;
-        flex-wrap: nowrap;
+        flex-wrap: nowrap
     }
 
     .myyamaha .section2 {
-        flex-direction: row-reverse;
+        flex-direction: row-reverse
     }
 
     .myyamaha .section1 .banner,
     .myyamaha .section2 .banner {
         width: 50%;
         max-height: none;
-        margin-bottom: 0;
+        margin-bottom: 0
     }
 
     .myyamaha .section1 .caption,
     .myyamaha .section2 .navpage {
-        width: 50%;
+        width: 50%
     }
 
     .myyamaha .section1 .text-wrapper {
-        padding: 5vw;
+        padding: 5vw
     }
 
     .myyamaha .section1 .text-wrapper h3 {
-        font-size: 4vw;
+        font-size: 4vw
     }
 
     .myyamaha .section1 .text-wrapper p {
-        font-size: 2vw;
+        font-size: 2vw
     }
 
     .myyamaha .section1 .banner img,
     .myyamaha .section2 .banner img {
-        top: 0;
+        top: 0
     }
 
     .myyamaha .section2 .navpage {
         padding-left: 5vw;
-        padding-right: 5vw;
+        padding-right: 5vw
     }
 
     .myyamaha .section2 .navdiv {
-        margin-bottom: 7%;
+        margin-bottom: 7%
     }
 
     .myyamaha .section2 .navdiv:last-child {
-        margin-bottom: 0;
+        margin-bottom: 0
     }
 
     .myyamaha .section6 {
         display: flex;
         width: 80%;
-        margin: 0 auto;
-        margin-bottom: 20px;
-        max-width: 1200px;
+        margin: 0 auto 20px;
+        max-width: 1200px
     }
 
     .myyamaha .section6 .banner img {
-        width: 267px;
+        width: 267px
     }
 
     .myyamaha .section6 .title-mb {
-        display: none;
+        display: none
     }
 
     .myyamaha .section6 .title-pc {
         display: block;
-        text-align: left;
+        text-align: left
     }
 
     .myyamaha .section6 .caption {
-        padding: 0 5%;
+        padding: 0 5%
     }
-
 }
 
-@media screen and (min-width: 1199px) {
+@media screen and (min-width:1199px) {
     .myyamaha .section1 .text-wrapper {
-        padding: 58px;
+        padding: 58px
     }
 
     .myyamaha .section1 .text-wrapper h3 {
-        font-size: 47px;
+        font-size: 47px
     }
 
     .myyamaha .section1 .text-wrapper p {
-        font-size: 24px;
+        font-size: 24px
     }
 
     .myyamaha .section2 .navpage {
         padding-left: 60px;
-        padding-right: 60px;
+        padding-right: 60px
     }
 
     .myyamaha .section2 .navdiv {
-        margin-bottom: 33.5px;
+        margin-bottom: 33.5px
     }
 
     .myyamaha .section4 .tier-content {
-        margin-bottom: 30px;
+        margin-bottom: 30px
     }
 
     .myyamaha .section6 .banner img {
-        width: 294px;
+        width: 294px
     }
 
     .myyamaha .section6 .caption {
         padding-left: 115px;
-        padding-right: 0;
+        padding-right: 0
     }
 
     .myyamaha .section6 .title-pc {
-        font-size: 42px;
+        font-size: 42px
     }
 
     .myyamaha .section6 .text-wrapper p {
-        font-size: 23px;
+        font-size: 23px
     }
 
     .myyamaha .section6 .download-container img {
-        height: 80px;
+        height: 80px
     }
 }

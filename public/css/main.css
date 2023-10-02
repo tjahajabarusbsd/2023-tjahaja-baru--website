@@ -1,141 +1,133 @@
-html,
+#main-wrapper,
 body,
-#main-wrapper {
-    width: 100%;
-    min-height: 100vh;
-    position: relative;
-    display: block;
-    background-color: #FFFFFF;
-    font-family: 'Montserrat', sans-serif;
-}
-
+html,
 section {
     width: 100%;
     position: relative;
-    display: block;
+    display: block
+}
+
+footer .first-row .caption-first-row,
+section.separator {
+    margin-bottom: 10px
+}
+
+footer .footer-row,
+section.link-wa {
+    text-align: center
+}
+
+#main-wrapper,
+body,
+html {
+    min-height: 100vh;
+    background-color: #fff;
+    font-family: Montserrat, sans-serif
 }
 
 section.separator {
     height: 10px;
-    margin-bottom: 10px;
-    background-color: #6dcbb1;
+    background-color: #6dcbb1
 }
 
 footer {
     padding-bottom: 10px;
-    font-weight: bold;
-    color: #183f9d;
-}
-
-footer .footer-row {
-    text-align: center;
-}
-
-footer .first-row .caption-first-row {
-    margin-bottom: 10px;
+    font-weight: 700;
+    color: #183f9d
 }
 
 footer .first-row .sosmed {
     max-width: 400px;
-    margin: 0 auto;
+    margin: 0 auto
 }
 
 footer .first-row .sosmed a {
-    margin: 0 5%;
+    margin: 0 5%
 }
 
 footer .first-row .sosmed img {
-    width: 33px;
+    width: 33px
 }
 
 footer .line {
     border-bottom: 2px solid #6dcbb1;
-    margin: 5px 0;
+    margin: 5px 0
 }
 
 footer .second-row {
-    font-size: 13px;
+    font-size: 13px
 }
 
 footer .second-row img {
     width: 18px;
-    margin-right: 5px;
+    margin-right: 5px
 }
 
 section.link-wa {
     position: fixed;
     display: flex;
     justify-content: center;
-    text-align: center;
     align-items: center;
-    /* width: 240px; pc */
     width: 175px;
-    /* height: 62px; pc */
     height: 47px;
     right: 11px;
     bottom: 15px;
     margin-bottom: 0;
     z-index: 1000;
     background: #26d968;
-    border-radius: 10px;
+    border-radius: 10px
 }
 
 section.link-wa:hover {
     background-color: #52e086;
+    animation: .82s cubic-bezier(.36, .07, .19, .97) both shake;
+    transform: translate3d(0, 0, 0);
+    perspective: 1000px
 }
 
 section.link-wa .konten-gambar {
-    /* width: 52px; pc */
-    width: 40px;
+    width: 40px
 }
 
 section.link-wa .konten-gambar img {
-    /* width: 40px; pc */
-    width: 30px;
+    width: 30px
 }
 
 a.btn-wa {
-    text-decoration: none;
+    text-decoration: none
 }
 
 section.link-wa .konten-wa h3 {
     font-size: 14px;
-    /* font-size: 20px; pc */
     font-weight: 700;
-    color: white;
-    margin-bottom: 0;
-}
-
-section.link-wa:hover {
-    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
-    transform: translate3d(0, 0, 0);
-    perspective: 1000px;
+    color: #fff;
+    margin-bottom: 0
 }
 
 @keyframes shake {
 
     10%,
     90% {
-        transform: translate3d(-1px, 0, 0);
+        transform: translate3d(-1px, 0, 0)
     }
 
     20%,
     80% {
-        transform: translate3d(2px, 0, 0);
+        transform: translate3d(2px, 0, 0)
     }
 
     30%,
     50%,
     70% {
-        transform: translate3d(-4px, 0, 0);
+        transform: translate3d(-4px, 0, 0)
     }
 
     40%,
     60% {
-        transform: translate3d(4px, 0, 0);
+        transform: translate3d(4px, 0, 0)
     }
 }
 
 .grecaptcha-badge {
-    visibility: hidden !important;
+    visibility: hidden !important
 }

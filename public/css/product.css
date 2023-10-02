@@ -1,9 +1,5 @@
-/* .product .first-section {
-    background: black;
-} */
-
 .product .first-section .icon-container {
-    background: #17285e;
+    background: #17285e
 }
 
 .product .first-section .icon-row {
@@ -12,19 +8,19 @@
     height: 85px;
     width: 100%;
     max-width: 950px;
-    margin: 0 auto;
+    margin: 0 auto
 }
 
 .product .first-section .icon-row .icon {
-    margin: 0 auto;
+    margin: 0 auto
 }
 
 .product .first-section .icon-row.mobile .icon {
-    margin-top: 10px;
+    margin-top: 10px
 }
 
 .product .first-section .icon-row.pc {
-    display: none;
+    display: none
 }
 
 .product .first-section .product-icon-box {
@@ -33,102 +29,99 @@
     align-items: center;
     justify-content: center;
     width: 104px;
-    cursor: pointer;
+    cursor: pointer
 }
 
+.product .first-section .product-icon-box.active,
 .product .first-section .product-icon-box:hover {
-    background: linear-gradient(180deg, #100E5A 0%, rgba(255, 255, 255, 0) 53%);
-}
-
-.product .first-section .product-icon-box.active {
-    background: linear-gradient(180deg, #100E5A 0%, rgba(255, 255, 255, 0) 53%);
+    background: linear-gradient(180deg, #100e5a 0, rgba(255, 255, 255, 0) 53%)
 }
 
 .product .first-section .product-icon-box .icon {
-    width: 60px;
+    width: 60px
 }
 
 .product .first-section .product-icon-box a {
-    text-decoration: none;
+    text-decoration: none
 }
 
 .product .first-section .product-icon-box .text {
     font-size: 13px;
     font-weight: 700;
     text-align: center;
-    color: #ffffff;
+    color: #fff;
     margin-bottom: 0;
-    margin-top: 10px;
+    margin-top: 10px
 }
 
 .product .second-section {
-    margin-bottom: 100px;
+    margin-bottom: 100px
 }
 
 .product .second-section .product-logo-container {
     display: flex;
     justify-content: center;
-    margin: 10px 0;
+    margin: 10px 0
 }
 
 .product .second-section .product-logo-container .logo {
     font-size: 25px;
-    font-weight: 700;
+    font-weight: 700
 }
 
 .product .second-section .logo {
-    width: 120px;
+    width: 120px
 }
 
 .product .second-section .grid-container {
-    display: block;
+    display: block
 }
 
 .product .second-section .grid-container .grid-content {
     position: relative;
     width: 260px;
     height: 289px;
-    margin: 0 auto 20px auto;
-    box-shadow: 5px 7px 15px 0px rgb(0 0 0 / 25%);
-    -webkit-box-shadow: 5px 7px 15px 0px rgb(0 0 0 / 25%);
-    -moz-box-shadow: 5px 7px 15px 0px rgb(0 0 0 / 25%);
+    margin: 0 auto 20px;
+    box-shadow: 5px 7px 15px 0 rgb(0 0 0 / 25%);
+    -webkit-box-shadow: 5px 7px 15px 0 rgb(0 0 0 / 25%);
+    -moz-box-shadow: 5px 7px 15px 0 rgb(0 0 0 / 25%)
 }
 
 .product .second-section .grid-container .grid-content .product-link {
     text-decoration: none;
-    color: black;
+    color: #000
 }
 
 .product .second-section .grid-container .grid-content .product-link .box-img {
     padding-left: 15px;
     padding-right: 30px;
-    padding-top: 20px;
+    padding-top: 20px
 }
 
 .product .second-section .grid-container .grid-content .box-img img {
     width: 100%;
-    height: 100%;
+    height: 100%
 }
 
 .product .second-section .grid-container .grid-content .box-text {
     position: relative;
-    font-weight: bold;
+    font-weight: 700;
     margin-left: 14px;
     margin-bottom: 10px;
-    margin-top: 15px;
+    margin-top: 15px
 }
 
 .product .second-section .grid-container .grid-content .box-text p {
-    margin-bottom: 0;
+    margin-bottom: 0
 }
 
 .product .second-section .grid-container .grid-content .box-text .caption {
     font-size: 10px;
-    width: 195px;
+    width: 195px
 }
 
 .product .second-section .grid-container .grid-content .box-text .product-price {
-    font-size: 15px;
+    font-size: 15px
 }
 
 .product .second-section .grid-container .grid-content .box-text .tombol-biru {
@@ -138,41 +131,41 @@
     height: auto;
     bottom: -76px;
     left: -40px;
-    scale: 0.256;
+    scale: 0.256
 }
 
-@media only screen and (min-width: 338px) {
+@media only screen and (min-width:338px) {
     .product .second-section .grid-container {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-evenly;
         max-width: 950px;
-        margin: 0 auto;
+        margin: 0 auto
     }
 
     .product .second-section .grid-container .grid-content {
         height: 300px;
-        margin: 10px 27px 15px 27px;
+        margin: 10px 27px 15px
     }
 
     .product .second-section .grid-container .grid-content .box-text .tombol-biru {
         bottom: -85px;
         left: -50px;
-        scale: 0.3;
+        scale: 0.3
     }
 }
 
-@media only screen and (min-width: 545px) {
+@media only screen and (min-width:545px) {
     .product .first-section .icon-row.pc {
-        display: flex;
+        display: flex
     }
 
     .product .first-section .icon-row.mobile {
-        display: none;
+        display: none
     }
 }
 
-@media only screen and (min-width: 966px) {
+@media only screen and (min-width:966px) {
     .product .second-section .grid-container {
         justify-content: flex-start
     }
