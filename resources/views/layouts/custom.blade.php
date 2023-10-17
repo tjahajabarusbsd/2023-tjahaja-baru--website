@@ -51,16 +51,22 @@
     @yield('content')
     @include('partials/footer')
 
-    <a class="btn-wa" href="https://api.whatsapp.com/send?phone=62811805898&amp;text=Halo admin, saya ingin menanyakan" target="_blank" rel="noopener noreferrer">
-    <section class="link-wa">
-      <div class="konten-gambar">
-        <img src="{{ url('/images/icons/wa.png')}}">
-      </div>
-      <div class="konten-wa">
-        <h3>Chat WhatsApp</h3>
-      </div>
-    </section>
-  </a>
+    @php
+    use Illuminate\Support\Str;
+    @endphp
+
+    @unless(request()->is('consultation') || Str::is('product*', request()->path()))
+      <a class="btn-wa" href="https://api.whatsapp.com/send?phone=62811805898&amp;text=Halo admin, saya ingin menanyakan" target="_blank" rel="noopener noreferrer">
+      <section class="link-wa">
+        <div class="konten-gambar">
+          <img src="{{ url('/images/icons/wa.png')}}">
+        </div>
+        <div class="konten-wa">
+          <h3>Chat WhatsApp</h3>
+        </div>
+      </section>
+      </a>
+    @endunless
   </div>
   @include('partials/page_script')
   @yield('additional_script')
