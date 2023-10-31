@@ -100,7 +100,7 @@ header {
 
 @media only screen and (max-width:425px) {
     header {
-        height: 56px
+        height: 51px
     }
 
     .main-logo {
