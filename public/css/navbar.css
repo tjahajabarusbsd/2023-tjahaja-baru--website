@@ -6,11 +6,11 @@ header {
     position: fixed;
     width: 100%;
     background-color: #183f9e;
-    z-index: 99;
+    z-index: 99
 }
 
 .navbar img {
-    height: unset;
+    height: unset
 }
 
 .navbar .container {
@@ -30,7 +30,7 @@ header {
 }
 
 .navbar .main-logo {
-    padding-top: 0;
+    padding-top: 0
 }
 
 .navbar .main-logo .logo-image {
@@ -113,7 +113,7 @@ header {
     left: 0;
     width: 100%;
     z-index: 1;
-    top: 61px;
+    top: 61px
 }
 
 .navbar .icon-row {
@@ -133,7 +133,8 @@ header {
     margin-top: 10px
 }
 
-.navbar .icon-row.pc {
+.navbar .icon-row.pc,
+.navbar .subnav.pc {
     display: none
 }
 
@@ -169,25 +170,21 @@ header {
 }
 
 .icon-container.show {
-    display: block;
-}
-
-.navbar .subnav.pc {
-    display: none;
+    display: block
 }
 
 .navbar .dropdown-menu {
     text-align: center;
-    background: transparent;
-    border: none;
+    background: 0 0;
+    border: none
 }
 
 .navbar .dropdown-item {
-    color: #fff;
+    color: #fff
 }
 
 .navbar .dropdown-item:hover {
-    background: none;
+    background: 0 0
 }
 
 @media only screen and (min-width:545px) {
@@ -203,28 +200,25 @@ header {
 @media only screen and (min-width:992px) {
     .navbar {
         padding-top: 0;
-        padding-bottom: 0;
+        padding-bottom: 0
     }
 
     .navbar .main-logo {
-        padding-top: 8px;
+        padding-top: 8px
     }
 
     .navbar .navbar-nav .nav-link {
         height: 61px;
-        padding-top: 16px;
+        padding-top: 16px
     }
 
-    .navbar .subnav.pc {
-        display: block;
-    }
-
+    .navbar .subnav.pc,
     .navbar .subnav:hover .icon-container {
-        display: block;
+        display: block
     }
 
     .navbar .dropdown.mobile {
-        display: none;
+        display: none
     }
 }
 
