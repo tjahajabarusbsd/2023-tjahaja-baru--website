@@ -12,10 +12,10 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/">home</a>
 					</li>
-					<li class="nav-item subnav subnav-pc">
+					<li class="nav-item subnav">
 						<a class="nav-link" href="#products">products</a>
 						<div class="container-fluid icon-container">
-							<div class="row icon-row pc">
+							<div class="row icon-row">
 								<div class="product-icon-box">
 									<a href="/products/category/maxi">
 										<img src="{{ url('images/products/icons/maxi_i.png')}}" alt="" class="icon">
@@ -49,7 +49,7 @@
 							</div>
 						</div>
 					</li>
-					<li class="nav-item dropdown dropdown-mobile">
+					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						  products
 						</a>
