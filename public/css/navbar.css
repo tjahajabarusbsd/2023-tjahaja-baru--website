@@ -169,10 +169,6 @@ header {
     margin-top: 10px
 }
 
-.icon-container.show {
-    display: block
-}
-
 .navbar .dropdown-menu {
     text-align: center;
     background: 0 0;
@@ -185,16 +181,6 @@ header {
 
 .navbar .dropdown-item:hover {
     background: 0 0
-}
-
-@media only screen and (min-width:545px) {
-    .navbar .icon-row {
-        display: flex
-    }
-
-    .navbar .icon-row {
-        display: none
-    }
 }
 
 @media only screen and (min-width:992px) {
@@ -213,8 +199,9 @@ header {
     }
 
     .navbar .subnav,
+    .navbar .icon-row,
     .navbar .subnav:hover .icon-container {
-        display: block
+        display: flex
     }
 
     .navbar .dropdown {
