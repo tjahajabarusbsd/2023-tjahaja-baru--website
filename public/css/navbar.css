@@ -1,20 +1,16 @@
+header {
+    height: 61px
+}
+
 .navbar {
     position: fixed;
     width: 100%;
     background-color: #183f9e;
-    z-index: 99
+    z-index: 99;
 }
 
-.navbar-toggler-icon,
-.navbar-toggler-icon::after,
-.navbar-toggler-icon::before {
-    background-color: var(--bs-gray-800);
-    position: relative;
-    transform-origin: center
-}
-
-header {
-    height: 61px
+.navbar img {
+    height: unset;
 }
 
 .navbar .container {
@@ -25,7 +21,19 @@ header {
     align-items: flex-start
 }
 
-.main-logo .logo-image {
+.navbar-toggler-icon,
+.navbar-toggler-icon::after,
+.navbar-toggler-icon::before {
+    background-color: var(--bs-gray-800);
+    position: relative;
+    transform-origin: center
+}
+
+.navbar .main-logo {
+    padding-top: 0;
+}
+
+.navbar .main-logo .logo-image {
     height: 45px;
     width: 95px
 }
@@ -98,16 +106,138 @@ header {
     background-color: var(--bs-gray-100)
 }
 
+.navbar .icon-container {
+    display: none;
+    background: #17285e;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    top: 61px;
+}
+
+.navbar .icon-row {
+    display: flex;
+    justify-content: space-between;
+    height: 85px;
+    width: 100%;
+    max-width: 950px;
+    margin: 0 auto
+}
+
+.navbar .icon-row .icon {
+    margin: 0 auto
+}
+
+.navbar .icon-row.mobile .icon {
+    margin-top: 10px
+}
+
+.navbar .icon-row.pc {
+    display: none
+}
+
+.navbar .product-icon-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 104px;
+    cursor: pointer
+}
+
+.navbar .product-icon-box.active,
+.navbar .product-icon-box:hover {
+    background: linear-gradient(180deg, #100e5a 0, rgba(255, 255, 255, 0) 53%)
+}
+
+.navbar .product-icon-box .icon {
+    width: 60px
+}
+
+.navbar .product-icon-box a {
+    text-decoration: none
+}
+
+.navbar .product-icon-box .text {
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 0;
+    margin-top: 10px
+}
+
+.icon-container.show {
+    display: block;
+}
+
+.navbar .subnav.pc {
+    display: none;
+}
+
+.navbar .dropdown-menu {
+    text-align: center;
+    background: transparent;
+    border: none;
+}
+
+.navbar .dropdown-item {
+    color: #fff;
+}
+
+.navbar .dropdown-item:hover {
+    background: none;
+}
+
+@media only screen and (min-width:545px) {
+    .navbar .icon-row.pc {
+        display: flex
+    }
+
+    .navbar .icon-row.mobile {
+        display: none
+    }
+}
+
+@media only screen and (min-width:992px) {
+    .navbar {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .navbar .main-logo {
+        padding-top: 8px;
+    }
+
+    .navbar .navbar-nav .nav-link {
+        height: 61px;
+        padding-top: 16px;
+    }
+
+    .navbar .subnav.pc {
+        display: block;
+    }
+
+    .navbar .subnav:hover .icon-container {
+        display: block;
+    }
+
+    .navbar .dropdown.mobile {
+        display: none;
+    }
+}
+
 @media only screen and (max-width:425px) {
     header {
         height: 51px
     }
 
-    .main-logo {
+    .navbar .main-logo {
         margin-top: 5px
     }
 
-    .main-logo .logo-image {
+    .navbar .main-logo .logo-image {
         height: 30px;
         width: 64px
     }
