@@ -116,21 +116,8 @@ header {
     top: 61px
 }
 
-.navbar .icon-row {
-    display: flex;
-    justify-content: space-between;
-    height: 85px;
-    width: 100%;
-    max-width: 950px;
-    margin: 0 auto
-}
-
 .navbar .icon-row .icon {
     margin: 0 auto
-}
-
-.navbar .icon-row .icon {
-    margin-top: 10px
 }
 
 .navbar .icon-row,
@@ -199,9 +186,17 @@ header {
     }
 
     .navbar .subnav,
-    .navbar .icon-row,
     .navbar .subnav:hover .icon-container {
-        display: flex
+        display: block
+    }
+
+    .navbar .icon-row {
+        display: flex;
+        justify-content: space-between;
+        height: 85px;
+        width: 100%;
+        max-width: 950px;
+        margin: 0 auto
     }
 
     .navbar .dropdown {
