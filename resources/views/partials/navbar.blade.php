@@ -12,7 +12,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/">home</a>
 					</li>
-					<li class="nav-item subnav pc">
+					<li class="nav-item subnav subnav-pc">
 						<a class="nav-link" href="#products">products</a>
 						<div class="container-fluid icon-container">
 							<div class="row icon-row pc">
@@ -49,7 +49,7 @@
 							</div>
 						</div>
 					</li>
-					<li class="nav-item dropdown mobile">
+					<li class="nav-item dropdown dropdown-mobile">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						  products
 						</a>

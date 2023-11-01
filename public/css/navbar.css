@@ -134,7 +134,7 @@ header {
 }
 
 .navbar .icon-row.pc,
-.navbar .subnav.pc {
+.navbar .subnav-pc {
     display: none
 }
 
@@ -212,12 +212,12 @@ header {
         padding-top: 16px
     }
 
-    .navbar .subnav.pc,
+    .navbar .subnav-pc,
     .navbar .subnav:hover .icon-container {
         display: block
     }
 
-    .navbar .dropdown.mobile {
+    .navbar .dropdown-mobile {
         display: none
     }
 }
