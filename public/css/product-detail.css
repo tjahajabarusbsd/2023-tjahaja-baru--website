@@ -196,7 +196,7 @@
     border: 1px solid #000
 }
 
-.second-section .caption-box {
+.second-section .carousel-caption {
     flex-direction: column;
     bottom: -65px
 }
@@ -249,16 +249,27 @@
 }
 
 .navtabs {
+    width: 90%;
     max-width: 1200px;
-    margin: 10px auto 50px
+    margin: 10px auto 50px;
+    box-shadow: 0 48px 80px -32px rgba(0, 0, 0, 0.3);
+}
+
+.navtabs .container-fluid {
+    padding-left: 0;
+    padding-right: 0%;
 }
 
 .navtabs .spec-wrapper {
-    padding: 0 2%
+    padding: 0 10%
 }
 
 .navtabs .carousel-indicators {
     bottom: -45px
+}
+
+.navtabs .tab-content {
+    padding-bottom: 20px;
 }
 
 .nav-tabs .nav-link {
@@ -345,10 +356,6 @@
 }
 
 @media only screen and (min-width:650px) {
-    .navtabs .spec-wrapper {
-        padding: 0 10%
-    }
-
     .spec-part-td1 {
         width: 220px;
         font-size: 16px
@@ -415,7 +422,7 @@
         right: -50px
     }
 
-    .second-section .caption-box {
+    .second-section .carousel-caption {
         bottom: -85px
     }
 
