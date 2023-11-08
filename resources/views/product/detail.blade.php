@@ -1,15 +1,15 @@
 @extends('layouts.custom')
 
-@section('title', $group->name . ' | Tjahaja Baru')
+@section('title','Yamaha ' . $group->name . ' | Tjahaja Baru')
 
 @section('meta_og')
-  	<meta property="og:title" content="{{ $group->name }} | Tjahaja Baru">
-	<meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
-  	<meta property="og:type" content="website">
-	{{-- <meta property="og:image" content="{{ url($image) }}"> --}}
-	<meta property="og:image:width" content="1000" />
-	<meta property="og:image:height" content="667" />
-	<meta property="og:url" content="{{ Request::url() }}">
+  <meta property="og:title" content="Yamaha {{ $group->name }} | Tjahaja Baru" />
+  <meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="{{ url($group->banner) }}">
+  <meta property="og:image:width" content="1000" />
+  <meta property="og:image:height" content="667" />
+  <meta property="og:url" content="{{ Request::url() }}" />
 @endsection
 
 @section('main_class', 'product-detail')
@@ -20,6 +20,7 @@
 @endsection
 
 @section('content')
+
 <section class="first-section">
     <div class="container-fluid icon-container">
         <div class="row icon-row pc">
