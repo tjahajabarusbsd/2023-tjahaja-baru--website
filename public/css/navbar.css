@@ -107,13 +107,16 @@ header {
 }
 
 .navbar .icon-container {
-    display: none;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
     background: #17285e;
     position: absolute;
     left: 0;
     width: 100%;
     z-index: 1;
-    top: 61px
+    top: 61px;
+    transition: 0.3s;
 }
 
 .navbar .icon-row .icon {
@@ -187,7 +190,10 @@ header {
 
     .navbar .subnav,
     .navbar .subnav:hover .icon-container {
-        display: block
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transition: 0.3s;
     }
 
     .navbar .icon-row {
