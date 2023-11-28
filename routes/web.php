@@ -11,6 +11,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VariantController;
 use App\Http\Controllers\WhatsAppController;
+// use App\Http\Controllers\PersonalityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,16 @@ Route::post('/send_message', [WhatsAppController::class, 'sendMessage']);
 
 Route::get('/compare_product', [ComparisonController::class, 'specComparison']);
 Route::get('/get_spec_details/{id}', [ComparisonController::class, 'getSpecDetails']);
+
+// Route::get('/kuis', function () {
+//     return view('/quiz');
+// });
+
+Route::get('/profil', function () {
+    return view('/about-us');
+});
+
+// Route::get('/submit-quiz/{finalResult}', [PersonalityController::class, 'submitQuiz'])->name('quiz.submit');
 
 // Route::get('/import-xls', function () {
 //     return view('import');

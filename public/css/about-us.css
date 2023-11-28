@@ -1,0 +1,194 @@
+img {
+    width: 100%;
+}
+
+section {
+    overflow: hidden;
+}
+
+.hero {
+    background-image: linear-gradient(180deg, rgba(27, 31, 37, 0) 0%, #1b1f25 100%), url("/images/gedung_sentral_yamaha.jpg") !important;
+    background-size: cover;
+    background-position: 50%;
+}
+
+.content-wrapper {
+    padding: 0 30px;
+}
+
+.content-wrapper h1 {
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 9vw;
+    letter-spacing: 0.05em;
+}
+
+.content-wrapper p {
+    line-height: 1.8em;
+}
+
+.bg-inner {
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, rgba(255, 255, 255, 0) 100%);
+    padding-top: 12vw;
+    padding-right: 10px;
+    padding-bottom: 12vw;
+    padding-left: 10px;
+    color: #fff;
+}
+
+.section-bg {
+    background: linear-gradient(180deg, #f2f6fa 0%, #fff 100%);
+}
+
+.about {
+    padding: 60px 30px;
+}
+
+.about p {
+    line-height: 1.8em;
+}
+
+.visi-misi {
+    padding-top: 60px;
+}
+
+.visi-misi .container {
+    max-width: 900px;
+}
+
+.title-h2 {
+    position: relative;
+    margin: 0 auto 20px;
+    padding-bottom: 20px;
+    width: fit-content;
+}
+
+.title-h2::before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 120px;
+    height: 1px;
+    background: #ddd;
+    bottom: 1px;
+    left: calc(50% - 60px);
+}
+
+.title-h2::after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: #183f9e;
+    bottom: 0;
+    left: calc(50% - 20px);
+}
+
+.card {
+    padding: 0 30px;
+    margin-bottom: 60px;
+    border: 0;
+    background: transparent;
+}
+
+.card-image {
+    overflow: hidden;
+}
+
+.card-body {
+    z-index: 10;
+    background: #fff;
+    border-top: 4px solid #fff;
+    padding: 30px;
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+    margin-top: -25px;
+    margin-left: 15px;
+    width: calc(100% - 30px);
+    display: table;
+}
+
+.card-body p {
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.nilai-nilai {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+.nilai-nilai .icon-box {
+    width: 100%;
+    box-shadow: 0px 0 25px 0 rgba(0, 0, 0, 0.1);
+    padding: 50px 30px;
+    transition: all ease-in-out 0.4s;
+    background: #fff;
+}
+
+.nilai-nilai .icon-box h3 {
+    font-weight: 500;
+    margin-bottom: 15px;
+    font-size: 28px;
+}
+
+.nilai-nilai .icon-box p {
+    line-height: 24px;
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+/* Media screen */
+@media only screen and (min-width:425px) {
+    .content-wrapper h1 {
+        font-size: 38px;
+    }
+
+    .card-body {
+        margin-top: -60px;
+    }
+}
+
+@media only screen and (min-width:640px) {
+    .card-body {
+        margin-left: 30px;
+        width: calc(100% - 60px);
+    }
+}
+
+@media only screen and (min-width:767px) {
+    .content-wrapper h1 {
+        font-size: 48px;
+    }
+
+    .card-body {
+        margin-top: -40px;
+    }
+}
+
+@media only screen and (min-width:900px) {
+    .bg-inner {
+        padding-right: 40px;
+        padding-left: 40px;
+    }
+}
+
+@media only screen and (min-width:1024px) {
+    .content-wrapper {
+        padding: 0 10%;
+    }
+}
+
+@media only screen and (min-width:1200px) {
+    .content-wrapper h1 {
+        font-size: 56px;
+        width: 64.833%;
+    }
+
+    .content-wrapper p {
+        margin-left: 10vw;
+        font-size: 20px;
+    }
+}
