@@ -12,6 +12,9 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/">home</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/profile">profile</a>
+					</li>
 					<li class="nav-item subnav">
 						<a class="nav-link" href="#products">products</a>
 						<div class="container-fluid icon-container">

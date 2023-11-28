@@ -62,7 +62,7 @@ Route::get('/get_spec_details/{id}', [ComparisonController::class, 'getSpecDetai
 //     return view('/quiz');
 // });
 
-Route::get('/profil', function () {
+Route::get('/profile', function () {
     return view('/about-us');
 });
 
