@@ -29,7 +29,7 @@
         <div class="container">
             <h2 class="text-center fw-bold title-h2">Tentang Tjahaja Baru</h2>
             <p>Selamat datang di Tjahaja Baru, penyedia terkemuka di industri otomotif sejak didirikan pada tanggal 5 Mei 1971. Dengan bangga kami menjadi dealer resmi produk motor Yamaha, memberikan pengalaman berkendara yang unggul dan pilihan terbaik untuk setiap perjalanan Anda.</p>
-            <p>Di Tjahaja Baru, kami membangun lebih dari sekadar bisnis. Kami merajut kisah panjang keberhasilan sepanjang empat dekade, menjadi bagian tak terpisahkan dari perjalanan berkendara Anda. Dengan dedikasi kepada kualitas, inovasi, dan kepuasan pelanggan, kami telah tumbuh menjadi sebuah keluarga otomotif yang memiliki 34 cabang di seluruh Sumatera Barat, memberikan akses mudah bagi pelanggan setia kami.</p>
+            <p>Tjahaja Baru, membangun lebih dari sekadar bisnis. Merajut kisah panjang keberhasilan sepanjang empat dekade, menjadi bagian tak terpisahkan dari perjalanan berkendara Anda. Dengan dedikasi kepada kualitas, inovasi, dan kepuasan pelanggan, telah tumbuh menjadi sebuah keluarga otomotif yang memiliki 34 cabang di seluruh Sumatera Barat, memberikan akses mudah bagi pelanggan setia kami.</p>
         </div>
     </section>
 
