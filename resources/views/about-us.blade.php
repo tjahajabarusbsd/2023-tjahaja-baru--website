@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Profil | Tjahaja Baru')
+@section('title', 'Profile | Tjahaja Baru')
 
 @section('meta_og')
   <meta property="og:title" content="Profile | Tjahaja Baru">
