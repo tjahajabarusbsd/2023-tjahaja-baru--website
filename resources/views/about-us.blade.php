@@ -3,7 +3,7 @@
 @section('title', 'Profil | Tjahaja Baru')
 
 @section('meta_og')
-  <meta property="og:title" content="Profil | Tjahaja Baru">
+  <meta property="og:title" content="Profile | Tjahaja Baru">
   <meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
   <meta property="og:type" content="website">
 @endsection
