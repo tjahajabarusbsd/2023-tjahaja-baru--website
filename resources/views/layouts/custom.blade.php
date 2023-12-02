@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
   @if(env('APP_ENV') == 'production')
     <!-- Google tag (gtag.js) -->
@@ -18,9 +19,8 @@
     })(window,document,'script','dataLayer','GTM-K363G3WM');</script>
     <!-- End Google Tag Manager -->
   @endif
-  
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="title" content="@yield('title')" />
   <meta name="keywords" content="yamaha, sumbar, sumatera barat, padang, tjahaja baru, maxi, classy, matic, moped, sport, minangkabau, servis yamaha, motor yamaha">
@@ -60,7 +60,7 @@
       <a class="btn-wa" href="https://api.whatsapp.com/send?phone=62811805898&amp;text=Halo admin, saya ingin menanyakan" target="_blank" rel="noopener noreferrer">
       <section class="link-wa">
         <div class="konten-gambar">
-          <img src="{{ url('/images/icons/wa.png')}}">
+          <img src="{{ url('/images/icons/wa.png')}}" alt="Whatsapp logo">
         </div>
         <div class="konten-wa">
           <h3>Chat WhatsApp</h3>
