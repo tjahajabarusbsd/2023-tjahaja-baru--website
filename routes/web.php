@@ -26,16 +26,14 @@ use App\Http\Controllers\PersonalityController;
 
 // --- Page Section --- 
 Route::get('/', [HomeController::class, 'getData']);
-Route::get('/products', [ProductController::class, 'getMaxi']);
-Route::get('/consultation', [ConsultationController::class, 'getConsultationForm']);
 Route::get('/dealers', [DealerController::class, 'getDealer']);
-Route::get('/compare_product', [ComparisonController::class, 'specComparison']);
 Route::get('/profile', function () { return view('/about-us'); });
 Route::get('/myyamaha', function () { return view('myyamaha'); });
-Route::get('/kuis', function () { return view('/quiz'); });
 // --- End Page Section --- 
 
 // --- Product Section --- 
+Route::get('/products', [ProductController::class, 'getMaxi']);
+
 Route::prefix('/products/category')->group(function () {
     Route::get('{uri}', [ProductController::class, 'getCategory']);
 });
@@ -53,14 +51,17 @@ Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('
 // --- End Contact Section --- 
 
 // --- Consultation Section --- 
+Route::get('/consultation', [ConsultationController::class, 'getConsultationForm']);
 Route::post('/send_message', [WhatsAppController::class, 'sendMessage']);
 // --- End Consultation Section --- 
 
 // --- Comparison Section --- 
+Route::get('/compare_product', [ComparisonController::class, 'specComparison']);
 Route::get('/get_spec_details/{id}', [ComparisonController::class, 'getSpecDetails']);
 // --- End Comparison Section --- 
 
 // --- Personality Quiz Section
+Route::get('/kuis', function () { return view('/quiz'); });
 Route::post('/submit-quiz/', [PersonalityController::class, 'submitQuiz']);
 // --- End Personality Quiz Section
 
