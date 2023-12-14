@@ -129,7 +129,7 @@ $(document).ready(function () {
                     $('.result').fadeIn();
                     $('.result h2').text(resultTitle);
                     $('.result img').attr('src', '/images/quiz/' + resultImage);
-                    $('.result a').attr('href', '/products/category/' + resultMotor);
+                    $('.result .view-product').attr('href', '/products/category/' + resultMotor);
                 }, 500);
             },
             error: function (error) {
@@ -142,4 +142,8 @@ $(document).ready(function () {
         $(this).attr("disabled", "disabled");
         submitForm();
     });
+
+    function refreshPage() {
+        window.location.reload();
+    }
 });

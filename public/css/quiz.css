@@ -18,18 +18,15 @@
     background: #f3e1d0;
     background-size: cover;
     background-image: url("/images/quiz/bg_cover.png");
-    background-position-x: 50%;
+    background-position-x: 51%;
 }
 
 .opening-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0 auto;
+    padding: 30px 10px;
+    height: 580px;
 }
 
 .title-wrapper {
-    width: 100%;
     margin: 0 auto;
     max-width: 400px;
     padding: 18px 12px;
@@ -41,7 +38,7 @@
 .title-wrapper h1 {
     margin: 0;
     color: #fff;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     font-family: mintmolly;
 }
 
@@ -50,9 +47,10 @@
 }
 
 .opening-section h2 {
+    max-width: 460px;
+    margin: 60px auto;
+    font-size: 28px;
     color: #383743;
-    margin-top: 60px;
-    margin-bottom: 60px;
     font-family: mintmolly;
 }
 
@@ -63,7 +61,8 @@
     background: #ff6600;
 }
 
-.start-button {
+.quiz-button {
+    display: block;
     height: 30px;
     font-size: 25px;
     font-family: BebasNeue;
@@ -82,13 +81,16 @@
 .quiz-form {
     display: none;
     margin: 0 auto;
-    padding-bottom: 70px;
     width: 100%;
 }
 
-/* .question-slide {
-    display: none;
-} */
+.quiz-form .question-slide:first-child {
+    padding-top: 50px;
+}
+
+.quiz-form .question-slide {
+    padding-bottom: 70px;
+}
 
 .question-image {
     max-width: 930px;
@@ -191,6 +193,10 @@
     height: unset;
 }
 
+.result {
+    display: none;
+}
+
 .result-image {
     max-width: 700px;
     margin: 0 auto;
@@ -203,7 +209,6 @@
 .result-title h1 {
     color: #383743;
     font-family: mintmolly;
-    border-bottom: 2px solid;
     font-size: 30px;
     display: inline;
 }
@@ -217,7 +222,28 @@
 }
 
 .result-cta {
+    display: flex;
     margin: 50px auto;
+    max-width: 700px;
+}
+
+.result-cta .button-wrapper {
+    width: 145px;
+}
+
+.result-cta a {
+    text-decoration: none;
+    line-height: normal;
+}
+
+.result-cta a:hover {
+    color: #ff6600;
+}
+
+@media only screen and (min-width:425px) {
+    .title-wrapper {
+        width: 100%;
+    }
 }
 
 @media only screen and (min-width:576px) {
@@ -236,23 +262,5 @@
 
     .last-question .button-wrapper {
         top: 90%;
-    }
-}
-
-@media only screen and (min-width:768px) {
-    .opening-section {
-        height: 485px;
-    }
-
-    .opening-section h2 {
-        font-size: 28px;
-        width: 460px;
-        margin: 60px auto;
-    }
-}
-
-@media only screen and (min-width:1024px) {
-    .opening-section {
-        height: 600px;
     }
 }

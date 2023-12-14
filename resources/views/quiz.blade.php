@@ -11,7 +11,7 @@
 @section('main_class', 'quiz')
 
 @section('additional_css')
-{{-- <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" /> --}}
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
 <link rel="stylesheet" href="{{ asset('css/quiz.css') }}" />
 @endsection
 
@@ -23,7 +23,7 @@
         </div>
         <h2 class="aos-init" data-aos="fade-up" data-aos-easing="ease" data-aos-delay="400">Seperti apa motor yang cocok untuk kamu? Cari tau yuk!</h2>
         <div class="button-wrapper aos-init" data-aos="fade-up" data-aos-easing="ease" data-aos-delay="800">
-            <div class="start-button">Mulai</div>
+            <div class="quiz-button">Mulai</div>
         </div>
     </section>
     
@@ -119,15 +119,15 @@
                     </picture>
                 </div>
                 <div class="button-wrapper">
-                    <button type="submit" name="finish" class="start-button submit-button">GASPOOL</button>
+                    <button type="submit" name="finish" class="quiz-button submit-button">GASPOOL</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="result" style="display: none">
+    <section class="result">
         <div class="result-title">
-            <h1>Motor Yang Cocok Dengan Kamu Adalah : </h1>
+            <h1>Motor Yang Cocok Dengan Kamu Adalah</h1>
             <h2>title</h3>
         </div>
         <div class="result-image">
@@ -136,14 +136,19 @@
             </picture>
         </div>
         <div class="result-cta">
-            <a href="" class="btn btn-primary">Lihat Produk</a>
+            <div class="button-wrapper">
+                <a href="" onClick="refreshPage()" class="quiz-button">Coba Lagi</a>
+            </div>
+            <div class="button-wrapper">
+                <a href="" class="quiz-button view-product">Lihat Produk</a>
+            </div>
         </div>
     </section>
 </div>
 @endsection
 
 @section('additional_script')
-{{-- <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     $(document).ready(function() {
         AOS.init({
@@ -151,6 +156,6 @@
             duration: 1000,
         });
     });
-</script> --}}
+</script>
 <script src="{{ asset('js/quiz.js') }}"></script>
 @endsection
