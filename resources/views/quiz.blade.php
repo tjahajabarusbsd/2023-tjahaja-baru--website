@@ -132,7 +132,7 @@
         </div>
         <div class="result-image">
             <picture>
-                <img src="{{ url('/images/quiz/result_classy.png')}}" alt="result-image" style="width:100%;">
+                <img src="" alt="result-image" style="width:100%;">
             </picture>
         </div>
         <div class="result-cta">

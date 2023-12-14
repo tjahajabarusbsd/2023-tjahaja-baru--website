@@ -18,7 +18,7 @@
     background: #f3e1d0;
     background-size: cover;
     background-image: url("/images/quiz/bg_cover.png");
-    background-position-x: 51%;
+    background-position-x: 50%;
 }
 
 .opening-section {
@@ -244,6 +244,10 @@
     .title-wrapper {
         width: 100%;
     }
+
+    .quiz-wrapper {
+        background-position-x: 51%;
+    }
 }
 
 @media only screen and (min-width:576px) {
@@ -262,5 +266,13 @@
 
     .last-question .button-wrapper {
         top: 90%;
+    }
+}
+
+@media only screen and (min-height:580px) {
+    .quiz-wrapper {
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position-x: 50%;
     }
 }
