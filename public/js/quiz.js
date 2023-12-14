@@ -106,7 +106,7 @@ $(document).ready(function () {
 
         // Mengirim data ke server melalui AJAX menggunakan $.ajax
         $.ajax({
-            url: '/submit-quiz/',
+            url: '/submit-quiz',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
