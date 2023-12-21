@@ -11,10 +11,10 @@ img {
     padding-top: 20px
 }
 
-.first-section,
+/* .first-section,
 .second-section {
     max-width: 1350px
-}
+} */
 
 section.first-section .caption-container {
     display: flex;
@@ -133,7 +133,7 @@ section.second-section .top-container .promo-container .promo-banner-container .
 section.second-section .top-container .promo-container .promo-banner-container .promo-banner-item {
     padding-top: 5px;
     padding-bottom: 9px;
-    width: 275px
+    /* width: 275px */
 }
 
 section.second-section .top-container .promo-container .promo-banner-container .promo-banner-item img {
