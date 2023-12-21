@@ -94,7 +94,7 @@ $(document).ready(function () {
     }
 
     $(".button-wrapper").click(function () {
-        $(".quiz-wrapper").css("background-image", "url(/images/quiz/background.png)");
+        $(".quiz-wrapper").addClass("bg-ripples");
         openingSection.delay(100).fadeOut();
         $(".quiz-form").delay(500).fadeIn();
         showSlide(currentSlide);

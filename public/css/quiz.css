@@ -195,6 +195,8 @@
 
 .result {
     display: none;
+    padding-right: 1em;
+    padding-left: 1em;
 }
 
 .result-image {
@@ -240,13 +242,21 @@
     color: #ff6600;
 }
 
-@media only screen and (min-width:425px) {
+.bg-ripples {
+    background-image: url("/images/quiz/bg_ripple_sml.png");
+}
+
+@media only screen and (min-width:431px) {
     .title-wrapper {
         width: 100%;
     }
 
     .quiz-wrapper {
         background-position-x: 51%;
+    }
+
+    .bg-ripples {
+        background-image: url("/images/quiz/background.png");
     }
 }
 
@@ -271,8 +281,15 @@
 
 @media (min-width: 1600px) and (min-height: 580px) {
     .quiz-wrapper {
-        background-size: contain;
+        background-size: cover;
         background-repeat: no-repeat;
         background-position-x: 50%;
+        min-height: 75vh;
+        background-image: url("/images/quiz/bg_cover_large.png");
+    }
+
+    .bg-ripples {
+        background-image: url("/images/quiz/bg_ripples_large.png");
+        background-size: cover;
     }
 }
