@@ -166,7 +166,9 @@ header {
 }
 
 .navbar .dropdown-item {
-    color: #fff
+    width: max-content;
+    margin: 0 auto;
+    color: #fff;
 }
 
 .navbar .dropdown-item:hover {

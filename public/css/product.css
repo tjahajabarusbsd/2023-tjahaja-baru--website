@@ -55,7 +55,8 @@
 }
 
 .product .second-section {
-    margin-bottom: 100px
+    margin-bottom: 100px;
+    min-height: 600px;
 }
 
 .product .second-section .product-logo-container {

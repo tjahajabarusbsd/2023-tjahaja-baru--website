@@ -228,7 +228,10 @@ img {
 .myyamaha .section7 {
     width: 80%;
     margin: 0 auto 20px;
-    max-width: 1300px
+    max-width: 1300px;
+    display: flex;
+    flex-direction: column;
+    min-height: 25em;
 }
 
 .myyamaha .section7 a {

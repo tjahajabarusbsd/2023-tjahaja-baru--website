@@ -11,10 +11,10 @@ img {
     padding-top: 20px
 }
 
-/* .first-section,
+.first-section,
 .second-section {
-    max-width: 1350px
-} */
+    max-width: 2000px
+}
 
 section.first-section .caption-container {
     display: flex;
@@ -139,7 +139,8 @@ section.second-section .top-container .promo-container .promo-banner-container .
 section.second-section .top-container .promo-container .promo-banner-container .promo-banner-item img {
     box-shadow: 5px 5px 8px 0 rgb(0 0 0 / 60%);
     -webkit-box-shadow: 5px 5px 8px 0 rgb(0 0 0 / 60%);
-    -moz-box-shadow: 5px 5px 8px 0 rgb(0 0 0 / 60%)
+    -moz-box-shadow: 5px 5px 8px 0 rgb(0 0 0 / 60%);
+    cursor: pointer;
 }
 
 section.third-section {
