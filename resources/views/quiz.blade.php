@@ -22,18 +22,11 @@
             <h1>Produk Personality Kuis</h1>
         </div>
         <h2 class="aos-init" data-aos="fade-up" data-aos-easing="ease" data-aos-delay="400">Seperti apa motor yang cocok untuk kamu? Cari tau yuk!</h2>
-        <div class="button-wrapper aos-init" data-aos="fade-up" data-aos-easing="ease" data-aos-delay="800">
-            <div class="quiz-button">Mulai</div>
-        </div>
+        <button class="quiz-button quiz-start aos-init" data-aos="fade-up" data-aos-easing="ease" data-aos-delay="800">mulai</button>
     </section>
     
     <section class="quiz-form">
         <div class="question-slide">
-            {{-- <div class="question-image">
-                <picture>
-                    <img src="{{ url('/images/speed.png')}}" alt="riding-style" style="width:100%;">
-                </picture>
-            </div> --}}
             <div class="question-content">
                 <div class="question">
                     <label for="age">Berapa usiamu?</label>
@@ -119,7 +112,7 @@
                     </picture>
                 </div>
                 <div class="button-wrapper">
-                    <button type="submit" name="finish" class="quiz-button submit-button">GASPOOL</button>
+                    <button type="submit" class="quiz-button quiz-submit naik-turun">gaspoll</button>
                 </div>
             </div>
         </div>
@@ -137,7 +130,7 @@
         </div>
         <div class="result-cta">
             <div class="button-wrapper">
-                <a href="" onClick="refreshPage()" class="quiz-button">Coba Lagi</a>
+                <a href="" onClick="refreshPage()" class="quiz-button coba-lagi">Coba Lagi</a>
             </div>
             <div class="button-wrapper">
                 <a href="" class="quiz-button view-product">Lihat Produk</a>

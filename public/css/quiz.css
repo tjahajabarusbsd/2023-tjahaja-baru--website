@@ -12,18 +12,20 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 70vh;
     text-align: center;
     padding: 0;
     background: #f3e1d0;
-    background-size: cover;
-    background-image: url("/images/quiz/bg_cover.png");
-    background-position-x: 50%;
+    font-family: 'mintmolly', sans-serif;
 }
 
 .opening-section {
-    padding: 30px 10px;
-    height: 580px;
+    padding: 40px 15px 0 15px;
+    /* height: 595px; */
+    min-height: 75vh;
+    background-image: url("/images/quiz/bg_cover.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .title-wrapper {
@@ -39,7 +41,6 @@
     margin: 0;
     color: #fff;
     letter-spacing: 1px;
-    font-family: mintmolly;
 }
 
 .caption-wrapper {
@@ -51,27 +52,19 @@
     margin: 60px auto;
     font-size: 28px;
     color: #383743;
-    font-family: mintmolly;
-}
-
-.button-wrapper {
-    width: 100px;
-    margin: 0 auto;
-    cursor: pointer;
-    background: #ff6600;
 }
 
 .quiz-button {
-    display: block;
-    height: 30px;
     font-size: 25px;
-    font-family: BebasNeue;
+    font-family: 'BebasNeue', sans-serif;
     color: #fff;
     text-transform: uppercase;
+    border: none;
+    background: linear-gradient(to right, #ff6600 0%, #ff6600 10%, #1a3f9a 10%, #1a3f9a 90%, #ff6600 90%, #ff6600 100%);
+    width: 100px;
+    height: 30px;
     line-height: 30px;
-    margin-left: 10px;
-    margin-right: 10px;
-    background: #1a3f9a;
+    text-decoration: none;
 }
 
 .opening-section .question-content {
@@ -82,6 +75,7 @@
     display: none;
     margin: 0 auto;
     width: 100%;
+    min-height: 70vh;
 }
 
 .quiz-form .question-slide:first-child {
@@ -117,10 +111,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.question label {
-    font-family: 'mintmolly';
 }
 
 .question>label {
@@ -174,23 +164,42 @@
     margin: 0 auto;
 }
 
+.naik-turun {
+    animation-name: naikturun;
+    animation-duration: 2.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes naikturun {
+    0% {
+        transform: translate(0, 0)
+    }
+
+    50% {
+        transform: translate(0, 15px)
+    }
+
+    100% {
+        transform: translate(0, 0)
+    }
+}
+
 .last-question .button-wrapper {
     position: absolute;
     top: 89%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #ff6600;
-    width: unset;
 }
 
-.submit-button {
-    border: none;
+.last-question .quiz-button {
+    font-size: 38px;
     color: #ff6600;
-    font-family: 'mintmolly';
-    padding: 2px 15px;
-    margin: 0 5px;
-    font-size: 25px;
-    height: unset;
+    font-family: 'mintmolly', sans-serif;
+    width: 168px;
+    height: 50px;
+    line-height: 50px;
+    background: linear-gradient(to right, #ff6600 0%, #ff6600 5%, #1a3f9a 5%, #1a3f9a 95%, #ff6600 95%, #ff6600 100%);
 }
 
 .result {
@@ -210,13 +219,11 @@
 
 .result-title h1 {
     color: #383743;
-    font-family: mintmolly;
     font-size: 30px;
     display: inline;
 }
 
 .result-title h2 {
-    font-family: mintmolly;
     font-size: 50px;
     -webkit-text-stroke: 2px #000;
     color: #fff;
@@ -231,11 +238,14 @@
 
 .result-cta .button-wrapper {
     width: 145px;
+    margin: 0 auto;
 }
 
 .result-cta a {
     text-decoration: none;
     line-height: normal;
+    display: inline-block;
+    width: 100%;
 }
 
 .result-cta a:hover {
@@ -244,15 +254,13 @@
 
 .bg-ripples {
     background-image: url("/images/quiz/bg_ripple_sml.png");
+    background-size: cover;
+    background-position: center;
 }
 
 @media only screen and (min-width:431px) {
     .title-wrapper {
         width: 100%;
-    }
-
-    .quiz-wrapper {
-        background-position-x: 51%;
     }
 
     .bg-ripples {
@@ -279,17 +287,16 @@
     }
 }
 
-@media (min-width: 1600px) and (min-height: 580px) {
-    .quiz-wrapper {
+@media (min-width: 1352px) and (min-height: 580px) {
+    .opening-section {
         background-size: cover;
         background-repeat: no-repeat;
-        background-position-x: 50%;
-        min-height: 75vh;
+        background-position: center;
         background-image: url("/images/quiz/bg_cover_large.png");
+        min-height: 75vh;
     }
 
     .bg-ripples {
         background-image: url("/images/quiz/bg_ripples_large.png");
-        background-size: cover;
     }
 }

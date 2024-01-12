@@ -93,7 +93,7 @@ $(document).ready(function () {
         });
     }
 
-    $(".button-wrapper").click(function () {
+    $(".quiz-button").click(function () {
         $(".quiz-wrapper").addClass("bg-ripples");
         openingSection.delay(100).fadeOut();
         $(".quiz-form").delay(500).fadeIn();
@@ -138,7 +138,7 @@ $(document).ready(function () {
         });
     }
 
-    $('.submit-button').click(function () {
+    $('.last-question .quiz-button').click(function () {
         $(this).attr("disabled", "disabled");
         submitForm();
     });
