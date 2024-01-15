@@ -78,10 +78,6 @@
     min-height: 70vh;
 }
 
-.quiz-form .question-slide:first-child {
-    padding-top: 50px;
-}
-
 .quiz-form .question-slide {
     padding-bottom: 70px;
 }

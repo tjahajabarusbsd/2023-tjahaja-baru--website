@@ -27,6 +27,11 @@
     
     <section class="quiz-form">
         <div class="question-slide">
+            <div class="question-image">
+                <picture>
+                    <img src="{{ url('/images/quiz/age.png')}}" alt="age" style="width:100%;">
+                </picture>
+            </div>
             <div class="question-content">
                 <div class="question">
                     <label for="age">Berapa usiamu?</label>
