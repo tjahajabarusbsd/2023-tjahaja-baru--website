@@ -11,3 +11,10 @@
     <input type="file" name="file">
     <button type="submit">Export to Database</button>
 </form>
+
+<form method="POST" action="{{ route('importSpec') }}" enctype="multipart/form-data">
+    @csrf
+    <p>Spec</p>
+    <input type="file" name="file">
+    <button type="submit">Export to Database</button>
+</form>

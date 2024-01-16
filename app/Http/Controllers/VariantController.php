@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Models\Variant;
 
@@ -12,6 +13,10 @@ class VariantController extends Controller
     {
         $group = Group::where('uri', $uri)->first();
         $sales = $request->query('sales');
+        $reviews = Review::where('group_id', $group->id)->get();
+
+        $xmlObject = simplexml_load_file(public_path('features.xml'));
+        $features = $xmlObject->xpath("//feature[uri='{$uri}']");
 
         if ($group != null) {
             $groupUri = $group->uri;
@@ -28,32 +33,10 @@ class VariantController extends Controller
                 ->where('name', $variantNames[0])
                 ->get();
 
-            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data', 'sales'));
+            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data', 'sales', 'features', 'reviews'));
         } else {
             return view('errors/404');
         }
-    }
-
-    // public function getGroup($uri, $name)
-    // {
-    //     $group = Group::where('uri', $uri)->first();
-
-    //     $groupUri = $group->uri;
-
-    //     $variantNames = Variant::where('group_id', $group->id)
-    //         ->distinct('name')
-    //         ->pluck('name');
-
-    //     $variantUnits = Variant::where('group_id', $group->id)->where('name', $name)->get();
-
-    //     return view('product/detail2', compact('group', 'groupUri', 'variantNames', 'variantUnits'));
-    // }
-
-    public function getRandomProduct()
-    {
-        $products = Group::inRandomOrder()->limit(3)->get();
-
-        return view('dealers', compact('products'));
     }
 
     public function getData(Request $request, $variant)

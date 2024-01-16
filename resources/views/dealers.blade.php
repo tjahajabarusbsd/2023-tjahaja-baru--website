@@ -17,17 +17,21 @@
 @section('content')
 <div class="container-fluid">
     <div class="dealer-header">
-        <h1>Cari Dealer</h1>
-        <form id="searchForm">
+        <h1 class="title">Cari Dealer</h1>
+
+        <p>Temukan dealer kami di map interaktif di bawah ini. Klik <span><img src="{{ url("images/icons/map_open.png")}}" alt=""></span> untuk melihat daftar dealer. Atau bisa langsung klik <span><img class="location-icon" src="{{ url("images/icons/location.png")}}" alt=""></span> untuk melihat detail dealer.</p>
+        {{-- <form id="searchForm">
             <div class="input-group">
                 <input type="text" name="search" id="searchInput" class="form-control" value="{{ $search }}" placeholder="Cari dealer..."  />
                 <button class="btn btn-primary" type="submit">Search</button>
                 <button class="btn btn-outline-secondary" type="button" onclick="resetSearch()">Reset</button>
             </div>
-        </form>
-        
+        </form> --}}
     </div>
-    <div class="dealer-list">
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1lrxDumVVEMR4hPrdKbX22nVCpTp2A9g&ehbc=2E312F" width="100%" height="600"></iframe>
+    </div>
+    {{-- <div class="dealer-list">
         @foreach ($dealers as $dealer)
         <div class="dealer-card">
             <div class="card-body">
@@ -48,46 +52,9 @@
     <div class="pagination-wrapper">
         <!-- Tampilkan tautan navigasi halaman -->
         {{ $dealers->appends(['search' => $search])->links() }}
-    </div>
+    </div> --}}
     
-    {{-- {{ $dealers->links() }} --}}
-    {{-- <ul class="pagination">
-        
-        @if ($dealers->onFirstPage())
-            <li class="page-item disabled">
-                <span class="page-link">&laquo;</span>
-            </li>
-        @else
-            <li class="page-item">
-                <a class="page-link" href="{{ $dealers->previousPageUrl() }}" rel="prev">&laquo;</a>
-            </li>
-        @endif
-    
-        
-        @foreach ($pageRange as $page)
-            @if ($page == $dealers->currentPage())
-                <li class="page-item active">
-                    <span class="page-link">{{ $page }}</span>
-                </li>
-            @else
-                <li class="page-item">
-                    <a class="page-link" href="{{ $dealers->url($page) }}">{{ $page }}</a>
-                </li>
-            @endif
-        @endforeach
-    
-        
-        @if ($dealers->hasMorePages())
-            <li class="page-item">
-                <a class="page-link" href="{{ $dealers->nextPageUrl() }}" rel="next">&raquo;</a>
-            </li>
-        @else
-            <li class="page-item disabled">
-                <span class="page-link">&raquo;</span>
-            </li>
-        @endif
-    </ul> --}}
-    {{-- <div class="product-list">
+    <div class="product-list">
         <h2>Rekomendasi Produk<br/>Untuk Anda</h2>
         <div class="grid-container">
             @foreach ($products as $product)
@@ -105,30 +72,11 @@
             </div>
             @endforeach
         </div>
-    </div> --}}
+    </div>
 </div>
 @endsection
 
 @section('additional_script')
-    {{-- <script>
-        $(document).ready(function() {
-            // Event handler saat tombol pencarian diklik
-            $("#search-input").keyup(function() {
-                // Mendapatkan nilai input pencarian
-                var searchTerm = $(this).val().toLowerCase();
-
-                $(".dealer-card").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(searchTerm) > -1)
-                });
-
-                // Menyembunyikan semua elemen dengan kelas "col-sm-4"
-                // $(".dealer-card").hide();
-
-                // Mencari dan menampilkan hanya elemen dengan nilai pencarian yang sesuai di card-title
-                // $(".card-title:contains(" + searchTerm + ")").closest(".dealer-card").show();
-            });
-        });
-    </script> --}}
     <script>
         function resetSearch() {
             var searchForm = document.getElementById('searchForm');
@@ -137,6 +85,4 @@
             searchForm.submit();
         }
     </script>
-
-    
 @endsection

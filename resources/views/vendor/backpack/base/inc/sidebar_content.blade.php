@@ -37,3 +37,4 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('promo') }}'><i class='nav-icon las la-scroll'></i> Promo</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('contact') }}'><i class='nav-icon las la-paperclip'></i> Pesan & Kritik</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('dealer') }}'><i class='nav-icon las la-industry'></i> Dealer</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('review') }}'><i class='nav-icon la la-question'></i> Reviews</a></li>

@@ -1,22 +1,27 @@
+.product-detail .title,
+.product-detail .features-content .feature-title {
+    text-transform: uppercase;
+    font-weight: 700
+}
+
 .product-detail .title {
     margin: 35px auto 20px;
     font-size: 20px;
-    font-weight: 700;
-    text-transform: uppercase;
     text-align: center;
-    z-index: 1;
+    z-index: 1
 }
 
 .product-detail .blue {
-    color: #1f3781;
+    color: #1f3781
 }
 
+.features-content p,
 .product-detail .white {
-    color: #ffffff;
+    color: #fff
 }
 
 .first-section .icon-container {
-    background: #17285e;
+    background: #17285e
 }
 
 .first-section .icon-row {
@@ -25,19 +30,21 @@
     height: 85px;
     width: 100%;
     max-width: 950px;
-    margin: 0 auto;
+    margin: 0 auto
 }
 
 .first-section .icon-row .icon {
-    margin: 0 auto;
+    margin: 0 auto
 }
 
 .first-section .icon-row.mobile .icon {
-    margin-top: 10px;
+    margin-top: 10px
 }
 
-.first-section .icon-row.pc {
-    display: none;
+.first-section .icon-row.pc,
+.second-section .carousel-control-next,
+.second-section .carousel-control-prev {
+    display: none
 }
 
 .first-section .product-icon-box {
@@ -46,79 +53,77 @@
     align-items: center;
     justify-content: center;
     width: 104px;
-    cursor: pointer;
+    cursor: pointer
 }
 
+.first-section .product-icon-box.active,
 .first-section .product-icon-box:hover {
-    background: linear-gradient(180deg, #100E5A 0%, rgba(255, 255, 255, 0) 53%);
-}
-
-.first-section .product-icon-box.active {
-    background: linear-gradient(180deg, #100E5A 0%, rgba(255, 255, 255, 0) 53%);
+    background: linear-gradient(180deg, #100e5a 0, rgba(255, 255, 255, 0) 53%)
 }
 
 .first-section .product-icon-box .icon {
-    width: 60px;
+    width: 60px
 }
 
-.first-section .product-icon-box a {
-    text-decoration: none;
+.first-section .product-icon-box a,
+.review-item a,
+.spec-part {
+    text-decoration: none
 }
 
 .first-section .product-icon-box .text {
     font-size: 13px;
     font-weight: 700;
     text-align: center;
-    color: #ffffff;
+    color: #fff;
     margin-bottom: 0;
-    margin-top: 10px;
+    margin-top: 10px
 }
 
 .first-section .banner {
-    display: block;
+    display: block
 }
 
-.first-section .banner img {
+.first-section .banner img,
+.review-img {
     width: 100%;
-    height: 100%;
+    height: 100%
 }
 
 .second-section {
-    margin-bottom: 30px;
+    margin-bottom: 30px
 }
 
 .second-section .background-wrapper {
     position: absolute;
     width: 100%;
     height: 255px;
-    z-index: 0;
+    z-index: 0
 }
 
 .second-section .background-wrapper .background {
     width: 100%;
     height: 100%;
-    background: url("/images/bg.png");
+    background: url("/images/bg.png")
 }
 
 .second-section .title {
     margin: 35px auto 20px;
     color: #1f3781;
     font-size: 20px;
-    font-weight: 700;
-    text-transform: uppercase;
     text-align: center;
-    z-index: 1;
+    z-index: 1
 }
 
 .second-section .version-row {
-    justify-content: center;
+    justify-content: center
 }
 
 .second-section .variant-wrapper {
     display: flex;
     justify-content: center;
     text-align: center;
-    z-index: 1;
+    z-index: 1
 }
 
 .second-section .variant-wrapper li {
@@ -134,221 +139,324 @@
     box-shadow: 0 9px #999;
     border-radius: 7px;
     font-weight: 700;
-    color: #ffffff;
-    line-height: 15px;
+    color: #fff;
+    line-height: 15px
 }
 
 .second-section .variant-wrapper li:hover {
-    background: #183f9e;
+    background: #183f9e
 }
 
 .second-section .variant-wrapper .variant-unit.active {
     box-shadow: 0 5px #666;
     transform: translateY(4px);
-    background: #183f9e;
+    background: #183f9e
 }
 
 .second-section .variant-wrapper a {
     position: absolute;
     width: 100%;
-    height: 100%;
-}
-
-.second-section .caption-box {
-    flex-direction: column;
+    height: 100%
 }
 
 .second-section .caption-box .price {
     text-align: center;
     font-size: 17px;
     font-weight: 700;
-    margin-bottom: 0;
+    margin-bottom: 0
 }
 
 .second-section .caption-box .area-price {
     text-align: center;
     margin-bottom: 0;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 700
 }
 
 .second-section .carousel {
-    width: 300px;
-    margin: 0 auto;
-    margin-bottom: 30px;
-}
-
-.second-section .carousel {
-    width: 300px;
+    margin: 0 auto 30px;
+    width: 300px
 }
 
 .second-section .carousel-inner {
-    height: 300px;
+    height: 300px
 }
 
 .second-section .carousel-indicators {
-    bottom: -40px;
-}
-
-.second-section .carousel-control-prev,
-.second-section .carousel-control-next {
-    display: none;
+    bottom: -40px
 }
 
 .second-section .carousel-indicators [data-bs-target] {
     height: 15px;
     border: 1px solid #6dcbb1;
-    opacity: unset;
+    opacity: unset
 }
 
 .second-section .carousel-indicators .active {
-    border: 1px solid #000000;
+    border: 1px solid #000
 }
 
-.second-section .caption-box {
-    bottom: -65px;
+.second-section .carousel-caption {
+    flex-direction: column;
+    bottom: -65px
+}
+
+.second-section .button-compare {
+    text-align: center;
+    margin-top: 20px
 }
 
 .third-section {
-    padding: 0 5%;
-    padding-bottom: 15px;
-    background: grey;
+    padding: 0 5% 15px;
+    background: grey
 }
 
 .features {
-    text-align: center;
+    text-align: center
 }
 
 .feature-body {
-    text-align: left;
+    text-align: left
 }
 
 .features-wrapper {
     max-width: 1350px;
-    margin: 0 auto;
+    margin: 0 auto
 }
 
 .features-content {
-    /* width: 360px !important; pc  */
-    width: 100%;
-}
-
-.features-content p {
-    color: #ffffff;
-}
-
-.features-content .feature-title {
-    text-transform: uppercase;
-    font-weight: 700;
+    width: 100%
 }
 
 .feature-img {
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 10px
 }
 
-.slick-next {
+.third-section .slick-next {
     right: -10px;
-    top: 175px;
+    top: 175px
 }
 
-.slick-prev {
+.third-section .slick-prev {
     left: -10px;
-    top: 175px;
+    top: 175px
 }
 
-@media only screen and (min-width: 400px) {
+.fourth-section {
+    margin-top: 10px;
+    margin-bottom: 50px
+}
+
+.navtabs {
+    width: 90%;
+    max-width: 1200px;
+    margin: 10px auto 50px;
+    box-shadow: 0 48px 80px -32px rgba(0, 0, 0, 0.3);
+}
+
+.navtabs .container-fluid {
+    padding-left: 0;
+    padding-right: 0%;
+}
+
+.navtabs .spec-wrapper {
+    padding: 0 10%
+}
+
+.navtabs .carousel-indicators {
+    bottom: -45px
+}
+
+.navtabs .tab-content {
+    padding-bottom: 20px;
+}
+
+.nav-tabs .nav-link {
+    width: 50%;
+    font-weight: 700
+}
+
+.spec-part-td1,
+.spec-part-td3 {
+    width: auto;
+    font-size: 12px
+}
+
+.spec-part-td2 {
+    width: 50px;
+    text-align: center
+}
+
+.spec-part-title {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px
+}
+
+.spec-part-title b {
+    border-bottom: 2px solid
+}
+
+.review-wrapper {
+    margin-top: 20px;
+    margin-bottom: 80px;
+    justify-content: center
+}
+
+.review-title {
+    display: -webkit-box;
+    overflow: hidden;
+    color: #002fb8;
+    font-weight: 700;
+    font-size: 15px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3
+}
+
+.review-item {
+    width: 250px;
+    height: 100%
+}
+
+.videos-wrapper {
+    position: relative;
+    max-width: 650px;
+    margin: 0 auto;
+    width: 100%
+}
+
+.video-item {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%
+}
+
+@media only screen and (min-width:400px) {
     .features-content {
-        width: 320px !important;
+        width: 320px !important
     }
 }
 
-@media only screen and (min-width: 545px) {
+@media only screen and (min-width:545px) {
     .first-section .icon-row.pc {
-        display: flex;
+        display: flex
     }
 
     .first-section .icon-row.mobile {
-        display: none;
+        display: none
     }
 }
 
-@media only screen and (min-width: 568px) {
+@media only screen and (min-width:568px) {
     .features-content {
-        width: 245px !important;
+        width: 245px !important
     }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width:650px) {
+    .spec-part-td1 {
+        width: 220px;
+        font-size: 16px
+    }
+
+    .spec-part-td2 {
+        width: 50px;
+        text-align: center
+    }
+
+    .spec-part-td3 {
+        width: auto;
+        font-size: 16px
+    }
+
+    .videos-wrapper {
+        padding-bottom: 0;
+        height: unset
+    }
+
+    .video-item {
+        position: relative;
+        width: 100% !important;
+        height: 365px
+    }
+}
+
+@media only screen and (min-width:768px) {
     .product-detail .title {
-        font-size: 30px;
+        font-size: 30px
     }
 
     .second-section .background-wrapper {
-        height: 390px;
+        height: 390px
     }
 
     .second-section .version {
         height: 40px;
-        width: 160px;
+        width: 160px
     }
 
     .second-section .version .text {
-        font-size: 16px;
+        font-size: 16px
     }
 
     .second-section .carousel {
-        width: 520px;
+        width: 520px
     }
 
     .second-section .carousel-inner {
-        height: 500px;
+        height: 500px
     }
 
-    .second-section .carousel-control-prev,
-    .second-section .carousel-control-next {
-        display: block;
+    .second-section .carousel-control-next,
+    .second-section .carousel-control-prev {
+        display: block
     }
 
     .second-section .carousel-control-prev {
-        left: -50px;
+        left: -50px
     }
 
     .second-section .carousel-control-next {
-        right: -50px;
+        right: -50px
     }
 
-    .second-section .caption-box {
-        bottom: -85px;
+    .second-section .carousel-caption {
+        bottom: -85px
     }
 
     .second-section .caption-box .price {
-        font-size: 25px;
+        font-size: 25px
     }
 
     .second-section .caption-box .area-price {
-        font-size: 15px;
+        font-size: 15px
     }
 
     .features-content {
-        width: 300px !important;
-    }
-}
-
-@media only screen and (min-width: 844px) {
-    .features-content {
-        width: 230px !important;
+        width: 300px !important
     }
 }
 
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width:844px) {
     .features-content {
-        width: 290px !important;
+        width: 230px !important
     }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width:1024px) {
     .features-content {
-        width: 335px !important;
+        width: 290px !important
+    }
+
+    .spec-part-td1 {
+        width: 300px
+    }
+}
+
+@media only screen and (min-width:1200px) {
+    .features-content {
+        width: 335px !important
     }
 }

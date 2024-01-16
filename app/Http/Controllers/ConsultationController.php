@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ConsultationformMail;
 use App\Models\Variant;
+use Illuminate\Support\Facades\Cookie;
 
 class ConsultationController extends Controller
 {
@@ -13,6 +14,13 @@ class ConsultationController extends Controller
     {
         $value = $request->query('sales');
         $lists = Variant::all()->unique('name')->sortBy('name');
+
+        $parameterValue = $request->input('sales');
+        if ($parameterValue != null) {
+            Cookie::queue('sales', $parameterValue);
+        } else {
+            Cookie::forget('sales');
+        }
 
         return view('consultation', compact('value', 'lists'));
     }

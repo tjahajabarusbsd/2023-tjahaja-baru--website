@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<personalities>
+    <result>
+        <motor>maxi</motor>
+            <title>Yamaha Maxi</title>
+            <image>result_maxi.png</image>
+    </result>
+    <result>
+        <motor>classy</motor>
+            <title>Yamaha Classy</title>
+            <image>result_classy.png</image>
+    </result>
+    <result>
+        <motor>matic</motor>
+            <title>Yamaha Matic</title>
+            <image>result_matic.png</image>
+    </result>
+    <result>
+        <motor>sport</motor>
+            <title>Yamaha bLucRu</title>
+            <image>result_blucru.png</image>
+    </result>
+    <result>
+        <motor>moped</motor>
+            <title>Yamaha Moped</title>
+            <image>result_moped.png</image>
+    </result>
+</personalities>

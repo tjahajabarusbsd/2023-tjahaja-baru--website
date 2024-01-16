@@ -61,6 +61,11 @@ class Group extends Model
         return $this->hasMany(Variant::class);
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES

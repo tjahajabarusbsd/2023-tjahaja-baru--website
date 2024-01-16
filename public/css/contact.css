@@ -1,23 +1,23 @@
 .contact-detail {
     padding: 40px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .08)
 }
 
 .contact-detail h3 {
     color: #000;
     font-size: 25px;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 500
 }
 
 .contact-detail p {
     color: #000 !important;
-    margin: 0 0 15px;
+    margin: 0 0 15px
 }
 
 .contact-detail ul {
     list-style: none;
-    padding: 0px;
+    padding: 0
 }
 
 .contact-detail strong {
@@ -25,7 +25,7 @@
     text-transform: uppercase;
     font-weight: 600;
     font-size: 16px;
-    color: #000;
+    color: #000
 }
 
 .contact-detail li {
@@ -35,7 +35,7 @@
     padding-bottom: 20px;
     font-size: 15px;
     border-bottom: 1px dashed rgba(102, 102, 102, .3);
-    color: #c1c1c1;
+    color: #c1c1c1
 }
 
 .contact-detail i {
@@ -49,10 +49,10 @@
     line-height: 30px;
     background-color: rgba(0, 0, 0, 0);
     border: 0 solid transparent;
-    color: #0e64cc;
+    color: #0e64cc
 }
 
 .contact .contact-form {
     padding: 40px;
-    max-width: none;
+    max-width: none
 }
