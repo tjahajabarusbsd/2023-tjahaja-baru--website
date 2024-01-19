@@ -3697,11 +3697,16 @@
         
         var introCarousel = $(".carousel-inner");
         var introCarouselIndicators = $(".carousel-indicators");
+        var introlCarouselPrevNext = $(".carousel-control-prev, .carousel-control-next");
 
         introCarousel.children(".carousel-item:first").addClass('active');
         introCarouselIndicators.children(".sign:first").addClass('active');
 
         var variantUnit = $(".variant-unit:first").addClass('active');
+
+        if ( introCarousel.find(".carousel-item").length == 1 ) {
+            introlCarouselPrevNext.hide();
+        }
         
         $('.variant-unit').click(function() {
             $('#carouselExampleDark').carousel();
@@ -3770,17 +3775,22 @@
                     carouselInner.append(carouselItem);
                     });
 
-                    var carouselControlPrev = $('<button>').addClass('carousel-control-prev').attr('type', 'button').attr('data-bs-target', '#carouselExampleDark').attr('data-bs-slide', 'prev');
-                    var carouselControlPrevIcon = $('<span>').addClass('carousel-control-prev-icon').attr('aria-hidden', 'true');
-                    var carouselControlPrevText = $('<span>').addClass('visually-hidden').text('Previous');
-                    carouselControlPrev.append(carouselControlPrevIcon, carouselControlPrevText);
-                    var carouselControlNext = $('<button>').addClass('carousel-control-next').attr('type', 'button').attr('data-bs-target', '#carouselExampleDark').attr('data-bs-slide', 'next');
-                    var carouselControlNextIcon = $('<span>').addClass('carousel-control-next-icon').attr('aria-hidden', 'true');
-                    var carouselControlNextText = $('<span>').addClass('visually-hidden').text('Next');
-                    carouselControlNext.append(carouselControlNextIcon, carouselControlNextText);
+                    if ( carouselInner.find(".carousel-item").length > 1) {
+                        var carouselControlPrev = $('<button>').addClass('carousel-control-prev').attr('type', 'button').attr('data-bs-target', '#carouselExampleDark').attr('data-bs-slide', 'prev');
+                        var carouselControlPrevIcon = $('<span>').addClass('carousel-control-prev-icon').attr('aria-hidden', 'true');
+                        var carouselControlPrevText = $('<span>').addClass('visually-hidden').text('Previous');
+                        carouselControlPrev.append(carouselControlPrevIcon, carouselControlPrevText);
+                        var carouselControlNext = $('<button>').addClass('carousel-control-next').attr('type', 'button').attr('data-bs-target', '#carouselExampleDark').attr('data-bs-slide', 'next');
+                        var carouselControlNextIcon = $('<span>').addClass('carousel-control-next-icon').attr('aria-hidden', 'true');
+                        var carouselControlNextText = $('<span>').addClass('visually-hidden').text('Next');
+                        carouselControlNext.append(carouselControlNextIcon, carouselControlNextText);
 
-                    // Append 
-                    $('#carouselExampleDark').append(carouselIndicators, carouselInner, carouselControlPrev, carouselControlNext);
+                        // Append 
+                        $('#carouselExampleDark').append(carouselIndicators, carouselInner, carouselControlPrev, carouselControlNext);
+                    } else {
+                        // Append 
+                        $('#carouselExampleDark').append(carouselIndicators, carouselInner);
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.log(error);
