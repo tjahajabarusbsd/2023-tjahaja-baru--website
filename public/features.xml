@@ -1203,4 +1203,96 @@
             <title>Bagasi Serbaguna 9.2 L</title>
             <body>Bagasi dengan kapasitas 9,2 Liter adalah yang terbesar di kelasnya, mampu menyimpan barang bawaan lebih banyak.</body>
     </feature>
+
+    <!-- lexi-lx -->
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/BLUECORE &amp; VVA.jpg</image>
+            <title>MAXi Power 155cc Blue Core &amp; VVA</title>
+            <body>Mesin Blue Core berkapasitas 155cc yang dilengkapi dengan liquid cooled, SOHC, 4 valves yang powerful, efficient &amp; reliable sehingga bertenaga di setiap putaran mesin membuat berkendara menjadi lebih menyenangkan.</body>
+    </feature>
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/ABS.jpg</image>
+            <title>Anti-Lock Braking System (ABS)</title>
+            <body>Kontrol pengereman lebih optimal dengan ABS, membuat berkendara semakin nyaman.</body>
+    </feature>
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/LED Front &amp; Rear Lamp.jpg</image>
+            <title>LED Front &amp; Rear Lamp</title>
+            <body>Lampu depan dan belakang dengan desain baru menggunakan sistem LED yang terang, awet namun tidak menyilaukan, dilengkapi blue lense berbentuk V-Lines pada lampu depan menambah kesan premium.</body>
+    </feature>
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/Full Digital Speedometer.jpg</image>
+            <title>Multifunction Full Digital Speedometer</title>
+            <body>Desain baru Full LCD Speedometer yang informatif untuk pengendara dengan konektifitas dengan Y-Connect dapat memberikan notifikasi pesan dan telpon.</body>
+    </feature>
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/MAXi Flat Footboard.jpg</image>
+            <title>MAXi Flat Footboard</title>
+            <body>Ruang pijakan kaki yang luas dan nyaman dengan deck rata yang memudahkan akses kaki saat berkendara.</body>
+    </feature>
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/MAXi Long Seat.jpg</image>
+            <title>MAXi Long Seat</title>
+            <body>Seat berukuran panjang dengan desain yang elegan mendukung kenyamanan berkendara sendiri maupun berboncengan.</body>
+    </feature>
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/Sub-Tank Suspension.jpg</image>
+            <title>Sub-Tank Suspension</title>
+            <body>Untuk mendukung performa berkendara yang lebih nyaman diberbagai kondisi jalan.</body>
+    </feature>
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/Tubeless Wide Tire.jpg</image>
+            <title>Tubeless Wide Tire</title>
+            <body>Ukuran ban depan 90/90 - 14", Ukuran ban belakang 100/90 - 14" memberikan pengalaman berkendara yang nyaman saat bermanuver.</body>
+    </feature>
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/Electric Power Socket.jpg</image>
+            <title>Electric Power Socket</title>
+            <body>Komunikasi yang selalu terhubung dengan dukungan electric power socket untuk mengisi daya gadget pengendara selama perjalanan.</body>
+    </feature>
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/Smart Key System.jpg</image>
+            <title>Smart Key System</title>
+            <body>Sistem kunci canggih tanpa anak kunci (keyless), dilengkapi fitur answer back system, memudahkan pengendara mencari posisi parkir motor.</body>
+    </feature>
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/MAXi Design.jpg</image>
+            <title>MAXi Design</title>
+            <body>Desain khas MAXi Yamaha dengan dimensi MAXi yang terlihat lebih sporty, elegan dan modern sehingga meningkatkan rasa bangga saat berkendara.</body>
+    </feature>
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/Stop &amp; Start System.jpg</image>
+            <title>Stop &amp; Start System (SSS)</title>
+            <body>Stop &amp; Start System (SSS) berfungsi untuk mengurangi konsumsi bahan bakar yang tidak perlu pada saat motor sedang berhenti.</body>
+    </feature>
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/Handlebar Switch Control.jpg</image>
+            <title>Handlebar Switch Control</title>
+            <body>Desain baru yang memudahkan pengendara untuk merubah informasi dan pengaturan pada speedometer menjadi lebih mudah dengan pengatur yang berada di handle sebelah kiri.</body>
+    </feature>    
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/Garansi 5 Thn.jpg</image>
+            <title>5 Years Warranty</title>
+            <body>Garansi 5 Tahun/50.000 Km meliputi rangka (Frame)*, komponen FI, DiASil Cylinder &amp; Forged Piston**. *Hanya berlaku untuk sepeda motor matic Yamaha. **Syarat dan ketentuan berlaku, lihat pada Buku Service dan Garansi.</body>
+    </feature>
+    <feature>
+        <uri>lexi-lx</uri>
+            <image>/images/features/lexi-lx/Y-Connect.jpg</image>
+            <title>Y-Connect</title>
+            <body>Teknologi modern dan informatif yang menghubungkan antara motor dengan smartphone untuk menginformasikan rekomendasi perawatan, konsumsi BBM, Lokasi parkir terakhir, notifikasi malfungsi, dan lain-lain.</body>
+    </feature>
 </features>
