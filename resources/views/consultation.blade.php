@@ -18,7 +18,7 @@
 @section('content')
 <div class="consultation-wrapper container">
     <div class="banner">
-        <img src="{{ url('/images/support.avif') }}" alt="" class="image">
+        <img src="{{ url('/images/support.jpg') }}" alt="" class="image">
         <div class="text">
             Konsultasi<br />
             Pembelian
