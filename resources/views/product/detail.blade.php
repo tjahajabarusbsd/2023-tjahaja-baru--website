@@ -3756,7 +3756,7 @@
                     }
 
                     var itemImage = $('<img>')
-                        .attr('src', '{{ url('/') }}' + '/' + item.image)
+                        .attr('src', '{{ url("/") }}' + '/' + item.image)
                         .addClass('d-block w-100')
                         .attr('alt', '...');
                     carouselItem.append(itemImage);
