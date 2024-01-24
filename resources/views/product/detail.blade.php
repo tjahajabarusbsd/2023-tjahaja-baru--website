@@ -178,7 +178,42 @@
                         <p class="feature-body">{{$feature->body}}</p>
                     </div>
                 @endforeach
+                {{-- @php
+                    $totalFeatures = count($features);
+                    $columnSize = ceil($totalFeatures / 3); // Ukuran setiap kolom
+                @endphp
+
+                <div class="left-column">
+                    @for ($i = 0; $i < $columnSize && $i < $totalFeatures; $i++)
+                        <div class="features-content">
+                            <img src="{{ url($features[$i]->image) }}" loading="lazy" class="feature-img">
+                            <p class="feature-title">{{ $features[$i]->title }}</p>
+                            <p class="feature-body">{{ $features[$i]->body }}</p>
+                        </div>
+                    @endfor
+                </div>
+
+                <div class="center-column">
+                    @for ($i = $columnSize; $i < 2 * $columnSize && $i < $totalFeatures; $i++)
+                        <div class="features-content">
+                            <img src="{{ url($features[$i]->image) }}" loading="lazy" class="feature-img">
+                            <p class="feature-title">{{ $features[$i]->title }}</p>
+                            <p class="feature-body">{{ $features[$i]->body }}</p>
+                        </div>
+                    @endfor
+                </div>
+
+                <div class="right-column">
+                    @for ($i = 2 * $columnSize; $i < $totalFeatures; $i++)
+                        <div class="features-content">
+                            <img src="{{ url($features[$i]->image) }}" loading="lazy" class="feature-img">
+                            <p class="feature-title">{{ $features[$i]->title }}</p>
+                            <p class="feature-body">{{ $features[$i]->body }}</p>
+                        </div>
+                    @endfor
+                </div> --}}
             </div>
+            
         </div>
     </div>
 </section>
@@ -3367,6 +3402,200 @@
                             </table>
                         </div>
                     </div>
+                @elseif (Request::is('product/lexi-lx'))
+                    <div class="spec-wrapper">
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
+                            <div class="spec-part-title row">
+                                <b>Mesin</b>
+                            </div>
+                        </a>
+                        <div class="collapse row show" id="collapse-1">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Mesin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">SOHC</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Susunan Silinder</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1/ Tunggal</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Volume Silinder</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">155,09 cc</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Diameter x Langkah</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">58,0mm x 58,7mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Perbandingan Kompresi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">11,6 : 1</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Daya Maksimum</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">11,3 kW / 8.000 rpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Torsi Maksimum</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">14,2 Nm / 6.500 rpm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Starter</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Elektrik Starter</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Pelumasan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Wet Sump</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Kapasitas Oli Mesin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Total: 1 L ; Berkala: 0,9 L</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem Bahan Bakar</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Injeksi</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Kopling</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Single Dry Clucth</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Transmisi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Automatic</td>
+                                </tr>
+                                {{-- <tr>
+                                    <td class="spec-part-td1">Pola Pengoperasian Transmisi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1-N-2-3-4-5</td>
+                                </tr> --}}
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-2" role="button" aria-expanded="false" aria-controls="collapse-2">
+                            <div class="spec-part-title row">
+                                <b>Rangka</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-2">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Rangka</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Underbone</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Suspensi Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Telescopic</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Suspensi Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Unit Swing</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Ban Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">90/90-14M/C 46P</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Ban Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">100/90-14M/C 57P</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Ban</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Tubeless</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Rem Depan</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Disc Brake</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Rem Belakang</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Drum Brake</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-3" role="button" aria-expanded="false" aria-controls="collapse-3">
+                            <div class="spec-part-title row">
+                                <b>Dimensi</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-3">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">P x L x T</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1970mm x 720mm x 1135mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Jarak Sumbu Roda</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">1350mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Jarak Terendah Ke Tanah</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">135mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tinggi Tempat Duduk</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">770mm</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Berat Isi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">Standard: 116kg ; S Version: 117kg ; Connected/ABS: 118kg</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Kapasitas Tangki Bensin</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">4,2 L</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <a class="spec-part" data-bs-toggle="collapse" href="#collapse-4" role="button" aria-expanded="false" aria-controls="collapse-4">
+                            <div class="spec-part-title row">
+                                <b>Kelistrikan</b>
+                            </div>
+                        </a>
+                        <div class="collapse row" id="collapse-4">
+                            <table>
+                                <tr>
+                                    <td class="spec-part-td1">Sistem pengapian</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">TCI/ Transistor</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Battery</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">YTZ6V</td>
+                                </tr>
+                                <tr>
+                                    <td class="spec-part-td1">Tipe Busi</td>
+                                    <td class="spec-part-td2">:</td>
+                                    <td class="spec-part-td3">NGK/CPR8EA-9</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 @endif
             </div>
             <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
@@ -3468,11 +3697,16 @@
         
         var introCarousel = $(".carousel-inner");
         var introCarouselIndicators = $(".carousel-indicators");
+        var introlCarouselPrevNext = $(".carousel-control-prev, .carousel-control-next");
 
         introCarousel.children(".carousel-item:first").addClass('active');
         introCarouselIndicators.children(".sign:first").addClass('active');
 
         var variantUnit = $(".variant-unit:first").addClass('active');
+
+        if ( introCarousel.find(".carousel-item").length == 1 ) {
+            introlCarouselPrevNext.hide();
+        }
         
         $('.variant-unit').click(function() {
             $('#carouselExampleDark').carousel();
@@ -3522,7 +3756,7 @@
                     }
 
                     var itemImage = $('<img>')
-                        .attr('src', '{{ url('/') }}' + '/' + item.image)
+                        .attr('src', '{{ url("/") }}' + '/' + item.image)
                         .addClass('d-block w-100')
                         .attr('alt', '...');
                     carouselItem.append(itemImage);
@@ -3541,17 +3775,22 @@
                     carouselInner.append(carouselItem);
                     });
 
-                    var carouselControlPrev = $('<button>').addClass('carousel-control-prev').attr('type', 'button').attr('data-bs-target', '#carouselExampleDark').attr('data-bs-slide', 'prev');
-                    var carouselControlPrevIcon = $('<span>').addClass('carousel-control-prev-icon').attr('aria-hidden', 'true');
-                    var carouselControlPrevText = $('<span>').addClass('visually-hidden').text('Previous');
-                    carouselControlPrev.append(carouselControlPrevIcon, carouselControlPrevText);
-                    var carouselControlNext = $('<button>').addClass('carousel-control-next').attr('type', 'button').attr('data-bs-target', '#carouselExampleDark').attr('data-bs-slide', 'next');
-                    var carouselControlNextIcon = $('<span>').addClass('carousel-control-next-icon').attr('aria-hidden', 'true');
-                    var carouselControlNextText = $('<span>').addClass('visually-hidden').text('Next');
-                    carouselControlNext.append(carouselControlNextIcon, carouselControlNextText);
+                    if ( carouselInner.find(".carousel-item").length > 1) {
+                        var carouselControlPrev = $('<button>').addClass('carousel-control-prev').attr('type', 'button').attr('data-bs-target', '#carouselExampleDark').attr('data-bs-slide', 'prev');
+                        var carouselControlPrevIcon = $('<span>').addClass('carousel-control-prev-icon').attr('aria-hidden', 'true');
+                        var carouselControlPrevText = $('<span>').addClass('visually-hidden').text('Previous');
+                        carouselControlPrev.append(carouselControlPrevIcon, carouselControlPrevText);
+                        var carouselControlNext = $('<button>').addClass('carousel-control-next').attr('type', 'button').attr('data-bs-target', '#carouselExampleDark').attr('data-bs-slide', 'next');
+                        var carouselControlNextIcon = $('<span>').addClass('carousel-control-next-icon').attr('aria-hidden', 'true');
+                        var carouselControlNextText = $('<span>').addClass('visually-hidden').text('Next');
+                        carouselControlNext.append(carouselControlNextIcon, carouselControlNextText);
 
-                    // Append 
-                    $('#carouselExampleDark').append(carouselIndicators, carouselInner, carouselControlPrev, carouselControlNext);
+                        // Append 
+                        $('#carouselExampleDark').append(carouselIndicators, carouselInner, carouselControlPrev, carouselControlNext);
+                    } else {
+                        // Append 
+                        $('#carouselExampleDark').append(carouselIndicators, carouselInner);
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.log(error);
@@ -3623,6 +3862,6 @@
     //             }
     //         }
     //     ]
-    // });
+    // }); 
 </script>
 @endsection

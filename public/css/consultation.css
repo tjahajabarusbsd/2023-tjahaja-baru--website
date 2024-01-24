@@ -1,6 +1,7 @@
 .consultation .consultation-wrapper {
     display: flex;
-    flex-direction: column
+    flex-direction: column;
+    padding: 0;
 }
 
 .consultation .banner {
@@ -12,7 +13,7 @@
 
 .consultation .banner .image {
     max-height: 355px;
-    width: auto;
+    width: 100%;
     filter: brightness(.4)
 }
 
@@ -21,7 +22,7 @@
     color: #fff;
     text-transform: uppercase;
     text-align: center;
-    font-size: 10vw
+    font-size: 8vw
 }
 
 .consultation .consultation-form {
@@ -44,24 +45,24 @@
 
 @media screen and (min-width:768px) {
     .consultation .consultation-wrapper {
-        flex-direction: row
+        flex-direction: row;
+        max-width: unset;
     }
 
     .consultation .banner {
         width: 55%;
         min-height: 100vh;
-        padding: 10px 20px;
         overflow: hidden
     }
 
     .consultation .banner .image {
         max-height: none;
         width: auto;
-        scale: 1.4
+        height: 100%;
     }
 
     .consultation .banner .text {
-        font-size: 57px
+        font-size: 4vw
     }
 
     .consultation .consultation-form {

@@ -34,6 +34,17 @@ class HomeController extends Controller
                 }
             }
 
+            // Use this to get latest variant per category
+            // foreach ($category->groups as $group) {
+            //     if ($group->variants->isNotEmpty()) {
+            //         $groupLatestVariant = $group->variants->sortByDesc('created_at')->first();
+                    
+            //         if (!$latestVariant || $groupLatestVariant->created_at > $latestVariant->created_at) {
+            //             $latestVariant = $groupLatestVariant;
+            //         }
+            //     }
+            // }
+
             if ($latestVariant) {
                 $latestVariants->push($latestVariant);
             }
