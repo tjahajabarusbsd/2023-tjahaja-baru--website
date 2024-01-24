@@ -11,8 +11,12 @@ class ProductController extends Controller
     public function getCategory($uri)
     {
         $category = Category::where('uri', $uri)->first();
-
-        $groups = Group::where('category_id', $category->id)->get();
+        
+        if ( $category == null ) {
+            return view('errors/404');
+        } else {
+            $groups = Group::where('category_id', $category->id)->get();
+        }
 
         return view('product/product', compact('groups'));
     }
