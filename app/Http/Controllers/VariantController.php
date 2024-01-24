@@ -11,9 +11,14 @@ class VariantController extends Controller
 {
     public function getDataVariant($uri, Request $request)
     {
-        $group = Group::where('uri', $uri)->first();
         $sales = $request->query('sales');
-        $reviews = Review::where('group_id', $group->id)->get();
+        $group = Group::where('uri', $uri)->first();
+        
+        if ( $group == null ) {
+            return view('errors/404');
+        } else {
+            $reviews = Review::where('group_id', $group->id)->get();
+        }        
 
         $xmlObject = simplexml_load_file(public_path('features.xml'));
         $features = $xmlObject->xpath("//feature[uri='{$uri}']");
