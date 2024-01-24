@@ -25,3 +25,17 @@
     font-size: 24px;
     font-weight: 400;
 }
+
+.wrapper {
+    min-height: 70vh;
+}
+
+.caption {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    min-height: 70vh;
+}

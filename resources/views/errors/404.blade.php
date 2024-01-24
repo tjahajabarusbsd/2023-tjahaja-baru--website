@@ -8,9 +8,9 @@
 @endsection
 
 @section('content')
-<div class="container">
+<div class="container wrapper">
   <div class="row">
-    <div class="col-md-12 text-center">
+    <div class="col-md-12 text-center caption">
       <div class="error_number">
         <small>ERROR</small><br>
         404
@@ -22,7 +22,7 @@
       <div class="error_description text-muted">
         <small>
           Kembali ke <a href="{{ url('/') }}" class="button">Home</a>
-      </small>
+        </small>
       </div>
     </div>
   </div>
