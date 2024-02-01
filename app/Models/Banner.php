@@ -79,7 +79,11 @@ class Banner extends Model
         // if the image was erased
         if ($value == null) {
             // delete the image from disk
-            Storage::disk($disk)->delete(Str::replaceFirst('uploads/', '', $this->{$attribute_name}));
+            $previousImagePath = Str::replaceFirst('uploads/', '', $this->{$attribute_name});
+    
+            if ($previousImagePath && Storage::disk($disk)->exists($previousImagePath)) {
+                Storage::disk($disk)->delete($previousImagePath);
+            }
 
             // set null in the database column
             $this->attributes[$attribute_name] = null;
@@ -98,7 +102,11 @@ class Banner extends Model
             Storage::disk($disk)->put($destination_path . '/' . $filename, $image->stream());
 
             // 3. Delete the previous image, if there was one.
-            Storage::disk($disk)->delete(Str::replaceFirst('uploads/', '', $this->{$attribute_name}));
+            $previousImagePath = Str::replaceFirst('uploads/', '', $this->{$attribute_name});
+    
+            if ($previousImagePath && Storage::disk($disk)->exists($previousImagePath)) {
+                Storage::disk($disk)->delete($previousImagePath);
+            }
 
             // 4. Save the public path to the database
             // but first, remove "public/" from the path, since we're pointing to it
