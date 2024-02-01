@@ -2,6 +2,9 @@
     @csrf
     <p>Staff</p>
     <input type="file" name="file">
+    @error('file')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
     <button type="submit">Export to Database</button>
 </form>
 
