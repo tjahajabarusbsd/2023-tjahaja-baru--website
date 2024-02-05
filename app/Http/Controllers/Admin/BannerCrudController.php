@@ -26,8 +26,8 @@ class BannerCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Banner::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/banner');
+        CRUD::setModel("\App\Models\Banner");
+        CRUD::setRoute("admin/banner");
         CRUD::setEntityNameStrings('banner', 'banners');
     }
 
@@ -40,7 +40,12 @@ class BannerCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name');
-        CRUD::column('created_at');
+        CRUD::addColumn([
+            'name' => 'created_at',
+            'label' => 'Tanggal Buat',
+            'type' => 'date',
+            'format' => 'll'
+        ]);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -58,6 +63,25 @@ class BannerCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(BannerRequest::class);
+
+        /**
+         * Another type of validation without using Request
+         */
+        // $this->crud->setValidation([
+        //     'name' => 'required|min:5',
+        // ]);
+
+        // $rules = [
+        //     'name' => 'required|min:2',
+        //     'image' => 'required'
+        // ];
+        // $messages = [
+        //     'name.required' => 'You gotta give it a name, man.',
+        //     'name.min' => 'You came up short. Try more than 2 characters.',
+        //     'image.required' => 'Pilih image dulu bro'
+        // ];
+
+        // $this->crud->setValidation($rules, $messages);
 
         CRUD::field('name');
         CRUD::field('image')->type('image')->upload(true);
