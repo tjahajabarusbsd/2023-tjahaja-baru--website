@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
+use Carbon\Carbon;
 
 class Banner extends Model
 {
@@ -50,11 +51,21 @@ class Banner extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function getCreatedAtAttribute($value)
+	{
+		return Carbon::parse($value)->format('d-m-Y');
+	}
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    public function setNameAttribute($value) 
+    {
+        $this->attributes['name'] = ucfirst($value);
+    }
 
     public static function boot()
     {
