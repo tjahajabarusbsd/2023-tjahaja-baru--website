@@ -36,7 +36,7 @@ class Article extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function sluggable()
+    public function sluggable(): array
     {
         return [
             'uri' => [
