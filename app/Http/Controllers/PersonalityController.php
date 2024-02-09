@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Group;
+use App\Models\Category;
 use App\Models\PersonalityQuiz;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class PersonalityController extends Controller
 {
@@ -25,10 +28,26 @@ class PersonalityController extends Controller
        // Mengonversi objek SimpleXMLElement ke array
         $featuresArray = json_decode(json_encode($features), true);
 
+        $category = Category::where('uri', $finalResult)->first();
+
+        if ( $category == null ) {
+            return view('errors/404');
+        } else {
+            $groups = Group::where('category_id', $category->id)->get();
+        }
+
+        if (isset($groups)) {
+            // Render the Blade view with the necessary data
+            $html = View::make('quizResult', compact('groups'))->render();
+        } else {
+            $html = ''; // Or handle the case where $groups is not set
+        }
+
         // Menyusun respons yang ingin dikirim kembali ke klien
         $response = [
             'message' => 'Data berhasil diterima di controller.',
             'features' => $featuresArray,
+            'html' => $html,
         ];
 
         // Mengirim respons dalam format JSON
