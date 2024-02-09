@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
-@section('title', 'Personality Product | Tjahaja Baru')
+@section('title', 'Kuis Minat Motor | Tjahaja Baru')
 
 @section('meta_og')
-  <meta property="og:title" content="Yamaha Sumatera Barat | Tjahaja Baru">
+  <meta property="og:title" content="Kuis Minat Motor | Tjahaja Baru">
   <meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
   <meta property="og:type" content="website">
 @endsection
@@ -19,9 +19,9 @@
 <div class="container-fluid quiz-wrapper">
     <section class="opening-section">
         <div class="title-wrapper aos-init" data-aos="zoom-in">
-            <h1>Produk Personality Kuis</h1>
+            <h1>Kuis Minat Motor</h1>
         </div>
-        <h2 class="aos-init" data-aos="fade-up" data-aos-easing="ease" data-aos-delay="400">Seperti apa motor yang cocok untuk kamu? Cari tau yuk!</h2>
+        <h2 class="aos-init" data-aos="fade-up" data-aos-easing="ease" data-aos-delay="400">Seperti apa motor yang cocok untuk gaya hidup dan kebutuhanmu?<br >Cari tau yuk!</h2>
         <button class="quiz-button quiz-start aos-init" data-aos="fade-up" data-aos-easing="ease" data-aos-delay="800">mulai</button>
     </section>
     
@@ -51,59 +51,64 @@
         <div class="question-slide">
             <div class="question-image">
                 <picture>
-                    <img src="{{ url('/images/quiz/riding_usage.png')}}" alt="riding-usage" style="width:100%;">
-                </picture>
-            </div>
-            <div class="question-content">
-                <div class="question">
-                    <label for="usage">Apa kebutuhan motor bagi kamu?</label>
-                    <div class="answer-option">
-                        <input type="radio" name="usage" class="option" value="daily" id="daily"> <label for="daily">Untuk Perjalanan Harian</label>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" name="usage" class="option" value="adventure" id="adventure"> <label for="adventure">Untuk Petualangan dan Perjalanan Jauh</label>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" name="usage" class="option" value="hobby" id="hobby"> <label for="hobby">Untuk Hobby dan Komunitas</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="question-slide">
-            <div class="question-image">
-                <picture>
-                    <img src="{{ url('/images/quiz/riding_style.png')}}" alt="riding-style" style="width:100%;">
-                </picture>
-            </div>
-            
-            <div class="question-content">
-                <div class="question">
-                    <label for="riding_style">Kamu tipe pengendara motor seperti apa kalau di jalanan?</label>
-                    <div class="answer-option">
-                        <input type="radio" name="riding_style" class="option" value="relaxed" id="relaxed"> <label for="relaxed">Tipe santai dan tenang</label>
-                    </div>
-                    <div class="answer-option">
-                        <input type="radio" name="riding_style" class="option" value="adventurous" id="adventurous"> <label for="adventurous">Tipe petualang dan penuh adrenalin</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="question-slide">
-            <div class="question-image">
-                <picture>
                     <img src="{{ url('/images/quiz/riding_priority.png')}}" alt="riding-priority" style="width:100%;">
                 </picture>
             </div>
             <div class="question-content">
                 <div class="question">
-                    <label for="priority">Kamu lebih memilih motor yang mengutamakan Fitur Komplit atau Performa Tinggi?</label>
+                    <label for="priority">Apa tipe motor yang kamu inginkan?</label>
                     <div class="answer-option">
-                        <input type="radio" name="priority" class="option" value="feature" id="feature"> <label for="feature">Fitur Komplit</label>
+                        <input type="radio" name="priority" class="option" value="matic" id="matic"> <label for="matic">Matic</label>
                     </div>
                     <div class="answer-option">
-                        <input type="radio" name="priority" class="option" value="performance" id="performance"> <label for="performance">Performa dan Kecepatan Tinggi</label>
+                        <input type="radio" name="priority" class="option" value="moped" id="moped"> <label for="moped">Moped</label>
+                    </div>
+                    <div class="answer-option">
+                        <input type="radio" name="priority" class="option" value="sport" id="sport"> <label for="sport">Sport</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-slide">
+            <div class="question-image">
+                <picture>
+                    <img src="{{ url('/images/quiz/riding_usage.png')}}" alt="riding-usage" style="width:100%;">
+                </picture>
+            </div>
+            <div class="question-content matic-usage">
+                <div class="question">
+                    <label for="matic-usage">Seperti apa kebutuhan motor bagi kamu?</label>
+                    <div class="answer-option">
+                        <input type="radio" name="usage" class="option" value="maxi" id="maxi"> <label for="maxi">Kenyamanan Maksimal</label>
+                    </div>
+                    <div class="answer-option">
+                        <input type="radio" name="usage" class="option" value="classy" id="classy"> <label for="classy">Tampilan Berkelas</label>
+                    </div>
+                    <div class="answer-option">
+                        <input type="radio" name="usage" class="option" value="matic" id="matic"> <label for="matic">Multiguna & Praktis</label>
+                    </div>
+                </div>
+            </div>
+            <div class="question-content moped-usage">
+                <div class="question">
+                    <label for="matic-usage">Seperti apa kebutuhan motor bagi kamu?</label>
+                    <div class="answer-option">
+                        <input type="radio" name="usage" class="option" value="moped" id="moped1"> <label for="moped1">Mesin Bandel & Lincah</label>
+                    </div>
+                    <div class="answer-option">
+                        <input type="radio" name="usage" class="option" value="moped" id="moped2"> <label for="moped2">Performa Bagus</label>
+                    </div>
+                </div>
+            </div>
+            <div class="question-content sport-usage">
+                <div class="question">
+                    <label for="matic-usage">Seperti apa kebutuhan motor bagi kamu?</label>
+                    <div class="answer-option">
+                        <input type="radio" name="usage" class="option" value="sport" id="sport1"> <label for="sport1">Performa Tinggi</label>
+                    </div>
+                    <div class="answer-option">
+                        <input type="radio" name="usage" class="option" value="sport" id="sport2"> <label for="sport2">Berpetualang / Adventure</label>
                     </div>
                 </div>
             </div>
@@ -126,19 +131,17 @@
     <section class="result">
         <div class="result-title">
             <h1>Motor Yang Cocok Dengan Kamu Adalah</h1>
-            <h2>title</h3>
+            <h2>title</h2>
         </div>
         <div class="result-image">
             <picture>
                 <img src="" alt="result-image" style="width:100%;">
             </picture>
         </div>
+        <div class="grid-container"></div>
         <div class="result-cta">
             <div class="button-wrapper">
                 <a href="" onClick="refreshPage()" class="quiz-button coba-lagi">Coba Lagi</a>
-            </div>
-            <div class="button-wrapper">
-                <a href="" class="quiz-button view-product">Lihat Produk</a>
             </div>
         </div>
     </section>
