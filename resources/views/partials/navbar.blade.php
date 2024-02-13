@@ -76,6 +76,9 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/compare_product">compare</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/kuis">Quiz</a>
+					</li>
 				</ul>
 			</div>
 		</div>
