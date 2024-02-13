@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
-@section('title', 'Kuis Minat Motor | Tjahaja Baru')
+@section('title', 'Kuis Minat Motor Yamaha | Tjahaja Baru')
 
 @section('meta_og')
-  <meta property="og:title" content="Kuis Minat Motor | Tjahaja Baru">
+  <meta property="og:title" content="Kuis Minat Motor Yamaha | Tjahaja Baru">
   <meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
   <meta property="og:type" content="website">
 @endsection
@@ -19,7 +19,7 @@
 <div class="container-fluid quiz-wrapper">
     <section class="opening-section">
         <div class="title-wrapper aos-init" data-aos="zoom-in">
-            <h1>Kuis Minat Motor</h1>
+            <h1>Kuis Minat Motor Yamaha</h1>
         </div>
         <h2 class="aos-init" data-aos="fade-up" data-aos-easing="ease" data-aos-delay="400">Seperti apa motor yang cocok untuk gaya hidup dan kebutuhanmu?<br >Cari tau yuk!</h2>
         <button class="quiz-button quiz-start aos-init" data-aos="fade-up" data-aos-easing="ease" data-aos-delay="800">mulai</button>
