@@ -18,6 +18,7 @@ class ReviewCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\BulkDeleteOperation { bulkDelete as traitBulkDelete; }
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -57,10 +58,10 @@ class ReviewCrudController extends CrudController
             'name' => 'group.name', // 'group.name' mengacu pada relasi antara tabel Anda
             'label' => 'Group Name', // Label yang akan ditampilkan dalam daftar
         ]);
-        // CRUD::column('title');
+        CRUD::column('title');
         CRUD::column('created_at');
         // CRUD::column('updated_at');
-
+        $this->crud->enableExportButtons();
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
