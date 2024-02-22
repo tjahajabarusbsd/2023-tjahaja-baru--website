@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\Review;
-use Illuminate\Http\Request;
+use App\Models\GroupProductSpec;
 use App\Models\Variant;
+use Illuminate\Http\Request;
 
 class VariantController extends Controller
 {
@@ -13,6 +14,7 @@ class VariantController extends Controller
     {
         $sales = $request->query('sales');
         $group = Group::where('uri', $uri)->first();
+        $groupSpec = GroupProductSpec::where('group_id', $group->id )->first();
         
         if ( $group == null ) {
             return view('errors/404');
@@ -38,7 +40,7 @@ class VariantController extends Controller
                 ->where('name', $variantNames[0])
                 ->get();
 
-            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data', 'sales', 'features', 'reviews'));
+            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data', 'sales', 'features', 'reviews', 'groupSpec'));
         } else {
             return view('errors/404');
         }
