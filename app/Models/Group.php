@@ -61,6 +61,11 @@ class Group extends Model
         return $this->hasMany(Variant::class);
     }
 
+    public function group_product_specs()
+    {
+        return $this->hasMany(GroupProductSpec::class);
+    }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);
