@@ -1,4 +1,4 @@
-@extends('layouts.custom')
+@extends('layouts.master')
 
 @section('title','Yamaha ' . $group->name . ' | Tjahaja Baru')
 
