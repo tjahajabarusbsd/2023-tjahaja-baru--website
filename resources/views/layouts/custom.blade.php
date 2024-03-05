@@ -31,30 +31,29 @@
   @yield('meta_og')
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}" />
-
   <title>@yield('title')</title>
   <link rel="shortcut icon" href="{{ url('/images/icons/favicon.ico') }}" type="image/x-icon" />
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   @include('partials/page_css')
   @yield('additional_css')
   {!! RecaptchaV3::initJs() !!}
   <!-- Meta Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '2019554698410645');
-  fbq('track', 'PageView');
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2019554698410645');
+    fbq('track', 'PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=2019554698410645&ev=PageView&noscript=1"
-  /></noscript>
+  <noscript>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2019554698410645&ev=PageView&noscript=1"/>
+  </noscript>
   <!-- End Meta Pixel Code -->
 </head>
 <body>
@@ -64,15 +63,12 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
   @endif
+  @include('partials/navbar')
   <div id="main-wrapper" class="z0 @yield('main_class')">
-    @include('partials/navbar')
     @yield('content')
-    @include('partials/footer')
-
     @php
     use Illuminate\Support\Str;
     @endphp
-
     @unless(request()->is('consultation') || Str::is('product*', request()->path()))
       <a class="btn-wa" href="https://api.whatsapp.com/send?phone=62811805898&amp;text=Halo admin, saya ingin menanyakan" target="_blank" rel="noopener noreferrer">
       <section class="link-wa">
@@ -86,7 +82,8 @@
       </a>
     @endunless
   </div>
-  @include('partials/page_script')
-  @yield('additional_script')
 </body>
+@include('partials/footer')
+@include('partials/page_script')
+  @yield('additional_script')
 </html>

@@ -89,6 +89,13 @@
                 </div>
 
                 <div class="form-group">
+                    <label>
+                        <input type="checkbox" name="terms" id="termsCheckbox" required>
+                        Saya setuju bahwa informasi diatas mengizinkan TJAHAJA BARU untuk menghubungi Saya melalui telepon/WhatsApp.
+                    </label>
+                </div>
+
+                <div class="form-group">
                     <input id="submitButton" class="btn btn-primary" type="submit" value="Submit">
                 </div>
             </form>

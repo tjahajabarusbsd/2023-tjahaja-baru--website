@@ -8,13 +8,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%
+    width: 100%;
+    padding: 7px;
 }
 
 .consultation .banner .image {
     max-height: 355px;
     width: 100%;
-    filter: brightness(.4)
+    filter: brightness(.4);
+    border-radius: 15px;
 }
 
 .consultation .banner .text {
@@ -43,6 +45,12 @@
     color: #183f9d
 }
 
+#termsCheckbox {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+}
+
 @media screen and (min-width:768px) {
     .consultation .consultation-wrapper {
         flex-direction: row;
@@ -52,7 +60,8 @@
     .consultation .banner {
         width: 55%;
         min-height: 100vh;
-        overflow: hidden
+        overflow: hidden;
+        padding: 0;
     }
 
     .consultation .banner .image {

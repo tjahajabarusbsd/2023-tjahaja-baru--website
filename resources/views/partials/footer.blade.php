@@ -1,6 +1,5 @@
-<section class="separator"></section>
-
 <footer>
+    <section class="separator"></section>
     <div class="footer-row first-row">
     <div class="caption-first-row">Follow Us On</div>
     <div class="sosmed">

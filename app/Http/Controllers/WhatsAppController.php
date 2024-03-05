@@ -20,6 +20,7 @@ class WhatsAppController extends Controller
             'nohp'   => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/'],
             'produk' => 'required',
             'g-recaptcha-response' => 'required',
+            'terms'  => 'required'
         ], [
             'name.required'   => 'Kolom wajib diisi.',
             'name.regex'      => 'Wajib menggunakan huruf.',
@@ -28,7 +29,8 @@ class WhatsAppController extends Controller
             'nohp.numeric'    => 'Wajib menggunakan angka.',
             'nohp.regex'      => 'Mohon input nomor HP dengan benar.',
             'produk.required' => 'Kolom wajib diisi.',
-            'g-recaptcha-response.required' => 'captcha error'
+            'g-recaptcha-response.required' => 'captcha error',
+            'terms.required'  => 'Checkbox wajib dicentang.'
         ]);
 
         $score = RecaptchaV3::verify($request->get('g-recaptcha-response'), 'consultation');
