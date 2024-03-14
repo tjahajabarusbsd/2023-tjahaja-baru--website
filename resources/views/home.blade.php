@@ -24,37 +24,11 @@
     <section class="main-banner">
         <div class="banner-wrapper">
             @foreach ($banners as $banner)
-                {{-- <div class="banner">
-                    <img src="{{ url($banner->image) }}" class="banner-img">
-                </div> --}}
                 <picture>
                     <img src="{{ url($banner->image) }}" loading="lazy" class="banner-img">
                 </picture>
-                
             @endforeach
         </div>
-        {{-- <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-            <div class="carousel-inner">
-                @foreach ($banners as $banner)
-                    <div class="carousel-item" data-bs-interval="5000">
-                        <img src="{{ url($banner->image) }}" class="d-block w-100" alt="...">
-                    </div>
-                @endforeach
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div> --}}
     </section>    
 
     <section class="first-section container-fluid">
@@ -142,6 +116,28 @@
         </div>
     </section>
 
+    <!-- Bootstrap Modal -->
+    <div class="modal fade modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title w-100" id="exampleModalLabel">
+                    Kuis Minat Motor Yamaha
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <a href="/kuis">
+                    <img src="{{ url('/images/quis_banner.jpeg')}}" alt="">
+                </a>
+            </div>
+            {{-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div> --}}
+        </div>
+        </div>
+    </div>
+
     {{-- <section class="third-section container-fluid">
         <div class="caption-container">
             <h2 class="title">News Release</h2>
@@ -165,5 +161,14 @@
 <script>
     var introCarousel = $(".carousel");
     introCarousel.find(".carousel-inner").children(".carousel-item:first").addClass('active');
+
+    $(document).ready(function(){
+        $('#myModal').modal('show');
+    });
+
+    function closeModal() {
+        $('#myModal').modal('hide');
+        localStorage.removeItem('visited');
+    }
 </script>
 @endsection
