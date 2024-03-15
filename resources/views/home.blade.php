@@ -120,20 +120,20 @@
     <div class="modal fade modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            {{-- <div class="modal-header">
                 <h5 class="modal-title w-100" id="exampleModalLabel">
                     Kuis Minat Motor Yamaha
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+            </div> --}}
             <div class="modal-body">
-                <a href="/kuis">
-                    <img src="{{ url('/images/quis_banner.jpeg')}}" alt="">
+                <a href="/kuis" class="link-banner-quiz">
+                    <img src="{{ url('/images/quiz_banner.jpeg')}}" alt="">
                 </a>
             </div>
-            {{-- <div class="modal-footer">
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div> --}}
+            </div>
         </div>
         </div>
     </div>
