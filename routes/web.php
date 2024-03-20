@@ -1,17 +1,23 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ComparisonController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DealerController;
 use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PersonalityController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\VariantController;
 use App\Http\Controllers\WhatsAppController;
-use App\Http\Controllers\PersonalityController;
+use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +31,7 @@ use App\Http\Controllers\PersonalityController;
 */
 
 // --- Page Section --- 
-Route::get('/', [HomeController::class, 'getData']);
+Route::get('/', [HomeController::class, 'getData'])->name('home');
 Route::get('/dealers', [DealerController::class, 'getDealer']);
 Route::get('/profile', function () { return view('/about-us'); });
 Route::get('/myyamaha', function () { return view('myyamaha'); });
@@ -73,3 +79,30 @@ Route::post('/import', [ExcelImportController::class, 'import'])->name('import')
 Route::post('/import-dealer', [ExcelImportController::class, 'importDealer'])->name('importDealer');
 Route::post('/import-spec', [ExcelImportController::class, 'importSpec'])->name('importSpec');
 // --- End Import File Section
+
+Route::middleware('auth')->group(function () {
+    Route::get('/user-profile', [UserProfileController::class, 'getUserProfile'])->name('user.profile');
+    Route::post('/user-profile/save-no-rangka', [UserProfileController::class, 'saveNoRangka'])->name('user.profile.saveNoRangka');
+});
+
+Route::middleware('guest')->group(function () {
+    Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('register', [RegisterController::class, 'register']);
+
+    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [LoginController::class, 'login']);
+
+    Route::get('forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm']);
+    Route::post('forgot-password', [ForgotPasswordController::class, 'sendLinkResetPassword'])->name('send.link');
+
+    Route::get('reset-password/{token}', [ResetPasswordController::class, 'resetPasswordForm'])->name('reset.password.form');
+    Route::post('reset-password-update', [ResetPasswordController::class, 'updatePassword'])->name('reset.password.update');
+});
+
+Route::middleware(['web'])->group(function () {
+    Route::get('logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
+});
+
+Route::get('/auth/redirect', [LoginController::class, 'redirectToGoogle']);
+
+Route::get('/auth/callback', [LoginController::class, 'handleGoogleCallback']);
