@@ -79,6 +79,15 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/kuis">Quiz</a>
 					</li>
+					@auth
+						<form action="{{url('logout')}}" method="GET" class="logout-form"> 
+							<button type="submit">Logout</button>
+						</form>
+					@else
+						<li class="nav-item nav-login">
+							<a class="nav-link link-login" href="/login">Log In</a>
+						</li>
+					@endauth
 				</ul>
 			</div>
 		</div>
