@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Models\NomorRangka;
 use App\Models\MasterPart;
 
@@ -96,5 +97,42 @@ class UserProfileController extends Controller
             $message = 'User not found. Please login.';
             return redirect()->route('user.profile')->with('message', $message);
         }
+    }
+
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+
+        $validator = \Validator::make($request->all(), [
+            'name' => ['required', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
+            'email' => ['required', 'email', 'unique:users,email,'.$user->id],
+            'phone_number' => ['nullable', 'numeric', 'regex:/^(\62|0)8[1-9][0-9]{6,10}$/'],
+        ], [
+            'name.required' => 'Nama harus diisi.',
+            'name.max' => 'Nama tidak boleh lebih dari :max karakter.',
+            'name.regex' => 'Nama hanya boleh mengandung huruf dan spasi.',
+            'email.required' => 'Email harus diisi.',
+            'email.email' => 'Email harus berupa alamat email yang valid.',
+            'email.unique' => 'Email sudah digunakan oleh pengguna lain.',
+            'phone_number.numeric' => 'Nomor HP harus berupa karakter numerik.',
+            'phone_number.regex' => 'Format nomor telepon tidak valid.',
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Simpan perubahan pada data user
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
+        $user->save();
+
+        // Mengembalikan respons JSON dengan data user yang diperbarui
+        return response()->json([
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone_number' => $user->phone_number,
+        ]);
     }
 }
