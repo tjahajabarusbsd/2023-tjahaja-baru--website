@@ -3,6 +3,16 @@
     border-radius: 15px;
 }
 
+.bg {
+    background: linear-gradient(150deg, #ff4086 20%, #fd8d76 100%);
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
 .user-profile .container {
     text-align: center;
     margin-top: 50px;
@@ -61,6 +71,7 @@
     height: auto;
     overflow: hidden;
     transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out;
+    color: rgba(0, 0, 0, 0.6);
 }
 
 #dataProfile.hide {
@@ -69,12 +80,18 @@
 }
 
 #editProfileBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     left: 25px;
     border: none;
     background: transparent;
 }
 
 #logoutBtn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     right: 25px;
 }
 
@@ -82,41 +99,6 @@
     position: absolute;
     top: 25px;
     text-decoration: none;
-}
-
-/* Tooltip */
-.corner-button:hover::before {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    padding: 5px;
-    border-radius: 5px;
-    z-index: 1;
-    top: -30px;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    font-size: 14px;
-}
-
-#logoutBtn:hover::before {
-    content: "Logout";
-    right: 15px;
-}
-
-#editProfileBtn:hover::before {
-    content: "Edit Profile";
-    right: -80px;
-}
-
-/* Efek muncul saat hover */
-#logoutBtn:hover::before {
-    opacity: 1;
-}
-
-/* Efek muncul saat hover */
-#editProfileBtn:hover::before {
-    opacity: 1;
 }
 
 .top-content,
@@ -135,9 +117,14 @@
 
 .top-content {
     max-width: 800px;
+    margin-top: 50px;
 }
 
 .content-avatar {
+    position: absolute;
+    top: -68px;
+    right: 50%;
+    transform: translateX(50%);
     margin: auto;
     width: 9rem;
     height: 9rem;
@@ -151,22 +138,23 @@
 }
 
 .content-title {
-    margin-top: 22px;
+    margin-top: 57px;
 }
 
 .content-title p {
     font-size: 32px;
 }
 
-/* .content-contact {
+.content-contact {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
-} */
+}
 
 .content-contact p {
     font-size: 19px;
+    font-weight: 500;
 }
 
 .bottom-content form {
@@ -181,7 +169,6 @@ dl {
     grid-template-columns: max-content;
     align-items: start;
     justify-items: start;
-    /* justify-content: center; */
 }
 
 dt {

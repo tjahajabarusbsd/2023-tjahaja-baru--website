@@ -17,34 +17,52 @@
 
 @section('content')
 <div class="container">
+    <div class="bg"></div>
     <div class="top-content">
         <div id="dataProfile">
             <div class="content-avatar">
                 <img src="{{ url('/images/dummy-image.png') }}" alt="">
             </div>
             <div class="content-title">
-                <p>{{ $user->name ?? 'Belum ada nama' }}</p>
+                <p id="nameField"><span>{{ $user->name ?? 'Belum ada nama' }}</span></p>
             </div>
             
             <div class="content-contact">
-                <p id="emailField">Email: {{ $user->email ?? '-' }}</p>
-                <p id="phoneField">No. HP: {{ $user->phone_number ?? '-' }}</p>
+                <p id="emailField">E-mail: <span>{{ $user->email ?? '-' }}</span></p>
+                <p id="phoneField">No. HP: <span>{{ $user->phone_number ?? '-' }}</span></p>
             </div>
 
-            <button id="editProfileBtn" class="corner-button"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button id="editProfileBtn" class="corner-button"><i class="fa-solid fa-pen-to-square"></i>Edit Profile</button>
 
-            <a href="/logout" id="logoutBtn" class="corner-button"><i class="fas fa-sign-out-alt"></i></a>
+            <a href="/logout" id="logoutBtn" class="corner-button"><i class="fas fa-sign-out-alt"></i>Log Out</a>
         </div>
 
         <div id="editProfileForm" >
-            <form id="profileForm" action="" method="POST">
+            @if(Session::has('success'))
+                <div class="alert alert-success">
+                    {{ Session::get('success') }}
+                    @php
+                        Session::forget('success');
+                    @endphp
+                </div>
+            @endif
+            @if(Session::has('error'))
+                <div class="alert alert-danger">
+                    {{ Session::get('error') }}
+                    @php
+                        Session::forget('error');
+                    @endphp
+                </div>
+            @endif
+            <form id="profileForm" action="{{ route('profile.update') }}" method="POST">
                 @csrf
+                <div id="errorMessages"></div>
                 <label for="name">Nama:</label>
-                <input type="text" id="name" class="form-control" name="name" value="{{ $user->name ?? '' }}">
+                <input type="text" id="name" class="form-control" name="name" required value="{{ $user->name ?? '' }}">
                 <label for="email">Email:</label>
-                <input type="email" id="email" class="form-control" name="email" value="{{ $user->email ?? '' }}">
+                <input type="email" id="email" class="form-control" name="email" required value="{{ $user->email ?? '' }}">
                 <label for="phone_number">No. HP:</label>
-                <input type="text" id="phone_number" class="form-control" name="phone_number" value="{{ $user->phone_number ?? '' }}">
+                <input type="text" id="phone_number" class="form-control" name="phone_number" required value="{{ $user->phone_number ?? '' }}">
                 <button type="submit" class="btn btn-primary">Simpan</button>
                 <button type="button" id="cancelEditBtn" class="btn btn-primary">Cancel</button>
             </form>
@@ -223,6 +241,44 @@
         $('#cancelEditBtn').click(function() {
             $('#editProfileForm').removeClass('active');
             $('#dataProfile').removeClass('hide');
+        });
+
+        $('#profileForm').on('submit', function(e) {
+            e.preventDefault(); // Mencegah pengiriman form bawaan browser
+
+            // Mengirim data form menggunakan AJAX
+            $.ajax({
+                url: $(this).attr('action'),
+                method: $(this).attr('method'),
+                headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+                    },
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Menangani respons sukses dari server
+                    $('#nameField').text(response.name);
+                    $('#emailField span').text(response.email);
+                    $('#phoneField span').text(response.phone_number);
+
+                    // Menyembunyikan form Edit Profile setelah simpan berhasil
+                    $('#editProfileForm').removeClass('active');
+                    $('#dataProfile').removeClass('hide');
+                    $('#errorMessages').text('');
+                },
+                error: function(xhr, status, error) {
+                    // Menangani respons error dari server
+                    
+                    var errors = xhr.responseJSON.errors;
+                    console.log(errors);
+                    var errorMessage = '';
+                    $.each(errors, function(key, value) {
+                        errorMessage += value + '<br>';
+                    });
+                    console.log(errorMessage);
+                    $('#errorMessages').html(errorMessage);
+                    // Tambahkan logika lain untuk menampilkan pesan error sesuai kebutuhan Anda
+                }
+            });
         });
     });
 </script>
