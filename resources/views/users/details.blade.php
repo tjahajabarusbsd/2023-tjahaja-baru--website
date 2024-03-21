@@ -71,7 +71,7 @@
     <div class="bottom-content">
         @if(isset($message))
             <p>{{ $message }}</p>
-            <p>Silakan masukkan Nomor rangka Anda untuk melihat riwayat servis</p>
+            <p>Silakan masukkan Nomor rangka Anda untuk melihat Riwayat Servis</p>
             <form method="post" class="form-container" action="{{ route('user.profile.saveNoRangka') }}">
                 @csrf
                 
@@ -87,18 +87,8 @@
                     <input id="submitButton" class="btn btn-primary" type="submit" value="Submit">
                 </div>
             </form>
-
-            <div class="riwayat-wrapper">
-                <div class="sortir">
-                    <p>Urutkan berdasarkan:</p>
-                    <div class="button-sortir">
-                        <a href="">Tanggal</a>
-                        <a href="">Total</a>
-                    </div>
-                </div>
-            </div>
         @else
-            <h1>Riwayat Servis</h1>
+            <h2>Riwayat Servis Motor Yamaha</h2>
             @if (!empty($data))
                 <div class="row">
                     <div class="col-md-12">
@@ -222,7 +212,7 @@
                     </div>
                 </div>
             @else
-                <p>Belum ada data servis.</p>
+                <p>Belum ada riwayat servis.</p>
             @endif
         @endif
     </div>
