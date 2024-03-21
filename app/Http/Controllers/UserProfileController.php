@@ -56,8 +56,6 @@ class UserProfileController extends Controller
                     }
                 }
 
-                // dd($data);
-
                 return view('users.details', compact('data', 'user'));
             } else {
                 $message = 'Data Riwayat Servis tidak ditemukan.';
