@@ -28,7 +28,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('send.link') }}">
+        <form method="POST" action="{{ route('send.link') }}" id="forgotPasswordForm">
             @csrf
 
             <div class="form-group">
@@ -42,7 +42,7 @@
                 @enderror
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block">Kirim Link Reset Password</button>
+            <button type="submit" id="submitButton" class="btn btn-primary btn-block" onclick="submitForm()">Kirim Link Reset Password</button>
         </form>
 
         <div class="text-center mt-4">
@@ -53,4 +53,16 @@
                     
     </div>
 </div>
+@endsection
+
+@section('additional_script')
+    <script>
+        function submitForm() {
+            // Disable the submit button
+            $('#submitButton').prop('disabled', true).text('Sedang Memproses...');
+
+            // Submit the form
+            $('#forgotPasswordForm').submit();
+        }
+    </script>
 @endsection
