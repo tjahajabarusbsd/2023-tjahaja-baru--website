@@ -39,13 +39,20 @@
                     </span>
                 @enderror
 
-                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror roboto-regular" name="password" placeholder="Password" required>
+                <div class="form-group">
+                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror roboto-regular" name="password" placeholder="Password" required>
+                    <div class="password-box">
+                        <span class="password-toggle-icon" id="togglePassword">
+                            <i class="fa fa-eye-slash"></i>
+                        </span>
+                    </div>
 
-                @error('password')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                    @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
 
                 <input id="password-confirm" type="password" class="form-control roboto-regular" name="password_confirmation" required placeholder="Konfirmasi Password" autocomplete="new-password">
 
@@ -87,6 +94,19 @@
             $('.auth-button').prop('disabled', false);
             $('.auth-button').removeClass('loading');
         @endif
+
+        $('#togglePassword').click(function(){
+            const passwordField = $('#password');
+            const passwordFieldType = passwordField.attr('type');
+            
+            if(passwordFieldType === 'password') {
+                passwordField.attr('type', 'text');
+                $('#togglePassword i').removeClass('fa-eye-slash').addClass('fa-eye');
+            } else {
+                passwordField.attr('type', 'password');
+                $('#togglePassword i').removeClass('fa-eye').addClass('fa-eye-slash');
+            }
+        });
     });
 </script>
 @endsection
