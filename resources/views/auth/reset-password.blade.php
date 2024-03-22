@@ -19,15 +19,21 @@
     <div class="row">
         <h3 class="text-center mb-4">Reset Password</h3>
 
-        <form method="POST" action="{{ route('reset.password.update') }}">
+        <form method="POST" action="{{ route('reset.password.update') }}" id="resetPasswordForm">
             @csrf
 
-            {{-- <input type="hidden" name="token" value="{{ $token }}"> --}}
+            <input type="hidden" name="token" value="{{ $token }}">
 
             <div class="form-group">
                 <label for="password">{{ __('Password Baru') }}</label>
+                
                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
-
+                <div class="password-box">
+                    <span class="password-toggle-icon" id="togglePassword">
+                        <i class="fa fa-eye-slash"></i>
+                    </span>
+                </div>
+                
                 @error('password')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -40,8 +46,35 @@
                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block">{{ __('Reset Password') }}</button>
+            <button type="submit" id="submitButton" class="btn btn-primary btn-block" onclick="submitForm()">{{ __('Reset Password') }}</button>
         </form>
     </div>
 </div>
+@endsection
+
+@section('additional_script')
+    <script>
+        function submitForm() {
+            // Disable the submit button
+            $('#submitButton').prop('disabled', true).text('Sedang Memproses...');
+
+            // Submit the form
+            $('#resetPasswordForm').submit();
+        }
+
+        $(document).ready(function(){
+            $('#togglePassword').click(function(){
+                const passwordField = $('#password');
+                const passwordFieldType = passwordField.attr('type');
+                
+                if(passwordFieldType === 'password') {
+                    passwordField.attr('type', 'text');
+                    $('#togglePassword i').removeClass('fa-eye-slash').addClass('fa-eye');
+                } else {
+                    passwordField.attr('type', 'password');
+                    $('#togglePassword i').removeClass('fa-eye').addClass('fa-eye-slash');
+                }
+            });
+        });
+    </script>
 @endsection

@@ -14,7 +14,7 @@ class ResetPasswordController extends Controller
         // Cari pengguna dengan token yang sesuai
         $user = User::where('reset_password_token', $token)
                     ->first();
-
+        // dd($user);
         // Jika pengguna ditemukan dan token belum kedaluwarsa
         if ($user) {
             return view('auth.reset-password', ['token' => $token]);
@@ -29,12 +29,20 @@ class ResetPasswordController extends Controller
         $request->validate([
             'password' => 'required|string|min:8|confirmed',
             'token' => 'required|string|exists:users,reset_password_token',
-        ]);
-
+        ], [
+            'password.required' => 'Password diperlukan.',
+            'password.string' => 'Password harus berupa teks.',
+            'password.min' => 'Password harus memiliki panjang minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'token.required' => 'Token diperlukan.',
+            'token.string' => 'Token harus berupa teks.',
+            'token.exists' => 'Token reset password tidak valid.',
+        ]);  
+        
         // Cari pengguna dengan token yang sesuai
         $user = User::where('reset_password_token', $request->token)
                     ->first();
-
+        
         // Jika pengguna ditemukan dan token belum kedaluwarsa
         if ($user) {
             // Update password pengguna
