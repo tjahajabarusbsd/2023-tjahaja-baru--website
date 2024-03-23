@@ -20,9 +20,10 @@
     <div class="bg"></div>
     <div class="top-content">
         <div id="dataProfile">
-            <div class="content-avatar">
+            {{-- <div class="content-avatar">
                 <img src="{{ url('/images/dummy-image.png') }}" alt="">
-            </div>
+            </div> --}}
+            <h1>Profile</h1>
             <div class="content-title">
                 <p id="nameField"><span>{{ $user->name ?? 'Belum ada nama' }}</span></p>
             </div>
