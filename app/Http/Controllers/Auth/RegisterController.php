@@ -44,7 +44,7 @@ class RegisterController extends Controller
             'phone_number' => [
                 'required',
                 'numeric',
-                'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/',
+                'regex:/^08[1-9][0-9]{6,10}$/',
                 'unique:users,phone_number', // Tambahkan aturan unik di sini jika diperlukan
             ],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -53,9 +53,9 @@ class RegisterController extends Controller
             'name.string' => 'Kolom nama harus berupa teks.',
             'name.max' => 'Kolom nama tidak boleh lebih dari :max karakter.',
             'name.regex' => 'Wajib menggunakan huruf.',
-            'phone_number.required' => 'Kolom nomor telepon wajib diisi.',
-            'phone_number.numeric' => 'Kolom nomor telepon harus berupa angka.',
-            'phone_number.regex' => 'Format nomor telepon tidak valid.',
+            'phone_number.required' => 'Kolom nomor handphone wajib diisi.',
+            'phone_number.numeric' => 'Kolom nomor handphone harus berupa angka.',
+            'phone_number.regex' => 'Format nomor handphone tidak valid. Pastikan diawali dengan 08 dan maksimal 13 digit',
             'phone_number.unique' => 'Nomor telepon sudah digunakan.',
             'password.required' => 'Kolom password wajib diisi.',
             'password.string' => 'Kolom password harus berupa teks.',
