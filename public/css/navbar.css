@@ -39,7 +39,7 @@ header {
     margin-right: 10px;
 }
 
-.navbar .navbar-nav .nav-link {
+.navbar .nav-link {
     text-transform: uppercase;
     text-align: center;
     color: #fff;
@@ -48,7 +48,7 @@ header {
     margin: 0 auto
 }
 
-.navbar .navbar-nav .link-login {
+.navbar .link-login {
     border: 1px solid rgba(0, 0, 0, 0);
     background: white;
     color: #183f9e;
@@ -245,6 +245,12 @@ header {
 
     .navbar .dropdown {
         display: none
+    }
+}
+
+@media only screen and (max-width:1115px) {
+    .nav-link {
+        font-size: 14px;
     }
 }
 
