@@ -21,7 +21,7 @@
                 @csrf
 
                 <h1 class="roboto-regular">Buat Akun</h1>
-                <p class="roboto-regular">Lorem, ipsum dolor sit amet consectetur adipisicing elit.<br />Eligendi nulla tempore repellendus sapiente natus.</p>
+                <p class="roboto-regular">Silahkan mengisi form di bawah ini untuk membuat akun.</p>
 
                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror roboto-regular" name="name" value="{{ old('name') }}" autocomplete="name" placeholder="Nama" required>
 
@@ -60,7 +60,7 @@
 
                 <div class="separator roboto-regular">
                     <div class="line"></div>
-                    <p>Or</p>
+                    <p>Atau</p>
                     <div class="line"></div>
                 </div>
 

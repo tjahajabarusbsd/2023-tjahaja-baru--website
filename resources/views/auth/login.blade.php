@@ -21,7 +21,7 @@
                 @csrf
 
                 <h1 class="roboto-regular">Selamat Datang</h1>
-                <p class="roboto-regular">Lorem, ipsum dolor sit amet consectetur adipisicing elit.<br />Eligendi nulla tempore repellendus sapiente natus.</p>
+                <p class="roboto-regular">Silahkan masuk dengan akun Anda.</p>
 
                 <input id="phone_number" type="tel" class="form-control @error('phone_number') is-invalid @enderror roboto-regular" name="phone_number" value="{{ old('phone_number') }}" placeholder="No Handphone" required>
 
@@ -52,7 +52,7 @@
 
                 <div class="separator roboto-regular">
                     <div class="line"></div>
-                    <p>Or</p>
+                    <p>Atau</p>
                     <div class="line"></div>
                 </div>
 
