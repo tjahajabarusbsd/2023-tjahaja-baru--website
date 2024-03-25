@@ -116,7 +116,11 @@
 
 .top-content {
     max-width: 800px;
-    margin-top: 50px;
+    /* margin-top: 50px; */
+}
+
+.top-content h1 {
+    font-weight: bold;
 }
 
 .content-avatar {
@@ -149,11 +153,15 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .content-contact p {
     font-size: 19px;
+    font-weight: bold;
+}
+
+.content-contact span {
     font-weight: 500;
 }
 
@@ -288,4 +296,28 @@ dd {
 .user-profile [data-bs-toggle="collapse"].collapsed:hover {
     background: #ececec !important;
     border-bottom: 2px solid #ececec;
+}
+
+@media only screen and (min-width:575px) {
+    .content-contact {
+        align-items: flex-start;
+    }
+}
+
+@media only screen and (max-width:425px) {
+    .top-content h1 {
+        font-size: 20px;
+    }
+
+    .content-title p {
+        font-size: 23px;
+    }
+
+    .content-contact p {
+        font-size: 16px;
+    }
+
+    .corner-button span {
+        display: none;
+    }
 }

@@ -23,7 +23,7 @@
             {{-- <div class="content-avatar">
                 <img src="{{ url('/images/dummy-image.png') }}" alt="">
             </div> --}}
-            <h1>Profile</h1>
+            <h1>My Profile</h1>
             <div class="content-title">
                 <p id="nameField"><span>{{ $user->name ?? 'Belum ada nama' }}</span></p>
             </div>
@@ -33,9 +33,9 @@
                 <p id="phoneField">No. HP: <span>{{ $user->phone_number ?? '-' }}</span></p>
             </div>
 
-            <button id="editProfileBtn" class="corner-button"><i class="fa-solid fa-pen-to-square"></i>Edit Profile</button>
+            <button id="editProfileBtn" class="corner-button"><i class="fa-solid fa-pen-to-square"></i><span>Edit Profile</span></button>
 
-            <a href="/logout" id="logoutBtn" class="corner-button"><i class="fas fa-sign-out-alt"></i>Log Out</a>
+            <a href="/logout" id="logoutBtn" class="corner-button"><i class="fas fa-sign-out-alt"></i><span>Log Out</span></a>
         </div>
 
         <div id="editProfileForm" >
