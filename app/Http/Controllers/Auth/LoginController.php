@@ -97,7 +97,7 @@ class LoginController extends Controller
                 $user->name = $googleUser->name;
                 $user->email = $googleUser->email;
                 $user->password = 0;
-                $user->google_id = $googleUser->id
+                $user->google_id = $googleUser->id;
                 // Setel kolom-kolom lainnya sesuai kebutuhan.
                 $user->save();
                 
