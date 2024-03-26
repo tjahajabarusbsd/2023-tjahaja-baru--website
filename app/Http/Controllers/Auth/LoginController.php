@@ -79,13 +79,15 @@ class LoginController extends Controller
 
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->redirect();
+        // return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')->stateless()->redirect();
     }
 
     public function handleGoogleCallback(\Request $request)
     {
         try {
-            $googleUser = Socialite::driver('google')->user();
+            // $googleUser = Socialite::driver('google')->user();
+            $googleUser = Socialite::driver('google')->stateless()->user();
 
             $user = User::where('email', $googleUser->email)->first();
             
@@ -95,6 +97,7 @@ class LoginController extends Controller
                 $user->name = $googleUser->name;
                 $user->email = $googleUser->email;
                 $user->password = 0;
+                $user->google_id = $googleUser->id
                 // Setel kolom-kolom lainnya sesuai kebutuhan.
                 $user->save();
                 
