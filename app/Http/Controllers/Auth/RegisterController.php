@@ -56,7 +56,7 @@ class RegisterController extends Controller
             'phone_number.required' => 'Kolom nomor handphone wajib diisi.',
             'phone_number.numeric' => 'Kolom nomor handphone harus berupa angka.',
             'phone_number.regex' => 'Format nomor handphone tidak valid. Pastikan diawali dengan 08 dan maksimal 13 digit',
-            'phone_number.unique' => 'Nomor telepon sudah digunakan.',
+            'phone_number.unique' => 'Nomor handphone sudah digunakan.',
             'password.required' => 'Kolom password wajib diisi.',
             'password.string' => 'Kolom password harus berupa teks.',
             'password.min' => 'Password minimal harus :min karakter.',

@@ -110,7 +110,7 @@ class UserProfileController extends Controller
         $validator = \Validator::make($request->all(), [
             'name' => ['required', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
             'email' => ['required', 'email', 'unique:users,email,'.$user->id],
-            'phone_number' => ['nullable', 'numeric', 'regex:/^(\62|0)8[1-9][0-9]{6,10}$/'],
+            'phone_number' => ['nullable', 'numeric', 'regex:/^(\62|0)8[1-9][0-9]{6,10}$/', 'unique:users,phone_number,'.$user->id],
         ], [
             'name.required' => 'Nama harus diisi.',
             'name.max' => 'Nama tidak boleh lebih dari :max karakter.',
@@ -120,6 +120,7 @@ class UserProfileController extends Controller
             'email.unique' => 'Email sudah digunakan oleh pengguna lain.',
             'phone_number.numeric' => 'Nomor HP harus berupa karakter numerik.',
             'phone_number.regex' => 'Format nomor telepon tidak valid.',
+            'phone_number.unique' => 'Nomor handphone sudah digunakan.'
         ]);
         
         if ($validator->fails()) {
