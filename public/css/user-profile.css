@@ -3,6 +3,10 @@
     border-radius: 15px;
 }
 
+#errorMessages.show {
+    display: block;
+}
+
 .bg {
     background: linear-gradient(150deg, #ff4086 20%, #fd8d76 100%);
     width: 100%;
@@ -33,6 +37,19 @@
     font-size: 18px;
     font-weight: 700;
     color: #183f9d;
+}
+
+#errorMessages {
+    background: lightgrey;
+    color: red;
+    border-radius: 8px;
+    padding: 5px;
+    font-family: ui-monospace;
+    display: none;
+}
+
+#errorMessages ul {
+    margin-bottom: 0;
 }
 
 #profileForm .form-control {

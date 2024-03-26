@@ -39,22 +39,6 @@
         </div>
 
         <div id="editProfileForm" >
-            @if(Session::has('success'))
-                <div class="alert alert-success">
-                    {{ Session::get('success') }}
-                    @php
-                        Session::forget('success');
-                    @endphp
-                </div>
-            @endif
-            @if(Session::has('error'))
-                <div class="alert alert-danger">
-                    {{ Session::get('error') }}
-                    @php
-                        Session::forget('error');
-                    @endphp
-                </div>
-            @endif
             <form id="profileForm" action="{{ route('profile.update') }}" method="POST">
                 @csrf
                 <div id="errorMessages"></div>
@@ -261,12 +245,30 @@
                     
                     var errors = xhr.responseJSON.errors;
                     console.log(errors);
-                    var errorMessage = '';
+                    var errorMessage = '<ul>';
                     $.each(errors, function(key, value) {
-                        errorMessage += value + '<br>';
+                        switch (key) {
+                            case 'name':
+                                $.each(value, function(index, errorValue) {
+                                    errorMessage += '<li>' + errorValue + '</li>';
+                                });
+                                break;
+                            case 'email':
+                                $.each(value, function(index, errorValue) {
+                                    errorMessage += '<li>' + errorValue + '</li>';
+                                });
+                                break;
+                            case 'phone_number':
+                                $.each(value, function(index, errorValue) {
+                                    errorMessage += '<li>' + errorValue + '</li>';
+                                });
+                                break;
+                            default:
+                                break;
+                        }
                     });
-                    console.log(errorMessage);
-                    $('#errorMessages').html(errorMessage);
+                    errorMessage += '</ul>';
+                    $('#errorMessages').html(errorMessage).addClass('show');
                     // Tambahkan logika lain untuk menampilkan pesan error sesuai kebutuhan Anda
                 }
             });
