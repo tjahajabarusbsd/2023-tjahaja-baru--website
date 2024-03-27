@@ -13,6 +13,7 @@
         "backpack/generators": "*",
         "backpack/permissionmanager": "^6.0",
         "backpack/pro": "1.*",
+        "barryvdh/laravel-dompdf": "^2.1",
         "barryvdh/laravel-elfinder": "^0.5.0",
         "cocur/slugify": "4.4.0",
         "cviebrock/eloquent-sluggable": "^9.0",
