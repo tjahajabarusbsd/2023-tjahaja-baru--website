@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user-profile', [UserProfileController::class, 'getUserProfile'])->name('user.profile');
     Route::post('/user-profile/save-no-rangka', [UserProfileController::class, 'saveNoRangka'])->name('user.profile.saveNoRangka');
     Route::post('/update-profile', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::get('/riwayatservis/cetak_pdf', [UserProfileController::class, 'cetakPdf']);
 });
 
 Route::middleware('guest')->group(function () {
