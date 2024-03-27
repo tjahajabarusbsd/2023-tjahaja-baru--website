@@ -8,70 +8,87 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\NomorRangka;
 use App\Models\MasterPart;
+use PDF;
 
 class UserProfileController extends Controller
 {
-    public function getUserProfile()
-    {   
-        $user = Auth::user(); // Retrieve the authenticated user
+    
+    protected function getRiwayatServis($user)
+    {
+        
+        $getNomor = NomorRangka::where('user_id', $user->id)->first();
+        
+        if (!$getNomor) {
+            throw new \Exception('error nomor rangka');
+        }
 
-        if ($user) {
-            $getnomor = NomorRangka::where('user_id', $user->id)->first();
+        $nomor_rangka = $getNomor->nomor_rangka;
+        $url_services = env('GET_URL_SERIVCES');
+        $apiUrl = $url_services . "?id=" . $nomor_rangka;
+        $response = Http::get($apiUrl);
+        
+        $data = $response->json();
+        
+        if (!$data) {
+            throw new \Exception('error api');
+        }
 
-            if ($getnomor) {
-                $nomor_rangka = $getnomor->nomor_rangka;
-                $url_services = env('GET_URL_SERIVCES');
-                $apiUrl = $url_services . "?id=" . $nomor_rangka;
-                
-                $response = Http::get($apiUrl);
+        foreach ($data as &$innerArray) {
+            if (isset($innerArray['part_id'])) {
+                $partIds = json_decode($innerArray['part_id'], true);
 
-                $data = $response->json();
-
-                if($data) {
-                    // Assuming $data is an array of arrays, and each inner array contains a 'part_id' key
-                    foreach ($data as &$innerArray) {
-                        // Check if 'part_id' key exists in the inner array
-                        if (isset($innerArray['part_id'])) {
-                            // Extract part_ids from the 'part_id' key and decode JSON
-                            $partIds = json_decode($innerArray['part_id'], true);
-
-                            // Fetch part_names from the MasterPart model
-                            $partNames = [];
-                            foreach ($partIds as $partId) {
-                                $part = MasterPart::where('part_number', $partId)->first();
-                                if ($part) {
-                                    $partNames[] = $part->part_name;
-                                }
-                            }
-
-                            // Convert part_names array to JSON string
-                            // $partNamesJson = json_encode($partNames);
-
-                            // Assign part_names array to the inner array
-                            // $innerArray['part_name'] = $partNamesJson;
-
-                            // Assign part_names array to the inner array
-                            $innerArray['part_name'] = $partNames;
-                        } else {
-                            // If 'part_id' key does not exist, set an empty array for 'part_name'
-                            $innerArray['part_name'] = [];
-                        }
+                $partNames = [];
+                foreach ($partIds as $partId) {
+                    $part = MasterPart::where('part_number', $partId)->first();
+                    if ($part) {
+                        $partNames[] = $part->part_name;
                     }
-                } else {
-                    return view('users.details', compact('user'));
                 }
 
-                return view('users.details', compact('data', 'user'));
+                $innerArray['part_name'] = $partNames;
             } else {
-                $message = 'Data Riwayat Servis tidak ditemukan.';
-                return view('users.details', compact('user', 'message'));
+                $innerArray['part_name'] = [];
             }
-        } else {
+        }
+        
+        return $data;
+    }
+
+    public function getUserProfile()
+    {
+        $user = Auth::user();
+
+        if(!$user){
             $message = 'User tidak ditemukan. Silakan login.';
             return view('users.details', compact('message'));
         }
+
+        try {
+            $data = $this->getRiwayatServis($user);
+            return view('users.details', compact('data', 'user'));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            
+            if($message == 'error nomor rangka'){
+                $message = 'Data Riwayat Servis tidak ditemukan.';
+                return view('users.details', compact('user', 'message'));
+            } else {
+                return view('users.details', compact('user'));
+            }
+        }
+        
     }
-    
+
+    public function cetakPdf()
+    {
+        $user = Auth::user();
+
+        $data = $this->getRiwayatServis($user);
+
+        $pdf = PDF::loadview('users/riwayat-servis-view',['riwayat'=>$data]);
+    	return $pdf->stream('laporan-riwayat-servis.pdf');
+    }
+
     public function saveNoRangka(Request $request)
     {
         $request->validate([
