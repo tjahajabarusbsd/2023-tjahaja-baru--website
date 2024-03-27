@@ -74,7 +74,9 @@
             </form>
         @else
             <h2>Riwayat Servis Motor Yamaha</h2>
+            
             @if (!empty($data))
+                <a href="/riwayatservis/cetak_pdf" class="btn btn-primary" style="width:150px;" target="_blank">CETAK PDF</a>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-wrap">
