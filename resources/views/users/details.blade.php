@@ -74,130 +74,184 @@
             </form>
         @else
             <h2>Riwayat Servis Motor Yamaha</h2>
+            @php
+            function isDesktop() {
+                $userAgent = request()->header('User-Agent');
+                return !preg_match('/Mobile/i', $userAgent);
+            }
+            @endphp
             
             @if (!empty($data))
                 <a href="/riwayatservis/cetak_pdf" class="btn btn-primary" style="width:150px;" target="_blank">CETAK PDF</a>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="table-wrap">
-                            <table class="table  table-hover" id="">
-                                <thead>
-                                    <tr>
-                                    <th>#</th>
-                                    <th>Tanggal</th>
-                                    <th>Invoice</th>
-                                    <th>Kategori Servis</th>
-                                    <th>Total Biaya</th>
-                                    <th>&nbsp;</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @php
-                                    $i = 1;
-                                @endphp
-                                @foreach($data as $item)
-                                    <tr data-bs-toggle="collapse" data-bs-target="#collapse{{ $i }}" aria-expanded="@php if($i == 1) echo 'true'; else echo 'false'; @endphp" aria-controls="collapse{{ $i }}" @php if($i == 1) echo 'class'; else echo 'class="collapsed"'; @endphp>
-                                    <th scope="row">{{ $i }}</th>
-                                    <td>{{ date("Y-m-d H:i", strtotime($item['event_walkin'])) }}</td>
-                                    <td>{{ $item['invoice'] }}</td>
-                                    <td>{{ $item['svc_cat'] }}</td>
-                                    <td>Rp. {{ number_format($item['cost_total'],0,",",".") }}</td>
-                                    <td>
-                                        <i class="fa" aria-hidden="@php if($i == 1) echo 'true'; else echo 'false'; @endphp"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6" id="collapse{{ $i }}" class="accordion-collapse collapse acc @php if($i == 1) echo 'show'; else echo ''; @endphp" data-bs-parent="#accordion">
-                                            <div class="detail-wrapper">
-                                                <dl>
-                                                    <dt>Tempat Servis</dt>
-                                                    <dd>{{ $item['kode'] }}</dd>
-                                                    <dt>Kategori Servis</dt>
-                                                    <dd>{{ $item['svc_cat'] }}</dd>
-                                                    <dt>Mekanik</dt>
-                                                    <dd>{{ $item['mechanic_name'] }}</dd>
-                                                    <dt>Unit</dt>
-                                                    <dd>{{ $item['prod_nm'] }}</dd>
-                                                </dl>
-                                                <div class="row detail-cost">
-                                                    <div class="col col-md-2">Paket Servis</div>
-                                                    <div class="col col-md-5">
-                                                        @php 
-                                                            $svc_pac = json_decode($item['svc_pac']);
-                                                        @endphp
-                                                        @foreach( $svc_pac as $paket_servis)
+                @if(isDesktop())
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-wrap">
+                                <table class="table  table-hover" id="">
+                                    <thead>
+                                        <tr>
+                                        <th>#</th>
+                                        <th>Tanggal</th>
+                                        <th>Invoice</th>
+                                        <th>Kategori Servis</th>
+                                        <th>Total Biaya</th>
+                                        <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @php
+                                        $i = 1;
+                                    @endphp
+                                    @foreach($data as $item)
+                                        <tr data-bs-toggle="collapse" data-bs-target="#collapse{{ $i }}" aria-expanded="@php if($i == 1) echo 'true'; else echo 'false'; @endphp" aria-controls="collapse{{ $i }}" @php if($i == 1) echo 'class'; else echo 'class="collapsed"'; @endphp>
+                                        <th scope="row">{{ $i }}</th>
+                                        <td>{{ date("Y-m-d H:i", strtotime($item['event_walkin'])) }}</td>
+                                        <td>{{ $item['invoice'] }}</td>
+                                        <td>{{ $item['svc_cat'] }}</td>
+                                        <td>Rp. {{ number_format($item['cost_total'],0,",",".") }}</td>
+                                        <td>
+                                            <i class="fa" aria-hidden="@php if($i == 1) echo 'true'; else echo 'false'; @endphp"></i>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6" id="collapse{{ $i }}" class="accordion-collapse collapse acc @php if($i == 1) echo 'show'; else echo ''; @endphp" data-bs-parent="#accordion">
+                                                <div class="detail-wrapper">
+                                                    <dl>
+                                                        <dt>Tempat Servis</dt>
+                                                        <dd>{{ $item['kode'] }}</dd>
+                                                        <dt>Kategori Servis</dt>
+                                                        <dd>{{ $item['svc_cat'] }}</dd>
+                                                        <dt>Mekanik</dt>
+                                                        <dd>{{ $item['mechanic_name'] }}</dd>
+                                                        <dt>Unit</dt>
+                                                        <dd>{{ $item['prod_nm'] }}</dd>
+                                                    </dl>
+                                                    <div class="row detail-cost">
+                                                        <div class="col col-md-2">Paket Servis</div>
+                                                        <div class="col col-md-5">
+                                                            @php 
+                                                                $svc_pac = json_decode($item['svc_pac']);
+                                                            @endphp
+                                                            @foreach( $svc_pac as $paket_servis)
+                                                                <ul>
+                                                                    <li>{{ $paket_servis }}</li>
+                                                                </ul>
+                                                            @endforeach
+                                                        </div>
+                                                        <div class="col"></div>
+                                                        <div class="col">
+                                                            @php 
+                                                                $svc_cost = json_decode($item['svc_cost']);
+                                                            @endphp
+                                                            @foreach( $svc_cost as $servis_cost)
+                                                                <ul>
+                                                                    Rp. {{ number_format($servis_cost,0,",",".") }}
+                                                                </ul>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                    <div class="row detail-cost">
+                                                        <div class="col col-md-2">Part Terpakai</div>
+                                                        <div class="col col-md-5">
+                                                            @foreach( $item['part_name'] as $nama_part)
                                                             <ul>
-                                                                <li>{{ $paket_servis }}</li>
+                                                                <li>{{ $nama_part }}</li>
                                                             </ul>
-                                                        @endforeach
-                                                    </div>
-                                                    <div class="col"></div>
-                                                    <div class="col">
-                                                        @php 
-                                                            $svc_cost = json_decode($item['svc_cost']);
-                                                        @endphp
-                                                        @foreach( $svc_cost as $servis_cost)
+                                                                
+                                                            @endforeach
+                                                        </div>
+                                                        <div class="col">
+                                                            @php 
+                                                                $part_qty = json_decode($item['part_qty']);
+                                                            @endphp
+                                                            @foreach ( $part_qty as $qty )
                                                             <ul>
-                                                                Rp. {{ number_format($servis_cost,0,",",".") }}
+                                                                {{ $qty }}
                                                             </ul>
-                                                        @endforeach
+                                                                
+                                                            @endforeach
+                                                        </div>
+                                                        <div class="col">
+                                                            @php 
+                                                                $part_cost = json_decode($item['part_cost']);
+                                                            @endphp
+                                                            @foreach ( $part_cost as $cost )
+                                                            <ul>
+                                                                Rp. {{ number_format($cost,0,",",".") }}
+                                                            </ul>
+                                                                
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                    <div class="row detail-cost">
+                                                        <div class="col col-md-2">Total Biaya</div>
+                                                        <div class="col col-md-5"></div>
+                                                        <div class="col"></div>
+                                                        <div class="col">
+                                                            <ul>
+                                                                Rp. {{ number_format($item['cost_total'],0,",",".") }}
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="row detail-cost">
-                                                    <div class="col col-md-2">Part Terpakai</div>
-                                                    <div class="col col-md-5">
-                                                        @foreach( $item['part_name'] as $nama_part)
-                                                        <ul>
-                                                            <li>{{ $nama_part }}</li>
-                                                        </ul>
-                                                            
-                                                        @endforeach
-                                                    </div>
-                                                    <div class="col">
-                                                        @php 
-                                                            $part_qty = json_decode($item['part_qty']);
-                                                        @endphp
-                                                        @foreach ( $part_qty as $qty )
-                                                        <ul>
-                                                            {{ $qty }}
-                                                        </ul>
-                                                            
-                                                        @endforeach
-                                                    </div>
-                                                    <div class="col">
-                                                        @php 
-                                                            $part_cost = json_decode($item['part_cost']);
-                                                        @endphp
-                                                        @foreach ( $part_cost as $cost )
-                                                        <ul>
-                                                            Rp. {{ number_format($cost,0,",",".") }}
-                                                        </ul>
-                                                            
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                                <div class="row detail-cost">
-                                                    <div class="col col-md-2">Total Biaya</div>
-                                                    <div class="col col-md-5"></div>
-                                                    <div class="col"></div>
-                                                    <div class="col">
-                                                        <ul>
-                                                            Rp. {{ number_format($item['cost_total'],0,",",".") }}
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @php
-                                    $i++;
-                                @endphp
-                                @endforeach
-                                </tbody>
-                            </table>
+                                            </td>
+                                        </tr>
+                                    @php
+                                        $i++;
+                                    @endphp
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @else
+                    @foreach($data as $item)
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Servis tanggal {{ date("Y-m-d H:i", strtotime($item['event_walkin'])) }}
+                        </button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <dl>
+                                            <dt>Tempat Servis</dt>
+                                            <dd>{{ $item['kode'] }}</dd>
+                                            <dt>Kategori Servis</dt>
+                                            <dd>{{ $item['svc_cat'] }}</dd>
+                                            <dt>Mekanik</dt>
+                                            <dd>{{ $item['mechanic_name'] }}</dd>
+                                            <dt>Unit</dt>
+                                            <dd>{{ $item['prod_nm'] }}</dd>
+                                            <dt>Kategori Servis</dt>
+                                            <dd>{{ $item['svc_cat'] }}</dd>
+                                            <dt>Part Terpakai</dt>
+                                            @php 
+                                                $part_name = $item['part_name'];
+                                                $part_qty = json_decode($item['part_qty']);
+                                                $part_cost = json_decode($item['part_cost']);
+                                            @endphp
+                                            @foreach($part_qty as $index => $part_terpakai)
+                                                <dd>{{ $part_name[$index] }}, Qty: {{ $part_terpakai }}, Rp. {{ number_format($part_cost[$index], 0, ",", ".") }}</dd>
+                                            @endforeach
+                                            <dt>Paket Servis</dt>
+                                            @php
+                                                $svc_pac = json_decode($item['svc_pac']);
+                                                $svc_cost = json_decode($item['svc_cost']);
+                                            @endphp    
+                                            @foreach($svc_pac as $index => $paket_servis)
+                                                <dd>{{ $paket_servis }}; Rp. {{ number_format($svc_cost[$index], 0, ",", ".") }}</dd>
+                                            @endforeach
+                                            <dt>Total Biaya Servis</dt>
+                                            <dd>Rp. {{ number_format($item['cost_total'],0,",",".") }}</dd>  
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    @endforeach
+                @endif
             @else
                 <p>Belum ada riwayat servis.</p>
             @endif
