@@ -105,7 +105,7 @@
                                     @foreach($data as $item)
                                         <tr data-bs-toggle="collapse" data-bs-target="#collapse{{ $i }}" aria-expanded="@php if($i == 1) echo 'true'; else echo 'false'; @endphp" aria-controls="collapse{{ $i }}" @php if($i == 1) echo 'class'; else echo 'class="collapsed"'; @endphp>
                                         <th scope="row">{{ $i }}</th>
-                                        <td>{{ date("Y-m-d H:i", strtotime($item['event_walkin'])) }}</td>
+                                        <td>{{ date("d-m-Y H:i", strtotime($item['event_walkin'])) }}</td>
                                         <td>{{ $item['invoice'] }}</td>
                                         <td>{{ $item['svc_cat'] }}</td>
                                         <td>Rp. {{ number_format($item['cost_total'],0,",",".") }}</td>
@@ -218,7 +218,7 @@
                 </style>
                     @foreach($data as $item)
                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Servis tanggal {{ date("Y-m-d H:i", strtotime($item['event_walkin'])) }}
+                            Tanggal Servis {{ date("d-m-Y H:i", strtotime($item['event_walkin'])) }}
                         </button>
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -233,8 +233,14 @@
                                             <dd>{{ $item['mechanic_name'] }}</dd>
                                             <dt>Unit</dt>
                                             <dd>{{ $item['prod_nm'] }}</dd>
-                                            <dt>Kategori Servis</dt>
-                                            <dd>{{ $item['svc_cat'] }}</dd>
+                                            <dt>Paket Servis</dt>
+                                            @php
+                                                $svc_pac = json_decode($item['svc_pac']);
+                                                $svc_cost = json_decode($item['svc_cost']);
+                                            @endphp    
+                                            @foreach($svc_pac as $index => $paket_servis)
+                                                <dd>{{ $paket_servis }}; Rp. {{ number_format($svc_cost[$index], 0, ",", ".") }}</dd>
+                                            @endforeach
                                             <dt>Part Terpakai</dt>
                                             @php 
                                                 $part_name = $item['part_name'];
@@ -246,14 +252,6 @@
                                                 $total_cost = $part_qty[$key] * $part_cost[$key];
                                             @endphp
                                                 <dd>{{ $value }}, Qty: {{ $part_qty[$key] }}, Rp. {{ number_format($total_cost, 0, ",", ".") }}</dd>
-                                            @endforeach
-                                            <dt>Paket Servis</dt>
-                                            @php
-                                                $svc_pac = json_decode($item['svc_pac']);
-                                                $svc_cost = json_decode($item['svc_cost']);
-                                            @endphp    
-                                            @foreach($svc_pac as $index => $paket_servis)
-                                                <dd>{{ $paket_servis }}; Rp. {{ number_format($svc_cost[$index], 0, ",", ".") }}</dd>
                                             @endforeach
                                             <dt>Total Biaya Servis</dt>
                                             <dd>Rp. {{ number_format($item['cost_total'],0,",",".") }}</dd>  
