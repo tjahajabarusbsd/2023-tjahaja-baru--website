@@ -20,8 +20,10 @@
 	@foreach($riwayat as $item)
 	<div class="page-break">
 		<dl>
+			<dt>Tanggal Servis</dt>
+			<dd>{{ date("d-m-Y H:i", strtotime($item['event_walkin'])) }}</dd>
 			<dt>Tempat Servis</dt>
-			<dd>{{ $item['kode'] }}</dd>
+			<dd>{{ $item['nama_dealer'] }}</dd>
 			<dt>Kategori Servis</dt>
 			<dd>{{ $item['svc_cat'] }}</dd>
 			<dt>Mekanik</dt>
@@ -72,12 +74,15 @@
 					$part_qty = json_decode($item['part_qty']);
 					$part_cost = json_decode($item['part_cost']);
 				@endphp
-				@foreach($part_qty as $index => $part_terpakai)
+				@foreach($part_name as $key => $value)
+				@php
+					$total_cost = $part_qty[$key] * $part_cost[$key];
+				@endphp
 				<tr>
 					<td>{{ $i++ }}</td>
-					<td>{{ $part_name[$index] }}</td>
-					<td>{{ $part_terpakai }}</td>
-					<td>Rp. {{ number_format($part_cost[$index], 0, ",", ".") }}</td>
+					<td>{{ $value }}</td>
+					<td>{{ $part_qty[$key] }}</td>
+					<td>Rp. {{ number_format($total_cost, 0, ",", ".") }}</td>
 				</tr>
 				@endforeach
 			</tbody>
