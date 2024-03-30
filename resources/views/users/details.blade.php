@@ -118,7 +118,7 @@
                                                 <div class="detail-wrapper">
                                                     <dl>
                                                         <dt>Tempat Servis</dt>
-                                                        <dd>{{ $item['kode'] }}</dd>
+                                                        <dd>{{ $item['nama_dealer'] }}</dd>
                                                         <dt>Kategori Servis</dt>
                                                         <dd>{{ $item['svc_cat'] }}</dd>
                                                         <dt>Mekanik</dt>
@@ -154,32 +154,32 @@
                                                         <div class="col col-md-2">Part Terpakai</div>
                                                         <div class="col col-md-5">
                                                             @foreach( $item['part_name'] as $nama_part)
-                                                            <ul>
-                                                                <li>{{ $nama_part }}</li>
-                                                            </ul>
-                                                                
+                                                                <ul>
+                                                                    <li>{{ $nama_part }}</li>
+                                                                </ul>
                                                             @endforeach
                                                         </div>
                                                         <div class="col">
                                                             @php 
                                                                 $part_qty = json_decode($item['part_qty']);
                                                             @endphp
-                                                            @foreach ( $part_qty as $qty )
-                                                            <ul>
-                                                                {{ $qty }}
-                                                            </ul>
-                                                                
+                                                            @foreach ($part_qty as $qty)
+                                                                <ul>
+                                                                    {{ $qty }}
+                                                                </ul>
                                                             @endforeach
                                                         </div>
                                                         <div class="col">
                                                             @php 
                                                                 $part_cost = json_decode($item['part_cost']);
                                                             @endphp
-                                                            @foreach ( $part_cost as $cost )
+                                                            @foreach ($part_qty as $index => $qty)
+                                                            @php
+                                                                $total_cost = $qty * $part_cost[$index];
+                                                            @endphp
                                                             <ul>
-                                                                Rp. {{ number_format($cost,0,",",".") }}
+                                                                Rp. {{ number_format($total_cost,0,",",".") }}
                                                             </ul>
-                                                                
                                                             @endforeach
                                                         </div>
                                                     </div>
@@ -206,6 +206,16 @@
                         </div>
                     </div>
                 @else
+                <style>
+                    dl {
+                        text-align: left;
+                    }
+
+                    dt,
+                    dd {
+                        font-size: 12px;
+                    }
+                </style>
                     @foreach($data as $item)
                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Servis tanggal {{ date("Y-m-d H:i", strtotime($item['event_walkin'])) }}
@@ -216,7 +226,7 @@
                                     <div class="modal-body">
                                         <dl>
                                             <dt>Tempat Servis</dt>
-                                            <dd>{{ $item['kode'] }}</dd>
+                                            <dd>{{ $item['nama_dealer'] }}</dd>
                                             <dt>Kategori Servis</dt>
                                             <dd>{{ $item['svc_cat'] }}</dd>
                                             <dt>Mekanik</dt>
@@ -231,8 +241,11 @@
                                                 $part_qty = json_decode($item['part_qty']);
                                                 $part_cost = json_decode($item['part_cost']);
                                             @endphp
-                                            @foreach($part_qty as $index => $part_terpakai)
-                                                <dd>{{ $part_name[$index] }}, Qty: {{ $part_terpakai }}, Rp. {{ number_format($part_cost[$index], 0, ",", ".") }}</dd>
+                                            @foreach($part_name as $key => $value)
+                                            @php
+                                                $total_cost = $part_qty[$key] * $part_cost[$key];
+                                            @endphp
+                                                <dd>{{ $value }}, Qty: {{ $part_qty[$key] }}, Rp. {{ number_format($total_cost, 0, ",", ".") }}</dd>
                                             @endforeach
                                             <dt>Paket Servis</dt>
                                             @php

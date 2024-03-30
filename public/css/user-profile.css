@@ -355,13 +355,4 @@ dd {
     .corner-button span {
         display: none;
     }
-
-    dl {
-        text-align: left;
-    }
-
-    dt,
-    dd {
-        font-size: 12px;
-    }
 }
