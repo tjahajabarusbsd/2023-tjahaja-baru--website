@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="social-buttons">
-                    <a class="roboto-regular" href="{{ '/auth/redirect'}}"><img width="28" height="28" src="https://img.icons8.com/color/48/google-logo.png" alt="google-logo"/> Continue with Google</a>
+                    <a class="roboto-regular" href="{{ '/auth/redirect'}}"><img width="28" height="28" src="https://img.icons8.com/color/48/google-logo.png" alt="google-logo"/> Lanjut dengan Google</a>
                     {{-- <a class="roboto-regular" href="#"><img width="28" height="28" src="https://img.icons8.com/fluency/48/facebook-new.png" alt="facebook-new"/> Continue with Facebook</a> --}}
                 </div>
 
