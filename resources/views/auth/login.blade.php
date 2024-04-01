@@ -17,6 +17,14 @@
 @section('content')
     <div class="container">
         <div class="form-container">
+            @if(Session::has('error'))
+                <div class="alert alert-danger">
+                    {{ Session::get('error') }}
+                    @php
+                        Session::forget('error');
+                    @endphp
+                </div>
+            @endif
             <form method="POST" action="{{ route('login') }}" id="authForm">
                 @csrf
 
