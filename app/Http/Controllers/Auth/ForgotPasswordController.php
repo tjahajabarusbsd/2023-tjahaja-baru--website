@@ -24,6 +24,7 @@ class ForgotPasswordController extends Controller
                 'numeric',
                 'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/',
                 function ($attribute, $value, $fail) {
+                    // $value = preg_replace('/^(\+62|62)/', '0', $value);
                     $user = User::where('phone_number', $value)->first();
                     if (!$user) {
                         $fail('Nomor telepon tidak terdaftar.');
@@ -45,43 +46,47 @@ class ForgotPasswordController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $phone_tujuan = $request->phone_number;
-        if (substr($phone_tujuan, 0, 1) === '0') {
-            $phone_tujuan = '62' . substr($phone_tujuan, 1);
+        $user = User::where('phone_number', $request->phone_number)->first();
+        
+        if($user) {
+            $phone_tujuan = $request->phone_number;
+            if (substr($phone_tujuan, 0, 1) === '0') {
+                $phone_tujuan = '62' . substr($phone_tujuan, 1);
+            }
+            
+            $token = Str::random(60);
+            $user->reset_password_token = $token;
+            $user->save();
+
+            $body = "Link Reset password: https://tjahaja-baru.com/reset-password/$token";
+
+            $data = [
+                'phone' => $phone_tujuan,
+                'body' => $body,
+            ];
+
+            $token_wa = env('TOKEN_WA');
+
+            $url = "https://api.1msg.io/434886/sendMessage?token=$token_wa";
+
+            $headers = [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+            ];
+
+            $client = new Client();
+            $client->post($url, [
+                'headers' => $headers,
+                'json' => $data,
+            ]);
+
+            $successMessage = "Link reset password berhasil dikirim.";
+
+            return redirect()->back()->with('success', $successMessage);
+        } else {
+            return back()->withErrors(['phone_number' => 'Nomor telepon tidak terdaftar.']);
         }
 
-        $token = Str::random(60);
-
-        $user = User::where('phone_number', $request->phone_number)->first();
-        $user->reset_password_token = $token;
-        $user->save();
-
-        // whatsapp
-        $body = "Link Reset password: https://tjahaja-baru.com/reset-password/$token";
-
-        $data = [
-            'phone' => $phone_tujuan,
-            'body' => $body,
-        ];
-
-        $token_wa = env('TOKEN_WA');
-
-        $url = "https://api.1msg.io/434886/sendMessage?token=$token_wa";
-
-        $headers = [
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-        ];
-
-        $client = new Client();
-        $client->post($url, [
-            'headers' => $headers,
-            'json' => $data,
-        ]);
-
-        $successMessage = "Link reset password berhasil dikirim.";
-
-        return redirect()->back()->with('success', $successMessage);
     }
 
 }
