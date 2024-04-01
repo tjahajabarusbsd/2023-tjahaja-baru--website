@@ -56,6 +56,13 @@
 
                 <input id="password-confirm" type="password" class="form-control roboto-regular" name="password_confirmation" required placeholder="Konfirmasi Password" autocomplete="new-password">
 
+                <div class="form-group">
+                    {!! RecaptchaV3::field('register_captcha') !!}
+                    @error('g-recaptcha-response')
+                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>>
+                    @enderror
+                </div>
+                
                 <button type="submit" class="btn roboto-regular auth-button"><span class="submit-text">Daftar</span></button>
 
                 <div class="separator roboto-regular">

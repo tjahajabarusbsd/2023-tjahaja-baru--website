@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Backpack\PermissionManager\app\Models\Role;
+use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
 
 class RegisterController extends Controller
 {
@@ -19,6 +20,22 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
+        // Verifikasi reCAPTCHA
+        $recaptchaResponse = RecaptchaV3::verify($request->input('g-recaptcha-response'), 'register_captcha');
+        
+        if ($recaptchaResponse > 0.7) {
+            // Tindakan yang sesuai jika reCAPTCHA v3 menunjukkan aktivitas yang valid (skor tinggi)
+            // Lanjutkan dengan proses form
+        } elseif ($recaptchaResponse > 0.3) {
+            // Tindakan yang sesuai jika reCAPTCHA v3 menunjukkan aktivitas mencurigakan (skor sedang)
+            // Memerlukan verifikasi email tambahan atau langkah-langkah lainnya
+        } else {
+            // Tindakan yang sesuai jika reCAPTCHA v3 menunjukkan aktivitas yang mencurigakan (skor rendah)
+            return redirect('register')
+                ->withErrors(['g-recaptcha-response' => 'Anda kemungkinan besar adalah bot'])
+                ->withInput();
+        }
+
         $validator = $this->validator($request->all());
 
         if ($validator->fails()) {
