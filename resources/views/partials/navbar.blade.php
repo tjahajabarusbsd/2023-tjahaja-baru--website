@@ -13,7 +13,7 @@
 						<a class="nav-link" href="/">home</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/profile">profile</a>
+						<a class="nav-link" href="/profile">about us</a>
 					</li>
 					<li class="nav-item subnav">
 						<a class="nav-link" href="#products">products</a>
@@ -70,15 +70,27 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/contact">contact us</a>
 					</li>
-					<li class="nav-item">
+					{{-- <li class="nav-item">
 						<a class="nav-link" href="/dealers">dealers</a>
-					</li>
+					</li> --}}
 					<li class="nav-item">
 						<a class="nav-link" href="/compare_product">compare</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/kuis">Quiz</a>
 					</li>
+					@auth
+						<li class="nav-item">
+							<a class="nav-link" href="/user-profile">My Profile</a>
+						</li>
+						<form action="{{url('logout')}}" method="GET" class="logout-form"> 
+							<button type="submit">Logout</button>
+						</form>
+					@else
+						<li class="nav-item nav-login">
+							<a class="nav-link link-login" href="/login">Log In</a>
+						</li>
+					@endauth
 				</ul>
 			</div>
 		</div>

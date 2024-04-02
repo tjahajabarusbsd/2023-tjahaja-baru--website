@@ -35,16 +35,33 @@ header {
 
 .navbar .main-logo .logo-image {
     height: 45px;
-    width: 95px
+    width: 95px;
+    margin-right: 10px;
 }
 
-.navbar .navbar-nav .nav-link {
+.navbar .nav-link {
     text-transform: uppercase;
     text-align: center;
     color: #fff;
     border-radius: 5px;
     width: max-content;
     margin: 0 auto
+}
+
+.navbar .link-login {
+    border: 1px solid rgba(0, 0, 0, 0);
+    background: white;
+    color: #183f9e;
+    font-weight: 500;
+    padding: unset;
+    line-height: unset;
+    height: 42px;
+    width: 80px;
+    padding-top: 9px;
+}
+
+.navbar .nav-login {
+    margin: auto;
 }
 
 .navbar li>a::after {
@@ -175,6 +192,17 @@ header {
     background: 0 0
 }
 
+.navbar .logout-form {
+    margin: auto;
+}
+
+.navbar .logout-form button {
+    border: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    padding: 8px;
+    width: 80px;
+}
+
 @media only screen and (min-width:992px) {
     .navbar {
         padding-top: 0;
@@ -187,7 +215,15 @@ header {
 
     .navbar .navbar-nav .nav-link {
         height: 61px;
-        padding-top: 16px
+        padding-top: 16px;
+        line-height: 30px;
+    }
+
+    .navbar .navbar-nav .link-login {
+        line-height: unset;
+        height: 42px;
+        width: 80px;
+        padding-top: 9px;
     }
 
     .navbar .subnav,
@@ -209,6 +245,12 @@ header {
 
     .navbar .dropdown {
         display: none
+    }
+}
+
+@media only screen and (max-width:1115px) {
+    .nav-link {
+        font-size: 14px;
     }
 }
 
