@@ -81,6 +81,7 @@
                 </div>
             </form>
         </div>
+        <div class="vertical"></div>
         <div class="banner">
             <img src="{{ url('/images/signup-banner.png') }}" alt="" class="image">
         </div>

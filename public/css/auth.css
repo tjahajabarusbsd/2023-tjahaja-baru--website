@@ -143,9 +143,15 @@ form .btn:hover {
     }
 
     .form-container {
-        width: 75%;
         max-width: 700px;
         margin-right: 100px;
+    }
+
+    .vertical {
+        border-left: 1px solid #ccc;
+        height: 85%;
+        position: absolute;
+        left: 50%;
     }
 
     .banner {
