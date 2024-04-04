@@ -42,6 +42,8 @@ class UserProfileController extends Controller
                     $part = MasterPart::where('part_number', $partId)->first();
                     if ($part) {
                         $partNames[] = $part->part_name;
+                    } else {
+                        $partNames[] = 'UNNAME PART';
                     }
                 }
 
