@@ -94,20 +94,16 @@ class UserProfileController extends Controller
     public function saveNoRangka(Request $request)
     {
         $request->validate([
-            'nomor_rangka' => 'required|unique:nomor_rangkas,nomor_rangka',
+            'nomor_rangka' => 'required|unique:nomor_rangkas,nomor_rangka|min:17',
+        ], [
+            'nomor_rangka.required' => 'Kolom wajib diisi.',
+            'nomor_rangka.unique' => 'Nomor Rangka sudah digunakan.',
+            'nomor_rangka.min' => 'Minimal 17 Karakter.'
         ]);
 
         $user = Auth::user();
 
         if ($user) {
-            // Check if the user already has a nomor_rangka entry
-            $existingNomorRangka = NomorRangka::where('user_id', $user->id)->first();
-    
-            if ($existingNomorRangka) {
-                $message = 'Nomor Rangka already exists for this user.';
-                return redirect()->route('user.profile')->with('message', $message);
-            }
-    
             // Save the nomor_rangka for the user
             NomorRangka::create([
                 'user_id' => $user->id,
