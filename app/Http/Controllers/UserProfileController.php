@@ -13,13 +13,10 @@ use PDF;
 class UserProfileController extends Controller
 {
     
-    protected function getRiwayatServis($user)
+    protected function getRiwayatServis($getNomor)
     {
-        
-        $getNomor = NomorRangka::where('user_id', $user->id)->first();
-        
         if (!$getNomor) {
-            throw new \Exception('error nomor rangka');
+            throw new \Exception('nomor rangka not found');
         }
 
         $nomor_rangka = $getNomor->nomor_rangka;
@@ -60,35 +57,35 @@ class UserProfileController extends Controller
     {
         $user = Auth::user();
 
-        if(!$user){
-            $message = 'User tidak ditemukan. Silakan login.';
-            return view('users.details', compact('message'));
-        }
+        $getNomor = NomorRangka::where('user_id', $user->id)->first();
 
         try {
-            $data = $this->getRiwayatServis($user);
-            return view('users.details', compact('data', 'user'));
+            $data = $this->getRiwayatServis($getNomor);
+            
+            return view('users.details', compact('data', 'user', 'getNomor'));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             
-            if($message == 'error nomor rangka'){
-                $message = 'Data Riwayat Servis tidak ditemukan.';
-                return view('users.details', compact('user', 'message'));
-            } else {
-                return view('users.details', compact('user'));
-            }
+            return view('users.details', compact('user', 'getNomor'));
         }
-        
     }
 
     public function cetakPdf()
     {
         $user = Auth::user();
 
-        $data = $this->getRiwayatServis($user);
+        $getNomor = NomorRangka::where('user_id', $user->id)->first();
 
-        $pdf = PDF::loadview('users/riwayat-servis-view',['riwayat'=>$data]);
-    	return $pdf->stream('laporan-riwayat-servis.pdf');
+        try {
+            $data = $this->getRiwayatServis($getNomor);
+
+            $pdf = PDF::loadview('users/riwayat-servis-view',['riwayat'=>$data]);
+            return $pdf->stream('laporan-riwayat-servis.pdf');
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            
+            return view('users.details', compact('user', 'getNomor'));
+        }
     }
 
     public function saveNoRangka(Request $request)

@@ -54,9 +54,15 @@
         </div>
     </div>
     <div class="bottom-content">
-        @if(isset($message))
-            <p>{{ $message }}</p>
-            <p>Silakan masukkan Nomor Rangka motor Anda untuk melihat Riwayat Servis</p>
+        @if(!$getNomor)
+            <div class="alert bg-info bg-gradient info-wrapper">
+                <h4>Nomor Rangka tidak ditemukan.</h4>
+                <p>Silakan masukkan Nomor Rangka motor Anda untuk melihat Riwayat Servis.</p>
+                <dl>
+                    <dt>Nomor Rangka</dt>
+                    <dd>Contohnya: MH39A9999AA123456</dd>
+                </dl>
+            </div>
             <form method="post" class="form-container" action="{{ route('user.profile.saveNoRangka') }}">
                 @csrf
                 
@@ -74,6 +80,10 @@
             </form>
         @else
             <h2>Riwayat Servis Motor Yamaha</h2>
+            <dl>
+                <dt>Nomor Rangka</dt>
+                <dd>{{ $getNomor->nomor_rangka }}</dd>
+            </dl>
             @php
             function isDesktop() {
                 $userAgent = request()->header('User-Agent');
@@ -264,7 +274,9 @@
                     @endforeach
                 @endif
             @else
-                <p>Belum ada riwayat servis.</p>
+                <div class="alert bg-info bg-gradient info-wrapper">
+                    <p>Riwayat Servis tidak ditemukan. Mohon coba beberapa saat lagi.</p>
+                </div>
             @endif
         @endif
     </div>
