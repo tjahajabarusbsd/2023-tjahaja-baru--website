@@ -42,12 +42,12 @@
             <form id="profileForm" action="{{ route('profile.update') }}" method="POST">
                 @csrf
                 <div id="errorMessages"></div>
-                <label for="name">Nama:</label>
-                <input type="text" id="name" class="form-control" name="name" required value="{{ $user->name ?? '' }}">
-                <label for="email">Email:</label>
-                <input type="email" id="email" class="form-control" name="email" required value="{{ $user->email ?? '' }}">
-                <label for="phone_number">No. HP:</label>
-                <input type="text" id="phone_number" class="form-control" name="phone_number" required value="{{ $user->phone_number ?? '' }}">
+                <label for="name">Nama: <input type="text" id="name" class="form-control" name="name" required value="{{ $user->name ?? '' }}"></label>
+                
+                <label for="email">Email: <input type="email" id="email" class="form-control" name="email" required value="{{ $user->email ?? '' }}"></label>
+                
+                <label for="phone_number">No. HP: <input type="text" id="phone_number" class="form-control" name="phone_number" required value="{{ $user->phone_number ?? '' }}"></label>
+                
                 <button type="submit" class="btn btn-primary">Simpan</button>
                 <button type="button" id="cancelEditBtn" class="btn btn-primary">Cancel</button>
             </form>
@@ -56,7 +56,7 @@
     <div class="bottom-content">
         @if(isset($message))
             <p>{{ $message }}</p>
-            <p>Silakan masukkan Nomor rangka Anda untuk melihat Riwayat Servis</p>
+            <p>Silakan masukkan Nomor Rangka motor Anda untuk melihat Riwayat Servis</p>
             <form method="post" class="form-container" action="{{ route('user.profile.saveNoRangka') }}">
                 @csrf
                 
@@ -283,6 +283,7 @@
         $('#cancelEditBtn').click(function() {
             $('#editProfileForm').removeClass('active');
             $('#dataProfile').removeClass('hide');
+            $('#errorMessages').removeClass('show').text('');
         });
 
         $('#profileForm').on('submit', function(e) {
@@ -305,7 +306,7 @@
                     // Menyembunyikan form Edit Profile setelah simpan berhasil
                     $('#editProfileForm').removeClass('active');
                     $('#dataProfile').removeClass('hide');
-                    $('#errorMessages').text('');
+                    $('#errorMessages').removeClass('show').text('');
                 },
                 error: function(xhr, status, error) {
                     // Menangani respons error dari server
