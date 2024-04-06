@@ -63,7 +63,7 @@
                 <div class="form-group">
                     {!! RecaptchaV3::field('register_captcha') !!}
                     @error('g-recaptcha-response')
-                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>>
+                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                     @enderror
                 </div>
                 

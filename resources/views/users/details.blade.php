@@ -276,7 +276,7 @@
                 @endif
             @else
                 <div class="alert bg-info bg-gradient info-wrapper">
-                    <p>Riwayat Servis tidak ditemukan. Mohon coba beberapa saat lagi.</p>
+                    <p>Belum ada riwayat servis.</p>
                 </div>
             @endif
         @endif
