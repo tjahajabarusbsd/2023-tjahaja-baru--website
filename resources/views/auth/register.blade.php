@@ -23,22 +23,26 @@
                 <h1 class="roboto-regular">Buat Akun</h1>
                 <p class="roboto-regular">Silahkan mengisi form di bawah ini untuk membuat akun.</p>
 
-                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror roboto-regular" name="name" value="{{ old('name') }}" autocomplete="name" placeholder="Nama" required>
+                <div class="form-group">
+                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror roboto-regular" name="name" value="{{ old('name') }}" placeholder="Nama" required>
+                
+                    @error('name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                
+                <div class="form-group">
+                    <input id="phone_number" type="tel" class="form-control @error('phone_number') is-invalid @enderror roboto-regular" name="phone_number" value="{{ old('phone_number') }}" placeholder="No Handphone" required>
 
-                @error('name')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-
-                <input id="phone_number" type="tel" class="form-control @error('phone_number') is-invalid @enderror roboto-regular" name="phone_number" value="{{ old('phone_number') }}" placeholder="No Handphone" required>
-
-                @error('phone_number')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-
+                    @error('phone_number')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                
                 <div class="form-group">
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror roboto-regular" name="password" placeholder="Password" required>
                     <div class="password-box">

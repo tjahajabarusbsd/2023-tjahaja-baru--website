@@ -93,6 +93,10 @@ form .btn:hover {
     color: #183f9d;
 }
 
+.form-control.is-invalid {
+    background-image: none !important;
+}
+
 .separator {
     display: flex;
     align-items: center;
