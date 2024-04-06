@@ -63,7 +63,7 @@ class LoginController extends Controller
     {
         // Customize the actions after a user is authenticated
         // For example, redirect to a specific page
-        return redirect('/user-profile');
+        return redirect()->route('user.profile');
     }
 
     public function logout(Request $request)
@@ -107,7 +107,7 @@ class LoginController extends Controller
 
             Auth::login($user);
         
-            return redirect('/user-profile');
+            return redirect()->route('user.profile');
 
         } catch (\Exception $e) {
             return redirect()->route('login');
