@@ -1,9 +1,11 @@
 @extends('layouts.master')
 
-@section('title', 'User Profile | Tjahaja Baru')
+@section('title')
+    My Profile | Tjahaja Baru
+@endsection
 
 @section('meta_og')
-  <meta property="og:title" content="User Profile | Tjahaja Baru">
+  <meta property="og:title" content="My Profile | Tjahaja Baru">
   <meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
   <meta property="og:type" content="website">
 @endsection
@@ -11,7 +13,6 @@
 @section('main_class', 'user-profile')
 
 @section('additional_css')
-
     <link rel="stylesheet" href="{{ asset('css/user-profile.css') }}" />
 @endsection
 
