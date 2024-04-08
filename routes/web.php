@@ -80,6 +80,7 @@ Route::post('/import-dealer', [ExcelImportController::class, 'importDealer'])->n
 Route::post('/import-spec', [ExcelImportController::class, 'importSpec'])->name('importSpec');
 // --- End Import File Section
 
+/*
 Route::middleware('auth')->group(function () {
     Route::get('/user-profile', [UserProfileController::class, 'getUserProfile'])->name('user.profile');
     Route::post('/user-profile/save-no-rangka', [UserProfileController::class, 'saveNoRangka'])->name('user.profile.saveNoRangka');
@@ -108,3 +109,4 @@ Route::middleware(['web'])->group(function () {
 Route::get('/auth/redirect', [LoginController::class, 'redirectToGoogle']);
 
 Route::get('/auth/callback', [LoginController::class, 'handleGoogleCallback']);
+*/

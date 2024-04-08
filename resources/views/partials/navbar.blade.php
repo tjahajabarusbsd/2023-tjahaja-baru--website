@@ -79,7 +79,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/kuis">Quiz</a>
 					</li>
-					@auth
+					{{-- @auth
 						<li class="nav-item">
 							<a class="nav-link" href="/user-profile">My Profile</a>
 						</li>
@@ -90,7 +90,7 @@
 						<li class="nav-item nav-login">
 							<a class="nav-link link-login" href="/login">Log In</a>
 						</li>
-					@endauth
+					@endauth --}}
 				</ul>
 			</div>
 		</div>
