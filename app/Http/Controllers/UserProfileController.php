@@ -13,13 +13,10 @@ use PDF;
 class UserProfileController extends Controller
 {
     
-    protected function getRiwayatServis($user)
+    protected function getRiwayatServis($getNomor)
     {
-        
-        $getNomor = NomorRangka::where('user_id', $user->id)->first();
-        
         if (!$getNomor) {
-            throw new \Exception('error nomor rangka');
+            throw new \Exception('nomor rangka not found');
         }
 
         $nomor_rangka = $getNomor->nomor_rangka;
@@ -42,6 +39,8 @@ class UserProfileController extends Controller
                     $part = MasterPart::where('part_number', $partId)->first();
                     if ($part) {
                         $partNames[] = $part->part_name;
+                    } else {
+                        $partNames[] = 'UNNAME PART';
                     }
                 }
 
@@ -58,54 +57,50 @@ class UserProfileController extends Controller
     {
         $user = Auth::user();
 
-        if(!$user){
-            $message = 'User tidak ditemukan. Silakan login.';
-            return view('users.details', compact('message'));
-        }
+        $getNomor = NomorRangka::where('user_id', $user->id)->first();
 
         try {
-            $data = $this->getRiwayatServis($user);
-            return view('users.details', compact('data', 'user'));
+            $data = $this->getRiwayatServis($getNomor);
+            
+            return view('users.details', compact('data', 'user', 'getNomor'));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             
-            if($message == 'error nomor rangka'){
-                $message = 'Data Riwayat Servis tidak ditemukan.';
-                return view('users.details', compact('user', 'message'));
-            } else {
-                return view('users.details', compact('user'));
-            }
+            return view('users.details', compact('user', 'getNomor'));
         }
-        
     }
 
     public function cetakPdf()
     {
         $user = Auth::user();
 
-        $data = $this->getRiwayatServis($user);
+        $getNomor = NomorRangka::where('user_id', $user->id)->first();
 
-        $pdf = PDF::loadview('users/riwayat-servis-view',['riwayat'=>$data]);
-    	return $pdf->stream('laporan-riwayat-servis.pdf');
+        try {
+            $data = $this->getRiwayatServis($getNomor);
+
+            $pdf = PDF::loadview('users/riwayat-servis-view',['riwayat'=>$data]);
+            return $pdf->stream('laporan-riwayat-servis.pdf');
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            
+            return view('users.details', compact('user', 'getNomor'));
+        }
     }
 
     public function saveNoRangka(Request $request)
     {
         $request->validate([
-            'nomor_rangka' => 'required|unique:nomor_rangkas,nomor_rangka',
+            'nomor_rangka' => 'required|unique:nomor_rangkas,nomor_rangka|min:17',
+        ], [
+            'nomor_rangka.required' => 'Kolom wajib diisi.',
+            'nomor_rangka.unique' => 'Nomor Rangka sudah digunakan.',
+            'nomor_rangka.min' => 'Minimal 17 Karakter.'
         ]);
 
         $user = Auth::user();
 
         if ($user) {
-            // Check if the user already has a nomor_rangka entry
-            $existingNomorRangka = NomorRangka::where('user_id', $user->id)->first();
-    
-            if ($existingNomorRangka) {
-                $message = 'Nomor Rangka already exists for this user.';
-                return redirect()->route('user.profile')->with('message', $message);
-            }
-    
             // Save the nomor_rangka for the user
             NomorRangka::create([
                 'user_id' => $user->id,

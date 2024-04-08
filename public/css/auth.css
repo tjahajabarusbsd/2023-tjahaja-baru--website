@@ -93,6 +93,10 @@ form .btn:hover {
     color: #183f9d;
 }
 
+.form-control.is-invalid {
+    background-image: none !important;
+}
+
 .separator {
     display: flex;
     align-items: center;
@@ -143,9 +147,15 @@ form .btn:hover {
     }
 
     .form-container {
-        width: 75%;
         max-width: 700px;
         margin-right: 100px;
+    }
+
+    .vertical {
+        border-left: 1px solid #ccc;
+        height: 85%;
+        position: absolute;
+        left: 50%;
     }
 
     .banner {

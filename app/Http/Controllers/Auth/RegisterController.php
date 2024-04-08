@@ -51,7 +51,7 @@ class RegisterController extends Controller
 
         Auth::login($user);
 
-        return redirect('/user-profile');
+        return redirect()->route('user.profile');
     }
 
     protected function validator(array $data)

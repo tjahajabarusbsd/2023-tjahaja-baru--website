@@ -1,9 +1,11 @@
 @extends('layouts.master')
 
-@section('title', 'User Profile | Tjahaja Baru')
+@section('title')
+    My Profile | Tjahaja Baru
+@endsection
 
 @section('meta_og')
-  <meta property="og:title" content="User Profile | Tjahaja Baru">
+  <meta property="og:title" content="My Profile | Tjahaja Baru">
   <meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
   <meta property="og:type" content="website">
 @endsection
@@ -11,7 +13,6 @@
 @section('main_class', 'user-profile')
 
 @section('additional_css')
-
     <link rel="stylesheet" href="{{ asset('css/user-profile.css') }}" />
 @endsection
 
@@ -42,21 +43,27 @@
             <form id="profileForm" action="{{ route('profile.update') }}" method="POST">
                 @csrf
                 <div id="errorMessages"></div>
-                <label for="name">Nama:</label>
-                <input type="text" id="name" class="form-control" name="name" required value="{{ $user->name ?? '' }}">
-                <label for="email">Email:</label>
-                <input type="email" id="email" class="form-control" name="email" required value="{{ $user->email ?? '' }}">
-                <label for="phone_number">No. HP:</label>
-                <input type="text" id="phone_number" class="form-control" name="phone_number" required value="{{ $user->phone_number ?? '' }}">
+                <label for="name">Nama: <input type="text" id="name" class="form-control" name="name" required value="{{ $user->name ?? '' }}"></label>
+                
+                <label for="email">Email: <input type="email" id="email" class="form-control" name="email" required value="{{ $user->email ?? '' }}"></label>
+                
+                <label for="phone_number">No. HP: <input type="text" id="phone_number" class="form-control" name="phone_number" required value="{{ $user->phone_number ?? '' }}"></label>
+                
                 <button type="submit" class="btn btn-primary">Simpan</button>
                 <button type="button" id="cancelEditBtn" class="btn btn-primary">Cancel</button>
             </form>
         </div>
     </div>
     <div class="bottom-content">
-        @if(isset($message))
-            <p>{{ $message }}</p>
-            <p>Silakan masukkan Nomor rangka Anda untuk melihat Riwayat Servis</p>
+        @if(!$getNomor)
+            <div class="alert bg-info bg-gradient info-wrapper">
+                <h4>Nomor Rangka tidak ditemukan.</h4>
+                <p>Silakan masukkan Nomor Rangka motor Anda untuk melihat Riwayat Servis.</p>
+                <dl>
+                    <dt>Nomor Rangka</dt>
+                    <dd>Contohnya: MH39A9999AA123456</dd>
+                </dl>
+            </div>
             <form method="post" class="form-container" action="{{ route('user.profile.saveNoRangka') }}">
                 @csrf
                 
@@ -74,6 +81,10 @@
             </form>
         @else
             <h2>Riwayat Servis Motor Yamaha</h2>
+            <dl>
+                <dt>Nomor Rangka</dt>
+                <dd>{{ $getNomor->nomor_rangka }}</dd>
+            </dl>
             @php
             function isDesktop() {
                 $userAgent = request()->header('User-Agent');
@@ -264,7 +275,9 @@
                     @endforeach
                 @endif
             @else
-                <p>Belum ada riwayat servis.</p>
+                <div class="alert bg-info bg-gradient info-wrapper">
+                    <p>Belum ada riwayat servis.</p>
+                </div>
             @endif
         @endif
     </div>
@@ -283,6 +296,7 @@
         $('#cancelEditBtn').click(function() {
             $('#editProfileForm').removeClass('active');
             $('#dataProfile').removeClass('hide');
+            $('#errorMessages').removeClass('show').text('');
         });
 
         $('#profileForm').on('submit', function(e) {
@@ -305,7 +319,7 @@
                     // Menyembunyikan form Edit Profile setelah simpan berhasil
                     $('#editProfileForm').removeClass('active');
                     $('#dataProfile').removeClass('hide');
-                    $('#errorMessages').text('');
+                    $('#errorMessages').removeClass('show').text('');
                 },
                 error: function(xhr, status, error) {
                     // Menangani respons error dari server
