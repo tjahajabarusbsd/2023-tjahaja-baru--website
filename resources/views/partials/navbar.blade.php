@@ -40,7 +40,7 @@
 								<div class="product-icon-box">
 									<a href="/products/category/sport">
 										<img src="{{ url('images/products/icons/sport_i.png')}}" alt="" class="icon">
-										<p class="text">bLUcRU</p>
+										<p class="text">Sport</p>
 									</a>
 								</div>
 								<div class="product-icon-box">
@@ -60,7 +60,7 @@
 						  <li><a class="dropdown-item" href="/products/category/maxi">Maxi</a></li>
 						  <li><a class="dropdown-item" href="/products/category/classy">Classy</a></li>
 						  <li><a class="dropdown-item" href="/products/category/matic">Matic</a></li>
-						  <li><a class="dropdown-item" href="/products/category/sport">bLUcRU</a></li>
+						  <li><a class="dropdown-item" href="/products/category/sport">Sport</a></li>
 						  <li><a class="dropdown-item" href="/products/category/moped">Moped</a></li>
 						</ul>
 					</li>
@@ -79,7 +79,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/kuis">Quiz</a>
 					</li>
-					{{-- @auth
+					@auth
 						<li class="nav-item">
 							<a class="nav-link" href="/user-profile">My Profile</a>
 						</li>
@@ -88,9 +88,9 @@
 						</form>
 					@else
 						<li class="nav-item nav-login">
-							<a class="nav-link link-login" href="/login">Log In</a>
+							<a class="nav-link link-login" href="/login">Login</a>
 						</li>
-					@endauth --}}
+					@endauth
 				</ul>
 			</div>
 		</div>
