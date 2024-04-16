@@ -71,14 +71,16 @@ Route::get('/kuis', function () { return view('/quiz'); });
 Route::post('/submit-quiz/', [PersonalityController::class, 'submitQuiz']);
 // --- End Personality Quiz Section
 
-// --- Import File Section
-Route::get('/import-xls', function () {
-    return view('import');
+Route::middleware('admin')->group(function () {
+    // --- Import File Section
+    Route::get('/import-xls', function () {
+        return view('import');
+    });
+    Route::post('/import', [ExcelImportController::class, 'import'])->name('import');
+    Route::post('/import-dealer', [ExcelImportController::class, 'importDealer'])->name('importDealer');
+    Route::post('/import-spec', [ExcelImportController::class, 'importSpec'])->name('importSpec');
+    // --- End Import File Section
 });
-Route::post('/import', [ExcelImportController::class, 'import'])->name('import');
-Route::post('/import-dealer', [ExcelImportController::class, 'importDealer'])->name('importDealer');
-Route::post('/import-spec', [ExcelImportController::class, 'importSpec'])->name('importSpec');
-// --- End Import File Section
 
 /*
 Route::middleware('auth')->group(function () {
