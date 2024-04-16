@@ -39,7 +39,7 @@
 				<div class="product-icon-box">
 					<a href="/products/category/sport">
 						<img src="{{ url('images/products/icons/sport_i.png')}}" alt="" class="icon">
-						<p class="text">bLUcRU</p>
+						<p class="text">Sport</p>
 					</a>
 				</div>
 				<div class="product-icon-box">
@@ -94,7 +94,8 @@
 				@elseif (Request::is('products/category/matic'))
 					<img src="{{ url('images/products/logos/gen_125.png') }}" alt="Matic Product" class="logo">
 				@elseif (Request::is('products/category/sport'))
-					<img src="{{ url('images/products/logos/bLUcRU.png') }}" alt="Sport Product" class="logo">
+					{{-- <img src="{{ url('images/products/logos/bLUcRU.png') }}" alt="Sport Product" class="logo"> --}}
+					<p class="logo">SPORT</p>
 				@elseif (Request::is('products/category/moped'))
 					<p class="logo">MOPED</p>
 				@endif
