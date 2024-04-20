@@ -35,6 +35,11 @@ a {
     margin-bottom: 25px;
 }
 
+.auth h1 {
+    font-weight: 700;
+    color: #183f9d;
+}
+
 .form-container {
     width: 100%;
     max-width: 460px;
