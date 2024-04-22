@@ -82,7 +82,6 @@ Route::middleware('admin')->group(function () {
     // --- End Import File Section
 });
 
-/*
 Route::middleware('auth')->group(function () {
     Route::get('/user-profile', [UserProfileController::class, 'getUserProfile'])->name('user.profile');
     Route::post('/user-profile/save-no-rangka', [UserProfileController::class, 'saveNoRangka'])->name('user.profile.saveNoRangka');
@@ -91,24 +90,23 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-    Route::post('register', [RegisterController::class, 'register']);
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
 
-    Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-    Route::post('login', [LoginController::class, 'login']);
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
 
-    Route::get('forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm']);
-    Route::post('forgot-password', [ForgotPasswordController::class, 'sendLinkResetPassword'])->name('send.link');
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm']);
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendLinkResetPassword'])->name('send.link');
 
-    Route::get('reset-password/{token}', [ResetPasswordController::class, 'resetPasswordForm'])->name('reset.password.form');
-    Route::post('reset-password-update', [ResetPasswordController::class, 'updatePassword'])->name('reset.password.update');
+    Route::get('/reset-password/{token}', [ResetPasswordController::class, 'resetPasswordForm'])->name('reset.password.form');
+    Route::post('/reset-password-update', [ResetPasswordController::class, 'updatePassword'])->name('reset.password.update');
 });
 
 Route::middleware(['web'])->group(function () {
-    Route::get('logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
+    Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
 });
 
 Route::get('/auth/redirect', [LoginController::class, 'redirectToGoogle']);
 
 Route::get('/auth/callback', [LoginController::class, 'handleGoogleCallback']);
-*/
