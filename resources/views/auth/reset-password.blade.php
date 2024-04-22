@@ -23,7 +23,7 @@
         <form method="POST" action="{{ route('reset.password.update') }}" id="resetPasswordForm">
             @csrf
     
-            {{-- <input type="hidden" name="token" value="{{ $token }}"> --}}
+            <input type="hidden" name="token" value="{{ $token }}">
             
             <div class="form-group row">
                 <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password Baru') }}</label>
