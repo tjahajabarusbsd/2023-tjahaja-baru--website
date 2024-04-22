@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\UserUpdateRequest;
+use App\Http\Requests\SaveNoRangkaRequest ;
 use App\Models\NomorRangka;
 use App\Models\MasterPart;
 use PDF;
@@ -88,68 +90,35 @@ class UserProfileController extends Controller
         }
     }
 
-    public function saveNoRangka(Request $request)
+    public function saveNoRangka(SaveNoRangkaRequest $request)
     {
-        $request->validate([
-            'nomor_rangka' => 'required|unique:nomor_rangkas,nomor_rangka|min:17',
-        ], [
-            'nomor_rangka.required' => 'Kolom wajib diisi.',
-            'nomor_rangka.unique' => 'Nomor Rangka sudah digunakan.',
-            'nomor_rangka.min' => 'Minimal 17 Karakter.'
-        ]);
+        $validatedData = $request->validated();
 
         $user = Auth::user();
 
-        if ($user) {
-            // Save the nomor_rangka for the user
-            NomorRangka::create([
-                'user_id' => $user->id,
-                'nomor_rangka' => $request->input('nomor_rangka'),
-            ]);
-    
-            $message = 'Nomor Rangka saved successfully.';
-            return redirect()->route('user.profile')->with('message', $message);
-        } else {
-            $message = 'User not found. Please login.';
-            return redirect()->route('user.profile')->with('message', $message);
-        }
+        NomorRangka::create([
+            'user_id' => $user->id,
+            'nomor_rangka' => $validatedData['nomor_rangka'],
+        ]);
+
+        return redirect()->route('user.profile');
     }
 
-    public function update(Request $request)
+    public function update(UserUpdateRequest $request)
     {
-        $user = Auth::user();
-
-        $validator = \Validator::make($request->all(), [
-            'name' => ['required', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
-            'email' => ['required', 'email', 'unique:users,email,'.$user->id],
-            'phone_number' => ['nullable', 'numeric', 'regex:/^(\62|0)8[1-9][0-9]{6,10}$/', 'unique:users,phone_number,'.$user->id],
-        ], [
-            'name.required' => 'Nama harus diisi.',
-            'name.max' => 'Nama tidak boleh lebih dari :max karakter.',
-            'name.regex' => 'Nama hanya boleh mengandung huruf dan spasi.',
-            'email.required' => 'Email harus diisi.',
-            'email.email' => 'Email harus berupa alamat email yang valid.',
-            'email.unique' => 'Email sudah digunakan oleh pengguna lain.',
-            'phone_number.numeric' => 'Nomor HP harus berupa karakter numerik.',
-            'phone_number.regex' => 'Format nomor telepon tidak valid.',
-            'phone_number.unique' => 'Nomor handphone sudah digunakan.'
-        ]);
+        // Get the authenticated user
+        $user = $request->user();
         
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        // Fill the user model with the validated data
+        $user->fill($request->validated());
 
-        // Simpan perubahan pada data user
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone_number = $request->phone_number;
+        // Save the changes to the database
         $user->save();
 
-        // Mengembalikan respons JSON dengan data user yang diperbarui
-        return response()->json([
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone_number' => $user->phone_number,
-        ]);
+        // Get a fresh instance of the user model with the updated data
+        $user = $user->fresh();
+
+        // Return the updated user data as a JSON response
+        return response()->json($user->only('name', 'email', 'phone_number'));
     }
 }
