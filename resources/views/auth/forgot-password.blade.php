@@ -12,12 +12,13 @@
 
 @section('additional_css')
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/main-form.css') }}" />
 @endsection
 
 @section('content')
 <div class="container forgot-password">
     <div class="row">
-        <h3 class="text-center mb-4">Lupa Password</h3>
+        <h1 class="text-center mb-4">Lupa Password</h1>
             
         @if(Session::has('success'))
             <div class="alert alert-success">
@@ -32,7 +33,7 @@
             @csrf
 
             <div class="form-group">
-                <label for="phone_number">No Handphone</label>
+                <label for="phone_number">No Handphone (WhatsApp)</label>
                 <input id="phone_number" type="tel" class="form-control @error('phone_number') is-invalid @enderror" name="phone_number" value="{{ old('phone_number') }}" required placeholder="Cth:0812345678">
 
                 @error('phone_number')
@@ -46,9 +47,9 @@
         </form>
 
         <div class="text-center mt-4">
-            <a href="/login">Masuk</a>
+            <a href="/login" class="roboto-regular">Masuk</a>
             /
-            <a href="/register">Daftar</a>
+            <a href="/register" class="roboto-regular">Daftar</a>
         </div>
                     
     </div>
