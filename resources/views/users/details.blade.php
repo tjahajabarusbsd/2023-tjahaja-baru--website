@@ -217,62 +217,63 @@
                         </div>
                     </div>
                 @else
-                <style>
-                    dl {
-                        text-align: left;
-                    }
-
-                    dt,
-                    dd {
-                        font-size: 12px;
-                    }
-                </style>
-                    @foreach($data as $item)
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Tanggal Servis {{ date("d-m-Y H:i", strtotime($item['event_walkin'])) }}
-                        </button>
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <dl>
-                                            <dt>Tempat Servis</dt>
-                                            <dd>{{ $item['nama_dealer'] }}</dd>
-                                            <dt>Kategori Servis</dt>
-                                            <dd>{{ $item['svc_cat'] }}</dd>
-                                            <dt>Mekanik</dt>
-                                            <dd>{{ $item['mechanic_name'] }}</dd>
-                                            <dt>Unit</dt>
-                                            <dd>{{ $item['prod_nm'] }}</dd>
-                                            <dt>Paket Servis</dt>
-                                            @php
-                                                $svc_pac = json_decode($item['svc_pac']);
-                                                $svc_cost = json_decode($item['svc_cost']);
-                                            @endphp    
-                                            @foreach($svc_pac as $index => $paket_servis)
-                                                <dd>{{ $paket_servis }}; Rp. {{ number_format($svc_cost[$index], 0, ",", ".") }}</dd>
-                                            @endforeach
-                                            <dt>Part Terpakai</dt>
-                                            @php 
-                                                $part_name = $item['part_name'];
-                                                $part_qty = json_decode($item['part_qty']);
-                                                $part_cost = json_decode($item['part_cost']);
-                                            @endphp
-                                            @foreach($part_name as $key => $value)
-                                            @php
-                                                $total_cost = $part_qty[$key] * $part_cost[$key];
-                                            @endphp
-                                                <dd>{{ $value }}, Qty: {{ $part_qty[$key] }}, Rp. {{ number_format($total_cost, 0, ",", ".") }}</dd>
-                                            @endforeach
-                                            <dt>Total Biaya Servis</dt>
-                                            <dd>Rp. {{ number_format($item['cost_total'],0,",",".") }}</dd>  
-                                        </dl>
+                    @php
+                        $i = 1;
+                    @endphp
+                    <div class="list-wrapper-mobile">
+                        @foreach($data as $item)
+                            <button type="button" class="list-clickable" data-bs-toggle="modal" data-bs-target="#{{ $item['invoice'] }}">
+                                <div class="list-text-wrapper">
+                                    <span># {{ $i }}</span>
+                                    <span>{{ date("d-m-Y", strtotime($item['event_walkin'])) }}</span>
+                                    <span>Rp. {{ number_format($item['cost_total'],0,",",".") }}</span>
+                                </div>
+                            </button>
+                            <div class="modal fade" id="{{ $item['invoice'] }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <dl>
+                                                <dt>Tempat Servis</dt>
+                                                <dd>{{ $item['nama_dealer'] }}</dd>
+                                                <dt>Kategori Servis</dt>
+                                                <dd>{{ $item['svc_cat'] }}</dd>
+                                                <dt>Mekanik</dt>
+                                                <dd>{{ $item['mechanic_name'] }}</dd>
+                                                <dt>Unit</dt>
+                                                <dd>{{ $item['prod_nm'] }}</dd>
+                                                <dt>Paket Servis</dt>
+                                                @php
+                                                    $svc_pac = json_decode($item['svc_pac']);
+                                                    $svc_cost = json_decode($item['svc_cost']);
+                                                @endphp    
+                                                @foreach($svc_pac as $index => $paket_servis)
+                                                    <dd>{{ $paket_servis }}; Rp. {{ number_format($svc_cost[$index], 0, ",", ".") }}</dd>
+                                                @endforeach
+                                                <dt>Part Terpakai</dt>
+                                                @php 
+                                                    $part_name = $item['part_name'];
+                                                    $part_qty = json_decode($item['part_qty']);
+                                                    $part_cost = json_decode($item['part_cost']);
+                                                @endphp
+                                                @foreach($part_name as $key => $value)
+                                                @php
+                                                    $total_cost = $part_qty[$key] * $part_cost[$key];
+                                                @endphp
+                                                    <dd>{{ $value }}, Qty: {{ $part_qty[$key] }}, Rp. {{ number_format($total_cost, 0, ",", ".") }}</dd>
+                                                @endforeach
+                                                <dt>Total Biaya Servis</dt>
+                                                <dd>Rp. {{ number_format($item['cost_total'],0,",",".") }}</dd>  
+                                            </dl>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                    @endforeach
+                        @php
+                            $i++;
+                        @endphp
+                        @endforeach
+                    </div>
                 @endif
             @else
                 <div class="alert bg-info bg-gradient info-wrapper">

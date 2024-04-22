@@ -326,3 +326,40 @@ dd {
         width: 150px;
     }
 }
+
+.list-wrapper-mobile {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+
+.list-wrapper-mobile .modal-content {
+    background-color: #183f9e;
+    color: #fff;
+}
+
+.list-clickable {
+    border-radius: 8px;
+    border-width: 0 0 1px;
+    height: 28px;
+    padding: 0;
+    margin-bottom: 25px;
+    font-size: 16px;
+    line-height: 1.15;
+    background-color: rgba(0, 0, 0, 0);
+    border-color: #eaeaea;
+}
+
+.list-text-wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.list-text-wrapper span {
+    color: #183f9e;
+    font-weight: 500;
+}
+
+.list-text-wrapper span:first-child {
+    font-weight: bold;
+}
