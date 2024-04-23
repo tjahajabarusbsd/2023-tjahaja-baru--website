@@ -48,6 +48,8 @@ class ForgotPasswordController extends Controller
 
         $user = User::where('phone_number', $request->phone_number)->first();
         
+        $baseURL = config('app.url');
+        
         if($user) {
             $phone_tujuan = $request->phone_number;
             if (substr($phone_tujuan, 0, 1) === '0') {
@@ -58,7 +60,7 @@ class ForgotPasswordController extends Controller
             $user->reset_password_token = $token;
             $user->save();
 
-            $body = "Link Reset password: https://tjahaja-baru.com/reset-password/$token";
+            $body = "Link Reset password: $baseURL/reset-password/$token";
 
             $data = [
                 'phone' => $phone_tujuan,
