@@ -24,7 +24,7 @@
             {{-- <div class="content-avatar">
                 <img src="{{ url('/images/dummy-image.png') }}" alt="">
             </div> --}}
-            <h1>My Profile</h1>
+            <h1>Hello,</h1>
             <div class="content-title">
                 <p id="nameField"><span>{{ $user->name ?? 'Belum ada nama' }}</span></p>
             </div>
@@ -133,7 +133,7 @@
                                                         <dt>Unit</dt>
                                                         <dd>{{ $item['prod_nm'] }}</dd>
                                                         <dt>Nomor Plat</dt>
-                                                        <dd>Rp. {{ number_format($item['cost_total'],0,",",".") }}</dd>
+                                                        <dd>{{ $item['plat'] }}</dd>
                                                     </dl>
                                                     <div>
                                                         <h5>Paket Servis</h5>
@@ -192,14 +192,10 @@
                                                             </tbody>
                                                         </table>
 
-                                                        <div class="row detail-cost">
-                                                            <div class="col col-md-2">Total Biaya</div>
-                                                            <div class="col">
-                                                                <ul>
-                                                                    Rp. {{ number_format($item['cost_total'],0,",",".") }}
-                                                                </ul>
-                                                            </div>
-                                                        </div>
+                                                        <dl>
+                                                            <dt>Total Biaya</dt>
+                                                            <dd>Rp. {{ number_format($item['cost_total'],0,",",".") }}</dd>
+                                                        </dl>
                                                     </div>
                                                 </div>
                                             </td>
