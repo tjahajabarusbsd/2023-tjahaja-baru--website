@@ -24,11 +24,15 @@
     gap: 10px;
     margin: auto;
     padding: 2rem;
-    background: #fff;
+    box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
 }
 
 .top-content {
-    box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+    background: #fff;
+}
+
+.bottom-content {
+    background: aliceblue;
 }
 
 #dataProfile {
@@ -93,7 +97,7 @@
     padding: 0;
 }
 
-#editProfileBtn i {
+.corner-button i {
     margin-right: 5px;
 }
 
@@ -195,8 +199,8 @@ dd {
 }
 
 .detail-wrapper {
-    width: 780px;
-    margin: auto;
+    width: 720px;
+    margin: auto 0;
 }
 
 .detail-wrapper ul {
@@ -214,11 +218,13 @@ dd {
 /* table */
 .table-wrap {
     overflow-x: scroll;
+    max-width: 800px;
+    margin: auto;
 }
 
 .table {
-    min-width: 1000px !important;
     width: 100%;
+    text-align: center;
     -webkit-transition: 0.3s;
     -o-transition: 0.3s;
     transition: 0.3s;
