@@ -24,7 +24,7 @@
             {{-- <div class="content-avatar">
                 <img src="{{ url('/images/dummy-image.png') }}" alt="">
             </div> --}}
-            <h1>My Profile</h1>
+            <h1>Hello,</h1>
             <div class="content-title">
                 <p id="nameField"><span>{{ $user->name ?? 'Belum ada nama' }}</span></p>
             </div>
@@ -98,13 +98,11 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table-wrap">
-                                <table class="table  table-hover" id="">
+                                <table class="table table-hover" id="">
                                     <thead>
                                         <tr>
                                         <th>#</th>
                                         <th>Tanggal</th>
-                                        <th>Invoice</th>
-                                        <th>Kategori Servis</th>
                                         <th>Total Biaya</th>
                                         <th>&nbsp;</th>
                                         </tr>
@@ -116,9 +114,7 @@
                                     @foreach($data as $item)
                                         <tr data-bs-toggle="collapse" data-bs-target="#collapse{{ $i }}" aria-expanded="@php if($i == 1) echo 'true'; else echo 'false'; @endphp" aria-controls="collapse{{ $i }}" @php if($i == 1) echo 'class'; else echo 'class="collapsed"'; @endphp>
                                         <th scope="row">{{ $i }}</th>
-                                        <td>{{ date("d-m-Y H:i", strtotime($item['event_walkin'])) }}</td>
-                                        <td>{{ $item['invoice'] }}</td>
-                                        <td>{{ $item['svc_cat'] }}</td>
+                                        <td>{{ date("d-m-Y", strtotime($item['event_walkin'])) }}</td>
                                         <td>Rp. {{ number_format($item['cost_total'],0,",",".") }}</td>
                                         <td>
                                             <i class="fa" aria-hidden="@php if($i == 1) echo 'true'; else echo 'false'; @endphp"></i>
@@ -136,73 +132,70 @@
                                                         <dd>{{ $item['mechanic_name'] }}</dd>
                                                         <dt>Unit</dt>
                                                         <dd>{{ $item['prod_nm'] }}</dd>
+                                                        <dt>Nomor Plat</dt>
+                                                        <dd>{{ $item['plat'] }}</dd>
                                                     </dl>
-                                                    <div class="row detail-cost">
-                                                        <div class="col col-md-2">Paket Servis</div>
-                                                        <div class="col col-md-5">
-                                                            @php 
-                                                                $svc_pac = json_decode($item['svc_pac']);
-                                                            @endphp
-                                                            @foreach( $svc_pac as $paket_servis)
-                                                                <ul>
-                                                                    <li>{{ $paket_servis }}</li>
-                                                                </ul>
-                                                            @endforeach
-                                                        </div>
-                                                        <div class="col"></div>
-                                                        <div class="col">
-                                                            @php 
-                                                                $svc_cost = json_decode($item['svc_cost']);
-                                                            @endphp
-                                                            @foreach( $svc_cost as $servis_cost)
-                                                                <ul>
-                                                                    Rp. {{ number_format($servis_cost,0,",",".") }}
-                                                                </ul>
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
-                                                    <div class="row detail-cost">
-                                                        <div class="col col-md-2">Part Terpakai</div>
-                                                        <div class="col col-md-5">
-                                                            @foreach( $item['part_name'] as $nama_part)
-                                                                <ul>
-                                                                    <li>{{ $nama_part }}</li>
-                                                                </ul>
-                                                            @endforeach
-                                                        </div>
-                                                        <div class="col">
-                                                            @php 
-                                                                $part_qty = json_decode($item['part_qty']);
-                                                            @endphp
-                                                            @foreach ($part_qty as $qty)
-                                                                <ul>
-                                                                    {{ $qty }}
-                                                                </ul>
-                                                            @endforeach
-                                                        </div>
-                                                        <div class="col">
-                                                            @php 
-                                                                $part_cost = json_decode($item['part_cost']);
-                                                            @endphp
-                                                            @foreach ($part_qty as $index => $qty)
-                                                            @php
-                                                                $total_cost = $qty * $part_cost[$index];
-                                                            @endphp
-                                                            <ul>
-                                                                Rp. {{ number_format($total_cost,0,",",".") }}
-                                                            </ul>
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
-                                                    <div class="row detail-cost">
-                                                        <div class="col col-md-2">Total Biaya</div>
-                                                        <div class="col col-md-5"></div>
-                                                        <div class="col"></div>
-                                                        <div class="col">
-                                                            <ul>
-                                                                Rp. {{ number_format($item['cost_total'],0,",",".") }}
-                                                            </ul>
-                                                        </div>
+                                                    <div>
+                                                        <h5>Paket Servis</h5>
+                                                        <table class='table table-bordered'>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>No</th>
+                                                                    <th>Nama</th>
+                                                                    <th>Biaya</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @php $j=1 @endphp
+                                                                @php 
+                                                                    $svc_pac = json_decode($item['svc_pac']);
+                                                                    $svc_cost = json_decode($item['svc_cost']);
+                                                                @endphp
+                                                                @foreach($svc_pac as $index => $paket_servis)
+                                                                <tr>
+                                                                    <td>{{ $j++ }}</td>
+                                                                    <td>{{ $paket_servis }}</td>
+                                                                    <td>Rp. {{ number_format($svc_cost[$index], 0, ",", ".") }}</td>
+                                                                </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+
+                                                        <h5>Part Terpakai</h5>
+                                                        <table class='table table-bordered'>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>No</th>
+                                                                    <th>Nama</th>
+                                                                    <th>Jumlah</th>
+                                                                    <th>Biaya</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @php $k=1 @endphp
+                                                                @php 
+                                                                    $part_name = $item['part_name'];
+                                                                    $part_qty = json_decode($item['part_qty']);
+                                                                    $part_cost = json_decode($item['part_cost']);
+                                                                @endphp
+                                                                @foreach($part_name as $key => $value)
+                                                                @php
+                                                                    $total_cost = $part_qty[$key] * $part_cost[$key];
+                                                                @endphp
+                                                                <tr>
+                                                                    <td>{{ $k++ }}</td>
+                                                                    <td>{{ $value }}</td>
+                                                                    <td>{{ $part_qty[$key] }}</td>
+                                                                    <td>Rp. {{ number_format($total_cost, 0, ",", ".") }}</td>
+                                                                </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+
+                                                        <dl>
+                                                            <dt>Total Biaya</dt>
+                                                            <dd>Rp. {{ number_format($item['cost_total'],0,",",".") }}</dd>
+                                                        </dl>
                                                     </div>
                                                 </div>
                                             </td>
@@ -286,75 +279,5 @@
 @endsection
 
 @section('additional_script')
-<script>
-    $(document).ready(function() {
-        $('#editProfileBtn').click(function() {
-            $('#editProfileForm').addClass('active');
-            $('#dataProfile').addClass('hide');
-            
-        });
-
-        $('#cancelEditBtn').click(function() {
-            $('#editProfileForm').removeClass('active');
-            $('#dataProfile').removeClass('hide');
-            $('#errorMessages').removeClass('show').text('');
-        });
-
-        $('#profileForm').on('submit', function(e) {
-            e.preventDefault(); // Mencegah pengiriman form bawaan browser
-
-            // Mengirim data form menggunakan AJAX
-            $.ajax({
-                url: $(this).attr('action'),
-                method: $(this).attr('method'),
-                headers: {
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-                    },
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Menangani respons sukses dari server
-                    $('#nameField').text(response.name);
-                    $('#emailField span').text(response.email);
-                    $('#phoneField span').text(response.phone_number);
-
-                    // Menyembunyikan form Edit Profile setelah simpan berhasil
-                    $('#editProfileForm').removeClass('active');
-                    $('#dataProfile').removeClass('hide');
-                    $('#errorMessages').removeClass('show').text('');
-                },
-                error: function(xhr, status, error) {
-                    // Menangani respons error dari server
-                    
-                    var errors = xhr.responseJSON.errors;
-                    console.log(errors);
-                    var errorMessage = '<ul>';
-                    $.each(errors, function(key, value) {
-                        switch (key) {
-                            case 'name':
-                                $.each(value, function(index, errorValue) {
-                                    errorMessage += '<li>' + errorValue + '</li>';
-                                });
-                                break;
-                            case 'email':
-                                $.each(value, function(index, errorValue) {
-                                    errorMessage += '<li>' + errorValue + '</li>';
-                                });
-                                break;
-                            case 'phone_number':
-                                $.each(value, function(index, errorValue) {
-                                    errorMessage += '<li>' + errorValue + '</li>';
-                                });
-                                break;
-                            default:
-                                break;
-                        }
-                    });
-                    errorMessage += '</ul>';
-                    $('#errorMessages').html(errorMessage).addClass('show');
-                    // Tambahkan logika lain untuk menampilkan pesan error sesuai kebutuhan Anda
-                }
-            });
-        });
-    });
-</script>
+<script src="{{ asset('js/user-profile.js') }}"></script>
 @endsection
