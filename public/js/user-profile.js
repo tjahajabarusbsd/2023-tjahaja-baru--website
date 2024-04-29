@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    $('.btn-motor').click(function () {
+        $('#overlay').show();
+    });
+
     $('#editProfileBtn').click(function () {
         $('#editProfileForm').addClass('active');
         $('#dataProfile').addClass('hide');
@@ -8,6 +12,10 @@ $(document).ready(function () {
         $('#editProfileForm').removeClass('active');
         $('#dataProfile').removeClass('hide');
         $('#errorMessages').removeClass('show').text('');
+    });
+
+    $('.btn-tambah').click(function () {
+        $('#tambah-nomor-rangka').slideToggle('active');
     });
 
     $('#profileForm').on('submit', function (e) {
@@ -65,4 +73,12 @@ $(document).ready(function () {
             }
         });
     });
+});
+
+const currentUrl = window.location.pathname;
+
+$('.btn-motor').each(function () {
+    if ($(this).attr('href') === currentUrl) {
+        $(this).addClass('active').css('pointer-events', 'none');
+    }
 });

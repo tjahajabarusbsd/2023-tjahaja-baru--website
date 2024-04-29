@@ -15,17 +15,16 @@ use PDF;
 class UserProfileController extends Controller
 {
     
-    protected function getRiwayatServis($getNomor)
+    protected function getRiwayatServis($getOneNomorRangka)
     {
-        if (!$getNomor) {
+        if (!$getOneNomorRangka) {
             throw new \Exception('nomor rangka not found');
         }
 
-        $nomor_rangka = $getNomor->nomor_rangka;
+        $nomor_rangka = $getOneNomorRangka;
         $url_services = env('GET_URL_SERIVCES');
         $apiUrl = $url_services . "?id=" . $nomor_rangka;
         $response = Http::get($apiUrl);
-        
         $data = $response->json();
         
         if (!$data) {
@@ -51,42 +50,85 @@ class UserProfileController extends Controller
                 $innerArray['part_name'] = [];
             }
         }
-        
+
         return $data;
+    }
+
+    protected function getOther($getOneNomorRangka)
+    {
+        $user = Auth::user();
+
+        $getAllNomorRangka = NomorRangka::where('user_id', $user->id)->get();
+
+        if (!$getOneNomorRangka) {
+            throw new \Exception('nomor rangka not found');
+        }
+
+        $nomor_rangka = $getOneNomorRangka;
+        $url_services = env('GET_URL_SERIVCES');
+        $apiUrl = $url_services . "?id=" . $nomor_rangka;
+        $response = Http::get($apiUrl);
+        $data = $response->json();
+        
+        if (!$data) {
+            return view('users.details', compact('data', 'user', 'getAllNomorRangka', 'getOneNomorRangka'));
+        }
+
+        foreach ($data as &$innerArray) {
+            if (isset($innerArray['part_id'])) {
+                $partIds = json_decode($innerArray['part_id'], true);
+
+                $partNames = [];
+                foreach ($partIds as $partId) {
+                    $part = MasterPart::where('part_number', $partId)->first();
+                    if ($part) {
+                        $partNames[] = $part->part_name;
+                    } else {
+                        $partNames[] = 'UNNAME PART';
+                    }
+                }
+
+                $innerArray['part_name'] = $partNames;
+            } else {
+                $innerArray['part_name'] = [];
+            }
+        }
+        
+        return view('users.details', compact('data', 'user', 'getAllNomorRangka', 'getOneNomorRangka'));
     }
 
     public function getUserProfile()
     {
         $user = Auth::user();
 
-        $getNomor = NomorRangka::where('user_id', $user->id)->first();
+        $getOneNomorRangka = NomorRangka::where('user_id', $user->id)->first();
+        $getAllNomorRangka = NomorRangka::where('user_id', $user->id)->get();
 
         try {
-            $data = $this->getRiwayatServis($getNomor);
+            $getOneNomorRangka = $getOneNomorRangka->nomor_rangka;
+            $data = $this->getRiwayatServis($getOneNomorRangka);
             
-            return view('users.details', compact('data', 'user', 'getNomor'));
+            return view('users.details', compact('data', 'user', 'getOneNomorRangka', 'getAllNomorRangka'));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             
-            return view('users.details', compact('user', 'getNomor'));
+            return view('users.details', compact('user', 'getOneNomorRangka', 'getAllNomorRangka'));
         }
     }
 
-    public function cetakPdf()
+    public function cetakPdf($getOneNomorRangka)
     {
         $user = Auth::user();
 
-        $getNomor = NomorRangka::where('user_id', $user->id)->first();
-
         try {
-            $data = $this->getRiwayatServis($getNomor);
+            $data = $this->getRiwayatServis($getOneNomorRangka);
 
             $pdf = PDF::loadview('users/riwayat-servis-view',['riwayat'=>$data]);
             return $pdf->stream('laporan-riwayat-servis.pdf');
         } catch (\Exception $e) {
             $message = $e->getMessage();
             
-            return view('users.details', compact('user', 'getNomor'));
+            return view('users.details', compact('user', 'getOneNomorRangka'));
         }
     }
 
