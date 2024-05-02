@@ -460,9 +460,7 @@ dd {
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    /* Warna latar belakang transparan */
     z-index: 9999;
-    /* Pastikan overlay muncul di atas konten lain */
 }
 
 .overlay__inner {
@@ -496,4 +494,44 @@ dd {
     100% {
         transform: rotate(360deg);
     }
+}
+
+/* Menu */
+.menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 5px;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 15px;
+}
+
+.menu-item {
+    background-color: cyan;
+    color: #d4468b;
+    border: none;
+    border-radius: 25px;
+    padding: 8px 24px;
+    margin: 5px;
+    font-size: 40px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 280px;
+    height: 230px;
+}
+
+.menu-item:hover {
+    background-color: #f5f5f5;
+}
+
+.menu::after {
+    content: "";
+    position: absolute;
+    background-color: blue;
 }

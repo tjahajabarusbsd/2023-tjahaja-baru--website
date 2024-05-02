@@ -60,8 +60,15 @@ function isDesktop() {
             </form>
         </div>
     </div>
+    
+    <div class="menu">
+        <button class="menu-item" data-bs-toggle="tab" data-bs-target="#nav-riwayat-service" role="tab" aria-controls="nav-spec" aria-selected="false"><img width="96" height="96" src="https://img.icons8.com/ios/100/activity-history.png" alt="activity-history"/>Riwayat Servis</button>
+        <button class="menu-item" data-bs-toggle="tab" data-bs-target="#nav-pinjaman-dana" role="tab" aria-controls="nav-spec" aria-selected="true"><img width="96" height="96" src="https://img.icons8.com/external-tanah-basah-basic-outline-tanah-basah/96/external-payments-social-media-ui-tanah-basah-basic-outline-tanah-basah.png" alt="external-payments-social-media-ui-tanah-basah-basic-outline-tanah-basah"/>Pinjaman Dana Tunai</button>
+        <button class="menu-item" data-bs-toggle="tab" data-bs-target="#nav-spec"><img src="{{ url('/images/Artboard2.png')}}" alt="sky-logo"/>SKY</button>
+    </div>
+    
     <div class="bottom-content">
-        <div class="riwayat-servis-container">
+        <div class="riwayat-servis-container tab-pane fade show active" id="nav-riwayat-service" role="tabpanel" aria-labelledby="nav-spec-tab">
             <h2>Riwayat Servis Motor Yamaha</h2>
 
             @if(!$getOneNomorRangka)
@@ -121,13 +128,9 @@ function isDesktop() {
                 </div>
             @endif
         </div>
+        <div class="tab-pane fade" id="nav-pinjaman-dana" role="tabpanel" aria-labelledby="nav-spec-tab"></div>
     </div>
 </div>
-{{-- <div class="overlay" id="overlay">
-    <div class="spinner">
-        <div></div>
-    </div>
-</div> --}}
 <div class="overlay" id="overlay">
     <div class="overlay__inner">
         <div class="overlay__content"><span class="spinner"></span></div>
