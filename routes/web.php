@@ -111,3 +111,6 @@ Route::middleware(['web'])->group(function () {
 Route::get('/auth/redirect', [LoginController::class, 'redirectToGoogle']);
 
 Route::get('/auth/callback', [LoginController::class, 'handleGoogleCallback']);
+
+Route::post('/hitung-pinjaman', 'PinjamanController@hitungPinjaman')->name('hitung.pinjaman');
+Route::post('/hitung-angsuran', 'PinjamanController@hitungAngsuran')->name('hitung.angsuran');
