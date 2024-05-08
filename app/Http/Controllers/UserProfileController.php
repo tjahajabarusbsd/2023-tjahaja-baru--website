@@ -10,6 +10,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\SaveNoRangkaRequest ;
 use App\Models\NomorRangka;
 use App\Models\MasterPart;
+use App\Models\Spec;
 use PDF;
 
 class UserProfileController extends Controller
@@ -57,6 +58,7 @@ class UserProfileController extends Controller
     protected function getOther($getOneNomorRangka)
     {
         $user = Auth::user();
+        $specList = Spec::orderBy('name')->distinct('name')->get();
 
         $getAllNomorRangka = NomorRangka::where('user_id', $user->id)->get();
 
@@ -94,7 +96,7 @@ class UserProfileController extends Controller
             }
         }
         
-        return view('users.details', compact('data', 'user', 'getAllNomorRangka', 'getOneNomorRangka'));
+        return view('users.details', compact('data', 'user', 'getAllNomorRangka', 'getOneNomorRangka', 'specList'));
     }
 
     public function getUserProfile()
@@ -103,16 +105,17 @@ class UserProfileController extends Controller
 
         $getOneNomorRangka = NomorRangka::where('user_id', $user->id)->first();
         $getAllNomorRangka = NomorRangka::where('user_id', $user->id)->get();
+        $specList = Spec::orderBy('name')->distinct('name')->get();
 
         try {
             $getOneNomorRangka = $getOneNomorRangka->nomor_rangka;
             $data = $this->getRiwayatServis($getOneNomorRangka);
             
-            return view('users.details', compact('data', 'user', 'getOneNomorRangka', 'getAllNomorRangka'));
+            return view('users.details', compact('data', 'user', 'getOneNomorRangka', 'getAllNomorRangka', 'specList'));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             
-            return view('users.details', compact('user', 'getOneNomorRangka', 'getAllNomorRangka'));
+            return view('users.details', compact('user', 'getOneNomorRangka', 'getAllNomorRangka', 'specList'));
         }
     }
 
