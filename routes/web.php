@@ -16,6 +16,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\VariantController;
 use App\Http\Controllers\WhatsAppController;
+use App\Http\Controllers\PinjamanController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -112,5 +113,5 @@ Route::get('/auth/redirect', [LoginController::class, 'redirectToGoogle']);
 
 Route::get('/auth/callback', [LoginController::class, 'handleGoogleCallback']);
 
-Route::post('/hitung-pinjaman', 'PinjamanController@hitungPinjaman')->name('hitung.pinjaman');
-Route::post('/hitung-angsuran', 'PinjamanController@hitungAngsuran')->name('hitung.angsuran');
+Route::post('/hitung-pinjaman', [PinjamanController::class, 'hitungPinjaman'])->name('hitung.pinjaman');
+Route::post('/hitung-angsuran', [PinjamanController::class, 'hitungAngsuran'])->name('hitung.angsuran');

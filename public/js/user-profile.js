@@ -73,6 +73,104 @@ $(document).ready(function () {
             }
         });
     });
+
+    function formatCurrency(amount) {
+        return 'Rp ' + parseFloat(amount).toLocaleString('id-ID');
+    }
+
+    $('#dana_dicairkan').on('input', function () {
+        let inputVal = $(this).val();
+
+        let num = inputVal.replace(/\D/g, '');
+
+        let formattedNum = new Intl.NumberFormat('id-ID').format(num);
+
+        $('#dana_dicairkan_label').text('Rp ' + formattedNum);
+    });
+
+    $('#harga_motor').on('input', function () {
+
+        let inputVal = $(this).val();
+
+        let num = inputVal.replace(/\D/g, '');
+
+        let formattedNum = new Intl.NumberFormat('id-ID').format(num);
+
+        $(this).val(formattedNum);
+    });
+
+
+    $('#hitung').click(function () {
+        let hargaMotor = $('#harga_motor').val();
+        let tipe = $('#tipe').val();
+        let tahun = $('#unit_tahun').val();
+        console.log(tipe, tahun);
+        hargaMotor = hargaMotor.replace(/\./g, '');
+
+        if (hargaMotor === '') {
+            $('#error_harga_motor').show();
+            return; // Menghentikan eksekusi jika input kosong
+        } else {
+            $('#error_harga_motor').hide();
+        }
+
+        if (tipe === null) {
+            $('#error_tipe').show();
+            return;
+        } else {
+            $('#error_tipe').hide();
+        }
+
+        if (tahun === '') {
+            $('#error_unit_tahun').show();
+            return;
+        } else {
+            $('#error_unit_tahun').hide();
+        }
+
+        $.ajax({
+            url: "/hitung-pinjaman",
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                'harga_motor': hargaMotor
+            },
+            success: function (response) {
+                $('#hasil').text('Maksimal Pinjaman Senilai ' + formatCurrency(response.maksimal_pinjaman)).show();
+                $('#input_dana').show();
+                $('#dana_dicairkan').attr('max', response.maksimal_pinjaman);
+                $('#dana_dicairkan_label').text('Rp ' + response.maksimal_pinjaman);
+                $('#dana_dicairkan').val('');
+                $('#tenor').val('');
+                $('#biaya-angsuran').text('Rp -');
+            }
+        });
+    });
+
+    $('#hitung_angsuran').click(function () {
+        let danaDicairkan = $('#dana_dicairkan').val();
+        let tenor = $('#tenor').val();
+        danaDicairkan = danaDicairkan.replace(/\./g, '');
+
+        $.ajax({
+            url: "/hitung-angsuran",
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                'dana_dicairkan': danaDicairkan,
+                'tenor': tenor
+            },
+            success: function (response) {
+                $('.break-line').show();
+                $('#biaya-angsuran').text(formatCurrency(response.angsuran_per_bulan));
+                $('#hasil_angsuran').show();
+            }
+        });
+    });
 });
 
 const currentUrl = window.location.pathname;

@@ -142,20 +142,23 @@ function isDesktop() {
                                 <option value="{{ $list->id }}">{{ $list->name }}</option>
                             @endforeach
                         </select>
+                        <span class="text-danger" id="error_tipe" style="display:none;">Tipe tidak boleh kosong.</span>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label for="cars" class="col-md-4 col-form-label text-md-right">Pilih tahun:</label>
                     <div class="col-md-6">
-                        <input type="number" min="2000" max="2024" step="1" class="form-control" name="unit_tahun" id="unit_tahun" placeholder="Misal: 2021" required>
+                        <input type="number" min="2000" max="2024" step="1" class="form-control" name="unit_tahun" id="unit_tahun" placeholder="Misal: 2021">
+                        <span class="text-danger" id="error_unit_tahun" style="display:none;">Tahun tidak boleh kosong.</span>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="harga_motor" class="col-md-4 col-form-label text-md-right">Harga Motor (juta):</label>
+                    <label for="harga_motor" class="col-md-4 col-form-label text-md-right">Estimasi Harga Motor:</label>
                     <div class="col-md-6">
-                        <input type="text" id="harga_motor" name="harga_motor" class="form-control" required>
+                        <input type="text" id="harga_motor" name="harga_motor" class="form-control">
+                        <span class="text-danger" id="error_harga_motor" style="display:none;">Harga motor tidak boleh kosong.</span>
                     </div>
                 </div>
 
@@ -211,8 +214,6 @@ function isDesktop() {
             </div>
         </div>
     </div>
-
-    
 </div>
 <div class="overlay" id="overlay">
     <div class="overlay__inner">
@@ -223,79 +224,4 @@ function isDesktop() {
 
 @section('additional_script')
 <script src="{{ asset('js/user-profile.js') }}"></script>
-<script>
-    $(document).ready(function () {
-        function formatCurrency(amount) {
-            return 'Rp ' + parseFloat(amount).toLocaleString('id-ID');
-        }
-
-        $('#dana_dicairkan').on('input', function() {
-            let inputVal = $(this).val();
-            
-            let num = inputVal.replace(/\D/g, '');
-
-            let formattedNum = new Intl.NumberFormat('id-ID').format(num);
-
-            $('#dana_dicairkan_label').text( 'Rp ' + formattedNum);
-        });
-
-        $('#harga_motor').on('input', function(){
-            
-            let inputVal = $(this).val();
-            
-            let num = inputVal.replace(/\D/g, '');
-            
-            let formattedNum = new Intl.NumberFormat('id-ID').format(num);
-            
-            $(this).val(formattedNum);
-        });
-
-        
-        $('#hitung').click(function () {
-            let hargaMotor = $('#harga_motor').val();
-            hargaMotor = hargaMotor.replace(/\./g, '');
-            
-            $.ajax({
-                url: "{{ route('hitung.pinjaman') }}",
-                method: 'POST',
-                data: {
-                    '_token': '{{ csrf_token() }}',
-                    'harga_motor': hargaMotor
-                },
-                success: function (response) {
-                    $('#hasil').text('Maksimal Pinjaman Senilai ' + formatCurrency(response.maksimal_pinjaman)).show();
-                    $('#input_dana').show();
-                    $('#dana_dicairkan').attr('max', response.maksimal_pinjaman);
-                    $('#dana_dicairkan_label').text('Rp ' + response.maksimal_pinjaman);
-                    $('#dana_dicairkan').val('');
-                    $('#tenor').val('');
-                    $('#biaya-angsuran').text('Rp -');
-                }
-            });
-        });
-
-        $('#hitung_angsuran').click(function() {
-            let danaDicairkan = $('#dana_dicairkan').val();
-            let tenor = $('#tenor').val();
-            danaDicairkan = danaDicairkan.replace(/\./g, '');
-
-            $.ajax({
-                url: "{{ route('hitung.angsuran') }}",
-                method: 'POST',
-                data: {
-                    '_token': '{{ csrf_token() }}',
-                    'dana_dicairkan': danaDicairkan,
-                    'tenor': tenor
-                },
-                success: function (response) {
-                    $('.break-line').show();
-                    $('#biaya-angsuran').text(formatCurrency(response.angsuran_per_bulan));
-                    $('#hasil_angsuran').show();
-                }
-            });
-        });
-
-        
-    });
-</script>
 @endsection
