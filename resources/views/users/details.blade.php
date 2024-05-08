@@ -14,6 +14,7 @@
 
 @section('additional_css')
     <link rel="stylesheet" href="{{ asset('css/user-profile.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/main-form.css') }}" />
 @endsection
 
 @section('content')
@@ -61,14 +62,14 @@ function isDesktop() {
         </div>
     </div>
     
-    <div class="menu">
-        <button class="menu-item" data-bs-toggle="tab" data-bs-target="#nav-riwayat-service" role="tab" aria-controls="nav-spec" aria-selected="false"><img width="96" height="96" src="https://img.icons8.com/ios/100/activity-history.png" alt="activity-history"/>Riwayat Servis</button>
-        <button class="menu-item" data-bs-toggle="tab" data-bs-target="#nav-pinjaman-dana" role="tab" aria-controls="nav-spec" aria-selected="true"><img width="96" height="96" src="https://img.icons8.com/external-tanah-basah-basic-outline-tanah-basah/96/external-payments-social-media-ui-tanah-basah-basic-outline-tanah-basah.png" alt="external-payments-social-media-ui-tanah-basah-basic-outline-tanah-basah"/>Pinjaman Dana Tunai</button>
-        <button class="menu-item" data-bs-toggle="tab" data-bs-target="#nav-spec"><img src="{{ url('/images/Artboard2.png')}}" alt="sky-logo"/>SKY</button>
+    <div class="menu" role="tablist">
+        <button class="menu-item active" data-bs-toggle="tab" data-bs-target="#nav-riwayat-service" role="tab" aria-controls="nav-riwayat-service" aria-selected="true"><img width="96" height="96" src="https://img.icons8.com/ios/100/activity-history.png" alt="activity-history"/>Riwayat Servis</button>
+        <button class="menu-item" data-bs-toggle="tab" data-bs-target="#nav-pinjaman-dana" role="tab" aria-controls="nav-pinjaman-dana" aria-selected="false"><img width="96" height="96" src="https://img.icons8.com/external-tanah-basah-basic-outline-tanah-basah/96/external-payments-social-media-ui-tanah-basah-basic-outline-tanah-basah.png" alt="external-payments-social-media-ui-tanah-basah-basic-outline-tanah-basah"/>Pinjaman Dana Tunai</button>
+        <button class="menu-item" data-bs-toggle="tab" data-bs-target="#nav-sky" role="tab" aria-controls="nav-spec" aria-selected="false"><img src="{{ url('/images/Artboard2.png')}}" alt="sky-logo"/>SKY</button>
     </div>
-    
-    <div class="bottom-content">
-        <div class="riwayat-servis-container tab-pane fade show active" id="nav-riwayat-service" role="tabpanel" aria-labelledby="nav-spec-tab">
+
+    <div class="bottom-content tab-content">
+        <div class="riwayat-servis-container tab-pane fade show active" id="nav-riwayat-service" role="tabpanel" aria-labelledby="nav-riwayat-service-tab">
             <h2>Riwayat Servis Motor Yamaha</h2>
 
             @if(!$getOneNomorRangka)
@@ -128,8 +129,90 @@ function isDesktop() {
                 </div>
             @endif
         </div>
-        <div class="tab-pane fade" id="nav-pinjaman-dana" role="tabpanel" aria-labelledby="nav-spec-tab"></div>
+        <div class="tab-pane fade" id="nav-pinjaman-dana" role="tabpanel" aria-labelledby="nav-pinjaman-dana-tab">
+            <div class="container-simulasi">
+                <h2 class="text-center mb-4">Kalkulator Simulasi Pinjaman</h2>
+
+                <div class="form-group row">
+                    <label for="cars" class="col-md-4 col-form-label text-md-right">Pilih tipe:</label>
+                    <div class="col-md-6">
+                        <select class="form-control" name="tipe" id="tipe">
+                            <option selected disabled value=""> -- Pilih -- </option>
+                            @foreach ($specList as $list)
+                                <option value="{{ $list->id }}">{{ $list->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="cars" class="col-md-4 col-form-label text-md-right">Pilih tahun:</label>
+                    <div class="col-md-6">
+                        <input type="number" min="2000" max="2024" step="1" class="form-control" name="unit_tahun" id="unit_tahun" placeholder="Misal: 2021" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="harga_motor" class="col-md-4 col-form-label text-md-right">Harga Motor (juta):</label>
+                    <div class="col-md-6">
+                        <input type="text" id="harga_motor" name="harga_motor" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-0">
+                    <div class="col-md-6 offset-md-4">
+                        <button id="hitung" class="btn btn-primary">Hitung</button>
+                    </div>
+                </div>
+
+                <div id="hasil" style="display: none"></div>                
+
+                <div class="row">
+                    <div class="col-md-12" id="input_dana" style="display: none">
+                        <div class="form-group row">
+                            <label class="col-md-4 col-form-label text-md-right">Dana yang Ingin Dicairkan (juta):</label>
+                            <div class="col-md-6">
+                                <label for="dana_dicairkan" id="dana_dicairkan_label" class="col-form-label text-md-right">dana</label>
+                                <input type="range" id="dana_dicairkan" name="dana_dicairkan" class="" min="3000000" step="1000000" max="7000000" style="width: 100%;">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="tenor" class="col-md-4 col-form-label text-md-right">Tenor (in months):</label>
+                            <div class="col-md-6">
+                                <input type="number" id="tenor" name="tenor" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button id="hitung_angsuran" class="btn btn-primary">Hitung Angsuran</button>
+                            </div>
+                        </div>
+                        
+                        <div class="break-line mt-5" style="
+                            border-style: inset;
+                            border-width: 1px;
+                            border-color: #dadada;
+                            display: none;
+                        "></div>
+                        <div id="hasil_angsuran" class="mt-3" style="display: none">
+                            <div style="font-size: 25px; font-weight: 700">Angsuran</div>
+                            <div style="font-size:10px;">*sudah termasuk bunga dan biaya admin</div>
+                            <div style="margin: 5px 0; font-size: 25px; font-weight: 700">
+                                <span id="biaya-angsuran">Rp -</span>
+                                <span>/bulan*</span>
+                            </div>
+                            <div style="font-size: 12px">*) Estimasi nilai pinjaman bukan merupakan persetujuan pinjaman dana, bersifat tidak mengikat, dan dapat disesuaikan berdasarkan penilaian lebih lanjut serta kebijakan BPR.</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
+
+    
 </div>
 <div class="overlay" id="overlay">
     <div class="overlay__inner">
@@ -140,4 +223,79 @@ function isDesktop() {
 
 @section('additional_script')
 <script src="{{ asset('js/user-profile.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        function formatCurrency(amount) {
+            return 'Rp ' + parseFloat(amount).toLocaleString('id-ID');
+        }
+
+        $('#dana_dicairkan').on('input', function() {
+            let inputVal = $(this).val();
+            
+            let num = inputVal.replace(/\D/g, '');
+
+            let formattedNum = new Intl.NumberFormat('id-ID').format(num);
+
+            $('#dana_dicairkan_label').text( 'Rp ' + formattedNum);
+        });
+
+        $('#harga_motor').on('input', function(){
+            
+            let inputVal = $(this).val();
+            
+            let num = inputVal.replace(/\D/g, '');
+            
+            let formattedNum = new Intl.NumberFormat('id-ID').format(num);
+            
+            $(this).val(formattedNum);
+        });
+
+        
+        $('#hitung').click(function () {
+            let hargaMotor = $('#harga_motor').val();
+            hargaMotor = hargaMotor.replace(/\./g, '');
+            
+            $.ajax({
+                url: "{{ route('hitung.pinjaman') }}",
+                method: 'POST',
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    'harga_motor': hargaMotor
+                },
+                success: function (response) {
+                    $('#hasil').text('Maksimal Pinjaman Senilai ' + formatCurrency(response.maksimal_pinjaman)).show();
+                    $('#input_dana').show();
+                    $('#dana_dicairkan').attr('max', response.maksimal_pinjaman);
+                    $('#dana_dicairkan_label').text('Rp ' + response.maksimal_pinjaman);
+                    $('#dana_dicairkan').val('');
+                    $('#tenor').val('');
+                    $('#biaya-angsuran').text('Rp -');
+                }
+            });
+        });
+
+        $('#hitung_angsuran').click(function() {
+            let danaDicairkan = $('#dana_dicairkan').val();
+            let tenor = $('#tenor').val();
+            danaDicairkan = danaDicairkan.replace(/\./g, '');
+
+            $.ajax({
+                url: "{{ route('hitung.angsuran') }}",
+                method: 'POST',
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    'dana_dicairkan': danaDicairkan,
+                    'tenor': tenor
+                },
+                success: function (response) {
+                    $('.break-line').show();
+                    $('#biaya-angsuran').text(formatCurrency(response.angsuran_per_bulan));
+                    $('#hasil_angsuran').show();
+                }
+            });
+        });
+
+        
+    });
+</script>
 @endsection

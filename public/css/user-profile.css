@@ -535,3 +535,31 @@ dd {
     position: absolute;
     background-color: blue;
 }
+
+.input-group {
+    position: relative;
+    width: 100%;
+}
+
+.input-group-append {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.container-simulasi {
+    max-width: 800px;
+    margin: auto;
+}
+
+.container-simulasi .row {
+    display: flex;
+    justify-content: center;
+}
+
+#hasil {
+    text-align: center;
+    font-size: 25px;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
