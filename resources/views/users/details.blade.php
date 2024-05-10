@@ -171,7 +171,7 @@ function isDesktop() {
                 <div id="hasil" style="display: none"></div>                
 
                 <div class="row">
-                    <div class="col-md-12" id="input_dana" style="display: none">
+                    <div class="col-md-12" id="input_dana" style="display: none;">
                         <div class="form-group row">
                             <label class="col-md-4 col-form-label text-md-right">Dana yang Ingin Dicairkan (juta):</label>
                             <div class="col-md-6">
@@ -193,20 +193,26 @@ function isDesktop() {
                             </div>
                         </div>
                         
-                        <div class="break-line mt-5" style="
-                            border-style: inset;
-                            border-width: 1px;
-                            border-color: #dadada;
-                            display: none;
-                        "></div>
-                        <div id="hasil_angsuran" class="mt-3" style="display: none">
-                            <div style="font-size: 25px; font-weight: 700">Angsuran</div>
-                            <div style="font-size:10px;">*sudah termasuk bunga dan biaya admin</div>
-                            <div style="margin: 5px 0; font-size: 25px; font-weight: 700">
-                                <span id="biaya-angsuran">Rp -</span>
-                                <span>/bulan*</span>
+                        <div id="hasil_angsuran" style="display: none;">
+                            <div class="break-line mt-5" style="
+                                border-style: inset;
+                                border-width: 1px;
+                                border-color: #dadada;
+                            "></div>
+                            <div class="section-angsuran-result">
+                                <div class="mt-3 col-md-8">
+                                    <div style="font-size: 25px; font-weight: 700">Angsuran</div>
+                                    <div style="font-size:10px;">*sudah termasuk bunga dan biaya admin</div>
+                                    <div style="margin: 5px 0; font-size: 25px; font-weight: 700">
+                                        <span id="biaya-angsuran">Rp -</span>
+                                        <span>/bulan*</span>
+                                    </div>
+                                    <div style="font-size: 12px">*) Estimasi nilai pinjaman bukan merupakan persetujuan pinjaman dana, bersifat tidak mengikat, dan dapat disesuaikan berdasarkan penilaian lebih lanjut serta kebijakan BPR.</div>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary btn-ajukan">Ajukan Pinjaman</button>
+                                </div>
                             </div>
-                            <div style="font-size: 12px">*) Estimasi nilai pinjaman bukan merupakan persetujuan pinjaman dana, bersifat tidak mengikat, dan dapat disesuaikan berdasarkan penilaian lebih lanjut serta kebijakan BPR.</div>
                         </div>
                     </div>
                 </div>

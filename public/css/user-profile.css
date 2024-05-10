@@ -563,3 +563,18 @@ dd {
     margin-bottom: 50px;
     margin-top: 50px;
 }
+
+.section-angsuran-result {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.section-angsuran-result .col-md-4 {
+    margin: auto;
+    text-align: center;
+}
+
+.btn-ajukan {
+    width: 170px;
+    height: 135px;
+}

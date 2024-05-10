@@ -19,9 +19,8 @@ $(document).ready(function () {
     });
 
     $('#profileForm').on('submit', function (e) {
-        e.preventDefault(); // Mencegah pengiriman form bawaan browser
+        e.preventDefault();
 
-        // Mengirim data form menggunakan AJAX
         $.ajax({
             url: $(this).attr('action'),
             method: $(this).attr('method'),
@@ -30,21 +29,17 @@ $(document).ready(function () {
             },
             data: $(this).serialize(),
             success: function (response) {
-                // Menangani respons sukses dari server
                 $('#nameField').text(response.name);
                 $('#emailField span').text(response.email);
                 $('#phoneField span').text(response.phone_number);
 
-                // Menyembunyikan form Edit Profile setelah simpan berhasil
                 $('#editProfileForm').removeClass('active');
                 $('#dataProfile').removeClass('hide');
                 $('#errorMessages').removeClass('show').text('');
             },
             error: function (xhr, status, error) {
-                // Menangani respons error dari server
-
                 var errors = xhr.responseJSON.errors;
-                console.log(errors);
+
                 var errorMessage = '<ul>';
                 $.each(errors, function (key, value) {
                     switch (key) {
@@ -69,7 +64,6 @@ $(document).ready(function () {
                 });
                 errorMessage += '</ul>';
                 $('#errorMessages').html(errorMessage).addClass('show');
-                // Tambahkan logika lain untuk menampilkan pesan error sesuai kebutuhan Anda
             }
         });
     });
@@ -99,20 +93,24 @@ $(document).ready(function () {
         $(this).val(formattedNum);
     });
 
+    $('#tipe').click(function () {
+        $('#error_tipe').hide();
+    })
+
+    $('#unit_tahun').click(function () {
+        $('#error_unit_tahun').hide();
+    })
+
+    $('#harga_motor').click(function () {
+        $('#error_harga_motor').hide();
+    })
 
     $('#hitung').click(function () {
         let hargaMotor = $('#harga_motor').val();
         let tipe = $('#tipe').val();
         let tahun = $('#unit_tahun').val();
-        console.log(tipe, tahun);
-        hargaMotor = hargaMotor.replace(/\./g, '');
 
-        if (hargaMotor === '') {
-            $('#error_harga_motor').show();
-            return; // Menghentikan eksekusi jika input kosong
-        } else {
-            $('#error_harga_motor').hide();
-        }
+        hargaMotor = hargaMotor.replace(/\./g, '');
 
         if (tipe === null) {
             $('#error_tipe').show();
@@ -126,6 +124,13 @@ $(document).ready(function () {
             return;
         } else {
             $('#error_unit_tahun').hide();
+        }
+
+        if (hargaMotor === '') {
+            $('#error_harga_motor').show();
+            return;
+        } else {
+            $('#error_harga_motor').hide();
         }
 
         $.ajax({
