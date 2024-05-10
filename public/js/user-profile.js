@@ -144,6 +144,7 @@ $(document).ready(function () {
             },
             success: function (response) {
                 $('#hasil').text('Maksimal Pinjaman Senilai ' + formatCurrency(response.maksimal_pinjaman)).show();
+                $('#hasil').val(response.maksimal_pinjaman);
                 $('#input_dana').show();
                 $('#dana_dicairkan').attr('max', response.maksimal_pinjaman);
                 $('#dana_dicairkan_label').text('Rp ' + response.maksimal_pinjaman);
@@ -173,6 +174,40 @@ $(document).ready(function () {
                 $('.break-line').show();
                 $('#biaya-angsuran').text(formatCurrency(response.angsuran_per_bulan));
                 $('#hasil_angsuran').show();
+            }
+        });
+    });
+
+    $('.btn-ajukan').click(function () {
+        var tipe = $('#tipe').val();
+        var unitTahun = $('#unit_tahun').val();
+        var hargaMotor = $('#harga_motor').val();
+        var danaDicairkan = $('#dana_dicairkan').val();
+        var tenor = $('#tenor').val();
+
+        var data = {
+            tipe: tipe,
+            unit_tahun: unitTahun,
+            harga_motor: hargaMotor,
+            dana_dicairkan: danaDicairkan,
+            tenor: tenor,
+        };
+
+        $('#overlay').show();
+
+        $.ajax({
+            url: "/ajukan-angsuran",
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: data,
+            success: function (response) {
+                $('#overlay').hide();
+                alert(response.successMessage);
+
+                // Merefresh halaman
+                location.reload();
             }
         });
     });
