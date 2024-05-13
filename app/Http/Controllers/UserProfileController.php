@@ -29,7 +29,7 @@ class UserProfileController extends Controller
         $data = $response->json();
         
         if (!$data) {
-            throw new \Exception('error api');
+            throw new \Exception('Sedang ada masalah dalam penarikan data');
         }
 
         foreach ($data as &$innerArray) {
@@ -59,44 +59,45 @@ class UserProfileController extends Controller
     {
         $user = Auth::user();
         $specList = Spec::orderBy('name')->distinct('name')->get();
-
         $getAllNomorRangka = NomorRangka::where('user_id', $user->id)->get();
-
-        if (!$getOneNomorRangka) {
-            throw new \Exception('nomor rangka not found');
-        }
-
         $nomor_rangka = $getOneNomorRangka;
         $url_services = env('GET_URL_SERIVCES');
         $apiUrl = $url_services . "?id=" . $nomor_rangka;
         $response = Http::get($apiUrl);
         $data = $response->json();
         
-        if (!$data) {
-            return view('users.details', compact('data', 'user', 'getAllNomorRangka', 'getOneNomorRangka'));
-        }
-
-        foreach ($data as &$innerArray) {
-            if (isset($innerArray['part_id'])) {
-                $partIds = json_decode($innerArray['part_id'], true);
-
-                $partNames = [];
-                foreach ($partIds as $partId) {
-                    $part = MasterPart::where('part_number', $partId)->first();
-                    if ($part) {
-                        $partNames[] = $part->part_name;
-                    } else {
-                        $partNames[] = 'UNNAME PART';
-                    }
-                }
-
-                $innerArray['part_name'] = $partNames;
-            } else {
-                $innerArray['part_name'] = [];
+        try {       
+            
+            if (!$data) {
+                throw new \Exception('Sedang ada masalah dalam penarikan data2');
             }
+    
+            foreach ($data as &$innerArray) {
+                if (isset($innerArray['part_id'])) {
+                    $partIds = json_decode($innerArray['part_id'], true);
+    
+                    $partNames = [];
+                    foreach ($partIds as $partId) {
+                        $part = MasterPart::where('part_number', $partId)->first();
+                        if ($part) {
+                            $partNames[] = $part->part_name;
+                        } else {
+                            $partNames[] = 'UNNAME PART';
+                        }
+                    }
+    
+                    $innerArray['part_name'] = $partNames;
+                } else {
+                    $innerArray['part_name'] = [];
+                }
+            }
+            
+            return view('users.details', compact('data', 'user', 'getAllNomorRangka', 'getOneNomorRangka', 'specList'));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            
+            return view('users.details', compact('user', 'getOneNomorRangka', 'getAllNomorRangka', 'specList', 'message'));
         }
-        
-        return view('users.details', compact('data', 'user', 'getAllNomorRangka', 'getOneNomorRangka', 'specList'));
     }
 
     public function getUserProfile()
@@ -106,7 +107,7 @@ class UserProfileController extends Controller
         $getOneNomorRangka = NomorRangka::where('user_id', $user->id)->first();
         $getAllNomorRangka = NomorRangka::where('user_id', $user->id)->get();
         $specList = Spec::orderBy('name')->distinct('name')->get();
-
+        
         try {
             $getOneNomorRangka = $getOneNomorRangka->nomor_rangka;
             $data = $this->getRiwayatServis($getOneNomorRangka);
@@ -115,7 +116,7 @@ class UserProfileController extends Controller
         } catch (\Exception $e) {
             $message = $e->getMessage();
             
-            return view('users.details', compact('user', 'getOneNomorRangka', 'getAllNomorRangka', 'specList'));
+            return view('users.details', compact('user', 'getOneNomorRangka', 'getAllNomorRangka', 'specList', 'message'));
         }
     }
 
