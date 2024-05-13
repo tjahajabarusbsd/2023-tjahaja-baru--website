@@ -138,11 +138,24 @@ function isDesktop() {
                     <div class="col-md-6">
                         <select class="form-control" name="tipe" id="tipe">
                             <option selected disabled value=""> -- Pilih -- </option>
-                            @foreach ($specList as $list)
-                                <option value="{{ $list->id }}">{{ $list->name }}</option>
-                            @endforeach
+                            @if ($specList->isEmpty())
+                                <option value="other"> -- Lainnya -- </option>
+                            @else
+                                @foreach ($specList as $list)
+                                    <option value="{{ $list->name }}">{{ $list->name }}</option>
+                                @endforeach
+                                <option value="other"> -- Lainnya -- </option>
+                            @endif
                         </select>
                         <span class="text-danger" id="error_tipe" style="display:none;">Tipe tidak boleh kosong.</span>
+                    </div>
+                </div>
+                
+                <div id="otherInput" class="form-group row" style="display: none;">
+                    <label for="otherProduct" class="col-md-4 col-form-label text-md-right">Masukkan tipe lain:</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="otherProduct" name="otherProduct">
+                        <span class="text-danger" id="error_unit_name" style="display:none;">Tipe tidak boleh kosong</span>
                     </div>
                 </div>
 
@@ -168,10 +181,10 @@ function isDesktop() {
                     </div>
                 </div>
 
-                <div id="hasil" style="display: none"></div>                
+                <div id="hasil">Maksimal Pinjaman Senilai<br>Rp 2.000.000</div>                
 
                 <div class="row">
-                    <div class="col-md-12" id="input_dana" style="display: none;">
+                    <div class="col-md-12" id="input_dana">
                         <div class="form-group row">
                             <label class="col-md-4 col-form-label text-md-right">Dana yang Ingin Dicairkan (juta):</label>
                             <div class="col-md-6">
@@ -193,7 +206,7 @@ function isDesktop() {
                             </div>
                         </div>
                         
-                        <div id="hasil_angsuran" style="display: none;">
+                        <div id="hasil-angsuran">
                             <div class="break-line mt-5" style="
                                 border-style: inset;
                                 border-width: 1px;
@@ -204,6 +217,7 @@ function isDesktop() {
                                     <div style="font-size: 25px; font-weight: 700">Angsuran</div>
                                     <div style="font-size:10px;">*sudah termasuk bunga dan biaya admin</div>
                                     <div style="margin: 5px 0; font-size: 25px; font-weight: 700">
+                                        <input type="hidden" name="angsuran_monthly" id="angsuran-monthly" value="">
                                         <span id="biaya-angsuran">Rp -</span>
                                         <span>/bulan*</span>
                                     </div>

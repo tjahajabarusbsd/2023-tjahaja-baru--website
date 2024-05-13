@@ -173,6 +173,6 @@
     @endif
 @else
     <div class="alert bg-info bg-gradient info-wrapper no-data">
-        <p>Saat ini belum ada riwayat servis.</p>
+        <p>{{ $message }}</p>
     </div>
 @endif
