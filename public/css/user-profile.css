@@ -572,9 +572,21 @@ dd {
 .section-angsuran-result .col-md-4 {
     margin: auto;
     text-align: center;
+    width: 100%;
 }
 
 .btn-ajukan {
-    width: 170px;
-    height: 135px;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+@media only screen and (min-width:768px) {
+    .section-angsuran-result .col-md-4 {
+        width: unset;
+    }
+
+    .btn-ajukan {
+        width: 170px;
+        height: 135px;
+    }
 }
