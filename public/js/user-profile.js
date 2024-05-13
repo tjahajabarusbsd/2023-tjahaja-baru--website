@@ -105,6 +105,15 @@ $(document).ready(function () {
         $('#error_harga_motor').hide();
     })
 
+    $('#tipe').change(function () {
+        var selectedValue = $(this).val();
+        if (selectedValue === 'other') {
+            $('#otherInput').show();
+        } else {
+            $('#otherInput').hide();
+        }
+    });
+
     $('#hitung').click(function () {
         let hargaMotor = $('#harga_motor').val();
         let tipe = $('#tipe').val();
@@ -172,8 +181,9 @@ $(document).ready(function () {
             },
             success: function (response) {
                 $('.break-line').show();
+                $('#angsuran-monthly').val(formatCurrency(response.angsuran_per_bulan));
                 $('#biaya-angsuran').text(formatCurrency(response.angsuran_per_bulan));
-                $('#hasil_angsuran').show();
+                $('#hasil-angsuran').show();
             }
         });
     });
@@ -184,13 +194,17 @@ $(document).ready(function () {
         var hargaMotor = $('#harga_motor').val();
         var danaDicairkan = $('#dana_dicairkan').val();
         var tenor = $('#tenor').val();
+        var otherProduct = $('#otherProduct').val();
+        var angsuranMonthly = $('#angsuran-monthly').val();
 
         var data = {
             tipe: tipe,
             unit_tahun: unitTahun,
-            harga_motor: hargaMotor,
-            dana_dicairkan: danaDicairkan,
+            harga_motor: 'Rp ' + hargaMotor,
+            dana_dicairkan: formatCurrency(danaDicairkan),
             tenor: tenor,
+            otherProduct: otherProduct,
+            angsuranMonthly: angsuranMonthly
         };
 
         $('#overlay').show();
@@ -210,6 +224,38 @@ $(document).ready(function () {
                 location.reload();
             }
         });
+
+        // fetch('/ajukan-angsuran', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //     },
+        //     body: JSON.stringify(data)
+        // })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         // Tanggapan dari server
+        //         console.log(data);
+
+        //         // Menyembunyikan overlay
+        //         $('#overlay').hide();
+
+        //         // Menampilkan alert
+        //         alert(response.successMessage);
+
+        //         // Merefresh halaman
+        //         location.reload();
+        //     })
+        //     .catch(error => {
+        //         console.error('Error:', error);
+
+        //         // Menyembunyikan overlay
+        //         $('#overlay').hide();
+
+        //         // Menampilkan alert
+        //         alert('Terjadi kesalahan saat menyimpan data');
+        //     });
     });
 });
 
