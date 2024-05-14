@@ -3,14 +3,14 @@ $(document).ready(function () {
         $('#overlay').show();
     });
 
-    $('#editProfileBtn').click(function () {
-        $('#editProfileForm').addClass('active');
-        $('#dataProfile').addClass('hide');
+    $('#edit-profile-btn').click(function () {
+        $('#edit-profile').addClass('active');
+        $('#data-profile').addClass('hide');
     });
 
     $('#cancelEditBtn').click(function () {
-        $('#editProfileForm').removeClass('active');
-        $('#dataProfile').removeClass('hide');
+        $('#edit-profile').removeClass('active');
+        $('#data-profile').removeClass('hide');
         $('#errorMessages').removeClass('show').text('');
     });
 
@@ -29,12 +29,12 @@ $(document).ready(function () {
             },
             data: $(this).serialize(),
             success: function (response) {
-                $('#nameField').text(response.name);
-                $('#emailField span').text(response.email);
-                $('#phoneField span').text(response.phone_number);
+                $('#name-field').text(response.name);
+                $('#email-field span').text(response.email);
+                $('#phone-field span').text(response.phone_number);
 
-                $('#editProfileForm').removeClass('active');
-                $('#dataProfile').removeClass('hide');
+                $('#edit-profile').removeClass('active');
+                $('#data-profile').removeClass('hide');
                 $('#errorMessages').removeClass('show').text('');
             },
             error: function (xhr, status, error) {
@@ -152,7 +152,7 @@ $(document).ready(function () {
                 'harga_motor': hargaMotor
             },
             success: function (response) {
-                $('#hasil').text('Maksimal Pinjaman Senilai ' + formatCurrency(response.maksimal_pinjaman)).show();
+                $('#hasil').text(`Maksimal Pinjaman Senilai ${formatCurrency(response.maksimal_pinjaman)}`).show();
                 $('#hasil').val(response.maksimal_pinjaman);
                 $('#input_dana').show();
                 $('#dana_dicairkan').attr('max', response.maksimal_pinjaman);
@@ -180,7 +180,6 @@ $(document).ready(function () {
                 'tenor': tenor
             },
             success: function (response) {
-                $('.break-line').show();
                 $('#angsuran-monthly').val(formatCurrency(response.angsuran_per_bulan));
                 $('#biaya-angsuran').text(formatCurrency(response.angsuran_per_bulan));
                 $('#hasil-angsuran').show();
