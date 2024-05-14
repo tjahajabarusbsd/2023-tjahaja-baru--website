@@ -25,28 +25,26 @@ function isDesktop() {
 }
 @endphp
 <div class="container">
-    <div class="bg"></div>
-    <div class="top-content">
-        <div id="dataProfile">
+    <div class="top-bg"></div>
+    <div class="top-content card-content-wrapper">
+        <div id="data-profile">
             {{-- <div class="content-avatar">
                 <img src="{{ url('/images/dummy-image.png') }}" alt="">
             </div> --}}
             <h1>Hello,</h1>
-            <div class="content-title">
-                <p id="nameField"><span>{{ $user->name ?? 'Belum ada nama' }}</span></p>
-            </div>
+            <p id="name-field"><span>{{ $user->name ?? 'Belum ada nama' }}</span></p>
             
             <div class="content-contact">
-                <p id="emailField">E-mail: <span>{{ $user->email ?? '-' }}</span></p>
-                <p id="phoneField">No. HP: <span>{{ $user->phone_number ?? '-' }}</span></p>
+                <p id="email-field">E-mail: <span>{{ $user->email ?? '-' }}</span></p>
+                <p id="phone-field">No. HP: <span>{{ $user->phone_number ?? '-' }}</span></p>
             </div>
 
-            <button id="editProfileBtn" class="corner-button"><i class="fa-solid fa-pen-to-square"></i><span>Edit Profile</span></button>
+            <button id="edit-profile-btn" class="corner-button"><i class="fa-solid fa-pen-to-square"></i><span>Edit Profile</span></button>
 
             <a href="/logout" id="logoutBtn" class="corner-button"><i class="fas fa-sign-out-alt"></i><span>Log Out</span></a>
         </div>
 
-        <div id="editProfileForm" >
+        <div id="edit-profile" >
             <form id="profileForm" action="{{ route('profile.update') }}" method="POST">
                 @csrf
                 <div id="errorMessages"></div>
@@ -68,7 +66,7 @@ function isDesktop() {
         <button class="menu-item" data-bs-toggle="tab" data-bs-target="#nav-sky" role="tab" aria-controls="nav-spec" aria-selected="false"><img src="{{ url('/images/Artboard2.png')}}" alt="sky-logo"/>SKY</button>
     </div>
 
-    <div class="bottom-content tab-content">
+    <div class="bottom-content tab-content card-content-wrapper">
         <div class="riwayat-servis-container tab-pane fade show active" id="nav-riwayat-service" role="tabpanel" aria-labelledby="nav-riwayat-service-tab">
             <h2>Riwayat Servis Motor Yamaha</h2>
 
@@ -181,10 +179,10 @@ function isDesktop() {
                     </div>
                 </div>
 
-                <div id="hasil">Maksimal Pinjaman Senilai<br>Rp 2.000.000</div>                
+                <div id="hasil" style="display: none;"></div>                
 
                 <div class="row">
-                    <div class="col-md-12" id="input_dana">
+                    <div class="col-md-12" id="input_dana" style="display: none;">
                         <div class="form-group row">
                             <label class="col-md-4 col-form-label text-md-right">Dana yang Ingin Dicairkan (juta):</label>
                             <div class="col-md-6">
@@ -206,7 +204,7 @@ function isDesktop() {
                             </div>
                         </div>
                         
-                        <div id="hasil-angsuran">
+                        <div id="hasil-angsuran" style="display: none;">
                             <div class="break-line mt-5" style="
                                 border-style: inset;
                                 border-width: 1px;
