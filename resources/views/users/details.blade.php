@@ -41,13 +41,13 @@ function isDesktop() {
 
             <button id="edit-profile-btn" class="corner-button"><i class="fa-solid fa-pen-to-square"></i><span>Edit Profile</span></button>
 
-            <a href="/logout" id="logoutBtn" class="corner-button"><i class="fas fa-sign-out-alt"></i><span>Log Out</span></a>
+            <a href="/logout" id="logout-btn" class="corner-button"><i class="fas fa-sign-out-alt"></i><span>Log Out</span></a>
         </div>
 
         <div id="edit-profile" >
-            <form id="profileForm" action="{{ route('profile.update') }}" method="POST">
+            <form id="profile-form" action="{{ route('profile.update') }}" method="POST">
                 @csrf
-                <div id="errorMessages"></div>
+                <div id="error-messages"></div>
                 <label for="name">Nama: <input type="text" id="name" class="form-control" name="name" required value="{{ $user->name ?? '' }}"></label>
                 
                 <label for="email">Email: <input type="email" id="email" class="form-control" name="email" required value="{{ $user->email ?? '' }}"></label>
@@ -55,7 +55,7 @@ function isDesktop() {
                 <label for="phone_number">No. HP: <input type="text" id="phone_number" class="form-control" name="phone_number" required value="{{ $user->phone_number ?? '' }}"></label>
                 
                 <button type="submit" class="btn btn-primary">Simpan</button>
-                <button type="button" id="cancelEditBtn" class="btn btn-primary">Cancel</button>
+                <button type="button" id="cancel-edit-btn" class="btn btn-primary">Cancel</button>
             </form>
         </div>
     </div>
@@ -68,168 +68,10 @@ function isDesktop() {
 
     <div class="bottom-content tab-content card-content-wrapper">
         <div class="riwayat-servis-container tab-pane fade show active" id="nav-riwayat-service" role="tabpanel" aria-labelledby="nav-riwayat-service-tab">
-            <h2>Riwayat Servis Motor Yamaha</h2>
-
-            @if(!$getOneNomorRangka)
-                <div class="alert bg-info bg-gradient info-wrapper">
-                    <h4>Nomor Rangka tidak ditemukan.</h4>
-                    <p>Silakan masukkan Nomor Rangka motor Anda untuk melihat Riwayat Servis.</p>
-                    <dl>
-                        <dt>Nomor Rangka</dt>
-                        <dd>Contohnya: MH39A9999AA123456</dd>
-                    </dl>
-                </div>
-
-                <form method="post" class="form-container" action="{{ route('user.profile.saveNoRangka') }}">
-                    @csrf
-                    
-                    <input type="text" name="nomor_rangka" class="form-control @error('nomor_rangka') is-invalid @enderror" placeholder="Nomor Rangka" required>
-                    
-                    @error('nomor_rangka')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-            
-                    <div class="form-group">
-                        <input id="submitButton" class="btn btn-primary" type="submit" value="Submit">
-                    </div>
-                </form>
-            @else
-                <div class="have-data">
-                    <p>Klik pada nomor kendaraan Anda untuk melihat riwayat servis</p>
-                    <div class="list-motor">
-                        @foreach ( $getAllNomorRangka as $item )
-                            <a class="btn-motor" href="/user-profile/{{ $item->nomor_rangka }}"><span>{{ $item->nomor_rangka }}<span></a>
-                        @endforeach
-                        <button class="btn-tambah"><i class="fa-solid fa-plus"></i> Tambah</button>
-                    </div>
-
-                    <div id="tambah-nomor-rangka" style="margin-top:50px; display:none">
-                        <form method="post" class="form-container" action="{{ route('user.profile.saveNoRangka') }}">
-                            @csrf
-                            
-                            <input type="text" name="nomor_rangka" class="form-control @error('nomor_rangka') is-invalid @enderror" placeholder="Nomor Rangka" required>
-                            
-                            @error('nomor_rangka')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                    
-                            <div class="form-group">
-                                <input id="submitButton" class="btn btn-primary" type="submit" value="Submit">
-                            </div>
-                        </form>
-                    </div>
-                    
-                    @include('users/riwayat-servis-list')
-                </div>
-            @endif
+            @include('users/riwayat-servis-list')
         </div>
         <div class="tab-pane fade" id="nav-pinjaman-dana" role="tabpanel" aria-labelledby="nav-pinjaman-dana-tab">
-            <div class="container-simulasi">
-                <h2 class="text-center mb-4">Kalkulator Simulasi Pinjaman</h2>
-
-                <div class="form-group row">
-                    <label for="cars" class="col-md-4 col-form-label text-md-right">Pilih tipe:</label>
-                    <div class="col-md-6">
-                        <select class="form-control" name="tipe" id="tipe">
-                            <option selected disabled value=""> -- Pilih -- </option>
-                            @if ($specList->isEmpty())
-                                <option value="other"> -- Lainnya -- </option>
-                            @else
-                                @foreach ($specList as $list)
-                                    <option value="{{ $list->name }}">{{ $list->name }}</option>
-                                @endforeach
-                                <option value="other"> -- Lainnya -- </option>
-                            @endif
-                        </select>
-                        <span class="text-danger" id="error_tipe" style="display:none;">Tipe tidak boleh kosong.</span>
-                    </div>
-                </div>
-                
-                <div id="otherInput" class="form-group row" style="display: none;">
-                    <label for="otherProduct" class="col-md-4 col-form-label text-md-right">Masukkan tipe lain:</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" id="otherProduct" name="otherProduct">
-                        <span class="text-danger" id="error_unit_name" style="display:none;">Tipe tidak boleh kosong</span>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="cars" class="col-md-4 col-form-label text-md-right">Pilih tahun:</label>
-                    <div class="col-md-6">
-                        <input type="number" min="2000" max="2024" step="1" class="form-control" name="unit_tahun" id="unit_tahun" placeholder="Misal: 2021">
-                        <span class="text-danger" id="error_unit_tahun" style="display:none;">Tahun tidak boleh kosong.</span>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="harga_motor" class="col-md-4 col-form-label text-md-right">Estimasi Harga Motor:</label>
-                    <div class="col-md-6">
-                        <input type="text" id="harga_motor" name="harga_motor" class="form-control">
-                        <span class="text-danger" id="error_harga_motor" style="display:none;">Harga motor tidak boleh kosong.</span>
-                    </div>
-                </div>
-
-                <div class="form-group row mb-0">
-                    <div class="col-md-6 offset-md-4">
-                        <button id="hitung" class="btn btn-primary">Hitung</button>
-                    </div>
-                </div>
-
-                <div id="hasil" style="display: none;"></div>                
-
-                <div class="row">
-                    <div class="col-md-12" id="input_dana" style="display: none;">
-                        <div class="form-group row">
-                            <label class="col-md-4 col-form-label text-md-right">Dana yang Ingin Dicairkan (juta):</label>
-                            <div class="col-md-6">
-                                <label for="dana_dicairkan" id="dana_dicairkan_label" class="col-form-label text-md-right">dana</label>
-                                <input type="range" id="dana_dicairkan" name="dana_dicairkan" class="" min="3000000" step="1000000" max="7000000" style="width: 100%;">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">
-                            <label for="tenor" class="col-md-4 col-form-label text-md-right">Tenor (in months):</label>
-                            <div class="col-md-6">
-                                <input type="number" id="tenor" name="tenor" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button id="hitung_angsuran" class="btn btn-primary">Hitung Angsuran</button>
-                            </div>
-                        </div>
-                        
-                        <div id="hasil-angsuran" style="display: none;">
-                            <div class="break-line mt-5" style="
-                                border-style: inset;
-                                border-width: 1px;
-                                border-color: #dadada;
-                            "></div>
-                            <div class="section-angsuran-result">
-                                <div class="mt-3 col-md-8">
-                                    <div style="font-size: 25px; font-weight: 700">Angsuran</div>
-                                    <div style="font-size:10px;">*sudah termasuk bunga dan biaya admin</div>
-                                    <div style="margin: 5px 0; font-size: 25px; font-weight: 700">
-                                        <input type="hidden" name="angsuran_monthly" id="angsuran-monthly" value="">
-                                        <span id="biaya-angsuran">Rp -</span>
-                                        <span>/bulan*</span>
-                                    </div>
-                                    <div style="font-size: 12px">*) Estimasi nilai pinjaman bukan merupakan persetujuan pinjaman dana, bersifat tidak mengikat, dan dapat disesuaikan berdasarkan penilaian lebih lanjut serta kebijakan BPR.</div>
-                                </div>
-                                <div class="col-md-4">
-                                    <button class="btn btn-primary btn-ajukan">Ajukan Pinjaman</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            @include('users/simulasi-pinjaman-dana')
         </div>
     </div>
 </div>

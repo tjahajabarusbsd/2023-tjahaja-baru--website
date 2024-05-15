@@ -8,17 +8,17 @@ $(document).ready(function () {
         $('#data-profile').addClass('hide');
     });
 
-    $('#cancelEditBtn').click(function () {
+    $('#cancel-edit-btn').click(function () {
         $('#edit-profile').removeClass('active');
         $('#data-profile').removeClass('hide');
-        $('#errorMessages').removeClass('show').text('');
+        $('#error-messages').removeClass('show').text('');
     });
 
     $('.btn-tambah').click(function () {
         $('#tambah-nomor-rangka').slideToggle('active');
     });
 
-    $('#profileForm').on('submit', function (e) {
+    $('#profile-form').on('submit', function (e) {
         e.preventDefault();
 
         $.ajax({
@@ -35,7 +35,7 @@ $(document).ready(function () {
 
                 $('#edit-profile').removeClass('active');
                 $('#data-profile').removeClass('hide');
-                $('#errorMessages').removeClass('show').text('');
+                $('#error-messages').removeClass('show').text('');
             },
             error: function (xhr, status, error) {
                 var errors = xhr.responseJSON.errors;
@@ -63,7 +63,7 @@ $(document).ready(function () {
                     }
                 });
                 errorMessage += '</ul>';
-                $('#errorMessages').html(errorMessage).addClass('show');
+                $('#error-messages').html(errorMessage).addClass('show');
             }
         });
     });

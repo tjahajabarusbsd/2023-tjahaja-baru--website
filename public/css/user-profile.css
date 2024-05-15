@@ -93,7 +93,7 @@
     margin-right: 5px;
 }
 
-#logoutBtn {
+#logout-btn {
     position: absolute;
     top: 27px;
     right: 35px;
@@ -112,38 +112,38 @@
     height: auto;
 }
 
-#profileForm {
+#profile-form {
     display: flex;
     flex-direction: column;
     gap: 10px;
     text-align: left;
 }
 
-#profileForm label {
+#profile-form label {
     font-size: 18px;
     font-weight: 700;
     color: #183f9d;
 }
 
-#profileForm .form-control {
+#profile-form .form-control {
     color: #000;
     background-color: #e8e8e8;
     text-align: left;
     border: 1px solid #183f9e;
 }
 
-#profileForm .btn-primary {
+#profile-form .btn-primary {
     background-color: #183f9d;
     border-color: #183f9d;
     color: #fff;
 }
 
-#profileForm .btn-primary:hover {
+#profile-form .btn-primary:hover {
     background-color: #fff;
     color: #183f9d;
 }
 
-#errorMessages {
+#error-messages {
     background: lightgrey;
     color: red;
     border-radius: 8px;
@@ -152,11 +152,11 @@
     display: none;
 }
 
-#errorMessages.show {
+#error-messages.show {
     display: block;
 }
 
-#errorMessages ul {
+#error-messages ul {
     margin-bottom: 0;
 }
 
@@ -406,7 +406,7 @@ dd {
 }
 
 @media only screen and (min-width:768px) {
-    #profileForm button {
+    #profile-form button {
         width: 150px;
     }
 }
