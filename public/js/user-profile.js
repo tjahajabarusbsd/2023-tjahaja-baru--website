@@ -94,7 +94,11 @@ $(document).ready(function () {
     });
 
     $('#tipe').click(function () {
-        $('#error_tipe').hide();
+        $('#error-tipe').hide();
+    })
+
+    $('#tipe-lain').click(function () {
+        $('#error-tipe-lain').hide();
     })
 
     $('#unit_tahun').click(function () {
@@ -108,24 +112,31 @@ $(document).ready(function () {
     $('#tipe').change(function () {
         var selectedValue = $(this).val();
         if (selectedValue === 'other') {
-            $('#otherInput').show();
+            $('#input-tipe-lain').show();
         } else {
-            $('#otherInput').hide();
+            $('#input-tipe-lain').hide();
         }
     });
 
     $('#hitung').click(function () {
-        let hargaMotor = $('#harga_motor').val();
         let tipe = $('#tipe').val();
+        let tipeLain = $('#tipe-lain').val();
         let tahun = $('#unit_tahun').val();
-
+        let hargaMotor = $('#harga_motor').val();
         hargaMotor = hargaMotor.replace(/\./g, '');
 
         if (tipe === null) {
-            $('#error_tipe').show();
+            $('#error-tipe').show();
             return;
         } else {
-            $('#error_tipe').hide();
+            $('#error-tipe').hide();
+        }
+
+        if (tipeLain === '') {
+            $('#error-tipe-lain').show();
+            return;
+        } else {
+            $('#error-tipe-lain').hide();
         }
 
         if (tahun === '') {
@@ -193,7 +204,7 @@ $(document).ready(function () {
         var hargaMotor = $('#harga_motor').val();
         var danaDicairkan = $('#dana_dicairkan').val();
         var tenor = $('#tenor').val();
-        var otherProduct = $('#otherProduct').val();
+        var tipeLain = $('#tipe-lain').val();
         var angsuranMonthly = $('#angsuran-monthly').val();
 
         var data = {
@@ -202,7 +213,7 @@ $(document).ready(function () {
             harga_motor: 'Rp ' + hargaMotor,
             dana_dicairkan: formatCurrency(danaDicairkan),
             tenor: tenor,
-            otherProduct: otherProduct,
+            tipeLain: tipeLain,
             angsuranMonthly: angsuranMonthly
         };
 

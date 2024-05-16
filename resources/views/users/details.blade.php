@@ -52,7 +52,7 @@ function isDesktop() {
                 
                 <label for="email">Email: <input type="email" id="email" class="form-control" name="email" required value="{{ $user->email ?? '' }}"></label>
                 
-                <label for="phone_number">No. HP: <input type="text" id="phone_number" class="form-control" name="phone_number" required value="{{ $user->phone_number ?? '' }}"></label>
+                <label for="phone-number">No. HP: <input type="text" id="phone-number" class="form-control" name="phone_number" required value="{{ $user->phone_number ?? '' }}"></label>
                 
                 <button type="submit" class="btn btn-primary">Simpan</button>
                 <button type="button" id="cancel-edit-btn" class="btn btn-primary">Cancel</button>

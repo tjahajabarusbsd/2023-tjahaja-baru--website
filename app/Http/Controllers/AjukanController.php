@@ -39,7 +39,7 @@ class AjukanController extends Controller
             'harga_motor' => $request->harga_motor,
             'dana_dicairkan' => $request->dana_dicairkan,
             'tenor' => $request->tenor,
-            'otherProduct' => $request->otherProduct,
+            'tipeLain' => $request->tipeLain,
             'angsuranMonthly' => $request->angsuranMonthly,
         ];
     }
@@ -56,8 +56,8 @@ class AjukanController extends Controller
             $messageBody[] = "Tipe Motor: " . $requestData['tipe'];
         }
 
-        if ($requestData['otherProduct'] !== null) {
-            $messageBody[] = "Tipe Motor: " . $requestData['otherProduct'];
+        if ($requestData['tipeLain'] !== null) {
+            $messageBody[] = "Tipe Motor: " . $requestData['tipeLain'];
         }
 
         $messageBody[] = "Tahun Motor: " . $requestData['unit_tahun'];
@@ -66,7 +66,7 @@ class AjukanController extends Controller
         $messageBody[] = "Tenor: " . $requestData['tenor'];
         $messageBody[] = "Angsuran(Estimasi): " . $requestData['angsuranMonthly'];
         $messageBody[] = "Tolong segera diproses. Terima kasih.";
-        
+        dd($messageBody);
         return implode("\n", $messageBody);
     }
 

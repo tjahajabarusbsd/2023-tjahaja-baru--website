@@ -15,20 +15,20 @@
                     <option value="other"> -- Lainnya -- </option>
                 @endif
             </select>
-            <span class="text-danger" id="error_tipe" style="display:none;">Tipe tidak boleh kosong.</span>
+            <span class="text-danger" id="error-tipe" style="display:none;">Tipe tidak boleh kosong.</span>
         </div>
     </div>
     
-    <div id="otherInput" class="form-group row" style="display: none;">
-        <label for="otherProduct" class="col-md-4 col-form-label text-md-right">Masukkan tipe lain:</label>
+    <div id="input-tipe-lain" class="form-group row" style="display: none;">
+        <label for="tipe-lain" class="col-md-4 col-form-label text-md-right">Masukkan tipe Yamaha lainnya:</label>
         <div class="col-md-6">
-            <input type="text" class="form-control" id="otherProduct" name="otherProduct">
-            <span class="text-danger" id="error_unit_name" style="display:none;">Tipe tidak boleh kosong</span>
+            <input type="text" class="form-control" id="tipe-lain" name=""tipe-lain">
+            <span class="text-danger" id="error-tipe-lain" style="display:none;">Nama tipe tidak boleh kosong</span>
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="cars" class="col-md-4 col-form-label text-md-right">Pilih tahun:</label>
+        <label for="unit_tahun" class="col-md-4 col-form-label text-md-right">Pilih tahun:</label>
         <div class="col-md-6">
             <input type="number" min="2000" max="2024" step="1" class="form-control" name="unit_tahun" id="unit_tahun" placeholder="Misal: 2021">
             <span class="text-danger" id="error_unit_tahun" style="display:none;">Tahun tidak boleh kosong.</span>
