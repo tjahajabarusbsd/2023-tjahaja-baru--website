@@ -66,7 +66,7 @@ class AjukanController extends Controller
         $messageBody[] = "Tenor: " . $requestData['tenor'];
         $messageBody[] = "Angsuran(Estimasi): " . $requestData['angsuranMonthly'];
         $messageBody[] = "Tolong segera diproses. Terima kasih.";
-        dd($messageBody);
+        
         return implode("\n", $messageBody);
     }
 
