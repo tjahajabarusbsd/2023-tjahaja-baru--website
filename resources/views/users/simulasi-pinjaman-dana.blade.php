@@ -2,7 +2,7 @@
     <h2 class="text-center mb-4">Kalkulator Simulasi Pinjaman</h2>
 
     <div class="form-group row">
-        <label for="cars" class="col-md-4 col-form-label text-md-right">Pilih tipe:</label>
+        <label for="tipe" class="col-md-4 col-form-label text-md-right">Pilih tipe:</label>
         <div class="col-md-6">
             <select class="form-control" name="tipe" id="tipe">
                 <option selected disabled value=""> -- Pilih -- </option>
@@ -22,7 +22,7 @@
     <div id="input-tipe-lain" class="form-group row" style="display: none;">
         <label for="tipe-lain" class="col-md-4 col-form-label text-md-right">Masukkan tipe Yamaha lainnya:</label>
         <div class="col-md-6">
-            <input type="text" class="form-control" id="tipe-lain" name=""tipe-lain">
+            <input type="text" class="form-control" id="tipe-lain" name="tipe-lain">
             <span class="text-danger" id="error-tipe-lain" style="display:none;">Nama tipe tidak boleh kosong</span>
         </div>
     </div>

@@ -132,7 +132,7 @@ $(document).ready(function () {
             $('#error-tipe').hide();
         }
 
-        if (tipeLain === '') {
+        if (tipeLain === '' && tipe === 'other') {
             $('#error-tipe-lain').show();
             return;
         } else {
