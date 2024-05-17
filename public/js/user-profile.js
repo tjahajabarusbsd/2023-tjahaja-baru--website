@@ -167,7 +167,7 @@ $(document).ready(function () {
                 $('#hasil').val(response.maksimal_pinjaman);
                 $('#input_dana').show();
                 $('#dana_dicairkan').attr('max', response.maksimal_pinjaman);
-                $('#dana_dicairkan_label').text('Rp ' + response.maksimal_pinjaman);
+                $('#dana_dicairkan_label').text(formatCurrency(response.maksimal_pinjaman));
                 $('#dana_dicairkan').val('');
                 $('#tenor').val('');
                 $('#biaya-angsuran').text('Rp -');
