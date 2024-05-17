@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
+use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
 
 class AjukanController extends Controller
 {
@@ -19,16 +20,22 @@ class AjukanController extends Controller
 
     public function ajukanAngsuran(Request $request)
     {
-        $user = Auth::user();
-        $requestData = $this->getRequestData($request);
-        $messageBody = $this->buildMessageBody($requestData, $user);
-        $apiResponse = $this->sendMessage($messageBody);
+        $recaptchaResponse = RecaptchaV3::verify($request->input('g-recaptcha-response'), 'ajukan_pinjaman');
 
-        if ($apiResponse->getStatusCode() === 200) {
-            return response()->json(['successMessage' => 'Pengajuan Anda telah diterima']);
+        if ($recaptchaResponse > 0.7) {
+            $user = Auth::user();
+            $requestData = $this->getRequestData($request);
+            $messageBody = $this->buildMessageBody($requestData, $user);
+            $apiResponse = $this->sendMessage($messageBody);
+
+            if ($apiResponse->getStatusCode() === 200) {
+                return response()->json(['successMessage' => 'Pengajuan Anda telah diterima'], 201);
+            }
+
+            return response()->json(['errorMessage' => 'Failed to send message'], 422);
         }
-
-        return response()->json(['errorMessage' => 'Failed to send message'], 500);
+        
+        return response()->json(['errorMessage' => 'You are most likely a bot'], 422);
     }
 
     private function getRequestData(Request $request)

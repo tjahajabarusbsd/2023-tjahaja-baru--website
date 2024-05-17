@@ -207,65 +207,40 @@ $(document).ready(function () {
         var tipeLain = $('#tipe-lain').val();
         var angsuranMonthly = $('#angsuran-monthly').val();
 
-        var data = {
-            tipe: tipe,
-            unit_tahun: unitTahun,
-            harga_motor: 'Rp ' + hargaMotor,
-            dana_dicairkan: formatCurrency(danaDicairkan),
-            tenor: tenor,
-            tipeLain: tipeLain,
-            angsuranMonthly: angsuranMonthly
-        };
+        grecaptcha.execute(siteKey, { action: 'ajukan_pinjaman' }).then(function (token) {
+            var data = {
+                tipe: tipe,
+                unit_tahun: unitTahun,
+                harga_motor: 'Rp ' + hargaMotor,
+                dana_dicairkan: formatCurrency(danaDicairkan),
+                tenor: tenor,
+                tipeLain: tipeLain,
+                angsuranMonthly: angsuranMonthly,
+                'g-recaptcha-response': token // Add reCAPTCHA token to data
+            };
 
-        $('#overlay').show();
+            $('#overlay').show();
 
-        $.ajax({
-            url: "/ajukan-angsuran",
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: data,
-            success: function (response) {
-                $('#overlay').hide();
-                alert(response.successMessage);
+            $.ajax({
+                url: "/ajukan-angsuran",
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: data,
+                success: function (response) {
+                    $('#overlay').hide();
+                    alert(response.successMessage);
 
-                // Merefresh halaman
-                location.reload();
-            }
+                    // Merefresh halaman
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    $('#overlay').hide();
+                    alert(xhr.responseJSON.errorMessage);
+                }
+            });
         });
-
-        // fetch('/ajukan-angsuran', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //     },
-        //     body: JSON.stringify(data)
-        // })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         // Tanggapan dari server
-        //         console.log(data);
-
-        //         // Menyembunyikan overlay
-        //         $('#overlay').hide();
-
-        //         // Menampilkan alert
-        //         alert(response.successMessage);
-
-        //         // Merefresh halaman
-        //         location.reload();
-        //     })
-        //     .catch(error => {
-        //         console.error('Error:', error);
-
-        //         // Menyembunyikan overlay
-        //         $('#overlay').hide();
-
-        //         // Menampilkan alert
-        //         alert('Terjadi kesalahan saat menyimpan data');
-        //     });
     });
 });
 

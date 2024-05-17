@@ -91,6 +91,12 @@
                         </div>
                         <div style="font-size: 12px">*) Estimasi nilai pinjaman bukan merupakan persetujuan pinjaman dana, bersifat tidak mengikat, dan dapat disesuaikan berdasarkan penilaian lebih lanjut serta kebijakan BPR.</div>
                     </div>
+                    <div class="form-group">
+                        {!! RecaptchaV3::field('ajukan_pinjaman') !!}
+                        @error('g-recaptcha-response')
+                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                        @enderror
+                    </div>
                     <div class="col-md-4">
                         <button class="btn btn-primary btn-ajukan">Ajukan Pinjaman</button>
                     </div>
