@@ -22,7 +22,7 @@
     
                 <div class="form-group">
                     <label for="sky-alamat" class="col-form-label text-md-right">Alamat :</label>
-                    <input type="text" class="form-control @error('alamat') is-invalid @enderror roboto-regular" name="sky_alamat" id="sky-phone-number" value="Damar" required>
+                    <input type="text" class="form-control @error('alamat') is-invalid @enderror roboto-regular" name="sky_alamat" id="sky-alamat" value="Damar" required>
                     <span class="text-danger" id="error-sky-alamat" style="display:none;">Alamat tidak boleh kosong.</span>
                 </div>
                 
@@ -64,7 +64,6 @@
                 <li>Diperuntukkan untuk Perorangan, Perusahaan Swasta / Instansi Pemerintahan, dan  Komunitas Motor Yamaha.</li>
                 <li>Pastikan Form Service Kunjung Yamaha terisi dengan benar, apabila tidak terisi dengan benar, mohon maaf data Anda belum bisa diproses.</li>
             </ul>
-            <p>Jika Call Center SKY belum menghubungi Anda lebih dari <strong>1 Jam</strong> silahkan hubungi nomor Call Center di bawah ini.</p>
             <div class="row">
                 <div class="col-md-6 mb-4">
                     <div class="card">

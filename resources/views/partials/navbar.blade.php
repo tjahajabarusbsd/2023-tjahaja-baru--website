@@ -81,7 +81,7 @@
 					</li>
 					@auth
 						<li class="nav-item">
-							<a class="nav-link" href="/user-profile">My Profile</a>
+							<a class="nav-link" href="/myprofile">My Profile</a>
 						</li>
 						<form action="{{url('logout')}}" method="GET" class="logout-form"> 
 							<button type="submit">Logout</button>
