@@ -1,4 +1,4 @@
-<h2>Riwayat Servis Motor Yamaha</h2>
+<h2 class="text-center mb-4 fw-bold">Riwayat Servis Motor Yamaha</h2>
 @if(!$getOneNomorRangka)
     <div class="alert bg-info bg-gradient info-wrapper">
         <h4>Nomor Rangka tidak ditemukan.</h4>

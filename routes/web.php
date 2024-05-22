@@ -90,6 +90,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/user-profile/save-no-rangka', [UserProfileController::class, 'saveNoRangka'])->name('user.profile.saveNoRangka');
     Route::post('/update-profile', [UserProfileController::class, 'update'])->name('profile.update');
     Route::get('/riwayatservis/cetak_pdf/{nomorRangka}', [UserProfileController::class, 'cetakPdf']);
+    Route::post('/hitung-pinjaman', [PinjamanController::class, 'hitungPinjaman'])->name('hitung.pinjaman');
+    Route::post('/hitung-angsuran', [PinjamanController::class, 'hitungAngsuran'])->name('hitung.angsuran');
+    Route::post('/ajukan-angsuran', [AjukanController::class, 'ajukanAngsuran'])->name('ajukan.angsuran');
+    Route::post('/service-kunjung-yamaha', [AjukanController::class, 'ajukanAngsuran'])->name('service.kunjung.yamaha');
 });
 
 Route::middleware('guest')->group(function () {
@@ -114,6 +118,3 @@ Route::get('/auth/redirect', [LoginController::class, 'redirectToGoogle']);
 
 Route::get('/auth/callback', [LoginController::class, 'handleGoogleCallback']);
 
-Route::post('/hitung-pinjaman', [PinjamanController::class, 'hitungPinjaman'])->name('hitung.pinjaman');
-Route::post('/hitung-angsuran', [PinjamanController::class, 'hitungAngsuran'])->name('hitung.angsuran');
-Route::post('/ajukan-angsuran', [AjukanController::class, 'ajukanAngsuran'])->name('ajukan.angsuran');

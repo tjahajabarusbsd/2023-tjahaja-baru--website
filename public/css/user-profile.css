@@ -181,10 +181,6 @@
     margin-bottom: 0;
 }
 
-.bottom-content h2 {
-    text-align: center;
-}
-
 .bottom-content form {
     display: flex;
     flex-direction: column;
@@ -548,6 +544,39 @@ dd {
     margin-top: 1rem;
 }
 
+/*
+* Menu SKY
+*/
+
+.layanan-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.layanan-side-left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.layanan-side-right p {
+    margin-top: 1rem;
+    line-height: 30px;
+}
+
+.layanan-konten #form-sky {
+    text-align: left;
+    gap: unset;
+    margin: unset;
+}
+
+.layanan-konten h5,
+.layanan-konten ul {
+    line-height: 30px;
+}
+
 @media only screen and (max-width:575px) {
     .content-contact {
         align-items: flex-start;
@@ -598,5 +627,13 @@ dd {
     .menu-item span {
         display: block;
         font-size: 24px;
+    }
+
+    .layanan-side-left {
+        width: 30%;
+    }
+
+    .layanan-side-right {
+        width: 70%;
     }
 }

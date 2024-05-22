@@ -63,7 +63,7 @@ function isDesktop() {
     <div class="menu" role="tablist">
         <button class="menu-item active" data-bs-toggle="tab" data-bs-target="#nav-riwayat-service" role="tab" aria-controls="nav-riwayat-service" aria-selected="true"><img src="https://img.icons8.com/ios/100/activity-history.png" alt="activity-history"/><span>Riwayat Servis<span></button>
         <button class="menu-item" data-bs-toggle="tab" data-bs-target="#nav-pinjaman-dana" role="tab" aria-controls="nav-pinjaman-dana" aria-selected="false"><img src="https://img.icons8.com/external-tanah-basah-basic-outline-tanah-basah/96/external-payments-social-media-ui-tanah-basah-basic-outline-tanah-basah.png" alt="external-payments-social-media-ui-tanah-basah-basic-outline-tanah-basah"/><span>Pinjaman Dana Tunai</span></button>
-        <button class="menu-item" data-bs-toggle="tab" data-bs-target="#nav-sky" role="tab" aria-controls="nav-spec" aria-selected="false"><img src="https://img.icons8.com/ios/100/maintenance--v1.png" alt="maintenance--v1"/><span>Service Kunjungan Yamaha</span></button>
+        <button class="menu-item" data-bs-toggle="tab" data-bs-target="#nav-sky" role="tab" aria-controls="nav-sky" aria-selected="false"><img src="https://img.icons8.com/ios/100/maintenance--v1.png" alt="maintenance--v1"/><span>Service Kunjung Yamaha</span></button>
     </div>
 
     <div class="bottom-content tab-content card-content-wrapper">
@@ -72,6 +72,9 @@ function isDesktop() {
         </div>
         <div class="tab-pane fade" id="nav-pinjaman-dana" role="tabpanel" aria-labelledby="nav-pinjaman-dana-tab">
             @include('users/simulasi-pinjaman-dana')
+        </div>
+        <div class="tab-pane fade" id="nav-sky" role="tabpanel" aria-labelledby="nav-sky-tab">
+            @include('users/sky')
         </div>
     </div>
 </div>
@@ -85,4 +88,5 @@ function isDesktop() {
 @section('additional_script')
 <script>const siteKey = '{{ env("RECAPTCHAV3_SITEKEY") }}';</script>
 <script src="{{ asset('js/user-profile.js') }}"></script>
+<script src="{{ asset('js/sky.js') }}"></script>
 @endsection
