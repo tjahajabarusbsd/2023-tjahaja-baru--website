@@ -1,30 +1,25 @@
 $(document).ready(function () {
     $('#form-sky').on('submit', function (e) {
-        e.preventDefault(); // Menghentikan submit form default
+        e.preventDefault();
 
-        let name = $('#sky-name').val();
-
-        if (name === null) {
-            $('#error-sky-name').show();
-            return;
-        } else {
-            $('#error-sky-name').hide();
-        }
-
-        // Melakukan AJAX request
         $.ajax({
+            url: "/service-kunjung-yamaha",
             type: 'POST',
-            url: url,
-            data: formData,
-            success: function (response) {
-                // Logika jika request berhasil
-                console.log(response);
-                // Misalnya, tampilkan pesan sukses atau arahkan ke halaman lain
+            data: $(this).serialize(),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            error: function (xhr, status, error) {
-                // Logika jika terjadi kesalahan
-                console.error(xhr.responseText);
-                // Misalnya, tampilkan pesan error kepada pengguna
+            success: function (response) {
+                $('#response').html('<p>' + response.message + '</p>');
+            },
+            error: function (response) {
+                let errors = response.responseJSON.errors;
+                let errorHtml = '<ul>';
+                $.each(errors, function (key, value) {
+                    errorHtml += '<li>' + value[0] + '</li>';
+                });
+                errorHtml += '</ul>';
+                $('#response').html(errorHtml);
             }
         });
     });

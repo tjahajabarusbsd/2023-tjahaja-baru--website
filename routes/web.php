@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AjukanController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
@@ -12,14 +13,13 @@ use App\Http\Controllers\DealerController;
 use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PersonalityController;
+use App\Http\Controllers\PinjamanController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SkyController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\VariantController;
 use App\Http\Controllers\WhatsAppController;
-use App\Http\Controllers\PinjamanController;
-use App\Http\Controllers\AjukanController;
 use Illuminate\Support\Facades\Route;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/hitung-pinjaman', [PinjamanController::class, 'hitungPinjaman'])->name('hitung.pinjaman');
     Route::post('/hitung-angsuran', [PinjamanController::class, 'hitungAngsuran'])->name('hitung.angsuran');
     Route::post('/ajukan-angsuran', [AjukanController::class, 'ajukanAngsuran'])->name('ajukan.angsuran');
-    Route::post('/service-kunjung-yamaha', [AjukanController::class, 'ajukanAngsuran'])->name('service.kunjung.yamaha');
+    Route::post('/service-kunjung-yamaha', [SkyController::class, 'store'])->name('service.kunjung.yamaha');
 });
 
 Route::middleware('guest')->group(function () {
