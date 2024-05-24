@@ -39,12 +39,12 @@
                     <input type="text" class="form-control @error('kendala') is-invalid @enderror roboto-regular" name="sky_kendala" id="sky-kendala" value="" required>
                 </div>
                 
-                {{-- <div class="form-group">
+                <div class="form-group">
                     {!! RecaptchaV3::field('send_sky') !!}
                     @error('g-recaptcha-response')
                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                     @enderror
-                </div> --}}
+                </div>
     
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Submit</button>

@@ -2,25 +2,51 @@ $(document).ready(function () {
     $('#form-sky').on('submit', function (e) {
         e.preventDefault();
 
-        $.ajax({
-            url: "/service-kunjung-yamaha",
-            type: 'POST',
-            data: $(this).serialize(),
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function (response) {
-                $('#response').html('<p>' + response.message + '</p>');
-            },
-            error: function (response) {
-                let errors = response.responseJSON.errors;
-                let errorHtml = '<ul>';
-                $.each(errors, function (key, value) {
-                    errorHtml += '<li>' + value[0] + '</li>';
-                });
-                errorHtml += '</ul>';
-                $('#response').html(errorHtml);
+        let sky_name = $('#sky-name').val();
+        let sky_alamat = $('#sky-alamat').val();
+        let sky_phone_number = $('#sky-phone-number').val();
+        let sky_tipe = $('#sky-tipe').val();
+        let sky_kendala = $('#sky-kendala').val();
+
+        $('#overlay').show();
+
+        grecaptcha.execute(siteKey, { action: 'send_sky' }).then(function (token) {
+            var data = {
+                sky_name: sky_name,
+                sky_alamat: sky_alamat,
+                sky_phone_number: sky_phone_number,
+                sky_tipe: sky_tipe,
+                sky_kendala: sky_kendala,
+                'g-recaptcha-response': token
             }
+
+            $.ajax({
+                url: "/service-kunjung-yamaha",
+                type: 'POST',
+                data: data,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    $('#overlay').hide();
+                    $('#response').html('<p>' + response.message + '</p>');
+                    $('#form-sky')[0].reset();
+                },
+                error: function (response) {
+                    $('#overlay').hide();
+                    let errors = response.responseJSON.errors;
+                    let errorHtml = '<ul>';
+                    $.each(errors, function (key, value) {
+                        errorHtml += '<li>' + value[0] + '</li>';
+                    });
+                    errorHtml += '</ul>';
+                    $('#response').html(errorHtml);
+                    if (response.responseJSON.errorMessage) {
+                        alert(response.responseJSON.errorMessage);
+                        location.reload();
+                    }
+                }
+            });
         });
     });
 });
