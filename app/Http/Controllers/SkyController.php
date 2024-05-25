@@ -20,31 +20,42 @@ class SkyController extends Controller
         $this->apiToken = env('TOKEN_WA');
     }
 
-    public function store(SkySubmissionRequest $request)
+    public function skySend(SkySubmissionRequest $request)
     {
         $recaptchaResponse = RecaptchaV3::verify($request->input('g-recaptcha-response'), 'send_sky');
         
         if ($recaptchaResponse >= 0.7) {
-            $validatedData = $request->validated();
-
             $user = Auth::user();
-            
-            $submission = SkySubmission::create([
-                'name' => $validatedData['sky_name'],
-                'nohp' => $validatedData['sky_phone_number'],
-                'alamat' => $validatedData['sky_alamat'],
-                'tipe' => $validatedData['sky_tipe'],
-                'kendala' => $validatedData['sky_kendala'],
-                'user_id' => $user->id,
-            ]);
 
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Data has been successfully saved',
-                'data' => $submission
-            ], 201);
+            $validatedData  = $this->getRequestData($request);
+            $skyData = $this->storeSkyData($validatedData , $user);
+
+            return $skyData;
         }
 
         return response()->json(['errorMessage' => 'You are most likely a bot'], 422);
+    }
+
+    private function getRequestData(SkySubmissionRequest $request)
+    {
+        return $request->validated();
+    }
+
+    private function storeSkyData(array $validatedData, $user)
+    {
+        $submission = SkySubmission::create([
+            'name' => $validatedData['sky_name'],
+            'nohp' => $validatedData['sky_phone_number'],
+            'alamat' => $validatedData['sky_alamat'],
+            'tipe' => $validatedData['sky_tipe'],
+            'kendala' => $validatedData['sky_kendala'],
+            'user_id' => $user->id,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data has been successfully saved',
+            'data' => $submission
+        ], 201);
     }
 }

@@ -93,7 +93,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/hitung-pinjaman', [PinjamanController::class, 'hitungPinjaman'])->name('hitung.pinjaman');
     Route::post('/hitung-angsuran', [PinjamanController::class, 'hitungAngsuran'])->name('hitung.angsuran');
     Route::post('/ajukan-angsuran', [AjukanController::class, 'ajukanAngsuran'])->name('ajukan.angsuran');
-    Route::post('/service-kunjung-yamaha', [SkyController::class, 'store'])->name('service.kunjung.yamaha');
+    Route::post('/service-kunjung-yamaha', [SkyController::class, 'skySend'])->name('service.kunjung.yamaha');
 });
 
 Route::middleware('guest')->group(function () {
