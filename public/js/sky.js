@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    $("#myModal").iziModal({
+        width: 400,
+    });
+
     $('#form-sky').on('submit', function (e) {
         e.preventDefault();
 
@@ -29,7 +33,8 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     $('#overlay').hide();
-                    $('#response').html('<p>' + response.message + '</p>');
+                    $("#myModal").iziModal('open');
+                    $('#myModal .modal-body p').text(response.message);
                     $('#form-sky')[0].reset();
                 },
                 error: function (response) {

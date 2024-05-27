@@ -83,10 +83,30 @@ function isDesktop() {
         <div class="overlay__content"><span class="spinner"></span></div>
     </div>
 </div>
+
+<div id="myModal" class="modal">
+    <div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="icon-box">
+					<i class="material-icons">&#xE876;</i>
+				</div>				
+				<h4 class="modal-title w-100">Success!</h4>	
+			</div>
+			<div class="modal-body">
+				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 
 @section('additional_script')
-<script>const siteKey = '{{ env("RECAPTCHAV3_SITEKEY") }}';</script>
+<script>
+    const siteKey = '{{ env("RECAPTCHAV3_SITEKEY") }}';
+
+    
+</script>
 <script src="{{ asset('js/user-profile.js') }}"></script>
 <script src="{{ asset('js/sky.js') }}"></script>
 @endsection

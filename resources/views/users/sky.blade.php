@@ -50,8 +50,6 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
-
-            <div id="response"></div>
         </div>
         <div class="col-md-6">
             <h5>Keterangan Service Kunjung Yamaha :</h5>
