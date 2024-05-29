@@ -12,6 +12,7 @@ $(document).ready(function () {
         let sky_tipe = $('#sky-tipe').val();
         let sky_kendala = $('#sky-kendala').val();
 
+        $('#myModal .icon-box').removeClass('error');
         $('#overlay').show();
 
         grecaptcha.execute(siteKey, { action: 'send_sky' }).then(function (token) {
@@ -33,8 +34,10 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     $('#overlay').hide();
-                    $("#myModal").iziModal('open');
+                    $('#myModal .material-icons').text('check');
+                    $('#myModal .modal-title').text('Sukses!');
                     $('#myModal .modal-body p').text(response.message);
+                    $("#myModal").iziModal('open');
                     $('#form-sky')[0].reset();
                 },
                 error: function (response) {
@@ -47,8 +50,12 @@ $(document).ready(function () {
                     errorHtml += '</ul>';
                     $('#response').html(errorHtml);
                     if (response.responseJSON.errorMessage) {
-                        alert(response.responseJSON.errorMessage);
-                        location.reload();
+                        $('#myModal .icon-box').addClass('error');
+                        $('#myModal .material-icons').text('close');
+                        $('#myModal .modal-title').text('Error!');
+                        $('#myModal .modal-body p').text(response.responseJSON.errorMessage);
+                        $("#myModal").iziModal('open');
+                        setTimeout(location.reload(), 2000);
                     }
                 }
             });

@@ -89,9 +89,9 @@ function isDesktop() {
 		<div class="modal-content">
 			<div class="modal-header">
 				<div class="icon-box">
-					<i class="material-icons">&#xE876;</i>
-				</div>				
-				<h4 class="modal-title w-100">Success!</h4>	
+					<i class="material-icons">close</i>
+				</div>
+                <h4 class="modal-title w-100">Success!</h4>	
 			</div>
 			<div class="modal-body">
 				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>

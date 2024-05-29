@@ -54,7 +54,7 @@ class SkyController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Data has been successfully saved',
+            'message' => 'Pengajuan Anda telah diterima.',
             'data' => $submission
         ], 201);
     }
