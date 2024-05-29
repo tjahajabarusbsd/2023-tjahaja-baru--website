@@ -242,6 +242,28 @@ $(document).ready(function () {
             });
         });
     });
+
+    $('.menu-item').on('click', function () {
+        var target = $(this).data('bs-target');
+        var hash = $(this).attr('aria-controls');
+
+        window.location.hash = hash;
+
+        $('.menu-item').removeClass('active');
+        $(this).addClass('active');
+        $('.tab-pane').removeClass('show active');
+        $(target).addClass('show active');
+    });
+
+    var hash = window.location.hash;
+    if (hash) {
+        hash = hash.substring(1);
+
+        $('.menu-item').removeClass('active');
+        $('[aria-controls="' + hash + '"]').addClass('active');
+        $('.tab-pane').removeClass('show active');
+        $('#' + hash).addClass('show active');
+    }
 });
 
 const currentUrl = window.location.pathname;
