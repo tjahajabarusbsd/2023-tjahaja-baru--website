@@ -36,7 +36,7 @@ $(document).ready(function () {
                     $('#overlay').hide();
                     $('#myModal .material-icons').text('check');
                     $('#myModal .modal-title').text('Sukses!');
-                    $('#myModal .modal-body p').text(response.message);
+                    $('#myModal .modal-body p').text(response.successMessage);
                     $("#myModal").iziModal('open');
                     $('#form-sky')[0].reset();
                 },
