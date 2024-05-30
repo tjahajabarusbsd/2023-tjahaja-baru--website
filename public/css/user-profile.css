@@ -459,7 +459,10 @@ dd {
     }
 }
 
-/* Menu */
+/*
+* Inner Menu 
+*/
+
 .menu {
     display: flex;
     flex-direction: row;
@@ -467,16 +470,10 @@ dd {
     gap: 15px;
 }
 
-.menu::after {
-    content: "";
-    position: absolute;
-    background-color: blue;
-}
-
 .menu-item {
     background-color: cyan;
     color: #d4468b;
-    border: none;
+    border: 5px dashed transparent;
     border-radius: 25px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -485,6 +482,7 @@ dd {
     justify-content: space-around;
     width: 130px;
     height: 130px;
+    transition: 0.5s;
 }
 
 .menu-item img {
@@ -498,6 +496,12 @@ dd {
 
 .menu-item:hover {
     background-color: #f5f5f5;
+    border: 5px dashed;
+    transition: 1s;
+}
+
+.menu-item.active {
+    border: 5px dashed;
 }
 
 .input-group {
@@ -722,10 +726,6 @@ dd {
 }
 
 @media only screen and (min-width:992px) {
-    .top-content {
-        width: 65%;
-    }
-
     .menu-item {
         padding: 0 30px 0 30px;
         width: 280px;
