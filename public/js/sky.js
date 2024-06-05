@@ -14,6 +14,7 @@ $(document).ready(function () {
 
         $('#myModal .icon-box').removeClass('error');
         $('#overlay').show();
+        $('#response').html('');
 
         grecaptcha.execute(siteKey, { action: 'send_sky' }).then(function (token) {
             var data = {
