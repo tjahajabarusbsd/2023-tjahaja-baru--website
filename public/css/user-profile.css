@@ -30,7 +30,8 @@
     background: #fff;
 }
 
-#data-profile {
+#data-profile,
+.layanan-konten {
     opacity: 1;
     height: auto;
     overflow: hidden;
@@ -42,7 +43,8 @@
     font-weight: bold;
 }
 
-#data-profile.hide {
+#data-profile.hide,
+.layanan-konten.hide {
     opacity: 0;
     height: 0;
 }
@@ -100,14 +102,16 @@
     text-decoration: none;
 }
 
-#edit-profile {
+#edit-profile,
+.list-riwayat-sky {
     opacity: 0;
     height: 0;
     overflow: hidden;
     transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out;
 }
 
-#edit-profile.active {
+#edit-profile.active,
+.list-riwayat-sky.active {
     opacity: 1;
     height: auto;
 }
@@ -190,18 +194,7 @@
     text-align: center;
 }
 
-.riwayat-servis-container .have-data p {
-    text-align: center;
-}
-
-.riwayat-servis-container .list-motor {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.riwayat-servis-container .btn-motor {
+.bottom-content .btn-purple {
     height: 50px;
     width: 185px;
     background: #219bd9;
@@ -218,12 +211,12 @@
     text-decoration: none;
 }
 
-.riwayat-servis-container .btn-motor span {
+.bottom-content .btn-purple span {
     position: relative;
     z-index: 2;
 }
 
-.riwayat-servis-container .btn-motor:after {
+.bottom-content .btn-purple:after {
     content: '';
     position: absolute;
     left: 0;
@@ -237,13 +230,24 @@
     transform: translateX(-30%) translateY(-28%) rotate(315deg);
 }
 
-.riwayat-servis-container .btn-motor:hover:after {
+.bottom-content .btn-purple:hover:after {
     -webkit-transform: translateX(-114%) translateY(-25%) rotate(307deg);
     transform: translateX(-114%) translateY(-25%) rotate(307deg);
 }
 
-.riwayat-servis-container .btn-motor.active:after {
+.bottom-content .btn-purple.active:after {
     background: #219bd9 !important;
+}
+
+.riwayat-servis-container .have-data p {
+    text-align: center;
+}
+
+.riwayat-servis-container .list-motor {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .btn-tambah {
@@ -551,6 +555,9 @@ dd {
 /*
 * Menu SKY
 */
+.layanan-sky .btn-purple {
+    border: none;
+}
 
 .layanan-header {
     display: flex;

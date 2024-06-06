@@ -62,4 +62,18 @@ $(document).ready(function () {
             });
         });
     });
+
+    $('#riwayat-sky').click(function () {
+        $(this).addClass('active');
+        $('#ajukan-sky').removeClass('active');
+        $('.list-riwayat-sky').addClass('active');
+        $('.layanan-konten').addClass('hide');
+    });
+
+    $('#ajukan-sky').click(function () {
+        $(this).addClass('active');
+        $('#riwayat-sky').removeClass('active');
+        $('.list-riwayat-sky').removeClass('active');
+        $('.layanan-konten').removeClass('hide');
+    });
 });

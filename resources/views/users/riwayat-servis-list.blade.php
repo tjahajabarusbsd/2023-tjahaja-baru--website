@@ -29,7 +29,7 @@
         <p>Klik pada nomor kendaraan Anda untuk melihat riwayat servis</p>
         <div class="list-motor">
             @foreach ( $getAllNomorRangka as $item )
-                <a class="btn-motor" href="/myprofile/{{ $item->nomor_rangka }}"><span>{{ $item->nomor_rangka }}<span></a>
+                <a class="btn-motor btn-purple" href="/myprofile/{{ $item->nomor_rangka }}"><span>{{ $item->nomor_rangka }}<span></a>
             @endforeach
             <button class="btn-tambah"><i class="fa-solid fa-plus"></i> Tambah</button>
         </div>

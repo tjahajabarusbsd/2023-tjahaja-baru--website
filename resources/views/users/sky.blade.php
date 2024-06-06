@@ -8,6 +8,11 @@
             <p>Yamaha Tjahaja Baru kini menyediakan Service Kunjung Yamaha (SKY), yaitu Service yang dapat diminta untuk melakukan kunjungan service di rumah, kantor maupun kondisi darurat, tanpa perlu datang ke dealer.</p>
         </div>
     </div>
+    
+    <div class="my-4 menu">
+        <button class="btn-purple active" id="ajukan-sky"><span>Ajukan SKY</span></button>
+        <button class="btn-purple" id="riwayat-sky"><span>Riwayat SKY</span></button>
+    </div>
 
     <div class="row layanan-konten">
         <div class="col-md-6">
@@ -96,5 +101,9 @@
                 </div>
             </div> --}}
         </div>
+    </div>
+
+    <div class="row list-riwayat-sky">
+        <h2>Riwayat</h2>
     </div>
 </div>
