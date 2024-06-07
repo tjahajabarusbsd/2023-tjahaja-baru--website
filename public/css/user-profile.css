@@ -239,10 +239,6 @@
     background: #219bd9 !important;
 }
 
-.riwayat-servis-container .have-data p {
-    text-align: center;
-}
-
 .riwayat-servis-container .list-motor {
     display: flex;
     justify-content: space-evenly;

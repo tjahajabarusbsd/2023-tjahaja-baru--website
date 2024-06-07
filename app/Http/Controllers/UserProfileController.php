@@ -15,21 +15,15 @@ use PDF;
 
 class UserProfileController extends Controller
 {
-    
-    protected function getRiwayatServis($getOneNomorRangka)
+    protected function getRiwayatServis($nomorRangka)
     {
-        if (!$getOneNomorRangka) {
-            throw new \Exception('nomor rangka not found');
-        }
-
-        $nomor_rangka = $getOneNomorRangka;
         $url_services = env('GET_URL_SERIVCES');
-        $apiUrl = $url_services . "?id=" . $nomor_rangka;
-        $response = Http::get($apiUrl);
+        $apiUrl = $url_services . "?id=" . $nomorRangka;
+        $response = Http::withoutVerifying()->get($apiUrl);
         $data = $response->json();
         
         if (!$data) {
-            throw new \Exception('Sedang ada masalah dalam penarikan data');
+            throw new \Exception('Riwayat servis tidak ditemukan.');
         }
 
         foreach ($data as &$innerArray) {
@@ -55,84 +49,32 @@ class UserProfileController extends Controller
         return $data;
     }
 
-    protected function getOther($getOneNomorRangka)
+    public function getUserProfile(Request $request, $nomorRangka = null)
     {
         $user = Auth::user();
-        $specList = Spec::orderBy('name')->distinct('name')->get();
         $getAllNomorRangka = NomorRangka::where('user_id', $user->id)->get();
-        $nomor_rangka = $getOneNomorRangka;
-        $url_services = env('GET_URL_SERIVCES');
-        $apiUrl = $url_services . "?id=" . $nomor_rangka;
-        $response = Http::get($apiUrl);
-        $data = $response->json();
-        
-        try {       
-            
-            if (!$data) {
-                throw new \Exception('Sedang ada masalah dalam penarikan data2');
-            }
-    
-            foreach ($data as &$innerArray) {
-                if (isset($innerArray['part_id'])) {
-                    $partIds = json_decode($innerArray['part_id'], true);
-    
-                    $partNames = [];
-                    foreach ($partIds as $partId) {
-                        $part = MasterPart::where('part_number', $partId)->first();
-                        if ($part) {
-                            $partNames[] = $part->part_name;
-                        } else {
-                            $partNames[] = 'UNNAME PART';
-                        }
-                    }
-    
-                    $innerArray['part_name'] = $partNames;
+        $specList = Spec::orderBy('name')->distinct('name')->get();
+
+        try {
+            if ($nomorRangka !== null) {
+                $data = $this->getRiwayatServis($nomorRangka);
+                
+                return view('users.details', compact('data', 'user', 'nomorRangka', 'getAllNomorRangka', 'specList'));
+            } else {
+                $nomorRangka = NomorRangka::where('user_id', $user->id)->first();
+                $nomorRangka = $nomorRangka->nomor_rangka;
+                if ($nomorRangka) {
+                    $data = $this->getRiwayatServis($nomorRangka);
+                    
+                    return view('users.details', compact('data', 'user', 'nomorRangka', 'getAllNomorRangka', 'specList'));
                 } else {
-                    $innerArray['part_name'] = [];
+                    throw new \Exception('Nomor rangka tidak ditemukan.');
                 }
             }
-            
-            return view('users.details', compact('data', 'user', 'getAllNomorRangka', 'getOneNomorRangka', 'specList'));
         } catch (\Exception $e) {
             $message = $e->getMessage();
-            
-            return view('users.details', compact('user', 'getOneNomorRangka', 'getAllNomorRangka', 'specList', 'message'));
-        }
-    }
-
-    public function getUserProfile()
-    {
-        $user = Auth::user();
-
-        $getOneNomorRangka = NomorRangka::where('user_id', $user->id)->first();
-        $getAllNomorRangka = NomorRangka::where('user_id', $user->id)->get();
-        $specList = Spec::orderBy('name')->distinct('name')->get();
-        
-        try {
-            $getOneNomorRangka = $getOneNomorRangka->nomor_rangka;
-            $data = $this->getRiwayatServis($getOneNomorRangka);
-            
-            return view('users.details', compact('data', 'user', 'getOneNomorRangka', 'getAllNomorRangka', 'specList'));
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            
-            return view('users.details', compact('user', 'getOneNomorRangka', 'getAllNomorRangka', 'specList', 'message'));
-        }
-    }
-
-    public function cetakPdf($getOneNomorRangka)
-    {
-        $user = Auth::user();
-
-        try {
-            $data = $this->getRiwayatServis($getOneNomorRangka);
-
-            $pdf = PDF::loadview('users/riwayat-servis-view',['riwayat'=>$data]);
-            return $pdf->stream('laporan-riwayat-servis.pdf');
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            
-            return view('users.details', compact('user', 'getOneNomorRangka'));
+            $message = 'Mohon maaf, data riwayat servis tidak ditemukan';
+            return view('users.details', compact('user', 'nomorRangka', 'getAllNomorRangka', 'specList', 'message'));
         }
     }
 
@@ -148,6 +90,22 @@ class UserProfileController extends Controller
         ]);
 
         return redirect()->route('user.profile');
+    }
+
+    public function cetakPdf($nomorRangka)
+    {
+        $user = Auth::user();
+
+        try {
+            $data = $this->getRiwayatServis($nomorRangka);
+
+            $pdf = PDF::loadview('users/riwayat-servis-view',['riwayat'=>$data]);
+            return $pdf->stream('laporan-riwayat-servis.pdf');
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            
+            return view('users.details', compact('user', 'nomorRangka'));
+        }
     }
 
     public function update(UserUpdateRequest $request)

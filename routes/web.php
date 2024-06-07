@@ -86,7 +86,7 @@ Route::middleware('admin')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/myprofile', [UserProfileController::class, 'getUserProfile'])->name('user.profile');
-    Route::get('/myprofile/{nomorRangka}', [UserProfileController::class, 'getOther']);
+    Route::get('/myprofile/{nomorRangka}', [UserProfileController::class, 'getUserProfile']);
     Route::post('/myprofile/save-no-rangka', [UserProfileController::class, 'saveNoRangka'])->name('user.profile.saveNoRangka');
     Route::post('/update-profile', [UserProfileController::class, 'update'])->name('profile.update');
     Route::get('/riwayatservis/cetak_pdf/{nomorRangka}', [UserProfileController::class, 'cetakPdf']);
