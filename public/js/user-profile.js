@@ -264,6 +264,46 @@ $(document).ready(function () {
         $('.tab-pane').removeClass('show active');
         $('#' + hash).addClass('show active');
     }
+
+    var rowsPerPage = 5;
+    var totalRows = $('.accordion-item').length;
+    var totalPages = Math.ceil(totalRows / rowsPerPage);
+    var currentPage = 1;
+
+    // hide all rows initially
+    $('.accordion-item').hide();
+
+    // show first page of rows
+    showPage(1);
+
+    // create pagination links
+    for (var i = 1; i <= totalPages; i++) {
+        $('#pagination ul').append('<li><a href="#" class="page-link" data-page="' + i + '">' + i + '</a></li>');
+    }
+
+    // add active class to first page link
+    $('#pagination a:first').addClass('active');
+
+    // pagination click event
+    $('#pagination a').click(function (e) {
+        e.preventDefault();
+        var page = $(this).data('page');
+        showPage(page);
+        // remove active class from all links
+        $('#pagination a').removeClass('active');
+        // add active class to current link
+        $(this).addClass('active');
+    });
+
+    function showPage(page) {
+        // hide all rows
+        $('.accordion-item').hide();
+
+        // show rows for current page
+        var startRow = (page - 1) * rowsPerPage;
+        var endRow = startRow + rowsPerPage;
+        $('.accordion-item').slice(startRow, endRow).show();
+    }
 });
 
 const currentUrl = window.location.pathname;

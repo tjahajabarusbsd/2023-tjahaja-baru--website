@@ -104,8 +104,6 @@ function isDesktop() {
 @section('additional_script')
 <script>
     const siteKey = '{{ env("RECAPTCHAV3_SITEKEY") }}';
-
-    
 </script>
 <script src="{{ asset('js/user-profile.js') }}"></script>
 <script src="{{ asset('js/sky.js') }}"></script>
