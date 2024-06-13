@@ -16,14 +16,10 @@
 }
 
 .card-content-wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
     position: relative;
-    gap: 10px;
-    margin: auto;
     padding: 2rem;
     box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+    border-radius: 8px;
 }
 
 .top-content {
@@ -37,10 +33,6 @@
     overflow: hidden;
     transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out;
     color: rgba(0, 0, 0, 0.6);
-}
-
-#data-profile h1 {
-    font-weight: bold;
 }
 
 #data-profile.hide,
@@ -639,20 +631,13 @@ dd {
         align-items: flex-start;
     }
 
-    .top-content h1 {
-        font-size: 20px;
-    }
-
+    .top-content h1,
     #name-field {
-        font-size: 23px;
+        font-size: 20px;
     }
 
     .content-contact p {
         font-size: 16px;
-    }
-
-    .corner-button span {
-        display: none;
     }
 }
 
@@ -672,6 +657,10 @@ dd {
 }
 
 @media only screen and (min-width:992px) {
+    #logout-btn {
+        display: none;
+    }
+
     .menu-item {
         padding: 0 30px 0 30px;
         width: 280px;

@@ -31,7 +31,7 @@ function isDesktop() {
             {{-- <div class="content-avatar">
                 <img src="{{ url('/images/dummy-image.png') }}" alt="">
             </div> --}}
-            <h1>Hello,</h1>
+            <h1 class="fw-bold">Hello,</h1>
             <p id="name-field"><span>{{ $user->name ?? 'Belum ada nama' }}</span></p>
             
             <div class="content-contact">
