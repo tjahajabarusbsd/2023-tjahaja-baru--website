@@ -57,12 +57,16 @@ class UserProfileController extends Controller
 
         try {
             if ($nomorRangka !== null) {
-                $data = $this->getRiwayatServis($nomorRangka);
-                
-                return view('users.details', compact('data', 'user', 'nomorRangka', 'getAllNomorRangka', 'specList'));
+                $getNomorRangka = NomorRangka::where('user_id', $user->id)->where('nomor_rangka', $nomorRangka)->first();
+                if ($getNomorRangka) {
+                    $data = $this->getRiwayatServis($nomorRangka);
+                    return view('users.details', compact('data', 'user', 'nomorRangka', 'getAllNomorRangka', 'specList'));
+                } else {
+                    throw new \Exception('Nomor rangka tidak ditemukan atau bukan milik Anda.');
+                }
             } else {
-                $nomorRangka = NomorRangka::where('user_id', $user->id)->first();
-                $nomorRangka = $nomorRangka->nomor_rangka;
+                $getNomorRangka = NomorRangka::where('user_id', $user->id)->first();
+                $nomorRangka = $getNomorRangka->nomor_rangka;
                 if ($nomorRangka) {
                     $data = $this->getRiwayatServis($nomorRangka);
                     
@@ -73,7 +77,7 @@ class UserProfileController extends Controller
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();
-            $message = 'Mohon maaf, data riwayat servis tidak ditemukan';
+            // $message = 'Mohon maaf, data riwayat servis tidak ditemukan';
             return view('users.details', compact('user', 'nomorRangka', 'getAllNomorRangka', 'specList', 'message'));
         }
     }
