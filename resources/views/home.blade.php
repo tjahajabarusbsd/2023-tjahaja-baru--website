@@ -162,9 +162,9 @@
     var introCarousel = $(".carousel");
     introCarousel.find(".carousel-inner").children(".carousel-item:first").addClass('active');
 
-    $(document).ready(function(){
-        $('#myModal').modal('show');
-    });
+    // $(document).ready(function(){
+    //     $('#myModal').modal('show');
+    // });
 
     function closeModal() {
         $('#myModal').modal('hide');

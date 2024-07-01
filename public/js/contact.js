@@ -1,99 +1,67 @@
 $(document).ready(function () {
-    let form = document.querySelector("form");
-    let userName = document.querySelector("#name");
-    let phoneNumber = document.querySelector("#nohp");
-
-    // Event listener to submit form
-    form.addEventListener("submit", (e) => {
+    $("#submitButton").click(function (e) {
         e.preventDefault();
         clearErrors();
         handleInput();
     });
 
     function enableButton() {
-        var submitButton = document.getElementById('submitButton');
-        submitButton.removeAttribute('disabled');
+        $("#submitButton").removeAttr("disabled");
     }
 
-    // What to do with inputs ?
     function handleInput() {
-        // Values from dom elements ( input )
-        let userNameValue = userName.value.trim();
-        let phoneNumberValue = phoneNumber.value.trim();
+        let userNameValue = $("#name").val().trim();
+        let phoneNumberValue = $("#nohp").val().trim();
 
-        //  Checking for username
         if (userNameValue === "") {
-            setErrorFor(userName, "Kolom wajib diisi.");
+            setErrorFor($("#name"), "Kolom wajib diisi.");
             enableButton();
         } else if (!/^[A-Za-z\s]+$/.test(userNameValue)) {
-            setErrorFor(userName, "Hanya diperbolehkan input huruf.");
+            setErrorFor($("#name"), "Hanya diperbolehkan input huruf.");
             enableButton();
         } else {
-            setSuccessFor(userName);
+            setSuccessFor($("#name"));
         }
 
-        // Checking for phone number
         if (phoneNumberValue === "") {
-            setErrorFor(phoneNumber, "Kolom wajib diisi.");
-            enableButton()
+            setErrorFor($("#nohp"), "Kolom wajib diisi.");
+            enableButton();
         } else if (!/^\d+$/.test(phoneNumberValue)) {
-            setErrorFor(phoneNumber, "Hanya diperbolehkan input angka.");
-            enableButton()
+            setErrorFor($("#nohp"), "Hanya diperbolehkan input angka.");
+            enableButton();
         } else {
-            setSuccessFor(phoneNumber);
+            setSuccessFor($("#nohp"));
         }
-
-        // If there are no errors, submit the form
-        if (!hasErrors()) {
-            submitForm();
+        if (hasErrors() == false) {
+            $("form").submit();
         }
     }
 
-    // If there is an error, what to do with input?
     function setErrorFor(input, message) {
-        let formControl = input.parentElement;
-        formControl.classList.add("error");
-        formControl.classList.remove("success");
+        let $formControl = $(input).parent();
+        $formControl.addClass("error").removeClass("success");
 
-        // Check if error element already exists
-        let errorElement = formControl.querySelector("small");
-        if (!errorElement) {
-            // Create and append the error message element
-            errorElement = document.createElement("small");
-            formControl.appendChild(errorElement);
+        let $errorElement = $formControl.find("small");
+        if ($errorElement.length === 0) {
+            $errorElement = $("<small></small>").appendTo($formControl);
         }
 
-        errorElement.innerText = message;
+        $errorElement.text(message);
     }
 
-    // If there is no error, than what we want to do with input ?
     function setSuccessFor(input) {
-        let formControl = input.parentElement;
-        if (formControl) {
-            formControl.classList.remove("error");
+        let $formControl = $(input).parent();
+        if ($formControl) {
+            $formControl.removeClass("error");
         }
     }
 
-    // Clear all error classes
     function clearErrors() {
-        let errorInputs = document.querySelectorAll(".form-group");
-        let findErrorBe = document.querySelectorAll('small');
-        if (findErrorBe) {
-            findErrorBe.forEach(i => {
-                i.remove();
-            });
-        }
+        $(".form-group").removeClass("error");
+        $("small").remove();
     }
 
-    // Check if there are any input fields with errors
     function hasErrors() {
-        let errorInputs = document.querySelectorAll(".form-group.error");
-        return errorInputs.length > 0;
+        return $(".form-group.error").length > 0;
     }
-
-    // Submit the form
-    function submitForm() {
-        form.submit();
-    }
-
 });
