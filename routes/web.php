@@ -84,37 +84,39 @@ Route::middleware('admin')->group(function () {
     // --- End Import File Section
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/myprofile', [UserProfileController::class, 'getUserProfile'])->name('user.profile');
-    Route::get('/myprofile/{nomorRangka}', [UserProfileController::class, 'getUserProfile']);
-    Route::post('/myprofile/save-no-rangka', [UserProfileController::class, 'saveNoRangka'])->name('user.profile.saveNoRangka');
-    Route::post('/update-profile', [UserProfileController::class, 'update'])->name('profile.update');
-    Route::get('/riwayatservis/cetak_pdf/{nomorRangka}', [UserProfileController::class, 'cetakPdf']);
-    Route::post('/hitung-pinjaman', [PinjamanController::class, 'hitungPinjaman'])->name('hitung.pinjaman');
-    Route::post('/hitung-angsuran', [PinjamanController::class, 'hitungAngsuran'])->name('hitung.angsuran');
-    Route::post('/ajukan-angsuran', [AjukanController::class, 'ajukanAngsuran'])->name('ajukan.angsuran');
-    Route::post('/service-kunjung-yamaha', [SkyController::class, 'skySend'])->name('service.kunjung.yamaha');
-});
+if(env('APP_ENV') == 'local'){
+    Route::middleware('auth')->group(function () {
+        Route::get('/myprofile', [UserProfileController::class, 'getUserProfile'])->name('user.profile');
+        Route::get('/myprofile/{nomorRangka}', [UserProfileController::class, 'getUserProfile']);
+        Route::post('/myprofile/save-no-rangka', [UserProfileController::class, 'saveNoRangka'])->name('user.profile.saveNoRangka');
+        Route::post('/update-profile', [UserProfileController::class, 'update'])->name('profile.update');
+        Route::get('/riwayatservis/cetak_pdf/{nomorRangka}', [UserProfileController::class, 'cetakPdf']);
+        Route::post('/hitung-pinjaman', [PinjamanController::class, 'hitungPinjaman'])->name('hitung.pinjaman');
+        Route::post('/hitung-angsuran', [PinjamanController::class, 'hitungAngsuran'])->name('hitung.angsuran');
+        Route::post('/ajukan-angsuran', [AjukanController::class, 'ajukanAngsuran'])->name('ajukan.angsuran');
+        Route::post('/service-kunjung-yamaha', [SkyController::class, 'skySend'])->name('service.kunjung.yamaha');
+    });
 
-Route::middleware('guest')->group(function () {
-    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-    Route::post('/register', [RegisterController::class, 'register']);
+    Route::middleware('guest')->group(function () {
+        Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+        Route::post('/register', [RegisterController::class, 'register']);
 
-    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [LoginController::class, 'login']);
+        Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+        Route::post('/login', [LoginController::class, 'login']);
 
-    Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm']);
-    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendLinkResetPassword'])->name('send.link');
+        Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm']);
+        Route::post('/forgot-password', [ForgotPasswordController::class, 'sendLinkResetPassword'])->name('send.link');
 
-    Route::get('/reset-password/{token}', [ResetPasswordController::class, 'resetPasswordForm'])->name('reset.password.form');
-    Route::post('/reset-password-update', [ResetPasswordController::class, 'updatePassword'])->name('reset.password.update');
-});
+        Route::get('/reset-password/{token}', [ResetPasswordController::class, 'resetPasswordForm'])->name('reset.password.form');
+        Route::post('/reset-password-update', [ResetPasswordController::class, 'updatePassword'])->name('reset.password.update');
+    });
 
-Route::middleware(['web'])->group(function () {
-    Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
-});
+    Route::middleware(['web'])->group(function () {
+        Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
+    });
 
-Route::get('/auth/redirect', [LoginController::class, 'redirectToGoogle']);
+    Route::get('/auth/redirect', [LoginController::class, 'redirectToGoogle']);
 
-Route::get('/auth/callback', [LoginController::class, 'handleGoogleCallback']);
+    Route::get('/auth/callback', [LoginController::class, 'handleGoogleCallback']);
 
+}
