@@ -6,6 +6,10 @@ body {
     font-family: Montserrat, sans-serif;
 }
 
+a {
+    text-decoration: none
+}
+
 #main-wrapper,
 html,
 section {
@@ -18,16 +22,12 @@ section {
     margin: auto 0;
 }
 
-section.separator {
-    height: 10px;
-    background-color: #6dcbb1
-}
-
-section.link-wa {
+.link-wa {
     position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     width: 175px;
     height: 47px;
     right: 11px;
@@ -38,26 +38,22 @@ section.link-wa {
     border-radius: 10px
 }
 
-section.link-wa:hover {
+.link-wa:hover {
     background-color: #52e086;
     animation: .82s cubic-bezier(.36, .07, .19, .97) both shake;
     transform: translate3d(0, 0, 0);
     perspective: 1000px
 }
 
-section.link-wa .konten-gambar {
+.link-wa .konten-gambar {
     width: 40px
 }
 
-section.link-wa .konten-gambar img {
+.link-wa .konten-gambar img {
     width: 30px
 }
 
-a.btn-wa {
-    text-decoration: none
-}
-
-section.link-wa .konten-wa h3 {
+.link-wa .konten-wa h3 {
     font-size: 14px;
     font-weight: 700;
     color: #fff;
@@ -67,18 +63,12 @@ section.link-wa .konten-wa h3 {
 footer {
     margin-top: auto;
     padding-bottom: 10px;
-    font-weight: 700;
     color: #183f9d;
 }
 
-footer .first-row .caption-first-row,
+/* footer .first-row .caption-first-row,
 section.separator {
     margin-bottom: 10px
-}
-
-footer .footer-row,
-section.link-wa {
-    text-align: center
 }
 
 footer .first-row .sosmed {
@@ -106,6 +96,23 @@ footer .second-row {
 footer .second-row img {
     width: 18px;
     margin-right: 5px
+} */
+
+footer .separator {
+    height: 10px;
+    margin-bottom: 30px;
+    background-color: #6dcbb1;
+}
+
+footer .logo-image {
+    height: 45px;
+    width: 95px;
+}
+
+footer .small {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 @keyframes shake {
