@@ -82,5 +82,8 @@
                 </div>
             </div>
         </div>
+        <div class="row border-top">
+            <span class="mt-3 text-center">© {{ date('Y') }} Tjahaja Baru. All Rights Reserved</span>
+        </div>
     </div>
 </footer>
