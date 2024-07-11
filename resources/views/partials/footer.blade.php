@@ -75,10 +75,10 @@
             <div class="col-4 col-lg-3 mb-3">
                 <h5>Follow Us On</h5>
                 <div class="sosmed">
-                    <a href="https://www.facebook.com/tjahajabaru/" target="_blank"><img style="width: 33px;" src="{{ url('/images/icons/fb.png')}}" alt="tb-facebook"></a>
-                    <a href="https://www.tiktok.com/@tjahajabaru" target="_blank"><img style="width: 33px;" src="{{ url('/images/icons/tiktok.png')}}" alt="tb-tiktok"></a>
-                    <a href="https://www.youtube.com/@YamahaSumbar" target="_blank"><img style="width: 33px;" src="{{ url('/images/icons/yt.png')}}" alt="tb-youtube"></a>
-                    <a href="https://www.instagram.com/tjahaja.baru/" target="_blank"><img style="width: 33px;" src="{{ url('/images/icons/ig.png')}}" alt="tb-instagram"></a>
+                    <a href="https://www.facebook.com/tjahajabaru/" target="_blank"><img src="{{ url('/images/icons/fb.png')}}" alt="tb-facebook"></a>
+                    <a href="https://www.tiktok.com/@tjahajabaru" target="_blank"><img src="{{ url('/images/icons/tiktok.png')}}" alt="tb-tiktok"></a>
+                    <a href="https://www.youtube.com/@YamahaSumbar" target="_blank"><img src="{{ url('/images/icons/yt.png')}}" alt="tb-youtube"></a>
+                    <a href="https://www.instagram.com/tjahaja.baru/" target="_blank"><img src="{{ url('/images/icons/ig.png')}}" alt="tb-instagram"></a>
                 </div>
             </div>
         </div>

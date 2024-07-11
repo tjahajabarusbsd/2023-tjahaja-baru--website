@@ -115,6 +115,11 @@ footer .small {
     gap: 10px;
 }
 
+footer .sosmed img {
+    width: 33px;
+    margin-bottom: 0.5rem;
+}
+
 @keyframes shake {
 
     10%,
