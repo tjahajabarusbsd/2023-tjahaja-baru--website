@@ -110,6 +110,51 @@ img {
     cursor: pointer;
 }
 
+.thumbnail {
+    position: relative;
+    overflow: hidden;
+}
+
+.thumbnail a {
+    position: relative;
+}
+
+.thumbnail img {
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.thumbnail .middle {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s;
+}
+
+.thumbnail:hover .middle {
+    opacity: 1;
+}
+
+.thumbnail .text {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    background-color: #04AA6D;
+    padding: 16px 32px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.thumbnail:hover .middle .text {
+    opacity: 1;
+}
+
 @media screen and (max-width:425px) {
     .title {
         font-size: 15px

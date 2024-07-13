@@ -100,22 +100,31 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 mb-3">
+            <div class="col-sm-6 mb-3 thumbnail">
                 <a href="https://www.yamaha-motor.co.id/part-accessories/ygp/" target="_blank" class="part-acc">
                     <img src="{{ url('/images/parts.jpg')}}" alt="">
+                    <div class="middle">
+                        <div class="text">See More</div>
+                    </div>
                 </a>
             </div>
         </div>
 
         <div class="bottom-container row">
-            <div class="col-sm-6 mb-3">
+            <div class="col-sm-6 mb-3 thumbnail">
                 <a href="/myyamaha">
                     <img src="{{ url('/images/my_yamaha.jpg')}}" alt="">
+                    <div class="middle">
+                        <div class="text">See More</div>
+                    </div>
                 </a>
             </div>
-            <div class="col-sm-6 mb-3">
+            <div class="col-sm-6 mb-3 thumbnail">
                 <a href="/dealers">
                     <img src="{{ url('/images/find_dealer.jpg')}}" alt="">
+                    <div class="middle">
+                        <div class="text">See More</div>
+                    </div>
                 </a>
             </div>
         </div>
