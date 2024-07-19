@@ -600,13 +600,7 @@
                             el: '.color-wrapper',
                             clickable: true,
                             renderBullet: function(index, className) {
-                                var colors = @json($data); 
-
-                                if (index >= 0 && index < colors.length) {
-                                    return '<span class="' + className + '" style="background: ' + colors[index].color + '"></span>';
-                                }
-
-                                return ''; 
+                                return '<span class="' + className + '" style="background: ' + response[index].color + '"></span>';
                             }
                         },
                     });
