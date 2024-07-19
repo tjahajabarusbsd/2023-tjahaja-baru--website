@@ -71,7 +71,7 @@
 						<a class="nav-link" href="/contact">contact us</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/dealers">dealers</a>
+						<a class="nav-link" href="/dealers">locations</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/compare_product">compare</a>

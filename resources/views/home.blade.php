@@ -11,24 +11,24 @@
 @section('main_class', 'home')
 
 @section('additional_css')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 <link rel="stylesheet" href="{{ asset('css/home.css') }}" />
-<style>
-    /* Content of modal div is center aligned */
-    .modal {
-        text-align: center;
-    }
-</style>
 @endsection
 
 @section('content')
     <section class="main-banner">
-        <div class="banner-wrapper">
-            @foreach ($banners as $banner)
-                <picture>
-                    <img src="{{ url($banner->image) }}" loading="lazy" class="banner-img">
-                </picture>
-            @endforeach
+        <div class="swiper banner-wrapper">
+            <div class="swiper-wrapper">
+                @foreach ($banners as $banner)
+                <div class="swiper-slide">
+                    <picture>
+                        <img src="{{ url($banner->image) }}" loading="lazy" class="banner-img">
+                    </picture>
+                </div>
+                @endforeach
+            </div>
         </div>
+        <div class="banner-pagination text-center"></div>
     </section>    
 
     <section class="first-section container-fluid">
@@ -37,36 +37,41 @@
             <p class="price-area">Harga Area Sumatera Barat</p>
         </div>
         
-        <div class="grid-container">
-            @foreach ($latestVariants as $variant)
-                <div class="grid-content">
-                    <a class="product-link" href="/product/{{ $variant->group->uri }}">
-                        <div class="box-img">
-                            <img src="{{ url($variant->group->category->image) }}">
-                        </div>
-                        <div class="box-text">
-                            <p class="product-name">{{ $variant->name }}</p>
-                            <p class="product-price">{{ $variant->price }}</p>
-                            <img class="tombol-biru" src="{{ url('/images/tombol.jpg')}}" alt="">
-                        </div>
-                    </a>
+        <div class="swiper grid-container">
+            <div class="swiper-wrapper">
+                @foreach ($latestVariants as $variant)
+                <div class="swiper-slide">
+                    <div class="grid-content">
+                        <a class="product-link" href="/product/{{ $variant->group->uri }}">
+                            <div class="box-img">
+                                <img src="{{ url($variant->group->category->image) }}">
+                            </div>
+                            <div class="box-text">
+                                <p class="product-name">{{ $variant->name }}</p>
+                                <p class="product-price">{{ $variant->price }}</p>
+                                <img class="tombol-biru" src="{{ url('/images/tombol.jpg')}}" alt="">
+                            </div>
+                        </a>
+                    </div>
                 </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>	
+        <div class="swiper-pagination" style="bottom: -23px;"></div>
     </section>
 
     <section class="second-section container-fluid">
         <div class="top-container row">
-            <div class="top-container-col col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-sm-6 mb-3">
                 <div class="promo-container" style="background-color:#79dbc0;">
-                    <div class="promo-title-container">
+                    <div class="promo-title-container mb-3">
                         <p class="promo-title">Promo</p>
                     </div>
                     <div class="promo-banner-container row">
                         @foreach ($promos as $promo)
-                            <div class="promo-banner-col col-sm-6">
+                            <div class="promo-banner-col col-sm-6 mb-3">
                                 <div class="promo-banner-item" data-id={{ $promo->id }}>
-                                    <img class="img-fluid" src="{{ url($promo->image) }}" alt="" data-bs-toggle="modal"
+                                    <img src="{{ url($promo->image) }}" alt="" data-bs-toggle="modal"
                                     data-bs-target="#promoModal{{ $promo->id }}">
                                     <div class="modal fade" id="promoModal{{ $promo->id }}" tabindex="-1"
                                         aria-labelledby="exampleModalLabel"
@@ -95,29 +100,38 @@
                     </div>
                 </div>
             </div>
-            <div class="top-container-col col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-sm-6 mb-3 thumbnail">
                 <a href="https://www.yamaha-motor.co.id/part-accessories/ygp/" target="_blank" class="part-acc">
-                    <img class="img" src="{{ url('/images/parts.jpg')}}" alt="">
+                    <img src="{{ url('/images/parts.jpg')}}" alt="">
+                    <div class="middle">
+                        <div class="text">See More</div>
+                    </div>
                 </a>
             </div>
         </div>
 
         <div class="bottom-container row">
-            <div class="sec2-myymh col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-sm-6 mb-3 thumbnail">
                 <a href="/myyamaha">
                     <img src="{{ url('/images/my_yamaha.jpg')}}" alt="">
+                    <div class="middle">
+                        <div class="text">See More</div>
+                    </div>
                 </a>
             </div>
-            <div class="sec2-find col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-sm-6 mb-3 thumbnail">
                 <a href="/dealers">
                     <img src="{{ url('/images/find_dealer.jpg')}}" alt="">
+                    <div class="middle">
+                        <div class="text">See More</div>
+                    </div>
                 </a>
             </div>
         </div>
     </section>
 
     <!-- Bootstrap Modal -->
-    <div class="modal fade modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="text-align: center">
         <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             {{-- <div class="modal-header">
@@ -137,38 +151,9 @@
         </div>
         </div>
     </div>
-
-    {{-- <section class="third-section container-fluid">
-        <div class="caption-container">
-            <h2 class="title">News Release</h2>
-            <a href="{{ url('/news') }}"><p class="read-more">Read More ></p></a>
-        </div>
-        <div class="news-container row">
-            @foreach ($articles as $article)
-                <div class="news-item col-md-3">
-                <a href="{{ url("news/$article->uri") }}">
-                    <img src="{{ url($article->image_thumbnail) }}" alt="">
-                    <span>{{ $article->title }}</span>
-                </a>
-                </div>
-            @endforeach
-        </div>
-    </section> --}}
 @endsection
 
 @section('additional_script')
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="{{ asset('js/home.js') }}"></script>
-<script>
-    var introCarousel = $(".carousel");
-    introCarousel.find(".carousel-inner").children(".carousel-item:first").addClass('active');
-
-    // $(document).ready(function(){
-    //     $('#myModal').modal('show');
-    // });
-
-    function closeModal() {
-        $('#myModal').modal('hide');
-        localStorage.removeItem('visited');
-    }
-</script>
 @endsection

@@ -7,88 +7,65 @@ img {
     height: 100%
 }
 
-.second-section {
-    padding-top: 20px
-}
-
 .first-section,
 .second-section {
     max-width: 2000px
 }
 
-section.first-section .caption-container {
+/* First Section */
+
+.caption-container {
     display: flex;
     justify-content: space-between
 }
 
-section.first-section .caption-container .title {
+.title {
     font-size: 20px;
     font-weight: 700;
     text-transform: uppercase;
     color: #183f9d
 }
 
-section.first-section .caption-container .price-area {
-    font-size: 13px;
+.price-area {
     font-weight: 700;
     color: #fff;
     background-color: #183f9d;
     padding: 3px 15px
 }
 
-section.first-section .grid-container .grid-content {
-    display: block !important;
+.grid-content {
     position: relative;
-    width: 250px !important;
-    height: 304px;
+    width: 250px;
+    height: 305px;
     margin: 20px auto;
     box-shadow: 5px 7px 15px 0 rgb(0 0 0 / 60%);
     -webkit-box-shadow: 5px 7px 15px 0 rgb(0 0 0 / 60%);
     -moz-box-shadow: 5px 7px 15px 0 rgb(0 0 0 / 60%)
 }
 
-section.first-section .grid-container .grid-content .product-link {
-    text-decoration: none;
-    color: #000
-}
-
-section.first-section .grid-container .grid-content .product-link .box-img {
-    position: relative;
-    overflow: hidden
-}
-
-section.first-section .grid-container .grid-content .box-img img {
-    transition: .5s ease-in-out
-}
-
-section.first-section .grid-container .grid-content .box-img img:hover {
-    transform: scale(1.1)
-}
-
-section.first-section .grid-container .grid-content .box-text {
-    font-weight: 700;
+.box-text {
+    width: 185px;
     margin-left: 10px;
-    margin-bottom: 10px
 }
 
-section.first-section .grid-container .grid-content .box-text p,
-section.second-section {
-    margin-bottom: 0
+.box-text p {
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 0;
 }
 
-section.first-section .grid-container .grid-content .box-text .product-name {
-    width: 195px;
+.product-name {
     line-height: 18px;
     text-transform: uppercase
 }
 
-section.first-section .grid-container .grid-content .box-text .product-price {
+.product-price {
     position: relative;
     top: -3px;
     font-size: 12px
 }
 
-section.first-section .grid-container .grid-content .box-text .tombol-biru {
+.tombol-biru {
     position: absolute;
     display: block;
     width: auto;
@@ -98,15 +75,14 @@ section.first-section .grid-container .grid-content .box-text .tombol-biru {
     scale: 0.67
 }
 
-section.second-section .top-container .top-container-col {
-    margin-bottom: 5px
+/* Second Section */
+
+.second-section {
+    padding-top: 20px;
+    margin-bottom: 0;
 }
 
-section.second-section .top-container .promo-banner-container {
-    margin: 0 auto
-}
-
-section.second-section .top-container .promo-container .promo-title-container {
+.promo-title-container {
     width: 138px;
     height: auto;
     background-color: #ebebeb;
@@ -114,137 +90,103 @@ section.second-section .top-container .promo-container .promo-title-container {
     border-bottom-right-radius: 20px
 }
 
-section.second-section .top-container .promo-container .promo-title-container .promo-title {
+.promo-title {
     font-weight: 700;
     font-size: 28px;
     text-transform: uppercase;
     color: #183f9d;
     margin-bottom: 0;
-    height: 100%;
-    line-height: 31px;
     text-indent: 8px
 }
 
-section.second-section .top-container .promo-container .promo-banner-container .promo-banner-col {
-    display: flex;
-    justify-content: space-evenly
+.promo-banner-container {
+    margin: 0 auto
 }
 
-section.second-section .top-container .promo-container .promo-banner-container .promo-banner-item {
-    padding-top: 5px;
-    padding-bottom: 9px;
-    /* width: 275px */
-}
-
-section.second-section .top-container .promo-container .promo-banner-container .promo-banner-item img {
+.promo-banner-item img {
     box-shadow: 5px 5px 8px 0 rgb(0 0 0 / 60%);
     -webkit-box-shadow: 5px 5px 8px 0 rgb(0 0 0 / 60%);
     -moz-box-shadow: 5px 5px 8px 0 rgb(0 0 0 / 60%);
     cursor: pointer;
 }
 
-section.third-section {
-    padding-top: 20px;
-    padding-bottom: 30px;
-    margin-bottom: 0;
-    background-color: #48b5df
-}
-
-section.third-section .caption-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: .5rem
-}
-
-section.third-section .caption-container a {
-    text-decoration: none
-}
-
-section.third-section .caption-container h2,
-section.third-section .caption-container p {
-    text-transform: uppercase;
-    color: #fff;
-    font-weight: 700;
-    font-style: italic
-}
-
-section.third-section .caption-container .title {
-    font-size: 20px;
-    margin-bottom: 0
-}
-
-section.third-section .caption-container .read-more {
-    font-size: 12px;
-    margin-bottom: 0;
-    line-height: 23px
-}
-
-section.third-section .news-container .news-item {
-    position: relative
-}
-
-section.third-section .news-container .news-item span {
-    position: absolute;
-    z-index: 111;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    color: #fff;
-    margin: 0 auto;
-    padding: 0 13px;
-    -webkit-line-clamp: 1;
+.thumbnail {
+    position: relative;
     overflow: hidden;
-    -webkit-box-orient: vertical;
-    display: -webkit-box
 }
 
-.home .slick-dots li button {
-    width: 10px;
-    height: 10px
+.thumbnail a {
+    position: relative;
 }
 
-.home .slick-dots li button:before {
-    content: '';
-    width: 10px;
-    height: 10px;
-    background: #000;
-    border-radius: 20px
+.thumbnail img {
+    display: block;
+    transition: opacity 0.3s ease;
 }
 
-@media screen and (max-width:768px) {
-    section.third-section .news-container .news-item {
-        margin-bottom: 10px
-    }
+.thumbnail .middle {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s;
 }
 
-@media only screen and (max-width:425px) {
+.thumbnail:hover .middle {
+    opacity: 1;
+}
 
-    section.first-section .caption-container .title,
-    section.third-section .caption-container .title {
+.thumbnail .text {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    background-color: #04AA6D;
+    padding: 16px 32px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.thumbnail:hover .middle .text {
+    opacity: 1;
+}
+
+@media screen and (max-width:425px) {
+    .title {
         font-size: 15px
     }
 
-    section.first-section .caption-container .price-area {
+    .price-area {
         font-size: 10px
     }
 
-    section.second-section .top-container .promo-container .promo-title-container .promo-title {
+    .promo-title {
         font-size: 22px
-    }
-
-    section.third-section .news-container .news-item span {
-        font-size: 12px
     }
 }
 
-@media only screen and (min-width:768px) {
-    section.third-section .news-container .news-item span {
-        font-size: 15px
+@media screen and (max-width:575px) {
+    .promo-banner-container {
+        display: flex;
+        justify-content: space-around;
     }
 
-    .home .slick-dots li button,
-    .home .slick-dots li button:before {
+    .promo-banner-col {
+        width: unset;
+    }
+}
+
+@media screen and (min-width:768px) {
+    .banner-pagination {
+        margin-top: 0.5rem;
+    }
+
+    .banner-pagination .swiper-pagination-bullet {
         width: 20px;
-        height: 20px
+        height: 20px;
     }
 }
