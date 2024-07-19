@@ -23,7 +23,7 @@
 <section class="content">
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            {{-- <div class="col-md-4">
                 <div class="contact-detail">
                     <h3>Kontak</h3>
                     <p>Jika Anda mempunyai pertanyaan, silahkan menggunakan kontak berikut.</p>
@@ -44,8 +44,8 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="col-md-8">
+            </div> --}}
+            <div class="col-md-8 mx-auto">
                 <div class="main-form contact-form">
                     <div class="form-container">
                         <h1>Kirim Pesan</h1>

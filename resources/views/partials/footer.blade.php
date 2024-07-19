@@ -22,10 +22,9 @@
                     <img src="{{ url('/images/logo-footer.png')}}" title="Kembali ke Beranda" class="logo-image" alt="TJAHAJA BARU">
                 </a>
                 <div class="small mt-3">
-                    <div>CV. TJAHAJA BARU | YAMAHA GROUP</div>
-                    <div><img style="width: 18px;" src="{{ url('/images/icons/tlpn.png')}}" alt=""> 0811805898</div>
-                    <div><img style="width: 18px;" src="{{ url('images/icons/mail.png')}}" alt=""> sales.online@tjahaja-baru.com</div>
-                    <div><img style="width: 18px;" src="{{ url('images/icons/lokasi.png')}}" alt=""> Jl. Damar No. 59 (25133) Padang - Sumatera Barat INDONESIA</div>
+                    <div><img style="width: 18px;" src="{{ url('/images/icons/tlpn.png')}}" alt=""> 0751893888</div>
+                    <div><img style="width: 18px;" src="{{ url('images/icons/mail.png')}}" alt=""> sales@tjahaja-baru.com</div>
+                    <div><img style="width: 18px;" src="{{ url('images/icons/lokasi.png')}}" alt=""> Jl. Damar No. 59 (25117) Padang - Sumatera Barat INDONESIA</div>
                 </div>
                 
             </div>
@@ -45,7 +44,7 @@
                         <a href="/contact">Contact Us</a>
                     </li>
                     <li class="mb-2">
-                        <a href="/dealers">Dealers</a>
+                        <a href="/dealers">Locations</a>
                     </li>
                     <li class="mb-2">
                         <a href="/compare">Compare</a>
