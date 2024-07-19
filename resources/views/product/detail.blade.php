@@ -15,8 +15,27 @@
 @section('main_class', 'product-detail')
 
 @section('additional_css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="{{ asset('css/product-detail.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/main-form.css') }}" />
+    {{-- <style>
+        .youtube-container {
+            overflow: hidden;
+            width: 100%;
+            /* Keep it the right aspect-ratio */
+            aspect-ratio: 16/9;
+            /* No clicking/hover effects */
+            pointer-events: none;
+        } 
+
+        .youtube-container iframe {
+            /* Extend it beyond the viewport... */
+            width: 300%;
+            height: 100%;
+            /* ...and bring it back again */
+            margin-left: -100%;
+        }
+    </style> --}}
 @endsection
 
 @section('content')
@@ -102,6 +121,11 @@
         <h1>Banner</h2>
     </div>
     @endif
+    {{-- <div class="youtube-container" style="pointer-events: none;">
+        <span>
+            <iframe class="delayed" frameborder="0" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" title="2024 Yamaha MT-09: Unleash your Darkness" width="640" height="360" src="https://www.youtube.com/embed/6WNa658b8nw?autoplay=1&amp;controls=0&amp;mute=1&amp;keyboard=1&amp;autohide=1&amp;iv_load_policy=3&amp;modestbranding=1&amp;disablekb=1&amp;rel=0&amp;host=https%3A%2F%2Fwww.youtube.com&amp;origin=https%3A%2F%2Fwww.yamaha-motor.eu&amp;enablejsapi=1&amp;loop=1&amp;playlist=6WNa658b8nw&amp;start=0&amp;widgetid=3" id="undefined" class="undefined"></iframe>
+        </span>
+    </div> --}}
 </section>
 
 <section class="second-section">
@@ -116,52 +140,30 @@
         <div class="row version-row">
             <ul class="variant-wrapper">
                 @foreach ($variantNames as $item)
-                    {{-- @php
-                        $name = explode(" ", $item);   
-                        $name = end($name);
-                    @endphp --}}
                     <li data-variant="{{ $item }}" class="variant-unit">{{ $item }}</li>
                 @endforeach
             </ul>
         </div>
-        
-        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-interval="false">
-            <div class="carousel-indicators">
-                @php
-                    $i = 0;
-                @endphp
-                @foreach ($data as $item)
-                <button type='button' data-bs-target='#carouselExampleDark' data-bs-slide-to='{{$i}}' class='sign' style="background: {{$item->color}}"></button>
-                @php
-                    $i++
-                @endphp
-                @endforeach
-            </div>
-            <div class="carousel-inner">
-                @foreach ($data as $item)
-                    <div class="carousel-item">
-                        <img src="{{ url($item->image) }}" class="d-block w-100" alt="...">
-                        <div class="caption-box carousel-caption">
-                            <p class="price">{{ $item->price }}</p>
-                            <p class="price">{{ $item->name }}</p>
+
+        <div class="product-card">
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    @foreach ($data as $item)
+                        <div class="swiper-slide">
+                            <img src="{{ url($item->image) }}" alt="">
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-        <div class="row caption-box">
-            <p class="area-price">Harga OTR Sumatera Barat</p>
-        </div>
-        <div class="button-compare">
-            <a href="/compare_product" class="btn btn-primary">Compare Product</a>
+            <div class="caption-box">
+                <div class="color-wrapper text-center"></div>
+                <p class="price">{{ $data[0]->price }}</p>
+                <p class="price">{{ $data[0]->name }}</p>
+                <p class="area-price">Harga OTR Sumatera Barat</p>
+                <div class="button-compare">
+                    <a href="/compare_product" class="btn btn-primary">Compare Product</a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -534,112 +536,103 @@
 @endsection
 
 @section('additional_script')
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="{{ asset('js/product.js') }}"></script>
 <script src="{{ asset('js/contact.js') }}"></script>
 <script>
     $(document).ready(function() {
+        // setTimeout(function() { 
+        //     $('iframe.delayed').attr('src'); 
+        // }, 20000);
         
-        var introCarousel = $(".carousel-inner");
-        var introCarouselIndicators = $(".carousel-indicators");
-        var introlCarouselPrevNext = $(".carousel-control-prev, .carousel-control-next");
-
-        introCarousel.children(".carousel-item:first").addClass('active');
-        introCarouselIndicators.children(".sign:first").addClass('active');
-
         var variantUnit = $(".variant-unit:first").addClass('active');
 
-        if ( introCarousel.find(".carousel-item").length == 1 ) {
-            introlCarouselPrevNext.hide();
-        }
-        
         $('.variant-unit').click(function() {
-            $('#carouselExampleDark').carousel();
             var variant = $(this).attr('data-variant');
             var url = "/get-data/" + variant;
 
             $('.variant-unit').removeClass('active');
             $(this).addClass('active');
+
             $.ajax({
                 url: url,
                 method: 'GET',
                 success: function(response) {
-                    var carouselExampleDark = $('#carouselExampleDark');
-                    if (carouselExampleDark.length === 0) {
-                        console.error("#carouselExampleDark element not found.");
-                        return;
-                    }
+                    var productCard = $('.product-card');
+                    productCard.empty(); 
 
-                    var carouselIndicators = $(".carousel-indicators");
-                    var carouselInner = $(".carousel-inner");
-                    var carouselControlPrev = $(".carousel-control-prev");
-                    var carouselControlNext = $(".carousel-control-next");
+                    var swiperDiv = $('<div>')
+                        .addClass('swiper');
+                    productCard.append(swiperDiv);
 
-                    carouselIndicators.empty();
-                    carouselInner.empty();
-                    $('#carouselExampleDark').empty(carouselControlPrev);
-                    $('#carouselExampleDark').empty(carouselControlNext);
-                    
+                    var swiperWrapper = $('<div>')
+                        .addClass('swiper-wrapper');
+                    swiperDiv.append(swiperWrapper);
+
                     response.forEach(function(item, index) {
-                    // Buat elemen indicator untuk setiap item
-                    var indicatorButton = $('<button>')
-                        .attr('type', 'button')
-                        .attr('data-bs-target', '#carouselExampleDark')
-                        .attr('data-bs-slide-to', index)
-                        .addClass('sign')
-                        .css('background', item.color);
-                    carouselIndicators.append(indicatorButton);
-                    if (index === 0) {
-                        carouselIndicators.children(".sign:first").addClass('active');
-                    }
-                    
-                    // Buat elemen item carousel untuk setiap item
-                    var carouselItem = $('<div>')
-                        .addClass('carousel-item');
-                    if (index === 0) {
-                        carouselItem.addClass('active');
-                    }
-
-                    var itemImage = $('<img>')
-                        .attr('src', '{{ url("/") }}' + '/' + item.image)
-                        .addClass('d-block w-100')
-                        .attr('alt', '...');
-                    carouselItem.append(itemImage);
-
-                    var captionBox = $('<div>')
-                        .addClass('caption-box carousel-caption');
-                    var priceParagraph = $('<p>')
-                        .addClass('price')
-                        .text(item.price);
-                    var nameParagraph = $('<p>')
-                        .addClass('price')
-                        .text(item.name);
-                    captionBox.append(priceParagraph, nameParagraph);
-                    carouselItem.append(captionBox);
-
-                    carouselInner.append(carouselItem);
+                        var swiperSlide = $('<div>')
+                            .addClass('swiper-slide');
+                        
+                        var itemImage = $('<img>')
+                            .attr('src', '{{ url("/") }}' + '/' + item.image)
+                            .attr('alt', '...');
+                        swiperSlide.append(itemImage);
+                        swiperWrapper.append(swiperSlide);
                     });
 
-                    if ( carouselInner.find(".carousel-item").length > 1) {
-                        var carouselControlPrev = $('<button>').addClass('carousel-control-prev').attr('type', 'button').attr('data-bs-target', '#carouselExampleDark').attr('data-bs-slide', 'prev');
-                        var carouselControlPrevIcon = $('<span>').addClass('carousel-control-prev-icon').attr('aria-hidden', 'true');
-                        var carouselControlPrevText = $('<span>').addClass('visually-hidden').text('Previous');
-                        carouselControlPrev.append(carouselControlPrevIcon, carouselControlPrevText);
-                        var carouselControlNext = $('<button>').addClass('carousel-control-next').attr('type', 'button').attr('data-bs-target', '#carouselExampleDark').attr('data-bs-slide', 'next');
-                        var carouselControlNextIcon = $('<span>').addClass('carousel-control-next-icon').attr('aria-hidden', 'true');
-                        var carouselControlNextText = $('<span>').addClass('visually-hidden').text('Next');
-                        carouselControlNext.append(carouselControlNextIcon, carouselControlNextText);
+                    var captionBox = $('<div>')
+                        .addClass('caption-box');
+                    productCard.append(captionBox);
 
-                        // Append 
-                        $('#carouselExampleDark').append(carouselIndicators, carouselInner, carouselControlPrev, carouselControlNext);
-                    } else {
-                        // Append 
-                        $('#carouselExampleDark').append(carouselIndicators, carouselInner);
-                    }
+                    var colorWrapper = $('<div>')
+                        .addClass('color-wrapper text-center');
+                    captionBox.append(colorWrapper);
+                    
+                    captionBox.append('<p class="price">' + response[0].price + '</p>');
+                    captionBox.append('<p class="price">' + response[0].name + '</p>');
+                    captionBox.append('<p class="area-price">Harga OTR Sumatera Barat</p>');
+                    captionBox.append('<div class="button-compare"><a href="/compare_product" class="btn btn-primary">Compare Product</a></div>');
+
+                    const swiper = new Swiper('.swiper', {
+                        slidesPerView: 1,
+                        centeredSlides: true,
+                        pagination: {
+                            el: '.color-wrapper',
+                            clickable: true,
+                            renderBullet: function(index, className) {
+                                var colors = @json($data); 
+
+                                if (index >= 0 && index < colors.length) {
+                                    return '<span class="' + className + '" style="background: ' + colors[index].color + '"></span>';
+                                }
+
+                                return ''; 
+                            }
+                        },
+                    });
                 },
                 error: function(xhr, status, error) {
-                    console.log(error);
+                    console.error("Terjadi kesalahan:", error);
                 }
             });
+        });
+
+        const swiper = new Swiper('.swiper', {
+            slidesPerView: 1,
+            centeredSlides: true,
+            pagination: {
+                el: '.color-wrapper',
+                clickable: true,
+                renderBullet: function(index, className) {
+                    var colors = @json($data); 
+
+                    if (index >= 0 && index < colors.length) {
+                        return '<span class="' + className + '" style="background: ' + colors[index].color + '"></span>';
+                    }
+
+                    return ''; 
+                }
+            },
         });
     });
 
