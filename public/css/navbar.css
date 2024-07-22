@@ -176,6 +176,18 @@ header {
     margin-top: 10px
 }
 
+.navbar .compare-menu {
+    background-color: red;
+    height: 50px;
+    border-radius: 12px;
+    margin: auto 0;
+}
+
+.navbar .compare-menu a {
+    color: white;
+    font-weight: 700;
+}
+
 .navbar .dropdown-menu {
     text-align: center;
     background: 0 0;

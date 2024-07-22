@@ -33,12 +33,30 @@
     margin: 0 auto
 }
 
+.first-section .icon-container .compare-menu {
+    background-color: red;
+    height: 50px;
+    border-radius: 12px;
+    margin: auto 0;
+}
+
+.first-section .icon-container .compare-menu a {
+    color: white;
+    font-weight: 700;
+}
+
 .first-section .icon-row .icon {
     margin: 0 auto
 }
 
 .first-section .icon-row.mobile .icon {
     margin-top: 10px
+}
+
+.first-section .mobile .compare-menu {
+    margin: 18px 0;
+    text-align: center;
+    width: 92px !important;
 }
 
 .first-section .icon-row.pc,
