@@ -141,7 +141,12 @@ class Group extends Model
             Storage::disk($disk)->put($destination_path . '/' . $filename, $image->stream());
 
             // 3. Delete the previous image, if there was one.
-            Storage::disk($disk)->delete(Str::replaceFirst('uploads/', '', $this->{$attribute_name}));
+            // Storage::disk($disk)->delete(Str::replaceFirst('uploads/', '', $this->{$attribute_name}));
+            $currentImagePath = $this->{$attribute_name};
+            if (!empty($currentImagePath)) {
+                $pathToDelete = Str::replaceFirst('uploads/', '', $currentImagePath);
+                Storage::disk($disk)->delete($pathToDelete);
+            }
 
             // 4. Save the public path to the database
             // but first, remove "public/" from the path, since we're pointing to it

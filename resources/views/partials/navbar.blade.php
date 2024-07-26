@@ -49,6 +49,9 @@
 										<p class="text">Moped</p>
 									</a>
 								</div>
+								<div class="product-icon-box compare-menu">
+									<a href="/compare_product">Compare Product</a>
+								</div>
 							</div>
 						</div>
 					</li>
@@ -62,6 +65,7 @@
 						  <li><a class="dropdown-item" href="/products/category/matic">Matic</a></li>
 						  <li><a class="dropdown-item" href="/products/category/sport">Sport</a></li>
 						  <li><a class="dropdown-item" href="/products/category/moped">Moped</a></li>
+						  <li><a class="dropdown-item" href="/compare_product">Compare Product</a></li>
 						</ul>
 					</li>
 					<li class="nav-item">
@@ -72,9 +76,6 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/dealers">locations</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/compare_product">compare</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/kuis">Quiz</a>

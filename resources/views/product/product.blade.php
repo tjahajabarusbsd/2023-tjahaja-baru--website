@@ -48,6 +48,9 @@
 						<p class="text">Moped</p>
 					</a>
 				</div>
+				<div class="product-icon-box compare-menu">
+					<a href="/compare_product">Compare Product</a>
+				</div>
 			</div>
 			<div class="row icon-row mobile">
 				<div class="product-icon-box">
@@ -79,6 +82,9 @@
 						<img src="{{ url('images/products/icons/moped_i.png')}}" alt="" class="icon">
 						<p class="text">Moped</p>
 					</a>
+				</div>
+				<div class="product-icon-box compare-menu">
+					<a href="/compare_product">Compare Product</a>
 				</div>
 			</div>
 		</div>

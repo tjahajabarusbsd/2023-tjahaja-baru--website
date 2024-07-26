@@ -11,6 +11,12 @@
     margin: 0 auto
 }
 
+.product .mobile .compare-menu {
+    margin: 18px 0;
+    text-align: center;
+    width: 92px !important;
+}
+
 .product .first-section .icon-row .icon {
     margin: 0 auto
 }
@@ -52,6 +58,18 @@
     color: #fff;
     margin-bottom: 0;
     margin-top: 10px
+}
+
+.product .compare-menu {
+    background-color: red;
+    height: 50px;
+    border-radius: 12px;
+    margin: auto 0;
+}
+
+.product .compare-menu a {
+    color: white;
+    font-weight: 700;
 }
 
 .product .second-section {
@@ -156,7 +174,7 @@
     }
 }
 
-@media only screen and (min-width:545px) {
+@media only screen and (min-width:650px) {
     .product .first-section .icon-row.pc {
         display: flex
     }
