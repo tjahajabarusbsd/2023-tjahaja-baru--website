@@ -1295,4 +1295,114 @@
             <title>Y-Connect</title>
             <body>Teknologi modern dan informatif yang menghubungkan antara motor dengan smartphone untuk menginformasikan rekomendasi perawatan, konsumsi BBM, Lokasi parkir terakhir, notifikasi malfungsi, dan lain-lain.</body>
     </feature>
+
+    <!-- nmax-turbo -->
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/YECVT_VVA_&amp;_BLUE_CORE.jpg</image>
+            <title>New Engine 155cc YECVT, Blue Core &amp; VVA</title>
+            <body>Mesin Blue Core 155 cc generasi terbaru yang disempurnakan ditambah dengan teknologi Yamaha Electric CVT (YECVT) yang mampu memberikan berkendara dengan sensasi "TURBO". *Tersedia di Nmax "TURBO" TECH MAX &amp; Ultimate</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/Turbo Riding Mode.jpg</image>
+            <title>Turbo Riding Mode</title>
+            <body>Dilengkapi 2 mode berkendara: - T Mode : Town Commuting (untuk penggunaan saat berkendara di perkotaan) - S Mode : Sport Touring (untuk penggunaan saat berkendara yang membutuhkan akselerasi lebih seperti saat perjalanan keluar kota).</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/Turbo Y-Shift.jpg</image>
+            <title>Turbo Y-Shift</title>
+            <body>"TURBO" Y-Shift memberikan pengalaman akselerasi dengan 3 tingkatan : 1:low, 2: medium, 3:High. yang dapat dioperasikan dengan menekan tombol Y-Shift saat berakselerasi maupun saat ingin merasakan deselerasi.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/ABS.jpg</image>
+            <title>Dual Channel ABS (Anti-Lock Braking System)</title>
+            <body>Kontrol pengereman yang optimal dengan Dual Channel Anti-Lock Braking System.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/Traction Control System (TCS).jpg</image>
+            <title>Traction Control System (TCS)</title>
+            <body>Sistem yang dirancang untuk mengurangi resiko ban belakang selip di segala situasi permukaan jalan pada saat akselerasi.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/Sub-Tank Suspension.jpg</image>
+            <title>Rear Sub-Tank Suspension</title>
+            <body>Untuk mendukung performa berkendara yang lebih nyaman diberbagai kondisi jalan. *optimized setting with 5mm lengthened stroke suspension.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/MAXi Design.jpg</image>
+            <title>MAXi Design</title>
+            <body>Desain khas MAXi Yamaha dengan dimensi MAXi yang terlihat lebih tegas, elegan, dan modern sehingga meningkatkan rasa bangga saat berkendara.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/Front &amp; Rear LED Lamp With Dual Projector.jpg</image>
+            <title>Front &amp; Rear LED Lamp With Dual Projector</title>
+            <body>Desain lampu depan dan belakang baru yang memberikan kesan tegas, mewah, dan modern. Dilengkapi Dual Projector LED sehingga pencahayaan jadi optimal, lebih terang, dan fokus.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/MAXi Cockpit Design.jpg</image>
+            <title>MAXi Cockpit Design</title>
+            <body>Desain ruang kemudi dirancang secara detail untuk menginspirasi kebanggaan kepemilikan saat berkendara.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/MAXi Comfort Seat.jpg</image>
+            <title>MAXi Comfort Seat</title>
+            <body>Seat berukuran besar yang mendukung kenyamanan extra, memungkinkan posisi duduk lebih fleksibel sendiri maupun berboncengan. Pada versi Tech MAX jok menggunakan material khusus dengan jahitan emas.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/MAXi Riding Position.jpg</image>
+            <title>MAXi Riding Position</title>
+            <body>Jelajahi tempat-tempat baru dengan bantuan sistem navigasi yang didukung oleh Aplikasi Garmin Street Cross yang ditampilkan di TFT Infotainment Display.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/Y-Connect.jpg</image>
+            <title>Multi Infotainment Display With Y-Connect</title>
+            <body>Desain baru Full LCD Speedometer yang informatif untuk pengendara dengan konektifitas dengan Y-connect dapat memberikan notifikasi pesan dan telpon.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/Electric Power Outlet.jpg</image>
+            <title>Electric Power Outlet</title>
+            <body>Komunikasi yang selalu terhubung dengan dukungan electric power socket untuk mengisi daya gadget pengendara selama perjalanan.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/Big Luggage (25 Litre).jpg</image>
+            <title>Big Luggage (25 Litre)</title>
+            <body>Bagasi besar yang memungkinkan penyimpanan lebih banyak barang, cocok untuk perjalanan jauh dan aktivitas sehari - hari yang memberikan kemudahan extra bagi pengendara.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/Smart Key System.jpg</image>
+            <title>Smart Key System</title>
+            <body>Sistem kunci canggih tanpa anak kunci (keyless), dilengkapi fitur Answer Back System, memudahkan pengendara mencari posisi parkir motor.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/Stop &amp; Start System.jpg</image>
+            <title>Stop &amp; Start System</title>
+            <body>Stop &amp; Start System (SSS) berfungsi untuk mengurangi konsumsi bahan bakar yang tidak perlu pada saat motor sedang berhenti.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/Tech MAX Emblem.jpg</image>
+            <title>Tech MAX Emblem</title>
+            <body>Desain emblem special Tech MAX yang memberikan kesan mewah.</body>
+    </feature>
+    <feature>
+        <uri>nmax-turbo</uri>
+            <image>/images/features/nmax-turbo/Garansi 5 Thn.jpg</image>
+            <title>5 Years Warranty</title>
+            <body>Garansi 5 Tahun/50.000 Km meliputi rangka (Frame)*, komponen FI, DiASil Cylinder &amp; Forged Piston**. *Hanya berlaku untuk sepeda motor matic Yamaha. **Syarat dan ketentuan berlaku, lihat pada Buku Service dan Garansi.</body>
+    </feature>
 </features>
