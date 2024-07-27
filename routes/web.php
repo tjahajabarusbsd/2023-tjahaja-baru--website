@@ -55,12 +55,14 @@ Route::get('/get-data/{variant}', [VariantController::class, 'getData'])->name('
 
 // --- Contact Section --- 
 Route::get('/contact', [ContactController::class, 'getContactForm'])->name('contact.get');
-Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('contact.submit');
+// Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('contact.submit');
+Route::post('/contact', [ContactController::class, 'submitFormPesan'])->name('contact.submit');
 // --- End Contact Section --- 
 
 // --- Consultation Section --- 
 Route::get('/consultation', [ConsultationController::class, 'getConsultationForm']);
-Route::post('/send_message', [WhatsAppController::class, 'sendMessage']);
+// Route::post('/send_message', [WhatsAppController::class, 'sendMessage']);
+Route::post('/send_message', [ConsultationController::class, 'submitConsultationForm']);
 // --- End Consultation Section --- 
 
 // --- Comparison Section --- 

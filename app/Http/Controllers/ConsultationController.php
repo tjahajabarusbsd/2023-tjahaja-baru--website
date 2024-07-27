@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ConsultationformMail;
+use App\Models\Staff;
 use App\Models\Variant;
+use App\Models\Consultation;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use App\Http\Requests\ConsultationRequest;
+use App\Http\Controllers\WhatsAppController;
+use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
+
+use Illuminate\Support\Facades\URL;
 
 class ConsultationController extends Controller
 {
@@ -25,34 +30,67 @@ class ConsultationController extends Controller
         return view('consultation', compact('value', 'lists'));
     }
 
-    public function postConsultationForm(Request $request)
+    public function submitConsultationForm(ConsultationRequest $request, WhatsAppController $whatsAppController)
     {
-        // Validate the form data
-        $request->validate([
-            'name'   => 'required|max:50|regex:/^[a-zA-Z\s]+$/',
-            'nohp'   => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/'],
-            'produk' => 'required'
-        ], [
-            'name.required'   => 'Kolom wajib diisi.',
-            'name.regex'      => 'Wajib menggunakan huruf.',
-            'name.max'        => 'Nama maksimal 50 karakter.',
-            'nohp.required'   => 'Kolom wajib diisi',
-            'nohp.numeric'    => 'Wajib menggunakan angka.',
-            'nohp.regex'      => 'Mohon input nomor HP dengan benar.',
-            'produk.required' => 'Kolom wajib diisi.',
-        ]);
+        $score = RecaptchaV3::verify($request->get('g-recaptcha-response'), 'consultation');
+        
+        if ($score > 0.7) {
+            $salesCode = $request->cookie('sales');
+            $currentURL = $request->input('url');
+            $charactersAfterLastSlash = substr($currentURL, strrpos($currentURL, '/') + 1);
+            if (!empty($salesCode)) {
+                // Retrieve the phone number from the database based on the code
+                $staff = Staff::where('code', $salesCode)->first();
+                if (!$staff) {
+                    return redirect()->back()->with('error', 'Submit gagal');
+                }
+                $phone = $staff->phone; // Phone number retrieved from the staff record
+                $phone = str_replace("+", "", $phone);
+            } else {
+                $phone = '62811805898'; // Default phone number
+            }
 
-        // Check dealer
-        if (!empty($request->dealer) && $request->dealer == 'ydstb') {
-            $email = 'mauizatul92+1@gmail.com';
-        } else {
-            $email = 'mauizatul92@gmail.com';
+            $selectedOption = $request->input('produk');
+            
+            $validatedData  = $request->validated();
+            
+            $consultationData = Consultation::storeSubmission($validatedData, $charactersAfterLastSlash, $salesCode);
+            
+            $messageBody = $this->buildMessageBody($validatedData, $selectedOption);
+            dd($messageBody);
+
+            $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
+
+            if ($apiResponse->getStatusCode() === 200) {
+                $successMessage = "Pengajuan Anda telah diterima.\nDealer kami akan segera menghubungi Anda.";
+
+                $deleteCookie = Cookie::forget('sales');
+            
+                $previousUrl = URL::previous();
+                $previousUrlWithoutParams = strtok($previousUrl, '?');
+            
+                return redirect($previousUrlWithoutParams)->withCookie($deleteCookie)->with('success', $successMessage);
+            } else {
+                // Jika gagal mengirim pesan WhatsApp, roll back data
+                $consultationData->delete(); // Menghapus data yang telah disimpan
+                return response()->json(['errorMessage' => 'Failed to send WhatsApp message'], 422);
+            }
         }
-        dd($email);
-        // Send email
-        Mail::to($email)->send(new ConsultationformMail($request));
 
-        // Redirect the user after sending the email
-        return redirect()->back()->with('success', 'Terima kasih data Anda sudah berhasil terkirim!');
+        return response()->json(['errorMessage' => 'You are most likely a bot'], 422);
+    }
+
+    private function buildMessageBody(array $validatedData, $selectedOption)
+    {
+        $messageBody = [
+            "Hi, Dealer,",
+            "Berikut ini data konsumen yang mengisi form di website kita yang minat dengan produk Yamaha:",
+            "Nama: " . $validatedData['name'],
+            "No HP: " . $validatedData['nohp'],
+            "Produk yang diminati: " . $selectedOption,
+        ];
+        $messageBody[] = "Tolong segera diproses. Terima kasih.";
+
+        return implode("\n", $messageBody);
     }
 }

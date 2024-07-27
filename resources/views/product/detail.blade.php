@@ -531,6 +531,9 @@
                     <input type="checkbox" name="terms" id="termsCheckbox" required>
                     Saya setuju bahwa informasi diatas mengizinkan TJAHAJA BARU untuk menghubungi Saya melalui telepon/WhatsApp.
                 </label>
+                @error('terms')
+                    <small>{{ $message }}</small>
+                @enderror
             </div>
             
             <div class="form-group">
