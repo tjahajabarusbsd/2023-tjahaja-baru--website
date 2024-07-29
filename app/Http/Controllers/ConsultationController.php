@@ -57,8 +57,7 @@ class ConsultationController extends Controller
             $consultationData = Consultation::storeSubmission($validatedData, $charactersAfterLastSlash, $salesCode);
             
             $messageBody = $this->buildMessageBody($validatedData, $selectedOption);
-            dd($messageBody);
-
+            
             $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
 
             if ($apiResponse->getStatusCode() === 200) {
