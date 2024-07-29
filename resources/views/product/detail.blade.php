@@ -160,7 +160,7 @@
                             $result = $item;
                         }
                     @endphp
-                    <li data-variant="{{ $result }}" class="variant-unit">{{ $result }}</li>
+                    <li data-variant="{{ $item }}" class="variant-unit">{{ $result }}</li>
                 @endforeach
             </ul>
         </div>
