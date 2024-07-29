@@ -47,7 +47,7 @@
                         <a href="/dealers">Locations</a>
                     </li>
                     <li class="mb-2">
-                        <a href="/compare">Compare</a>
+                        <a href="/compare_product">Compare</a>
                     </li>
                 </ul>
             </div>
