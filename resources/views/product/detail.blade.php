@@ -145,8 +145,22 @@
         </div>
         <div class="row version-row">
             <ul class="variant-wrapper">
+                @php
+                    $currentUrl = url()->current(); 
+                    $nmaxTurbo = strpos($currentUrl, 'nmax-turbo') !== false; 
+                @endphp
                 @foreach ($variantNames as $item)
-                    <li data-variant="{{ $item }}" class="variant-unit">{{ $item }}</li>
+                    @php
+                        if ($nmaxTurbo) {
+                            // Memecah string berdasarkan spasi jika URL mengandung 'motor-A'
+                            $parts = explode(' ', $item, 2); // 2 adalah jumlah maksimum elemen dalam array
+                            $result = isset($parts[1]) ? $parts[1] : ''; // Mengambil elemen kedua jika ada
+                        } else {
+                            // Tidak memodifikasi string jika URL tidak mengandung 'nmax-turbo'
+                            $result = $item;
+                        }
+                    @endphp
+                    <li data-variant="{{ $result }}" class="variant-unit">{{ $result }}</li>
                 @endforeach
             </ul>
         </div>
