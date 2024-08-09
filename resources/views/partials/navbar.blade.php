@@ -80,18 +80,20 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/kuis">Quiz</a>
 					</li>
-					@auth
-						<li class="nav-item">
-							<a class="nav-link" href="/myprofile">My Profile</a>
-						</li>
-						<form action="{{url('logout')}}" method="GET" class="logout-form"> 
-							<button type="submit">Logout</button>
-						</form>
-					@else
-						<li class="nav-item nav-login">
-							<a class="nav-link link-login" href="/login">Login</a>
-						</li>
-					@endauth
+					@if(env('APP_ENV') == 'local')
+						@auth
+							<li class="nav-item">
+								<a class="nav-link" href="/myprofile">My Profile</a>
+							</li>
+							<form action="{{url('logout')}}" method="GET" class="logout-form"> 
+								<button type="submit">Logout</button>
+							</form>
+						@else
+							<li class="nav-item nav-login">
+								<a class="nav-link link-login" href="/login">Login</a>
+							</li>
+						@endauth
+					@endif
 				</ul>
 			</div>
 		</div>
