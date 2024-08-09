@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Cookie;
 use App\Http\Requests\ConsultationRequest;
 use App\Http\Controllers\WhatsAppController;
 use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
-
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\URL;
 
 class ConsultationController extends Controller
@@ -32,7 +32,7 @@ class ConsultationController extends Controller
 
     public function submitConsultationForm(ConsultationRequest $request, WhatsAppController $whatsAppController)
     {
-        $score = RecaptchaV3::verify($request->get('g-recaptcha-response'), 'consultation');
+        $score = RecaptchaV3::verify($request->get('g-recaptcha-response'), 'contact');
         
         if ($score > 0.7) {
             $salesCode = $request->cookie('sales');
@@ -47,7 +47,7 @@ class ConsultationController extends Controller
                 $phone = $staff->phone; // Phone number retrieved from the staff record
                 $phone = str_replace("+", "", $phone);
             } else {
-                $phone = '62811805898'; // Default phone number
+                $phone = '62812'; // Default phone number
             }
 
             $selectedOption = $request->input('produk');
@@ -57,26 +57,41 @@ class ConsultationController extends Controller
             $consultationData = Consultation::storeSubmission($validatedData, $charactersAfterLastSlash, $salesCode);
             
             $messageBody = $this->buildMessageBody($validatedData, $selectedOption);
-            
+
             $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
 
             if ($apiResponse->getStatusCode() === 200) {
                 $successMessage = "Pengajuan Anda telah diterima.\nDealer kami akan segera menghubungi Anda.";
-
                 $deleteCookie = Cookie::forget('sales');
-            
-                $previousUrl = URL::previous();
-                $previousUrlWithoutParams = strtok($previousUrl, '?');
-            
-                return redirect($previousUrlWithoutParams)->withCookie($deleteCookie)->with('success', $successMessage);
+                
+                $response = new Response([
+                    'successMessage' => $successMessage
+                ], 201);
+    
+                $response->withCookie($deleteCookie);
+                return $response;
             } else {
-                // Jika gagal mengirim pesan WhatsApp, roll back data
-                $consultationData->delete(); // Menghapus data yang telah disimpan
-                return response()->json(['errorMessage' => 'Failed to send WhatsApp message'], 422);
+                $consultationData->delete(); 
+                return response()->json(['errorMessage' => 'Pesan gagal terkirim!'], 422);
             }
+
+            // if ($apiResponse->getStatusCode() === 200) {
+            //     $successMessage = "Pengajuan Anda telah diterima.\nDealer kami akan segera menghubungi Anda.";
+
+            //     $deleteCookie = Cookie::forget('sales');
+            
+            //     $previousUrl = URL::previous();
+            //     $previousUrlWithoutParams = strtok($previousUrl, '?');
+            
+            //     return redirect($previousUrlWithoutParams)->withCookie($deleteCookie)->with('success', $successMessage);
+            // } else {
+            //     // Jika gagal mengirim pesan WhatsApp, roll back data
+            //     $consultationData->delete(); // Menghapus data yang telah disimpan
+            //     return response()->json(['errorMessage' => 'Failed to send WhatsApp message'], 422);
+            // }
         }
 
-        return response()->json(['errorMessage' => 'You are most likely a bot'], 422);
+        return response()->json(['errorMessage' => 'Anda kemungkinan adalah bot'], 422);
     }
 
     private function buildMessageBody(array $validatedData, $selectedOption)

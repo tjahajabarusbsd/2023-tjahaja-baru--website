@@ -3,83 +3,71 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ContactformMail;
-use App\Models\Contact;
 use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
+use App\HTTP\Controllers\WhatsAppController;
+use Illuminate\Support\Facades\Cookie;
+use App\Models\Variant;
+use App\Models\Contact;
+use App\Http\Requests\ContactRequest;
 
 class ContactController extends Controller
 {
-    public function getContactForm()
+    public function getContactForm(Request $request)
     {
-        return view('contact');
-    }
+        $value = $request->query('sales');
+        $lists = Variant::all()->unique('name')->sortBy('name');
 
-    public function postContactForm(Request $request)
-    {
-        // Validate the form data
-        $request->validate([
-            'name'    => 'required|max:50|regex:/^[a-zA-Z\s]+$/',
-            'nohp'    => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/'],
-            'message' => 'required'
-        ], [
-            'name.required'    => 'Kolom wajib diisi.',
-            'name.regex'       => 'Wajib menggunakan huruf.',
-            'nohp.required'    => 'Kolom wajib diisi',
-            'nohp.numeric'     => 'Wajib menggunakan angka.',
-            'nohp.regex'       => 'Mohon input nomor HP dengan benar.',
-            'message.required' => 'Kolom wajib diisi.',
-        ]);
-
-        // $input = $request->input();
-        // dd($input);
-
-        $email = env('MAIL_TO_ADDRESS');
-
-        // Send email
-        Mail::to($email)->send(new ContactformMail($request));
-
-        // Redirect the user after sending the email
-        return redirect()->back()->with('success', 'Terima kasih data Anda sudah berhasil terkirim!');
-    }
-
-    public function submitContactForm(Request $request)
-    {
-        // Validate the form data
-        $request->validate([
-            'name'    => 'required|max:50|regex:/^[a-zA-Z\s]+$/',
-            'nohp'    => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/'],
-            'message' => 'required',
-            'g-recaptcha-response' => 'required',
-        ], [
-            'name.required'    => 'Kolom wajib diisi.',
-            'name.regex'       => 'Wajib menggunakan huruf.',
-            'nohp.required'    => 'Kolom wajib diisi',
-            'nohp.numeric'     => 'Wajib menggunakan angka.',
-            'nohp.regex'       => 'Mohon input nomor HP dengan benar.',
-            'message.required' => 'Kolom wajib diisi.',
-            'g-recaptcha-response.required' => 'captcha error'
-        ]);
-
-        $score = RecaptchaV3::verify($request->get('g-recaptcha-response'), 'contact');
-        // $score = 0.0;
-        if ($score > 0.7) {
-            // Tindakan yang sesuai jika reCAPTCHA v3 menunjukkan aktivitas yang valid (skor tinggi)
-            // Lanjutkan dengan proses form
-            $data = new Contact();
-            $data->name = $request->input('name');
-            $data->nohp = $request->input('nohp');
-            $data->message = $request->input('message');
-            $data->save();
-
-            return redirect()->back()->with('success', 'Terima kasih data Anda sudah berhasil terkirim!');
-        } elseif ($score > 0.3) {
-            // Tindakan yang sesuai jika reCAPTCHA v3 menunjukkan aktivitas mencurigakan (skor sedang)
-            // Memerlukan verifikasi email tambahan atau langkah-langkah lainnya
-            return abort(400, 'Anda kemungkinan besar adalah bot');
+        $parameterValue = $request->input('sales');
+        if ($parameterValue != null) {
+            Cookie::queue('sales', $parameterValue);
         } else {
-            // Tindakan yang sesuai jika reCAPTCHA v3 menunjukkan aktivitas yang mencurigakan (skor rendah)
-            return abort(400, 'Anda kemungkinan besar adalah bot');
+            Cookie::forget('sales');
         }
+
+        return view('contact', compact('value', 'lists'));
+    }
+
+    public function submitPesanForm(ContactRequest $request, WhatsAppController $whatsAppController)
+    {
+        $score = RecaptchaV3::verify($request->get('g-recaptcha-response'), 'contact');
+        if ($score > 0.7) {
+            $phone = '62812';
+
+            $validatedData  = $request->validated();
+
+            $contactData = Contact::storeSubmission($validatedData);
+
+            $messageBody = $this->buildMessageBody($validatedData);
+            
+            $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
+
+            if ($apiResponse->getStatusCode() === 200) {
+                return response()->json(['successMessage' => 'Terima kasih data Anda sudah berhasil terkirim!'], 201);
+            }
+
+            return response()->json(['errorMessage' => 'Pesan gagal terkirim!'], 422);
+
+            // $apiResponse = 200; 
+
+            // if ($apiResponse === 200) {
+            //     return response()->json(['successMessage' => 'Terima kasih data Anda sudah berhasil terkirim!'], 201);
+            // }
+        
+        }
+
+        return abort(400, 'Anda kemungkinan adalah bot');
+    }
+
+    private function buildMessageBody(array $validatedData)
+    {
+        $messageBody = [
+            "Berikut ini data pengunjung yang mengisi form pesan di website kita:",
+            "Nama: " . $validatedData['name'],
+            "No HP: " . $validatedData['nohp'],
+            "Pesan: " . $validatedData['message'],
+        ];
+        $messageBody[] = "Tolong segera diproses. Terima kasih.";
+
+        return implode("\n", $messageBody);
     }
 }
