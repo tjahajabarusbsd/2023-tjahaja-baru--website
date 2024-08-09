@@ -35,13 +35,13 @@ class ConsultationRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required'    => 'Kolom wajib diisi.',
+            'name.required'    => 'Nama wajib diisi.',
             'name.regex'       => 'Wajib menggunakan huruf.',
             'name.max'         => 'Nama maksimal 50 karakter.',
-            'nohp.required'    => 'Kolom wajib diisi',
+            'nohp.required'    => 'Nomor HP wajib diisi.',
             'nohp.numeric'     => 'Wajib menggunakan angka.',
             'nohp.regex'       => 'Mohon input nomor HP dengan benar.',
-            'produk.required'  => 'Kolom wajib diisi.',
+            'produk.required'  => 'Silakan pilih produk yang diminati.',
             'g-recaptcha-response.required' => 'Captcha tidak valid',
             'terms.required'   => 'Kolom wajib dicentang.',
         ];

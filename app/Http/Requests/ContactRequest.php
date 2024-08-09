@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
 
 class ContactRequest extends FormRequest
 {
@@ -13,8 +14,7 @@ class ContactRequest extends FormRequest
      */
     public function authorize()
     {
-        // only allow updates if the user is logged in
-        return backpack_auth()->check();
+        return true;
     }
 
     /**
@@ -25,7 +25,11 @@ class ContactRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name'    => 'required|max:50|regex:/^[a-zA-Z\s]+$/',
+            'nohp'    => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/'],
+            'message' => 'required',
+            'option'  => 'required',
+            'g-recaptcha-response' => 'required',
         ];
     }
 
@@ -49,7 +53,14 @@ class ContactRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'name.required'    => 'Nama wajib diisi.',
+            'name.regex'       => 'Wajib menggunakan huruf.',
+            'nohp.required'    => 'Nomor HP wajib diisi',
+            'nohp.numeric'     => 'Wajib menggunakan angka.',
+            'nohp.regex'       => 'Mohon input nomor HP dengan benar.',
+            'message.required' => 'Silakan isi pesan sebelum mengirim formulir.',
+            'option.required'  => 'Pilih salah satu.',
+            'g-recaptcha-response.required' => 'captcha error'
         ];
     }
 }
