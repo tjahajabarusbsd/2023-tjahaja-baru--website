@@ -66,9 +66,12 @@
 
                         <div class="form-group">
                             <label>Pilihan</label><br>
-                            <label><input type="radio" name="option" value="pesan" required> Tulis Pesan</label><br>
-                            <label><input type="radio" name="option" value="motor" required> Motor yang Diinginkan</label><br>
-                            <label><input type="radio" name="option" value="dana" required> Pinjaman Dana Tunai</label>
+                            <div class="form-group">
+                                <label><input type="radio" name="option" value="pesan" required> Tulis Pesan</label><br>
+                                <label><input type="radio" name="option" value="motor" required> Motor yang Diinginkan</label><br>
+                                <label><input type="radio" name="option" value="dana" required> Pinjaman Dana Tunai</label>
+                            </div>
+                            
                         </div>
 
                         <div id="optionPesan" style="display: none;" class="form-group">
