@@ -55,14 +55,12 @@ Route::get('/get-data/{variant}', [VariantController::class, 'getData'])->name('
 
 // --- Contact Section --- 
 Route::get('/contact', [ContactController::class, 'getContactForm'])->name('contact.get');
-// Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('contact.submit');
-Route::post('/contact', [ContactController::class, 'submitFormPesan'])->name('contact.submit');
+Route::post('/submit-pesan-form', [ContactController::class, 'submitPesanForm'])->name('contact.submit');
 // --- End Contact Section --- 
 
 // --- Consultation Section --- 
 Route::get('/consultation', [ConsultationController::class, 'getConsultationForm']);
-// Route::post('/send_message', [WhatsAppController::class, 'sendMessage']);
-Route::post('/send_message', [ConsultationController::class, 'submitConsultationForm']);
+Route::post('/submit-consultation-form', [ConsultationController::class, 'submitConsultationForm']);
 // --- End Consultation Section --- 
 
 // --- Comparison Section --- 
@@ -86,6 +84,10 @@ Route::middleware('admin')->group(function () {
     // --- End Import File Section
 });
 
+Route::post('/hitung-pinjaman', [PinjamanController::class, 'hitungPinjaman'])->name('hitung.pinjaman');
+Route::post('/hitung-angsuran', [PinjamanController::class, 'hitungAngsuran'])->name('hitung.angsuran');
+Route::post('/ajukan-angsuran', [AjukanController::class, 'ajukanAngsuran'])->name('ajukan.angsuran');
+
 if(env('APP_ENV') == 'local'){
     Route::middleware('auth')->group(function () {
         Route::get('/myprofile', [UserProfileController::class, 'getUserProfile'])->name('user.profile');
@@ -93,9 +95,6 @@ if(env('APP_ENV') == 'local'){
         Route::post('/myprofile/save-no-rangka', [UserProfileController::class, 'saveNoRangka'])->name('user.profile.saveNoRangka');
         Route::post('/update-profile', [UserProfileController::class, 'update'])->name('profile.update');
         Route::get('/riwayatservis/cetak_pdf/{nomorRangka}', [UserProfileController::class, 'cetakPdf']);
-        Route::post('/hitung-pinjaman', [PinjamanController::class, 'hitungPinjaman'])->name('hitung.pinjaman');
-        Route::post('/hitung-angsuran', [PinjamanController::class, 'hitungAngsuran'])->name('hitung.angsuran');
-        Route::post('/ajukan-angsuran', [AjukanController::class, 'ajukanAngsuran'])->name('ajukan.angsuran');
         Route::post('/service-kunjung-yamaha', [SkyController::class, 'skySend'])->name('service.kunjung.yamaha');
     });
 
