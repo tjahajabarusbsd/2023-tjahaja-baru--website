@@ -107,4 +107,5 @@ function isDesktop() {
 </script>
 <script src="{{ asset('js/user-profile.js') }}"></script>
 <script src="{{ asset('js/sky.js') }}"></script>
+<script src="{{ asset('js/simulasi.js') }}"></script>
 @endsection

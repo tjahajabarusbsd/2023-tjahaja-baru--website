@@ -1,6 +1,8 @@
 <div class="container-simulasi">
     <h2 class="text-center mb-4 fw-bold">Kalkulator Simulasi Pinjaman</h2>
 
+    <input name="url" type="text" hidden value="{{ Request::url() }}">
+    
     <div class="form-group row">
         <label for="tipe" class="col-md-4 col-form-label text-md-right">Pilih tipe:</label>
         <div class="col-md-6">
