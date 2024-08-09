@@ -29,6 +29,15 @@ class Contact extends Model
     |--------------------------------------------------------------------------
     */
 
+    public static function storeSubmission(array $validatedData)
+    {
+        return self::create([
+            'name' => $validatedData['name'],
+            'nohp' => $validatedData['nohp'],
+            'message' => $validatedData['message'],
+        ]);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
