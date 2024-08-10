@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PinjamanDana;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
@@ -33,6 +34,19 @@ class AjukanController extends Controller
                     return response()->json(['errorMessage' => 'Nomor HP pengguna tidak boleh kosong.'], 422);
                 }
 
+                $pinjamanDanaData = PinjamanDana::create([
+                    'name' => $user->name,
+                    'nohp' => $user->phone_number,
+                    'tipe' => $request->input('tipe'),
+                    'tipe_lain' => $request->input('tipeLain'),
+                    'tahun' => $request->input('unit_tahun'),
+                    'estimasi_harga' => $request->input('harga_motor'),
+                    'want_dana' => $request->input('dana_dicairkan'),
+                    'tenor' => $request->input('tenor'),
+                    'estimasi_angsuran' => $request->input('angsuranMonthly'),
+                    'id_user' => $user->id,
+                ]);
+
                 $messageBody = $this->buildMessageBody($request, $user);
             } else {
                 $validateData = $request->validate([
@@ -46,6 +60,19 @@ class AjukanController extends Controller
                     'nohp.numeric' => 'Wajib menggunakan angka.',
                     'nohp.regex' => 'Mohon input nomor HP dengan benar.',
                 ]);
+
+                $pinjamanDanaData = PinjamanDana::create([
+                    'name' => $validateData['name'],
+                    'nohp' => $validateData['nohp'],
+                    'tipe' => $request->input('tipe'),
+                    'tipe_lain' => $request->input('tipeLain'),
+                    'tahun' => $request->input('unit_tahun'),
+                    'estimasi_harga' => $request->input('harga_motor'),
+                    'want_dana' => $request->input('dana_dicairkan'),
+                    'tenor' => $request->input('tenor'),
+                    'estimasi_angsuran' => $request->input('angsuranMonthly'),
+                ]);
+
                 $messageBody = $this->buildMessageBodyContact($request, $validateData);
             }
 
@@ -120,7 +147,7 @@ class AjukanController extends Controller
         $messageBody[] = "Tahun Motor: " . $request['unit_tahun'];
         $messageBody[] = "Harga OTR(Estimasi): " . 'Rp ' . number_format($request['harga_motor'], 0, ',', '.');
         $messageBody[] = "Nilai Diminta: " . 'Rp ' . number_format($request['dana_dicairkan'], 0, ',', '.');
-        $messageBody[] = "Tenor: " . $request['tenor'];
+        $messageBody[] = "Tenor: " . $request['tenor'] . ' Bulan';
         $messageBody[] = "Angsuran(Estimasi): " . 'Rp ' . number_format($request['angsuranMonthly'], 0, ',', '.');
         $messageBody[] = "Tolong segera diproses. Terima kasih.";
         
@@ -146,7 +173,7 @@ class AjukanController extends Controller
         $messageBody[] = "Tahun Motor: " . $request['unit_tahun'];
         $messageBody[] = "Harga OTR(Estimasi): " . 'Rp ' . number_format($request['harga_motor'], 0, ',', '.');
         $messageBody[] = "Nilai Diminta: " . 'Rp ' . number_format($request['dana_dicairkan'], 0, ',', '.');
-        $messageBody[] = "Tenor: " . $request['tenor'];
+        $messageBody[] = "Tenor: " . $request['tenor'] . ' Bulan';
         $messageBody[] = "Angsuran(Estimasi): " . 'Rp ' . number_format($request['angsuranMonthly'], 0, ',', '.');
         $messageBody[] = "Tolong segera diproses. Terima kasih.";
         
