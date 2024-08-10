@@ -46,6 +46,7 @@ $(document).ready(function () {
             $('#input-tipe-lain').show();
         } else {
             $('#input-tipe-lain').hide();
+            $('#tipe-lain').val('');
         }
     });
 

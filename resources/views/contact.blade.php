@@ -178,7 +178,7 @@
                                     </div>
                                     
                                     <div class="form-group row">
-                                        <label for="tenor" class="col-md-4 col-form-label text-md-right">Tenor (in months):</label>
+                                        <label for="tenor" class="col-md-4 col-form-label text-md-right">Tenor:</label>
                                         <div class="col-md-6">
                                             <select id="tenor" name="tenor" class="form-select">
                                                 <option selected value="11">11 bulan</option>

@@ -6,7 +6,7 @@
     <div class="form-group row">
         <label for="tipe" class="col-md-4 col-form-label text-md-right">Pilih tipe:</label>
         <div class="col-md-6">
-            <select class="form-control" name="tipe" id="tipe">
+            <select class="form-select" name="tipe" id="tipe">
                 <option selected disabled value=""> -- Pilih -- </option>
                 @if ($specList->isEmpty())
                     <option value="other"> -- Lainnya -- </option>
@@ -29,10 +29,20 @@
         </div>
     </div>
 
+    @php
+        $currentYear = date('Y'); 
+        $startYear = 2000;
+    @endphp
+
     <div class="form-group row">
         <label for="unit_tahun" class="col-md-4 col-form-label text-md-right">Pilih tahun:</label>
         <div class="col-md-6">
-            <input type="number" min="2000" max="2024" step="1" class="form-control" name="unit_tahun" id="unit_tahun" placeholder="Misal: 2021">
+            <select name="unit_tahun" id="unit_tahun" class="form-select">
+                <option selected disabled value=""> -- Pilih -- </option>
+                <?php for ($year = $startYear; $year <= $currentYear; $year++): ?>
+                    <option value="<?= $year ?>"><?= $year ?></option>
+                <?php endfor; ?>
+            </select>
             <span class="text-danger" id="error_unit_tahun" style="display:none;">Tahun tidak boleh kosong.</span>
         </div>
     </div>
@@ -64,9 +74,13 @@
             </div>
             
             <div class="form-group row">
-                <label for="tenor" class="col-md-4 col-form-label text-md-right">Tenor (in months):</label>
+                <label for="tenor" class="col-md-4 col-form-label text-md-right">Tenor:</label>
                 <div class="col-md-6">
-                    <input type="number" id="tenor" name="tenor" class="form-control">
+                    <select id="tenor" name="tenor" class="form-select">
+                        <option selected value="11">11 bulan</option>
+                        <option value="24">24 bulan</option>
+                        <option value="35">35 bulan</option>
+                    </select>
                 </div>
             </div>
 
@@ -84,14 +98,14 @@
                 "></div>
                 <div class="section-angsuran-result">
                     <div class="mt-3 col-md-8">
-                        <div style="font-size: 25px; font-weight: 700">Angsuran</div>
+                        <div style="font-size: 25px; font-weight: 700">Estimasi Angsuran</div>
                         <div style="font-size:10px;">*sudah termasuk bunga dan biaya admin</div>
                         <div style="margin: 5px 0; font-size: 25px; font-weight: 700">
                             <input type="hidden" name="angsuran_monthly" id="angsuran-monthly" value="">
                             <span id="biaya-angsuran">Rp -</span>
                             <span>/bulan*</span>
                         </div>
-                        <div style="font-size: 12px">*) Estimasi nilai pinjaman bukan merupakan persetujuan pinjaman dana, bersifat tidak mengikat, dan dapat disesuaikan berdasarkan penilaian lebih lanjut serta kebijakan BPR.</div>
+                        <div style="font-size: 12px">*) Estimasi nilai pinjaman bukan merupakan persetujuan pinjaman dana, bersifat tidak mengikat, dan dapat disesuaikan berdasarkan penilaian lebih lanjut serta kebijakan BPR Tjahaja Baru.</div>
                     </div>
                     <div class="form-group">
                         {!! RecaptchaV3::field('ajukan_pinjaman') !!}
