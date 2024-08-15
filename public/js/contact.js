@@ -1,4 +1,14 @@
 $(document).ready(function () {
+    $('#myModal').iziModal({
+        width: 325,
+        onClosed: function () {
+            // Periksa kondisi untuk memutuskan apakah reload diperlukan
+            if (window.shouldReload) {
+                location.reload();
+            }
+        }
+    });
+
     function handleInput() {
         var nameValue = $("#name").val().trim();
         var phoneNumberValue = $("#nohp").val().trim();
@@ -121,6 +131,9 @@ $(document).ready(function () {
         var produkValue = $("select[name='produk']").val();
         var termsChecked = $('#termsCheckbox').is(':checked');
         var urlValue = $('input[name="url"]').val().trim();
+        var payment_method = $("#payment-method").val();
+        var down_payment = $("#down-payment").val();
+        var tenor_pembelian = $("#tenor-pembelian").val();
 
         if (!produkValue) {
             setErrorFor($("#pilih-produk"), "Silakan pilih produk yang diminati.");
@@ -128,6 +141,32 @@ $(document).ready(function () {
             return;
         } else {
             setSuccessFor($("#pilih-produk"));
+        }
+
+        if (!payment_method) {
+            setErrorFor($("#payment-method"), "Silakan pilih cara bayar.");
+            enableButton();
+            return;
+        } else {
+            setSuccessFor($("#payment-method"));
+        }
+
+        if (payment_method === 'kredit') {
+            if (!down_payment) {
+                setErrorFor($("#down-payment"), "Silakan pilih down payment.");
+                enableButton();
+                return;
+            } else {
+                setSuccessFor($("#down-payment"));
+            }
+
+            if (!tenor_pembelian) {
+                setErrorFor($("#tenor-pembelian"), "Silakan pilih jumlah tenor.");
+                enableButton();
+                return;
+            } else {
+                setSuccessFor($("#tenor-pembelian"));
+            }
         }
 
         if (!termsChecked) {
@@ -144,6 +183,7 @@ $(document).ready(function () {
 
         $('#myModal .icon-box').removeClass('error');
         $('#overlay').show();
+        $('#myModal .modal-body').html('');
         $('.error-msg-wrapper').hide();
 
         grecaptcha.execute(siteKey, { action: 'contact' }).then(function (token) {
@@ -152,6 +192,9 @@ $(document).ready(function () {
                 nohp: phoneNumberValue,
                 produk: produkValue,
                 terms: termsChecked,
+                payment_method: payment_method,
+                down_payment: down_payment,
+                tenor_pembelian: tenor_pembelian,
                 url: urlValue,
                 'g-recaptcha-response': token
             }
@@ -167,15 +210,9 @@ $(document).ready(function () {
                     $('#overlay').hide();
                     $('#myModal .material-icons').text('check');
                     $('#myModal .modal-title').text('Sukses!');
-                    $('#myModal .modal-body p').text(response.successMessage);
+                    $('#myModal .modal-body').append('<p>' + response.successMessage + '</p>');
+                    window.shouldReload = true;
                     $("#myModal").iziModal('open');
-                    setTimeout(function () {
-                        var url = new URL(window.location.href);
-                        url.search = ""; // Hapus semua query string
-                        window.history.replaceState({}, document.title, url.toString());
-                        // Reload halaman
-                        location.reload();
-                    }, 2000);
                 },
                 error: function (response) {
                     $('#overlay').hide();
@@ -183,19 +220,22 @@ $(document).ready(function () {
                         $('#myModal .icon-box').addClass('error');
                         $('#myModal .material-icons').text('close');
                         $('#myModal .modal-title').text('Error!');
-                        $('#myModal .modal-body p').text(response.responseJSON.errorMessage);
+                        $('#myModal .modal-body').append('<p>' + response.responseJSON.errorMessage + '</p>');
+                        window.shouldReload = true;
                         $("#myModal").iziModal('open');
                         enableButton();
                     } else {
                         let errors = response.responseJSON.errors;
-                        let errorHtml = '';
+                        $('#myModal .icon-box').addClass('error');
+                        $('#myModal .material-icons').text('close');
+                        $('#myModal .modal-title').text('Error!');
                         $.each(errors, function (key, messages) {
                             $.each(messages, function (index, message) {
-                                errorHtml += '<li>' + message + '</li>';
+                                $('#myModal .modal-body').append('<li>' + message + '</li>');
                             });
                         });
-                        $('.error-msg-wrapper').find('ul').html(errorHtml);
-                        $('.error-msg-wrapper').show();
+                        window.shouldReload = false;
+                        $("#myModal").iziModal('open');
                         enableButton();
                     }
                 }
@@ -300,9 +340,14 @@ $(document).ready(function () {
         });
     });
 
-    $("#myModal").iziModal({
-        width: 400,
-    });
+
+
+    // $("#myModal").iziModal({
+    //     width: 325,
+    //     onClosed: function () {
+    //         location.reload();
+    //     }
+    // });
 
     function enableButton() {
         $(".btn-primary").removeAttr("disabled");
