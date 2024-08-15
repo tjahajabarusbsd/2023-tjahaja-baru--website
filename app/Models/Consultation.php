@@ -19,12 +19,15 @@ class Consultation extends Model
 
     // If you want to exclude timestamps
     // public $timestamps = false;
-    public static function storeSubmission(array $validatedData, $charactersAfterLastSlash, $salesCode)
+    public static function storeSubmission($request, $dpValue, $charactersAfterLastSlash, $salesCode)
     {
         return self::create([
-            'name' => $validatedData['name'],
-            'nohp' => $validatedData['nohp'],
-            'product' => $validatedData['produk'],
+            'name' => $request['name'],
+            'nohp' => $request['nohp'],
+            'product' => $request['produk'],
+            'cara_bayar' => $request['payment_method'],
+            'dp' => $dpValue,
+            'tenor' => $request['tenor_pembelian'],
             'url' => $charactersAfterLastSlash,
             'sales_code' => $salesCode,
         ]);
