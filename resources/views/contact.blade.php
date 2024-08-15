@@ -381,9 +381,7 @@
 				</div>
                 <h4 class="modal-title w-100">Success!</h4>	
 			</div>
-			<div class="modal-body">
-				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
-			</div>
+			<div class="modal-body"></div>
 		</div>
 	</div>
 </div>

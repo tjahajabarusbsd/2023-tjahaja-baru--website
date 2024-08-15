@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
-use App\HTTP\Controllers\WhatsAppController;
-use Illuminate\Support\Facades\Cookie;
 use App\Models\Variant;
 use App\Models\Contact;
 use App\Http\Requests\ContactRequest;
+use App\HTTP\Controllers\WhatsAppController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
 
 class ContactController extends Controller
 {
@@ -42,20 +42,13 @@ class ContactController extends Controller
             $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
 
             if ($apiResponse->getStatusCode() === 200) {
-                return response()->json(['successMessage' => 'Terima kasih data Anda sudah berhasil terkirim!'], 201);
+                return response()->json(['successMessage' => 'Terima kasih, pesan Anda sudah berhasil terkirim!'], 201);
+            } else {
+                return response()->json(['errorMessage' => 'Pesan gagal terkirim!'], 422);
             }
-
-            return response()->json(['errorMessage' => 'Pesan gagal terkirim!'], 422);
-
-            // $apiResponse = 200; 
-
-            // if ($apiResponse === 200) {
-            //     return response()->json(['successMessage' => 'Terima kasih data Anda sudah berhasil terkirim!'], 201);
-            // }
-        
         }
 
-        return abort(400, 'Anda kemungkinan adalah bot');
+        return response()->json(['errorMessage' => 'Anda kemungkinan adalah bot'], 400);
     }
 
     private function buildMessageBody(array $validatedData)

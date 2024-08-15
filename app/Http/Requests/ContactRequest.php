@@ -28,7 +28,6 @@ class ContactRequest extends FormRequest
             'name'    => 'required|max:50|regex:/^[a-zA-Z\s]+$/',
             'nohp'    => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/'],
             'message' => 'required',
-            'option'  => 'required',
             'g-recaptcha-response' => 'required',
         ];
     }
@@ -53,13 +52,12 @@ class ContactRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required'    => 'Nama wajib diisi.',
-            'name.regex'       => 'Wajib menggunakan huruf.',
-            'nohp.required'    => 'Nomor HP wajib diisi',
-            'nohp.numeric'     => 'Wajib menggunakan angka.',
-            'nohp.regex'       => 'Mohon input nomor HP dengan benar.',
-            'message.required' => 'Silakan isi pesan sebelum mengirim formulir.',
-            'option.required'  => 'Pilih salah satu.',
+            'name.required'    => 'Nama belum diisi',
+            'name.regex'       => 'Gunakan huruf',
+            'nohp.required'    => 'No. Handphone belum diisi',
+            'nohp.numeric'     => 'Gunakan angka',
+            'nohp.regex'       => 'Mohon input No. Handphone dengan benar',
+            'message.required' => 'Tulis pesan Anda',
             'g-recaptcha-response.required' => 'captcha error'
         ];
     }

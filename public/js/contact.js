@@ -2,33 +2,39 @@ $(document).ready(function () {
     $('#myModal').iziModal({
         width: 325,
         onClosed: function () {
-            // Periksa kondisi untuk memutuskan apakah reload diperlukan
             if (window.shouldReload) {
                 location.reload();
             }
         }
     });
 
-    function handleInput() {
-        var nameValue = $("#name").val().trim();
-        var phoneNumberValue = $("#nohp").val().trim();
+    var name;
+    var phoneNumber;
 
-        if (nameValue === "") {
-            setErrorFor($("#name"), "Nama wajib diisi.");
+    function handleInput() {
+        name = $("#name").val().trim();
+        phoneNumber = $("#nohp").val().trim();
+
+        if (!name) {
+            setErrorFor($("#name"), "Nama belum diisi");
             enableButton();
-        } else if (!/^[A-Za-z\s]+$/.test(nameValue)) {
-            setErrorFor($("#name"), "Hanya diperbolehkan input huruf.");
+            return;
+        } else if (!/^[A-Za-z\s]+$/.test(name)) {
+            setErrorFor($("#name"), "Gunakan huruf");
             enableButton();
+            return;
         } else {
             setSuccessFor($("#name"));
         }
 
-        if (phoneNumberValue === "") {
-            setErrorFor($("#nohp"), "No HP wajib diisi.");
+        if (!phoneNumber) {
+            setErrorFor($("#nohp"), "No. Handphone belum diisi");
             enableButton();
-        } else if (!/^\d+$/.test(phoneNumberValue)) {
-            setErrorFor($("#nohp"), "Hanya diperbolehkan input angka.");
+            return;
+        } else if (!/^\d+$/.test(phoneNumber)) {
+            setErrorFor($("#nohp"), "Gunakan angka");
             enableButton();
+            return;
         } else {
             setSuccessFor($("#nohp"));
         }
@@ -39,38 +45,25 @@ $(document).ready(function () {
         clearErrors();
         handleInput();
 
-        var nameValue = $("#name").val().trim();
-        var phoneNumberValue = $("#nohp").val().trim();
-        var messageValue = $('textarea[name="message"]').val();
-        var optionPesan = $('input[name="option"]:checked').val();
+        var message = $('#tulis-pesan').val();
 
-        if (!$('input[name="option"]:checked').length) {
-            alert('Silakan pilih salah satu opsi.');
-            return;
-        }
-
-        if (optionPesan === 'pesan' && !$.trim(messageValue)) {
-            setErrorFor($("#tulis-pesan"), "Silakan isi pesan sebelum mengirim formulir.");
+        if (!message) {
+            setErrorFor($("#tulis-pesan"), "Tulis pesan Anda.");
             enableButton();
             return;
         } else {
             setSuccessFor($("#tulis-pesan"));
         }
 
-        if (hasErrors()) {
-            return;
-        }
-
         $('#myModal .icon-box').removeClass('error');
         $('#overlay').show();
-        $('.error-msg-wrapper').hide();
+        $('#myModal .modal-body').html('');
 
         grecaptcha.execute(siteKey, { action: 'contact' }).then(function (token) {
             var data = {
-                name: nameValue,
-                nohp: phoneNumberValue,
-                option: optionPesan,
-                message: messageValue,
+                name: name,
+                nohp: phoneNumber,
+                message: message,
                 'g-recaptcha-response': token
             }
 
@@ -85,13 +78,9 @@ $(document).ready(function () {
                     $('#overlay').hide();
                     $('#myModal .material-icons').text('check');
                     $('#myModal .modal-title').text('Sukses!');
-                    $('#myModal .modal-body p').text(response.successMessage);
+                    $('#myModal .modal-body').append('<p>' + response.successMessage + '</p>');
+                    window.shouldReload = true;
                     $("#myModal").iziModal('open');
-
-                    $('form')[0].reset();
-                    $('input[name="option"]').prop('checked', false);
-                    $('#optionPesan').hide();
-                    enableButton();
                 },
                 error: function (response) {
                     $('#overlay').hide();
@@ -99,19 +88,22 @@ $(document).ready(function () {
                         $('#myModal .icon-box').addClass('error');
                         $('#myModal .material-icons').text('close');
                         $('#myModal .modal-title').text('Error!');
-                        $('#myModal .modal-body p').text(response.responseJSON.errorMessage);
+                        $('#myModal .modal-body').append('<p>' + response.responseJSON.errorMessage + '</p>');
+                        window.shouldReload = true;
                         $("#myModal").iziModal('open');
                         enableButton();
                     } else {
                         let errors = response.responseJSON.errors;
-                        let errorHtml = '';
+                        $('#myModal .icon-box').addClass('error');
+                        $('#myModal .material-icons').text('close');
+                        $('#myModal .modal-title').text('Error!');
                         $.each(errors, function (key, messages) {
                             $.each(messages, function (index, message) {
-                                errorHtml += '<li>' + message + '</li>';
+                                $('#myModal .modal-body').append('<li>' + message + '</li>');
                             });
                         });
-                        $('.error-msg-wrapper').find('ul').html(errorHtml);
-                        $('.error-msg-wrapper').show();
+                        window.shouldReload = false;
+                        $("#myModal").iziModal('open');
                         enableButton();
                     }
                 }
@@ -126,8 +118,6 @@ $(document).ready(function () {
         clearErrors();
         handleInput();
 
-        var nameValue = $("#name").val().trim();
-        var phoneNumberValue = $("#nohp").val().trim();
         var produkValue = $("select[name='produk']").val();
         var termsChecked = $('#termsCheckbox').is(':checked');
         var urlValue = $('input[name="url"]').val().trim();
@@ -184,7 +174,6 @@ $(document).ready(function () {
         $('#myModal .icon-box').removeClass('error');
         $('#overlay').show();
         $('#myModal .modal-body').html('');
-        $('.error-msg-wrapper').hide();
 
         grecaptcha.execute(siteKey, { action: 'contact' }).then(function (token) {
             var data = {
@@ -339,15 +328,6 @@ $(document).ready(function () {
             });
         });
     });
-
-
-
-    // $("#myModal").iziModal({
-    //     width: 325,
-    //     onClosed: function () {
-    //         location.reload();
-    //     }
-    // });
 
     function enableButton() {
         $(".btn-primary").removeAttr("disabled");
