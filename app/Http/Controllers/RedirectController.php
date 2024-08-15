@@ -8,7 +8,7 @@ class RedirectController extends Controller
 {
     public function redirectToContact(Request $request)
     {
-        $sales = $request->query('sales');
+        $sales = $request->cookie('sales');
 
         return redirect()->to('/contact' . ($sales ? '?sales=' . $sales : ''));
     }
