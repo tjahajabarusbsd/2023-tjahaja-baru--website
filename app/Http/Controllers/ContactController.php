@@ -14,7 +14,7 @@ class ContactController extends Controller
 {
     public function getContactForm(Request $request)
     {
-        $value = $request->query('sales');
+        $value = $request->cookie('sales');
         $lists = Variant::all()->unique('name')->sortBy('name');
 
         $parameterValue = $request->input('sales');
