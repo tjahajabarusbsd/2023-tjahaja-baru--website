@@ -43,4 +43,90 @@ $(document).ready(function () {
         ]
     });
 
+    function disableButton() {
+        $(".btn-primary").prop('disabled', true);
+    }
+
+    $('#payment-method').change(function () {
+        var selectedValue = $(this).val();
+
+        if (selectedValue === 'kredit') {
+            $('#option-bayar').show();
+            $('#option-tenor-pembelian').show();
+        } else if (selectedValue === 'cash') {
+            $('#option-bayar').hide();
+            $('#option-tenor-pembelian').hide();
+            $('#down-payment').val('');
+            $('#tenor-pembelian').val('');
+        } else {
+            $('#option-bayar').hide();
+            $('#option-tenor-pembelian').hide();
+        }
+    });
+
+    $('.features-wrapper').slick({
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        dots: true,
+        arrows: true,
+        autoplay: false,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 845,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2
+                }
+            },
+            {
+                breakpoint: 568,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false
+                }
+            }
+        ]
+    });
+
+    // setTimeout(function() { 
+    //     $('iframe.delayed').attr('src'); 
+    // }, 20000);
+
+    // $('.videos-wrapper').slick({
+    //     slidesToShow: 1,
+    //     slidesToScroll: 1,
+    //     dots: true,
+    //     arrows: true,
+    //     autoplay: false,
+    //     responsive: [
+    //         {
+    //             breakpoint: 650,
+    //             settings: {
+    //                 slidesToShow: 1,
+    //                 slidesToScroll: 1,
+    //                 arrows: false,
+    //                 dots: true
+    //             }
+    //         },
+    //         {
+    //             breakpoint: 375,
+    //             settings: {
+    //                 slidesToShow: 1,
+    //                 slidesToScroll: 1,
+    //                 arrows: false,
+    //                 dots: true
+    //             }
+    //         }
+    //     ]
+    // }); 
+
 });	
