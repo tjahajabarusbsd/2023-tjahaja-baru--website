@@ -120,6 +120,10 @@ footer .sosmed img {
     margin-bottom: 0.5rem;
 }
 
+footer a {
+    font-weight: 500;
+}
+
 @keyframes shake {
 
     10%,
