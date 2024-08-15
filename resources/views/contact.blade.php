@@ -49,30 +49,26 @@
                 <div class="main-form contact-form">
                     <div class="form-container">
                         <h1>Contact Us</h1>
-
-                        <form>
-                            <div class="form-group row">
-                                <label for="name" class="col-md-4">Nama</label>
-                                <div class="col-md-8">
-                                    <input name="name" class="form-control" id="name" type="text" value="{{ old('name') }}"  placeholder="Nama Lengkap" maxlength="50" required>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group row">
-                                <label for="nohp" class="col-md-4">No Handphone</label>
-                                <div class="col-md-8">
-                                    <input name="nohp" id="nohp" class="form-control" type="tel" value="{{ old('nohp') }}"  placeholder="08123456789" maxlength="15" required>
-                                </div>
-                            </div>
-                        </form>
-                        
                         <input name="url" type="text" hidden value="{{ Request::url() }}">
-
-                        @if ($value)
+                        @if (!empty($cookieSales))
+                            <input name="sales" type="text" hidden value="{{ $cookieSales }}">
+                        @endif
+                        <div class="form-group row">
+                            <label for="name" class="col-md-4">Nama</label>
+                            <div class="col-md-8">
+                                <input name="name" class="form-control" id="name" type="text" value="{{ old('name') }}"  placeholder="Nama Lengkap" maxlength="50" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="nohp" class="col-md-4">No Handphone</label>
+                            <div class="col-md-8">
+                                <input name="nohp" id="nohp" class="form-control" type="tel" value="{{ old('nohp') }}"  placeholder="08123456789" maxlength="15" required>
+                            </div>
+                        </div>
+                        
+                        @if (!empty($cookieSales) || !empty($urlParameter))
                             <div class="form-group">
-                                @if (!empty($value))
-                                    <input name="sales" type="text" hidden value="{{ $value }}">
-                                @endif
                                 <div class="form-group row">
                                     <label class="col-md-4">Motor yang diminati</label>
                                     <div class="col-md-8">

@@ -14,7 +14,8 @@ class ContactController extends Controller
 {
     public function getContactForm(Request $request)
     {
-        $value = $request->cookie('sales');
+        $cookieSales = $request->cookie('sales');
+        $urlParameter = $request->query('sales');
         $lists = Variant::all()->unique('name')->sortBy('name');
 
         $parameterValue = $request->input('sales');
@@ -24,7 +25,7 @@ class ContactController extends Controller
             Cookie::forget('sales');
         }
 
-        return view('contact', compact('value', 'lists'));
+        return view('contact', compact('cookieSales', 'urlParameter', 'lists'));
     }
 
     public function submitPesanForm(ContactRequest $request, WhatsAppController $whatsAppController)

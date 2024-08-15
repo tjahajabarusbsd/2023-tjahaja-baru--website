@@ -118,7 +118,7 @@ $(document).ready(function () {
         clearErrors();
         handleInput();
 
-        var produkValue = $("select[name='produk']").val();
+        var produkValue = $("#pilih-produk").val();
         var termsChecked = $('#termsCheckbox').is(':checked');
         var urlValue = $('input[name="url"]').val().trim();
         var payment_method = $("#payment-method").val();
@@ -167,23 +167,19 @@ $(document).ready(function () {
             setSuccessFor($("#label-checkbox"));
         }
 
-        if (hasErrors()) {
-            return;
-        }
-
         $('#myModal .icon-box').removeClass('error');
         $('#overlay').show();
         $('#myModal .modal-body').html('');
 
         grecaptcha.execute(siteKey, { action: 'contact' }).then(function (token) {
             var data = {
-                name: nameValue,
-                nohp: phoneNumberValue,
+                name: name,
+                nohp: phoneNumber,
                 produk: produkValue,
                 terms: termsChecked,
-                payment_method: payment_method,
-                down_payment: down_payment,
-                tenor_pembelian: tenor_pembelian,
+                cara_bayar: payment_method,
+                dp: down_payment,
+                tenor: tenor_pembelian,
                 url: urlValue,
                 'g-recaptcha-response': token
             }

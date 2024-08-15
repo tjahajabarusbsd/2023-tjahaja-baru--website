@@ -54,6 +54,7 @@ class ContactRequest extends FormRequest
         return [
             'name.required'    => 'Nama belum diisi',
             'name.regex'       => 'Gunakan huruf',
+            'name.max'         => 'Nama maksimal 50 karakter',
             'nohp.required'    => 'No. Handphone belum diisi',
             'nohp.numeric'     => 'Gunakan angka',
             'nohp.regex'       => 'Mohon input No. Handphone dengan benar',
