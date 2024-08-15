@@ -497,7 +497,7 @@
             </div>
         @endif
 
-        <form action="/send_message" method="post" onsubmit="disableButton()" id="detail-product-forms">
+        <form action="/submit-consultation-form" method="post" onsubmit="disableButton()" id="detail-product-forms">
             @csrf
             @if (!empty($sales))
                 <input name="sales" type="text" hidden value="{{ $sales }}">
@@ -522,19 +522,58 @@
             <div class="form-group">
                 <label for="lists">Produk yang diminati</label>
                 <select name="produk" class="form-select" aria-label="Default select example" required>
-                    <option selected disabled value=""> - pilih produk - </option>
                     @foreach ($variantNames as $variantName)
                         <option value="{{ $variantName }}">{{ $variantName }}</option>
                     @endforeach
                 </select>
-                {{-- <input name="produk" class="form-control" type="input" value="{{ $item->name }}" readonly="true"> --}}
                 @error('produk')
+                    <small>{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label>Metode Pembayaran</label>
+                <select id="payment-method" name="payment_method" class="form-select">
+                    <option selected disabled value=""> - pilih cara bayar - </option>
+                    <option value="cash">Cash</option>
+                    <option value="kredit">Kredit</option>
+                </select>
+                @error('payment_method')
+                    <small>{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div id="option-bayar" class="form-group" style="display: none;">
+                <label for="down-payment">Down Payment</label>
+                <select id="down-payment" name="down_payment" class="form-select">
+                    <option selected disabled value=""> - pilih down payment - </option>
+                    <option value="dp-0">Rp 1 Juta - Rp 5 juta</option>
+                    <option value="dp-1">Rp 5 juta - Rp 10 juta</option>
+                    <option value="dp-2">Rp 10 juta - Rp 15 juta</option>
+                    <option value="dp-3">Diatas Rp 15 juta</option>
+                </select>
+                @error('down_payment')
+                    <small>{{ $message }}</small>
+                @enderror
+            </div>
+
+            <div id="option-tenor-pembelian" class="form-group" style="display: none;">
+                <label for="tenor-pembelian">Jumlah Tenor</label>
+                <select id="tenor-pembelian" name="tenor_pembelian" class="form-select">
+                    <option selected disabled value=""> - pilih jumlah tenor - </option>
+                    <option value="11">11 bulan</option>
+                    <option value="17">17 bulan</option>
+                    <option value="23">23 bulan</option>
+                    <option value="29">29 bulan</option>
+                    <option value="35">35 bulan</option>
+                </select>
+                @error('tenor_pembelian')
                     <small>{{ $message }}</small>
                 @enderror
             </div>
             
             <div class="form-group">
-                {!! RecaptchaV3::field('consultation') !!}
+                {!! RecaptchaV3::field('contact') !!}
                 @error('g-recaptcha-response')
                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                 @enderror
@@ -567,6 +606,22 @@
         // setTimeout(function() { 
         //     $('iframe.delayed').attr('src'); 
         // }, 20000);
+        $('#payment-method').change(function() {
+            var selectedValue = $(this).val();
+            
+            if (selectedValue === 'kredit') {
+                $('#option-bayar').show();
+                $('#option-tenor-pembelian').show();
+            } else if (selectedValue === 'cash') {
+                $('#option-bayar').hide();
+                $('#option-tenor-pembelian').hide();
+                $('#down-payment').val('');
+                $('#tenor-pembelian').val('');
+            } else {
+                $('#option-bayar').hide();
+                $('#option-tenor-pembelian').hide();
+            }
+        });
         
         var variantUnit = $(".variant-unit:first").addClass('active');
 
