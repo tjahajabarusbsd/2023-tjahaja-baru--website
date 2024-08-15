@@ -27,6 +27,9 @@ class ConsultationRequest extends FormRequest
             'name'   => ['required', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
             'nohp'   => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/'],
             'produk' => 'required',
+            'cara_bayar' => 'required',
+            'dp' => 'required_if:cara_bayar,kredit', 
+            'tenor' => 'required_if:cara_bayar,kredit',
             'g-recaptcha-response' => 'required',
             'terms'  => 'required|accepted'
         ];
@@ -42,6 +45,9 @@ class ConsultationRequest extends FormRequest
             'nohp.numeric'     => 'Wajib menggunakan angka.',
             'nohp.regex'       => 'Mohon input nomor HP dengan benar.',
             'produk.required'  => 'Silakan pilih produk yang diminati.',
+            'cara_bayar.required'  => 'Silakan pilih cara bayar.',
+            'dp.required'      => 'Silakan pilih down payment.',
+            'tenor.required'   => 'Silakan pilih jumlah tenor.',
             'g-recaptcha-response.required' => 'Captcha tidak valid',
             'terms.required'   => 'Kolom wajib dicentang.',
         ];
