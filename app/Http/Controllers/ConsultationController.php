@@ -30,7 +30,7 @@ class ConsultationController extends Controller
         return view('consultation', compact('value', 'lists'));
     }
 
-    public function submitConsultationForm(Request $request, WhatsAppController $whatsAppController)
+    public function submitConsultationForm(ConsultationRequest $request, WhatsAppController $whatsAppController)
     {
         $score = RecaptchaV3::verify($request->get('g-recaptcha-response'), 'contact');
         
@@ -51,32 +51,9 @@ class ConsultationController extends Controller
                 $phone = '62812'; // Default phone number
             }
             
-            $validated = $request->validate([
-                'name' => ['required', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
-                'nohp' => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/'],
-                'produk' => 'required',
-                'payment_method' => 'required',
-                'down_payment' => 'required_if:payment_method,kredit', 
-                'tenor_pembelian' => 'required_if:payment_method,kredit',
-                'g-recaptcha-response' => 'required',
-                'terms'  => 'required|accepted'
-            ], [
-                'name.required' => 'Nama wajib diisi.',
-                'name.regex' => 'Wajib menggunakan huruf.',
-                'name.max' => 'Nama maksimal 50 karakter.',
-                'nohp.required' => 'Nomor HP wajib diisi.',
-                'nohp.numeric' => 'Wajib menggunakan angka.',
-                'nohp.regex' => 'Nomor HP tidak valid.',
-                'produk.required' => 'Produk wajib dipilih.',
-                'payment_method.required' => 'Metode pembayaran belum dipilih.',
-                'down_payment.required_if' => 'Down payment wajib dipilih.',
-                'tenor_pembelian.required_if' => 'Tenor pembelian wajib dipilih.',
-                'g-recaptcha-response.required' => 'Captcha tidak valid. Mohon reload page.',
-                'terms.required' => 'Saya setuju dengan syarat dan ketentuan.',
-                'terms.accepted' => 'Saya setuju dengan syarat dan ketentuan.'
-            ]);
+            $validatedData  = $request->validated();
 
-            $validatedDataDP = $request['down_payment'];
+            $validatedDataDP = $validatedData['dp'];
             $dpValue = null;
             if (!empty($validatedDataDP)) {
                 if ($validatedDataDP == 'dp-0') {
@@ -90,65 +67,48 @@ class ConsultationController extends Controller
                 }
             }
 
-            $consultationData = Consultation::storeSubmission($request, $dpValue, $charactersAfterLastSlash, $salesCode);
+            $consultationData = Consultation::storeSubmission($validatedData, $dpValue, $charactersAfterLastSlash, $salesCode);
             
-            $messageBody = $this->buildMessageBody($request, $dpValue);
+            $messageBody = $this->buildMessageBody($validatedData, $dpValue);
             
             $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
                 
-            if ($charactersAfterLastSlash == 'contact') {
-                if ($apiResponse->getStatusCode() === 200) {
-                    $successMessage = "Pengajuan Anda telah diterima.\nDealer kami akan segera menghubungi Anda.";
-                    $deleteCookie = Cookie::forget('sales');
-                    
-                    $response = new Response([
-                        'successMessage' => $successMessage
-                    ], 201);
-        
-                    $response->withCookie($deleteCookie);
-                    return $response;
-                } else { 
-                    $consultationData->delete(); 
-                    return response()->json(['errorMessage' => 'Pesan gagal terkirim!'], 422);
-                }
-            } else {
-                if ($apiResponse->getStatusCode() === 200) {
-                    $successMessage = "Pengajuan Anda telah diterima.\nDealer kami akan segera menghubungi Anda.";
-                    $deleteCookie = Cookie::forget('sales');
-                    $previousUrl = URL::previous();
-                    $previousUrlWithoutParams = strtok($previousUrl, '?');
+            if ($apiResponse->getStatusCode() === 200) {
+                $successMessage = "Pengajuan Anda telah diterima.\nDealer kami akan segera menghubungi Anda.";
+                $deleteCookie = Cookie::forget('sales');
                 
-                    return redirect($previousUrlWithoutParams)->withCookie($deleteCookie)->with('success', $successMessage);
-                } else {
-                    $consultationData->delete(); 
-                    $errorMessage = "Pesan gagal terkirim!";
-                    return redirect()->back()->with('error', $errorMessage);
-                }
-            }            
+                $response = new Response([
+                    'successMessage' => $successMessage
+                ], 201);
+    
+                $response->withCookie($deleteCookie);
+                return $response;
+            } else { 
+                $consultationData->delete(); 
+                return response()->json(['errorMessage' => 'Pesan gagal terkirim!'], 422);
+            }
         }
 
-        $errorMessage = "Anda kemungkinan adalah bot";
-        return redirect()->back()->with('error', $errorMessage);
+        return response()->json(['errorMessage' => 'Anda kemungkinan adalah bot'], 400);
     }
 
-    private function buildMessageBody($request, $dpValue)
+    private function buildMessageBody($validatedData, $dpValue)
     {
         $messageBody = [
-            "Hi, Dealer,",
             "Berikut ini data konsumen yang mengisi form di website kita yang minat dengan produk Yamaha:",
-            "Nama: " . $request['name'],
-            "No HP: " . $request['nohp'],
-            "Produk yang diminati: " . $request['produk'],
+            "Nama: " . $validatedData['name'],
+            "No HP: " . $validatedData['nohp'],
+            "Produk yang diminati: " . $validatedData['produk'],
         ];
 
-        if ($request['payment_method'] === 'kredit') {
-            $messageBody[] = "Cara bayar: " . $request['payment_method'];
+        if ($validatedData['cara_bayar'] === 'kredit') {
+            $messageBody[] = "Cara bayar: " . $validatedData['cara_bayar'];
             $messageBody[] = "DP: " . $dpValue;
-            $messageBody[] = "Tenor: " . $request['tenor_pembelian'] . " bulan";
+            $messageBody[] = "Tenor: " . $validatedData['tenor'] . " bulan";
         }
 
-        if ($request['payment_method'] === 'cash') {
-            $messageBody[] = "Cara bayar: " . $request['payment_method'];
+        if ($validatedData['cara_bayar'] === 'cash') {
+            $messageBody[] = "Cara bayar: " . $validatedData['cara_bayar'];
         }
 
         $messageBody[] = "Tolong segera diproses. Terima kasih.";
