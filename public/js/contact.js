@@ -235,8 +235,6 @@ $(document).ready(function () {
         clearErrors();
         handleInput();
 
-        var nameValue = $("#name").val().trim();
-        var phoneNumberValue = $("#nohp").val().trim();
         var tipe = $('#tipe').val();
         var tipeLain = $('#tipe-lain').val();
         var unitTahun = $('#unit_tahun').val();
@@ -249,16 +247,12 @@ $(document).ready(function () {
 
         $('#myModal .icon-box').removeClass('error');
         $('#overlay').show();
-        $('.error-msg-wrapper').hide();
-
-        if (hasErrors()) {
-            return;
-        }
+        $('#myModal .modal-body').html('');
 
         grecaptcha.execute(siteKey, { action: 'contact' }).then(function (token) {
             var data = {
-                name: nameValue,
-                nohp: phoneNumberValue,
+                name: name,
+                nohp: phoneNumber,
                 tipe: tipe,
                 tipeLain: tipeLain,
                 unit_tahun: unitTahun,
@@ -269,8 +263,6 @@ $(document).ready(function () {
                 url: urlValue,
                 'g-recaptcha-response': token
             };
-
-            $('#overlay').show();
 
             $.ajax({
                 url: "/ajukan-angsuran",
@@ -283,21 +275,9 @@ $(document).ready(function () {
                     $('#overlay').hide();
                     $('#myModal .material-icons').text('check');
                     $('#myModal .modal-title').text('Sukses!');
-                    $('#myModal .modal-body p').text(response.successMessage);
+                    $('#myModal .modal-body').append('<p>' + response.successMessage + '</p>');
+                    window.shouldReload = true;
                     $("#myModal").iziModal('open');
-
-                    $('form')[0].reset();
-                    $('input[name="option"]').prop('checked', false);
-                    $('#optionDana').hide();
-                    enableButton();
-                    alert('Sukses!');
-                    location.reload();
-                    // setTimeout(function () {
-                    //     var url = new URL(window.location.href);
-                    //     url.search = "";
-                    //     window.history.replaceState({}, document.title, url.toString());
-                    //     location.reload();
-                    // }, 2000);
                 },
                 error: function (response) {
                     $('#overlay').hide();
@@ -305,19 +285,22 @@ $(document).ready(function () {
                         $('#myModal .icon-box').addClass('error');
                         $('#myModal .material-icons').text('close');
                         $('#myModal .modal-title').text('Error!');
-                        $('#myModal .modal-body p').text(response.responseJSON.errorMessage);
+                        $('#myModal .modal-body').append('<p>' + response.responseJSON.errorMessage + '</p>');
+                        window.shouldReload = true;
                         $("#myModal").iziModal('open');
                         enableButton();
                     } else {
                         let errors = response.responseJSON.errors;
-                        let errorHtml = '';
+                        $('#myModal .icon-box').addClass('error');
+                        $('#myModal .material-icons').text('close');
+                        $('#myModal .modal-title').text('Error!');
                         $.each(errors, function (key, messages) {
                             $.each(messages, function (index, message) {
-                                errorHtml += '<li>' + message + '</li>';
+                                $('#myModal .modal-body').append('<li>' + message + '</li>');
                             });
                         });
-                        $('.error-msg-wrapper').find('ul').html(errorHtml);
-                        $('.error-msg-wrapper').show();
+                        window.shouldReload = false;
+                        $("#myModal").iziModal('open');
                         enableButton();
                     }
                 }
@@ -353,7 +336,4 @@ $(document).ready(function () {
         $("small").remove();
     }
 
-    function hasErrors() {
-        return false;
-    }
 });
