@@ -93,9 +93,7 @@ function isDesktop() {
 				</div>
                 <h4 class="modal-title w-100">Success!</h4>	
 			</div>
-			<div class="modal-body">
-				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
-			</div>
+			<div class="modal-body"></div>
 		</div>
 	</div>
 </div>
@@ -108,4 +106,16 @@ function isDesktop() {
 <script src="{{ asset('js/user-profile.js') }}"></script>
 <script src="{{ asset('js/sky.js') }}"></script>
 <script src="{{ asset('js/simulasi.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $('#myModal').iziModal({
+            width: 325,
+            onClosed: function () {
+                if (window.shouldReload) {
+                    location.reload();
+                }
+            }
+        });
+    });
+</script>
 @endsection
