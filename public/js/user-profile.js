@@ -107,14 +107,36 @@ $(document).ready(function () {
                 data: data,
                 success: function (response) {
                     $('#overlay').hide();
-                    alert(response.successMessage);
-
-                    // Merefresh halaman
-                    location.reload();
+                    $('#myModal .material-icons').text('check');
+                    $('#myModal .modal-title').text('Sukses!');
+                    $('#myModal .modal-body').append('<p>' + response.successMessage + '</p>');
+                    window.shouldReload = true;
+                    $("#myModal").iziModal('open');
                 },
-                error: function (xhr, status, error) {
+                error: function (response) {
                     $('#overlay').hide();
-                    alert(xhr.responseJSON.errorMessage);
+                    if (response.responseJSON.errorMessage) {
+                        $('#myModal .icon-box').addClass('error');
+                        $('#myModal .material-icons').text('close');
+                        $('#myModal .modal-title').text('Error!');
+                        $('#myModal .modal-body').append('<p>' + response.responseJSON.errorMessage + '</p>');
+                        window.shouldReload = true;
+                        $("#myModal").iziModal('open');
+                        enableButton();
+                    } else {
+                        let errors = response.responseJSON.errors;
+                        $('#myModal .icon-box').addClass('error');
+                        $('#myModal .material-icons').text('close');
+                        $('#myModal .modal-title').text('Error!');
+                        $.each(errors, function (key, messages) {
+                            $.each(messages, function (index, message) {
+                                $('#myModal .modal-body').append('<li>' + message + '</li>');
+                            });
+                        });
+                        window.shouldReload = false;
+                        $("#myModal").iziModal('open');
+                        enableButton();
+                    }
                 }
             });
         });
