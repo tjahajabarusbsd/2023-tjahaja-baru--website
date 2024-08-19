@@ -39,33 +39,19 @@ class ConsultationController extends Controller
             $currentURL = $request->input('url');
             $charactersAfterLastSlash = substr($currentURL, strrpos($currentURL, '/') + 1);
             
-            if (!empty($salesCode)) {
-                // Retrieve the phone number from the database based on the code
-                $staff = Staff::where('code', $salesCode)->first();
-                if (!$staff) {
-                    return redirect()->back()->with('error', 'Submit gagal');
-                }
-                $phone = $staff->phone; // Phone number retrieved from the staff record
-                $phone = str_replace("+", "", $phone);
-            } else {
-                $phone = '62812'; // Default phone number
-            }
-            
-            $validatedData  = $request->validated();
+            $staff = Staff::where('code', $salesCode)->value('phone');
+            $phone = $staff !== null ? str_replace("+", "", $staff) : '62812';
 
-            $validatedDataDP = $validatedData['dp'];
-            $dpValue = null;
-            if (!empty($validatedDataDP)) {
-                if ($validatedDataDP == 'dp-0') {
-                    $dpValue = 'Rp. 1 Juta - 5 Juta';
-                } else if($validatedDataDP == 'dp-1') {
-                    $dpValue = 'Rp. 5 Juta - 10 Juta';
-                } else if($validatedDataDP == 'dp-2') {
-                    $dpValue = 'Rp. 10 Juta - 15 Juta';
-                } else {
-                    $dpValue = 'Diatas Rp 15 juta';
-                }
-            }
+            $validatedData  = $request->validated();
+            $validatedDataDP = $validatedData['dp'] ?? null;
+
+            $dpRanges = [
+                'dp-0' => 'Rp. 1 Juta - 5 Juta',
+                'dp-1' => 'Rp. 5 Juta - 10 Juta',
+                'dp-2' => 'Rp. 10 Juta - 15 Juta',
+            ];
+
+            $dpValue = $dpRanges[$validatedDataDP] ?? 'Diatas Rp 15 juta';
 
             $consultationData = Consultation::storeSubmission($validatedData, $dpValue, $charactersAfterLastSlash, $salesCode);
             

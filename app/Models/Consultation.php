@@ -22,13 +22,13 @@ class Consultation extends Model
     public static function storeSubmission($validatedData, $dpValue, $charactersAfterLastSlash, $salesCode)
     {
         return self::create([
-            'name' => $validatedData['name'],
-            'nohp' => $validatedData['nohp'],
-            'product' => $validatedData['produk'],
+            'name'       => $validatedData['name'],
+            'nohp'       => $validatedData['nohp'],
+            'product'    => $validatedData['produk'],
             'cara_bayar' => $validatedData['cara_bayar'],
-            'dp' => $dpValue,
-            'tenor' => $validatedData['tenor'],
-            'url' => $charactersAfterLastSlash,
+            'dp'         => $dpValue,
+            'tenor'      => $validatedData['tenor'],
+            'url'        => $charactersAfterLastSlash,
             'sales_code' => $salesCode,
         ]);
     }
