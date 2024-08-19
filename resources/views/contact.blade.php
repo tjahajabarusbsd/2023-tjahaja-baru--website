@@ -13,6 +13,7 @@
 @section('additional_css')
 	<link rel="stylesheet" href="{{ asset('css/main-form.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/contact.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/modal.css') }}" />
 @endsection
 
 @section('content')
