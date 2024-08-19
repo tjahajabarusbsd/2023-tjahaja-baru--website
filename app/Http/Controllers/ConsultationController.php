@@ -44,21 +44,21 @@ class ConsultationController extends Controller
 
             $validatedData  = $request->validated();
             $validatedDataDP = $validatedData['dp'] ?? null;
-
+            
             $dpRanges = [
                 'dp-0' => 'Rp. 1 Juta - 5 Juta',
                 'dp-1' => 'Rp. 5 Juta - 10 Juta',
                 'dp-2' => 'Rp. 10 Juta - 15 Juta',
             ];
 
-            $dpValue = $dpRanges[$validatedDataDP] ?? 'Diatas Rp 15 juta';
-
+            $dpValue = $validatedDataDP !== null ? ($dpRanges[$validatedDataDP] ?? 'Diatas Rp 15 juta') : null;
+            
             $consultationData = Consultation::storeSubmission($validatedData, $dpValue, $charactersAfterLastSlash, $salesCode);
             
             $messageBody = $this->buildMessageBody($validatedData, $dpValue);
             
             $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
-                
+            
             if ($apiResponse->getStatusCode() === 200) {
                 $successMessage = "Pengajuan Anda telah diterima.\nDealer kami akan segera menghubungi Anda.";
                 $deleteCookie = Cookie::forget('sales');
