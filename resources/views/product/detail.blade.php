@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="{{ asset('css/product-detail.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/main-form.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/modal.css') }}" />
     {{-- <style>
         .youtube-container {
             overflow: hidden;
@@ -480,97 +481,122 @@
         <h1>Konsultasi pembelian</h1>
         <p>Berminat dengan produk ini? Segera konsultasikan langsung dengan dealer kami.</p>
 
-        @if(Session::has('success'))
-        <div class="alert alert-success">
-            {{ Session::get('success') }}
-            @php
-                Session::forget('success');
-            @endphp
-        </div>
+        @if (!empty($cookieSales))
+            <input name="sales" type="text" hidden value="{{ $cookieSales }}">
         @endif
-        @if(Session::has('error'))
-            <div class="alert alert-danger">
-                {{ Session::get('error') }}
-                @php
-                    Session::forget('error');
-                @endphp
-            </div>
-        @endif
+        <input name="url" type="text" hidden value="{{ Request::url() }}">
 
-        <form action="/send_message" method="post" onsubmit="disableButton()" id="detail-product-forms">
-            @csrf
-            @if (!empty($sales))
-                <input name="sales" type="text" hidden value="{{ $sales }}">
-            @endif
-            <input name="url" type="text" hidden value="{{ Request::url() }}">
-            <div class="form-group">
-                <label for="name">Nama Lengkap</label>
-                <input name="name" id="name" class="form-control" type="text" value="{{ old('name') }}"  placeholder="Nama Lengkap" maxlength="50" required>
-                @error('name')
-                    <small>{{ $message }}</small>
-                @enderror
+        <div class="form-group row">
+            <label for="name" class="col-md-4">Nama</label>
+            <div class="col-md-8">
+                <input name="name" class="form-control" id="name" type="text" value="{{ old('name') }}"  placeholder="Nama Lengkap" maxlength="50" required>
             </div>
-            
-            <div class="form-group">
-                <label for="nohp">No. Handphone (WhatsApp)</label>
-                <input name="nohp" id="nohp" class="form-control" type="tel" value="{{ old('nohp') }}" placeholder="08123456789" maxlength="15" required>
-                @error('nohp')
-                    <small>{{ $message }}</small>
-                @enderror
+        </div>
+        
+        <div class="form-group row">
+            <label for="nohp" class="col-md-4">No Handphone</label>
+            <div class="col-md-8">
+                <input name="nohp" id="nohp" class="form-control" type="tel" value="{{ old('nohp') }}"  placeholder="08123456789" maxlength="15" required>
             </div>
-            
-            <div class="form-group">
-                <label for="lists">Produk yang diminati</label>
-                <select name="produk" class="form-select" aria-label="Default select example" required>
-                    <option selected disabled value=""> - pilih produk - </option>
+        </div>
+        
+        <div class="form-group row">
+            <label class="col-md-4">Motor yang diminati</label>
+            <div class="col-md-8">
+                <select name="produk" id="pilih-produk" class="form-select" aria-label="Default select example">
                     @foreach ($variantNames as $variantName)
                         <option value="{{ $variantName }}">{{ $variantName }}</option>
                     @endforeach
                 </select>
-                {{-- <input name="produk" class="form-control" type="input" value="{{ $item->name }}" readonly="true"> --}}
-                @error('produk')
-                    <small>{{ $message }}</small>
-                @enderror
             </div>
-            
-            <div class="form-group">
-                {!! RecaptchaV3::field('consultation') !!}
-                @error('g-recaptcha-response')
-                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                @enderror
-            </div>
+        </div>
 
-            <div class="form-group">
-                <label>
-                    <input type="checkbox" name="terms" id="termsCheckbox" required>
-                    Saya setuju bahwa informasi diatas mengizinkan TJAHAJA BARU untuk menghubungi Saya melalui telepon/WhatsApp.
-                </label>
-                @error('terms')
-                    <small>{{ $message }}</small>
-                @enderror
+        <div class="form-group row">
+            <label class="col-md-4">Metode Pembayaran</label>
+            <div class="col-md-8">
+                <select id="payment-method" name="payment_method" class="form-select">
+                    <option selected disabled value=""> - pilih cara bayar - </option>
+                    <option value="cash">Cash</option>
+                    <option value="kredit">Kredit</option>
+                </select>
             </div>
+        </div>
+
+        <div id="option-bayar" class="form-group row" style="display: none;">
+            <label for="down-payment" class="col-md-4">Down Payment</label>
+            <div class="col-md-8">
+                <select id="down-payment" name="down_payment" class="form-select">
+                    <option selected disabled value=""> - pilih down payment - </option>
+                    <option value="dp-0">Rp 1 Juta - Rp 5 juta</option>
+                    <option value="dp-1">Rp 5 juta - Rp 10 juta</option>
+                    <option value="dp-2">Rp 10 juta - Rp 15 juta</option>
+                    <option value="dp-3">Diatas Rp 15 juta</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="option-tenor-pembelian" class="form-group row" style="display: none;">
+            <label for="tenor-pembelian" class="col-md-4">Jumlah Tenor</label>
+            <div class="col-md-8">
+                <select id="tenor-pembelian" name="tenor_pembelian" class="form-select">
+                    <option selected disabled value=""> - pilih jumlah tenor - </option>
+                    <option value="11">11 bulan</option>
+                    <option value="17">17 bulan</option>
+                    <option value="23">23 bulan</option>
+                    <option value="29">29 bulan</option>
+                    <option value="35">35 bulan</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 20px;">
+            <label id="label-checkbox" class="d-flex align-items-start">
+                <input type="checkbox" name="terms" id="termsCheckbox" style="margin-top: 5px; margin-right: 10px;">
+                <span>Saya setuju bahwa informasi diatas mengizinkan TJAHAJA BARU untuk menghubungi Saya melalui telepon/WhatsApp.</span>
+            </label>
+        </div>
             
-            <div class="form-group">
-                <input id="submitButton" class="btn btn-primary" type="submit" value="Submit">
-            </div>
-        </form>
+        <div class="form-group">
+            {!! RecaptchaV3::field('contact') !!}
+            @error('g-recaptcha-response')
+            <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <button id="submit-motor" type="submit" class="btn btn-primary">Submit</button>
+        </div>
     </div>
 </section>
+<div class="overlay" id="overlay">
+    <div class="overlay__inner">
+        <div class="overlay__content"><span class="spinner"></span></div>
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="icon-box">
+					<i class="material-icons">close</i>
+				</div>
+                <h4 class="modal-title w-100">Success!</h4>	
+			</div>
+			<div class="modal-body"></div>
+		</div>
+	</div>
+</div>
 @endsection
 
 @section('additional_script')
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>const siteKey = '{{ env("RECAPTCHAV3_SITEKEY") }}';</script>
 <script src="{{ asset('js/product.js') }}"></script>
 <script src="{{ asset('js/contact.js') }}"></script>
 <script>
-    $(document).ready(function() {
-        // setTimeout(function() { 
-        //     $('iframe.delayed').attr('src'); 
-        // }, 20000);
-        
-        var variantUnit = $(".variant-unit:first").addClass('active');
-
-        $('.variant-unit').click(function() {
+    $(document).ready(function () {
+        $('.variant-unit').click(function () {
             var variant = $(this).attr('data-variant');
             var url = "/get-data/" + variant;
 
@@ -580,9 +606,9 @@
             $.ajax({
                 url: url,
                 method: 'GET',
-                success: function(response) {
+                success: function (response) {
                     var productCard = $('.product-card');
-                    productCard.empty(); 
+                    productCard.empty();
 
                     var swiperDiv = $('<div>')
                         .addClass('swiper');
@@ -592,10 +618,10 @@
                         .addClass('swiper-wrapper');
                     swiperDiv.append(swiperWrapper);
 
-                    response.forEach(function(item, index) {
+                    response.forEach(function (item, index) {
                         var swiperSlide = $('<div>')
                             .addClass('swiper-slide');
-                        
+
                         var itemImage = $('<img>')
                             .attr('src', '{{ url("/") }}' + '/' + item.image)
                             .attr('alt', '...');
@@ -610,7 +636,7 @@
                     var colorWrapper = $('<div>')
                         .addClass('color-wrapper text-center');
                     captionBox.append(colorWrapper);
-                    
+
                     captionBox.append('<p class="price">' + response[0].price + '</p>');
                     captionBox.append('<p class="price">' + response[0].name + '</p>');
                     captionBox.append('<p class="area-price">Harga OTR Sumatera Barat</p>');
@@ -622,100 +648,34 @@
                         pagination: {
                             el: '.color-wrapper',
                             clickable: true,
-                            renderBullet: function(index, className) {
+                            renderBullet: function (index, className) {
                                 return '<span class="' + className + '" style="background: ' + response[index].color + '"></span>';
                             }
                         },
                     });
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error("Terjadi kesalahan:", error);
                 }
             });
         });
-
         const swiper = new Swiper('.swiper', {
             slidesPerView: 1,
             centeredSlides: true,
             pagination: {
                 el: '.color-wrapper',
                 clickable: true,
-                renderBullet: function(index, className) {
-                    var colors = @json($data); 
+                renderBullet: function (index, className) {
+                    var colors = @json($data);
 
                     if (index >= 0 && index < colors.length) {
                         return '<span class="' + className + '" style="background: ' + colors[index].color + '"></span>';
                     }
 
-                    return ''; 
+                    return '';
                 }
             },
         });
     });
-
-    function disableButton() {
-        document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-    };
-
-    $('.features-wrapper').slick({
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        dots: true,
-        arrows: true,
-        autoplay: false,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    dots: true
-                }
-            },
-            {
-                breakpoint: 845,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 568,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    dots: false
-                }
-            }
-        ]
-    });
-
-    // $('.videos-wrapper').slick({
-    //     slidesToShow: 1,
-    //     slidesToScroll: 1,
-    //     dots: true,
-    //     arrows: true,
-    //     autoplay: false,
-    //     responsive: [
-    //         {
-    //             breakpoint: 650,
-    //             settings: {
-    //                 slidesToShow: 1,
-    //                 slidesToScroll: 1,
-    //                 arrows: false,
-    //                 dots: true
-    //             }
-    //         },
-    //         {
-    //             breakpoint: 375,
-    //             settings: {
-    //                 slidesToShow: 1,
-    //                 slidesToScroll: 1,
-    //                 arrows: false,
-    //                 dots: true
-    //             }
-    //         }
-    //     ]
-    // }); 
 </script>
 @endsection

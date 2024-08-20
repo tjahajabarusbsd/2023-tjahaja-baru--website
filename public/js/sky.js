@@ -1,8 +1,4 @@
 $(document).ready(function () {
-    $("#myModal").iziModal({
-        width: 400,
-    });
-
     $('#form-sky').on('submit', function (e) {
         e.preventDefault();
 

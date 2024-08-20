@@ -9,10 +9,10 @@
         </div>
     </div>
     
-    <div class="my-4 menu">
+    {{-- <div class="my-4 menu">
         <button class="btn-purple active" id="ajukan-sky"><span>Ajukan SKY</span></button>
         <button class="btn-purple" id="riwayat-sky"><span>Riwayat SKY</span></button>
-    </div>
+    </div> --}}
 
     <div class="row layanan-konten">
         <div class="col-md-6">

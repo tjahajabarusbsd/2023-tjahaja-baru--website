@@ -12,7 +12,7 @@ class VariantController extends Controller
 {
     public function getDataVariant($uri, Request $request)
     {
-        $sales = $request->query('sales');
+        $cookieSales = $request->cookie('sales');
         $group = Group::where('uri', $uri)->first();
         $groupSpec = GroupProductSpec::where('group_id', $group->id )->first();
         
@@ -40,7 +40,7 @@ class VariantController extends Controller
                 ->where('name', $variantNames[0])
                 ->get();
 
-            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data', 'sales', 'features', 'reviews', 'groupSpec'));
+            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data', 'cookieSales', 'features', 'reviews', 'groupSpec'));
         } else {
             return view('errors/404');
         }

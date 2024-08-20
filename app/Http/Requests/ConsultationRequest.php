@@ -24,26 +24,32 @@ class ConsultationRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'   => ['required', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
-            'nohp'   => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/'],
-            'produk' => 'required',
+            'name'       => ['required', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
+            'nohp'       => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/'],
+            'produk'     => 'required',
+            'cara_bayar' => 'required',
+            'dp'         => 'required_if:cara_bayar,kredit', 
+            'tenor'      => 'required_if:cara_bayar,kredit',
+            'terms'      => 'required|accepted',
             'g-recaptcha-response' => 'required',
-            'terms'  => 'required|accepted'
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required'    => 'Kolom wajib diisi.',
-            'name.regex'       => 'Wajib menggunakan huruf.',
-            'name.max'         => 'Nama maksimal 50 karakter.',
-            'nohp.required'    => 'Kolom wajib diisi',
-            'nohp.numeric'     => 'Wajib menggunakan angka.',
-            'nohp.regex'       => 'Mohon input nomor HP dengan benar.',
-            'produk.required'  => 'Kolom wajib diisi.',
-            'g-recaptcha-response.required' => 'Captcha tidak valid',
-            'terms.required'   => 'Kolom wajib dicentang.',
+            'name.required'     => 'Nama belum diisi',
+            'name.regex'        => 'Gunakan huruf',
+            'name.max'          => 'Nama maksimal 50 karakter',
+            'nohp.required'     => 'No. Handphone belum diisi',
+            'nohp.numeric'      => 'Gunakan angka',
+            'nohp.regex'        => 'Mohon input No. Handphone dengan benar',
+            'produk.required'   => 'Produk belum dipilih',
+            'cara_bayar.required'  => 'Cara bayar belum dipilih',
+            'dp.required_if'    => 'DP belum dipilih',
+            'tenor.required_if' => 'Jumlah tenor belum dipilih',
+            'terms.required'    => 'Kolom wajib dicentang',
+            'g-recaptcha-response.required' => 'Captcha tidak valid. Mohon reload page.',
         ];
     }
 

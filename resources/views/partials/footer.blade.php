@@ -37,9 +37,9 @@
                     <li class="mb-2">
                         <a href="/profile">About Us</a>
                     </li>
-                    <li class="mb-2">
+                    {{-- <li class="mb-2">
                         <a href="/consultation">Consultation</a>
-                    </li>
+                    </li> --}}
                     <li class="mb-2">
                         <a href="/contact">Contact Us</a>
                     </li>
@@ -82,7 +82,7 @@
             </div>
         </div>
         <div class="row border-top">
-            <span class="mt-3 text-center">© {{ date('Y') }} Tjahaja Baru. All Rights Reserved</span>
+            <span class="mt-3 text-center fw-medium">© {{ date('Y') }} Tjahaja Baru. All Rights Reserved</span>
         </div>
     </div>
 </footer>

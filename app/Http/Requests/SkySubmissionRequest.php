@@ -41,8 +41,4 @@ class SkySubmissionRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(Validator $validator)
-    {
-        return redirect()->back()->withErrors($validator->messages());
-    }
 }

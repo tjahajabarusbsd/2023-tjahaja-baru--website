@@ -2,14 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PinjamanDana;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
-use App\HTTP\Controllers\WhatsAppController;
+use App\Models\Spec;
+use App\Models\PinjamanDana;
+use App\Http\Controllers\WhatsAppController;
+use Illuminate\Support\Facades\Auth;
 
-class AjukanController extends Controller
+class PinjamanDanaController extends Controller
 {
+    public function hitungPinjaman(Request $request)
+    {
+        $hargaMotor = $request->harga_motor;
+        
+        $maksimalPinjaman = $hargaMotor * 0.8; 
+
+        return response()->json(['maksimal_pinjaman' => $maksimalPinjaman]);
+    }
+
+    protected function masaAsuransi($tenor)
+    {
+        if ($tenor <= 12) {
+            $masaAsuransi = 1;
+        } elseif ($tenor >= 13 && $tenor <= 24) {
+            $masaAsuransi = 2;
+        } else {
+            $masaAsuransi = 3;
+        }
+
+        return $masaAsuransi;
+    }
+
+    public function hitungAngsuran(Request $request)
+    {
+        $danaDicairkan = $request->dana_dicairkan;
+        $tenor = $request->tenor;
+        $insurancePeriod = $this->masaAsuransi($tenor); 
+
+        $angsuranPerBulan = ($danaDicairkan + 450000) * (1 + (0.25 / 12 * $tenor)) / $tenor;
+        $angsuranPerBulan = ceil($angsuranPerBulan / 1000) * 1000; 
+
+        return response()->json([
+            'angsuran_per_bulan' => $angsuranPerBulan,
+            'masa_asuransi' => $insurancePeriod
+        ]);
+    }
+
+    public function list()
+    {
+        $specList = Spec::orderBy('name')->distinct('name')->get();
+        return view('/users/detail', compact('specList'));
+    }
+
     public function ajukanAngsuran(Request $request, WhatsAppController $whatsAppController)
     {   
         $currentURL = $request->input('url');
@@ -27,11 +71,11 @@ class AjukanController extends Controller
                 $user = Auth::user();
 
                 if (empty($user->name)) {
-                    return response()->json(['errorMessage' => 'Nama pengguna tidak boleh kosong.'], 422);
+                    return response()->json(['errorMessage' => 'Nama belum diisi'], 422);
                 }
             
                 if (empty($user->phone_number)) {
-                    return response()->json(['errorMessage' => 'Nomor HP pengguna tidak boleh kosong.'], 422);
+                    return response()->json(['errorMessage' => 'No. Handphone belum diisi'], 422);
                 }
 
                 $pinjamanDanaData = PinjamanDana::create([
@@ -53,12 +97,12 @@ class AjukanController extends Controller
                     'name' => ['required', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
                     'nohp' => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/'],
                 ], [
-                    'name.required' => 'Nama wajib diisi.',
-                    'name.regex' => 'Wajib menggunakan huruf.',
-                    'name.max' => 'Nama maksimal 50 karakter.',
-                    'nohp.required' => 'Nomor HP wajib diisi.',
-                    'nohp.numeric' => 'Wajib menggunakan angka.',
-                    'nohp.regex' => 'Mohon input nomor HP dengan benar.',
+                    'name.required'     => 'Nama belum diisi',
+                    'name.regex'        => 'Gunakan huruf',
+                    'name.max'          => 'Nama maksimal 50 karakter',
+                    'nohp.required'     => 'No. Handphone belum diisi',
+                    'nohp.numeric'      => 'Gunakan angka',
+                    'nohp.regex'        => 'Mohon input No. Handphone dengan benar',
                 ]);
 
                 $pinjamanDanaData = PinjamanDana::create([
@@ -76,56 +120,19 @@ class AjukanController extends Controller
                 $messageBody = $this->buildMessageBodyContact($request, $validateData);
             }
 
-            // dd($messageBody);
+            dd($messageBody);
 
             $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
 
             if ($apiResponse->getStatusCode() === 200) {
                 return response()->json(['successMessage' => 'Pengajuan Anda telah diterima'], 201);
             } else {
-                return response()->json(['errorMessage' => 'Failed to send message'], 422);
+                $pinjamanDanaData->delete();
+                return response()->json(['errorMessage' => 'Pesan gagal terkirim!'], 422);
             }
-            
-            // $apiResponse = 200;
-
-            // if($apiResponse === 200) {
-            //     return response()->json(['successMessage' => 'Pengajuan Anda telah diterima!'], 201);
-            // } else {
-            //     return response()->json(['errorMessage' => 'Pesan gagal terkirim!'], 422);
-            // }
         }
         
-        return response()->json(['errorMessage' => 'Anda kemungkinan adalah bot'], 422);
-    }
-
-    private function getRequestData(Request $request, $user)
-    {
-        return [
-            'name' => $user->name,
-            'nohp' => $user->phone_number,
-            'tipe' => $request->tipe,
-            'unit_tahun' => $request->unit_tahun,
-            'harga_motor' => $request->harga_motor,
-            'dana_dicairkan' => $request->dana_dicairkan,
-            'tenor' => $request->tenor,
-            'tipeLain' => $request->tipeLain,
-            'angsuranMonthly' => $request->angsuranMonthly,
-        ];
-    }
-
-    private function getRequestDataContact(Request $request)
-    {
-        return [
-            'name' => $request->name,
-            'nohp' => $request->nohp,
-            'tipe' => $request->tipe,
-            'unit_tahun' => $request->unit_tahun,
-            'harga_motor' => $request->harga_motor,
-            'dana_dicairkan' => $request->dana_dicairkan,
-            'tenor' => $request->tenor,
-            'tipeLain' => $request->tipeLain,
-            'angsuranMonthly' => $request->angsuranMonthly,
-        ];
+        return response()->json(['errorMessage' => 'Anda kemungkinan adalah bot'], 400);
     }
 
     private function buildMessageBody($request, $user)
