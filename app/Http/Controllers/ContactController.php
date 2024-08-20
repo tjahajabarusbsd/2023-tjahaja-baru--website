@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
 use App\Models\Variant;
 use App\Models\Contact;
 use App\Http\Requests\ContactRequest;
-use App\HTTP\Controllers\WhatsAppController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\WhatsAppController;
 use Illuminate\Support\Facades\Cookie;
-use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
 
 class ContactController extends Controller
 {

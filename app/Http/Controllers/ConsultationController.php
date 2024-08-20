@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Cookie;
+use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
 use App\Models\Staff;
 use App\Models\Variant;
 use App\Models\Consultation;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
 use App\Http\Requests\ConsultationRequest;
 use App\Http\Controllers\WhatsAppController;
-use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\URL;
 
 class ConsultationController extends Controller
 {
