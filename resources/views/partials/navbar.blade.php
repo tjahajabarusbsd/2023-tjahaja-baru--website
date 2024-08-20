@@ -68,9 +68,9 @@
 						  <li><a class="dropdown-item" href="/compare_product">Compare Product</a></li>
 						</ul>
 					</li>
-					<li class="nav-item">
+					{{-- <li class="nav-item">
 						<a class="nav-link" href="/consultation">consultation</a>
-					</li>
+					</li> --}}
 					<li class="nav-item">
 						<a class="nav-link" href="/contact">contact us</a>
 					</li>

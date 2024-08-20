@@ -37,9 +37,9 @@
                     <li class="mb-2">
                         <a href="/profile">About Us</a>
                     </li>
-                    <li class="mb-2">
+                    {{-- <li class="mb-2">
                         <a href="/consultation">Consultation</a>
-                    </li>
+                    </li> --}}
                     <li class="mb-2">
                         <a href="/contact">Contact Us</a>
                     </li>
