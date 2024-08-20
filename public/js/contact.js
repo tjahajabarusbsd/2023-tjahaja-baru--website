@@ -196,6 +196,9 @@ $(document).ready(function () {
                     $('#myModal .material-icons').text('check');
                     $('#myModal .modal-title').text('Sukses!');
                     $('#myModal .modal-body').append('<p>' + response.successMessage + '</p>');
+                    var url = new URL(window.location.href);
+                    url.search = "";
+                    window.history.replaceState({}, document.title, url.toString());
                     window.shouldReload = true;
                     $("#myModal").iziModal('open');
                 },
