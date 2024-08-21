@@ -40,8 +40,8 @@ class ConsultationController extends Controller
             $charactersAfterLastSlash = substr($currentURL, strrpos($currentURL, '/') + 1);
             
             $staff = Staff::where('code', $salesCode)->value('phone');
-            $phone = $staff !== null ? str_replace("+", "", $staff) : '62812';
-
+            $phone = $staff !== null ? str_replace("+", "", $staff) : env('NO_CRO');
+            
             $validatedData  = $request->validated();
             $validatedDataDP = $validatedData['dp'] ?? null;
             

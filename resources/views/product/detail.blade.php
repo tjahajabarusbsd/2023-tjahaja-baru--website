@@ -591,7 +591,7 @@
 
 @section('additional_script')
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>const siteKey = '{{ env("RECAPTCHAV3_SITEKEY") }}';</script>
+<script>const siteKey = '{{ config('app.recaptcha_sitekey') }}';</script>
 <script src="{{ asset('js/product.js') }}"></script>
 <script src="{{ asset('js/contact.js') }}"></script>
 <script>
