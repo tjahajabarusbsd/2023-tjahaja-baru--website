@@ -56,6 +56,8 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
+    'recaptcha_sitekey' => env('RECAPTCHAV3_SITEKEY', null),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

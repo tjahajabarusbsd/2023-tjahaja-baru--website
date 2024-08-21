@@ -387,7 +387,7 @@
 @section('additional_script')
     <script src="{{ asset('js/contact.js') }}"></script>
     <script src="{{ asset('js/simulasi.js') }}"></script>
-    <script>const siteKey = '{{ env("RECAPTCHAV3_SITEKEY") }}';</script>
+    <script>const siteKey = '{{ config('app.recaptcha_sitekey') }}';</script>
     <script>
         function disableButton() {
             $(".btn-primary").prop('disabled', true);

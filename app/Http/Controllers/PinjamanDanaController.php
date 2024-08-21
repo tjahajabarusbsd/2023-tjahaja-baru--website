@@ -66,7 +66,8 @@ class PinjamanDanaController extends Controller
         }
 
         if ($recaptchaResponse > 0.7) {
-            $phone = '62812';
+            $phone = env('NO_BPR');
+            
             if ($charactersAfterLastSlash == 'myprofile') {
                 $user = Auth::user();
 

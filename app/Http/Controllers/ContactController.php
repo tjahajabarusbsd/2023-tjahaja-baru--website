@@ -32,8 +32,8 @@ class ContactController extends Controller
     {
         $score = RecaptchaV3::verify($request->get('g-recaptcha-response'), 'contact');
         if ($score > 0.7) {
-            $phone = '62812';
-
+            $phone = env('NO_MARKOM');
+            
             $validatedData  = $request->validated();
 
             $contactData = Contact::storeSubmission($validatedData);
