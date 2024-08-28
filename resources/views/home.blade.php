@@ -21,10 +21,13 @@
             <div class="swiper-wrapper">
                 @foreach ($banners as $banner)
                 <div class="swiper-slide">
+                    <a href="{{ $banner->link }}" class="banner-link">
                     <picture>
                         <img src="{{ url($banner->image) }}" loading="lazy" class="banner-img">
                     </picture>
+                </a>
                 </div>
+                
                 @endforeach
             </div>
         </div>

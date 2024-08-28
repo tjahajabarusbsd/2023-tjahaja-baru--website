@@ -24,28 +24,6 @@
 <section class="content">
     <div class="container">
         <div class="row">
-            {{-- <div class="col-md-4">
-                <div class="contact-detail">
-                    <h3>Kontak</h3>
-                    <p>Jika Anda mempunyai pertanyaan, silahkan menggunakan kontak berikut.</p>
-                    <ul>
-                        <li>
-                          <i class="fa fa-map-marker"></i>
-                          <strong>address</strong> 
-                          Jl. Damar No. 59 (25133) Padang - Sumatera Barat INDONESIA
-                        </li>
-                        <li>
-                          <i class="fa fa-phone"></i>
-                          <strong>phone</strong>
-                          0811805898
-                      </li>
-                        <li>
-                          <i class="fa fa-envelope"></i>
-                          <strong>email</strong>sales.online@tjahaja-baru.com
-                        </li>
-                    </ul>
-                </div>
-            </div> --}}
             <div class="mx-auto">
                 <div class="main-form contact-form">
                     <div class="form-container">

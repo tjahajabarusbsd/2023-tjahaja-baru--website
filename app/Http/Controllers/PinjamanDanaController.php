@@ -121,8 +121,6 @@ class PinjamanDanaController extends Controller
                 $messageBody = $this->buildMessageBodyContact($request, $validateData);
             }
 
-            dd($messageBody);
-
             $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
 
             if ($apiResponse->getStatusCode() === 200) {

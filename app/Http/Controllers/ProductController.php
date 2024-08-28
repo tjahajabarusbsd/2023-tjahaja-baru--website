@@ -15,7 +15,7 @@ class ProductController extends Controller
         if ( $category == null ) {
             return view('errors/404');
         } else {
-            $groups = Group::where('category_id', $category->id)->get();
+            $groups = Group::where('category_id', $category->id)->orderBy('price', 'desc')->get();
         }
 
         return view('product/product', compact('groups'));

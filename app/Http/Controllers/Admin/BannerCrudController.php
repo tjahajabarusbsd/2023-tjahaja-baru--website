@@ -86,6 +86,7 @@ class BannerCrudController extends CrudController
         CRUD::field('name');
         CRUD::field('image')->type('image')->upload(true);
         CRUD::field('is_active')->label('show')->type('checkbox');
+        CRUD::field('link')->label('url')->type('text');
         CRUD::field('created_at');
         CRUD::field('updated_at');
 

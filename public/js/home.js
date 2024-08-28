@@ -10,6 +10,8 @@ $(document).ready(function () {
         slidesPerView: 1,
         autoplay: {
             delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
         },
         loop: true,
         pagination: {
