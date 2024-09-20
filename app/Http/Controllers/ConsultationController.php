@@ -78,27 +78,52 @@ class ConsultationController extends Controller
         return response()->json(['errorMessage' => 'Anda kemungkinan adalah bot'], 400);
     }
 
+    // private function buildMessageBody($validatedData, $dpValue)
+    // {
+    //     $messageBody = [
+    //         "Berikut ini data konsumen yang mengisi form di website kita yang minat dengan produk Yamaha:",
+    //         "Nama: " . $validatedData['name'],
+    //         "No HP: " . $validatedData['nohp'],
+    //         "Produk yang diminati: " . $validatedData['produk'],
+    //     ];
+
+    //     if ($validatedData['cara_bayar'] === 'kredit') {
+    //         $messageBody[] = "Cara bayar: " . $validatedData['cara_bayar'];
+    //         $messageBody[] = "DP: " . $dpValue;
+    //         $messageBody[] = "Tenor: " . $validatedData['tenor'] . " bulan";
+    //     }
+
+    //     if ($validatedData['cara_bayar'] === 'cash') {
+    //         $messageBody[] = "Cara bayar: " . $validatedData['cara_bayar'];
+    //     }
+
+    //     $messageBody[] = "Tolong segera diproses. Terima kasih.";
+
+    //     return implode("\n", $messageBody);
+    // }
+
     private function buildMessageBody($validatedData, $dpValue)
     {
         $messageBody = [
-            "Berikut ini data konsumen yang mengisi form di website kita yang minat dengan produk Yamaha:",
-            "Nama: " . $validatedData['name'],
-            "No HP: " . $validatedData['nohp'],
-            "Produk yang diminati: " . $validatedData['produk'],
+            "Berikut ini data konsumen yang mengisi form di website kita yang minat dengan produk Yamaha: ",
+            "*Nama:* " . $validatedData['name'] . ", ",
+            "*No HP:* " . $validatedData['nohp'] . ", ",
+            "*Produk yang diminati:* " . $validatedData['produk'] . ", "
         ];
 
         if ($validatedData['cara_bayar'] === 'kredit') {
-            $messageBody[] = "Cara bayar: " . $validatedData['cara_bayar'];
-            $messageBody[] = "DP: " . $dpValue;
-            $messageBody[] = "Tenor: " . $validatedData['tenor'] . " bulan";
+            $messageBody[] = "*Cara bayar:* " . $validatedData['cara_bayar'] . ", ";
+            $messageBody[] = "*DP:* " . $dpValue . ", ";
+            $messageBody[] = "*Tenor:* " . $validatedData['tenor'] . " bulan " . ". ";
         }
 
         if ($validatedData['cara_bayar'] === 'cash') {
-            $messageBody[] = "Cara bayar: " . $validatedData['cara_bayar'];
+            $messageBody[] = "*Cara bayar:* " . $validatedData['cara_bayar'] . ". ";
         }
 
         $messageBody[] = "Tolong segera diproses. Terima kasih.";
 
-        return implode("\n", $messageBody);
+        return implode("", $messageBody);
     }
+
 }
