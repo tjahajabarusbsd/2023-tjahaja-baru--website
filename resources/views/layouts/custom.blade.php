@@ -26,8 +26,8 @@
   <meta name="keywords" content="yamaha, sumbar, sumatera barat, padang, tjahaja baru, maxi, classy, matic, moped, sport, minangkabau, servis yamaha, motor yamaha">
   <meta name="description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
   <meta name="theme-color" content="#1645ca">
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="black" />
   @yield('meta_og')
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}" />
