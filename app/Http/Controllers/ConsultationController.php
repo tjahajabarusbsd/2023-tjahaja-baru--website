@@ -37,8 +37,13 @@ class ConsultationController extends Controller
         if ($score > 0.7) {
             $salesCode = $request->cookie('sales');
             $currentURL = $request->input('url');
-            $charactersAfterLastSlash = substr($currentURL, strrpos($currentURL, '/') + 1);
-            
+            // $charactersAfterLastSlash = substr($currentURL, strrpos($currentURL, '/') + 1);
+
+            $parsedURL = parse_url($currentURL);
+            $path = $parsedURL['path'];
+            $queryString = isset($parsedURL['query']) ? $parsedURL['query'] : '';
+            $charactersAfterLastSlash = $path . '?' . $queryString;
+
             $staff = Staff::where('code', $salesCode)->value('phone');
             $phone = $staff !== null ? str_replace("+", "", $staff) : env('NO_CRO');
             
@@ -77,30 +82,6 @@ class ConsultationController extends Controller
 
         return response()->json(['errorMessage' => 'Anda kemungkinan adalah bot'], 400);
     }
-
-    // private function buildMessageBody($validatedData, $dpValue)
-    // {
-    //     $messageBody = [
-    //         "Berikut ini data konsumen yang mengisi form di website kita yang minat dengan produk Yamaha:",
-    //         "Nama: " . $validatedData['name'],
-    //         "No HP: " . $validatedData['nohp'],
-    //         "Produk yang diminati: " . $validatedData['produk'],
-    //     ];
-
-    //     if ($validatedData['cara_bayar'] === 'kredit') {
-    //         $messageBody[] = "Cara bayar: " . $validatedData['cara_bayar'];
-    //         $messageBody[] = "DP: " . $dpValue;
-    //         $messageBody[] = "Tenor: " . $validatedData['tenor'] . " bulan";
-    //     }
-
-    //     if ($validatedData['cara_bayar'] === 'cash') {
-    //         $messageBody[] = "Cara bayar: " . $validatedData['cara_bayar'];
-    //     }
-
-    //     $messageBody[] = "Tolong segera diproses. Terima kasih.";
-
-    //     return implode("\n", $messageBody);
-    // }
 
     private function buildMessageBody($validatedData, $dpValue)
     {
