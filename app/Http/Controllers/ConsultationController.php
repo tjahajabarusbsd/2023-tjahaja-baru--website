@@ -37,8 +37,13 @@ class ConsultationController extends Controller
         if ($score > 0.7) {
             $salesCode = $request->cookie('sales');
             $currentURL = $request->input('url');
-            $charactersAfterLastSlash = substr($currentURL, strrpos($currentURL, '/') + 1);
-            
+            // $charactersAfterLastSlash = substr($currentURL, strrpos($currentURL, '/') + 1);
+
+            $parsedURL = parse_url($currentURL);
+            $path = $parsedURL['path'];
+            $queryString = isset($parsedURL['query']) ? $parsedURL['query'] : '';
+            $charactersAfterLastSlash = $path . '?' . $queryString;
+
             $staff = Staff::where('code', $salesCode)->value('phone');
             $phone = $staff !== null ? str_replace("+", "", $staff) : env('NO_CRO');
             
