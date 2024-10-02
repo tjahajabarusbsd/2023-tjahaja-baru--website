@@ -52,16 +52,16 @@ class ContactController extends Controller
         return response()->json(['errorMessage' => 'Anda kemungkinan adalah bot'], 400);
     }
 
-    private function buildMessageBody(array $validatedData)
+    private function buildMessageBody($validatedData)
     {
         $messageBody = [
             "Berikut ini data pengunjung yang mengisi form pesan di website kita:",
-            "Nama: " . $validatedData['name'],
-            "No HP: " . $validatedData['nohp'],
-            "Pesan: " . $validatedData['message'],
+            "*Nama:* " . $validatedData['name'] . ", ",
+            "*No HP:* " . $validatedData['nohp'] . ", ",
+            "*Pesan:* " . $validatedData['message'] . ". "
         ];
         $messageBody[] = "Tolong segera diproses. Terima kasih.";
 
-        return implode("\n", $messageBody);
+        return implode("", $messageBody);
     }
 }
