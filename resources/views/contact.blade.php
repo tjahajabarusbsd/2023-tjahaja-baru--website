@@ -29,9 +29,6 @@
                     <div class="form-container">
                         <h1>Contact Us</h1>
                         <input name="url" type="text" hidden value="{{ Request::fullUrl() }}">
-                        @if (!empty($cookieSales))
-                            <input name="sales" type="text" hidden value="{{ $cookieSales }}">
-                        @endif
                         <div class="form-group row">
                             <label for="name" class="col-md-4">Nama</label>
                             <div class="col-md-8">
@@ -46,7 +43,7 @@
                             </div>
                         </div>
                         
-                        @if (!empty($cookieSales) || !empty($urlParameter) || (isset(parse_url(Request::fullUrl())['query'])))
+                        @if (!empty($cookieValue))
                             <div class="form-group">
                                 <div class="form-group row">
                                     <label class="col-md-4">Motor yang diminati</label>
