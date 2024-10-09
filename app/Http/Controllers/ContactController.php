@@ -14,18 +14,31 @@ class ContactController extends Controller
 {
     public function getContactForm(Request $request)
     {
-        $cookieSales = $request->cookie('sales');
-        $urlParameter = $request->query('sales');
         $lists = Variant::all()->unique('name')->sortBy('name');
+        
+        $utmCampaignParameter = $request->query('utm_campaign');
+        $salesCodeParameter = $request->query('sales');
 
-        $parameterValue = $request->input('sales');
-        if ($parameterValue != null) {
-            Cookie::queue('sales', $parameterValue);
+        // Variable untuk menampung cookie yang akan disimpan ke database
+        $cookieValue = null;
+
+        // Cek dan set cookie utm_campaign
+        if ($utmCampaignParameter) {
+            Cookie::queue('utm_campaign', $utmCampaignParameter);
+            $cookieValue = $utmCampaignParameter;
+        } else {
+            Cookie::forget('utm_campaign');
+        }
+
+        // Cek dan set cookie sales jika utm_campaign tidak ada
+        if ($salesCodeParameter && !$utmCampaignParameter) {
+            Cookie::queue('sales', $salesCodeParameter);
+            $cookieValue = $salesCodeParameter;
         } else {
             Cookie::forget('sales');
         }
 
-        return view('contact', compact('cookieSales', 'urlParameter', 'lists'));
+        return view('contact', compact('cookieValue', 'lists'));
     }
 
     public function submitPesanForm(ContactRequest $request, WhatsAppController $whatsAppController)

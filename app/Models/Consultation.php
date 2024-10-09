@@ -19,7 +19,7 @@ class Consultation extends Model
 
     // If you want to exclude timestamps
     // public $timestamps = false;
-    public static function storeSubmission($validatedData, $dpValue, $charactersAfterLastSlash, $salesCode)
+    public static function storeSubmission($validatedData, $dpValue, $charactersAfterLastSlash, $salesCode, $utmCampaign)
     {
         return self::create([
             'name'       => $validatedData['name'],
@@ -30,6 +30,7 @@ class Consultation extends Model
             'tenor'      => $validatedData['tenor'],
             'url'        => $charactersAfterLastSlash,
             'sales_code' => $salesCode,
+            'utm_campaign' => $utmCampaign
         ]);
     }
 }
