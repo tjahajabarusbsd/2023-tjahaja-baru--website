@@ -28,7 +28,7 @@
                 <div class="main-form contact-form">
                     <div class="form-container">
                         <h1>Contact Us</h1>
-                        @if (!empty($cookieValue))
+                        @if ( request()->hasCookie('sales') || request()->hasCookie('utm_campaign'))
                         <div class="form-group now">
                             <label>Berminat dengan motor Yamaha? Segera konsultasikan langsung dengan dealer kami.</label>
                         </div>
@@ -48,7 +48,7 @@
                             </div>
                         </div>
                         
-                        @if (!empty($cookieValue))
+                        @if ( request()->hasCookie('sales') || request()->hasCookie('utm_campaign'))
                             <div class="form-group">
                                 <div class="form-group row">
                                     <label class="col-md-4">Motor yang diminati</label>
