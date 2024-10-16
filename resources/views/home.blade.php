@@ -45,7 +45,7 @@
                 @foreach ($latestVariants as $variant)
                 <div class="swiper-slide">
                     <div class="grid-content">
-                        <a class="product-link" href="/product/{{ $variant->group->uri }}">
+                        <a class="product-link" href="/products/category/{{ $variant->group->category->uri }}">
                             <div class="box-img">
                                 <img src="{{ url($variant->group->category->image) }}">
                             </div>
