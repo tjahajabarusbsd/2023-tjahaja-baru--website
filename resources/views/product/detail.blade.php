@@ -167,7 +167,7 @@
         </div>
 
         <div class="product-card">
-            <div class="swiper">
+            <div class="swiper product-slider">
                 <div class="swiper-wrapper">
                     @foreach ($data as $item)
                         <div class="swiper-slide">
@@ -192,15 +192,37 @@
 <section class="third-section">
     <div class="container-fluid">
         <div class="features row">
-            <h2 class="title white">features</h2>
             <div class="features-wrapper">
-                @foreach ($features as $feature)
-                    <div class="features-content">
-                        <img src="{{ url($feature->image) }}" loading="lazy" class="feature-img">
-                        <p class="feature-title">{{$feature->title}}</p>
-                        <p class="feature-body">{{$feature->body}}</p>
+                <h2 class="title blue">features</h2>
+                <div class="swiper features-slider">
+                    <div class="swiper-wrapper">
+                        @foreach($features as $feature)
+                        <div class="swiper-slide">
+                            <div class="features-slide">
+                                <img src="{{ url($feature->image) }}" loading="lazy" class="feature-img">
+                                <p class="feature-title">{{$feature->title}}</p>
+                                <p class="feature-body">{{$feature->body}}</p>
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
-                @endforeach
+                    
+                    <div class="swiper-pagination mt-8"></div>
+                    
+                    {{-- <div class="absolute top-8 right-4 flex space-x-2">
+                        <button class="swiper-prev-button bg-white/10 hover:bg-white/20 p-2 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button class="swiper-next-button bg-white/10 hover:bg-white/20 p-2 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div> --}}
+                </div>
+                    
                 {{-- @php
                     $totalFeatures = count($features);
                     $columnSize = ceil($totalFeatures / 3); // Ukuran setiap kolom
@@ -611,7 +633,7 @@
                     productCard.empty();
 
                     var swiperDiv = $('<div>')
-                        .addClass('swiper');
+                        .addClass('swiper product-slider');
                     productCard.append(swiperDiv);
 
                     var swiperWrapper = $('<div>')
@@ -642,7 +664,7 @@
                     captionBox.append('<p class="area-price">Harga OTR Sumatera Barat</p>');
                     captionBox.append('<div class="button-compare"><a href="/compare_product" class="btn btn-primary">Compare Product</a></div>');
 
-                    const swiper = new Swiper('.swiper', {
+                    const swiper = new Swiper('.product-slider', {
                         slidesPerView: 1,
                         centeredSlides: true,
                         pagination: {
@@ -659,7 +681,7 @@
                 }
             });
         });
-        const swiper = new Swiper('.swiper', {
+        const swiper = new Swiper(".product-slider", {
             slidesPerView: 1,
             centeredSlides: true,
             pagination: {
@@ -673,9 +695,29 @@
                     }
 
                     return '';
-                }
+                },
             },
         });
+    });
+
+    var swiper = new Swiper(".features-slider", {
+        slidesPerView: 1.2,
+        spaceBetween: 10,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        breakpoints: {
+            600: {
+                slidesPerView: 2.3,
+                spaceBetween: 20
+            },
+            1024: {
+                slidesPerView: 3.4,
+                spaceBetween: 30
+            }
+        },
+        grabCursor: true
     });
 </script>
 @endsection
