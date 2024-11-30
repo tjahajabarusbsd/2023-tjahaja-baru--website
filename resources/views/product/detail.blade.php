@@ -120,6 +120,24 @@
             <img src="{{ url($group->banner) }}" alt="">
         </picture>
     </div>
+    {{-- <div class="banner-wrapper">
+        <div class="banner-wrapper-pc">
+            <div class="banner-pc">
+                <div class="youtube-container" style="pointer-events: none;">
+                    <span>
+                        <iframe frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" width="640" height="360" src="https://www.youtube.com/embed/iwCDfpYSoHk?autoplay=1&controls=0&mute=1&keyboard=1&iv_load_policy=3&disablekb=1&rel=0&enablejsapi=1&loop=1&playlist=iwCDfpYSoHk&start=0" title="YouTube video player"></iframe>
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="banner-mobile">
+            <picture>
+                <img src="{{ url($group->banner) }}" alt="">
+            </picture>
+        </div>
+    </div> --}}
+    
     @else
     <div class="features">
         <picture>
@@ -128,11 +146,7 @@
         <h1>Banner</h2>
     </div>
     @endif
-    {{-- <div class="youtube-container" style="pointer-events: none;">
-        <span>
-            <iframe class="delayed" frameborder="0" allowfullscreen="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" title="2024 Yamaha MT-09: Unleash your Darkness" width="640" height="360" src="https://www.youtube.com/embed/6WNa658b8nw?autoplay=1&amp;controls=0&amp;mute=1&amp;keyboard=1&amp;autohide=1&amp;iv_load_policy=3&amp;modestbranding=1&amp;disablekb=1&amp;rel=0&amp;host=https%3A%2F%2Fwww.youtube.com&amp;origin=https%3A%2F%2Fwww.yamaha-motor.eu&amp;enablejsapi=1&amp;loop=1&amp;playlist=6WNa658b8nw&amp;start=0&amp;widgetid=3" id="undefined" class="undefined"></iframe>
-        </span>
-    </div> --}}
+    
 </section>
 
 <section class="second-section">
@@ -264,243 +278,104 @@
 </section>
 
 <section class="navtabs">
+    <h2 class="title blue">spesifikasi</h2>
     <div class="container-fluid">
-        <nav>
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <button class="nav-link active" id="nav-spec-tab" data-bs-toggle="tab" data-bs-target="#nav-spec" type="button" role="tab" aria-controls="nav-spec" aria-selected="false">Spec View</button>
-                <button class="nav-link" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review" aria-selected="true">Review</button>
-                {{-- <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button> --}}
+        <!-- Nav Tabs -->
+        <ul class="nav nav-tabs" id="specTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="mesin-tab" data-bs-toggle="tab" href="#mesin" role="tab" aria-controls="mesin" aria-selected="true">Mesin</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="rangka-tab" data-bs-toggle="tab" href="#rangka" role="tab" aria-controls="rangka" aria-selected="false">Rangka</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="dimensi-tab" data-bs-toggle="tab" href="#dimensi" role="tab" aria-controls="dimensi" aria-selected="false">Dimensi</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="kelistrikan-tab" data-bs-toggle="tab" href="#kelistrikan" role="tab" aria-controls="kelistrikan" aria-selected="false">Kelistrikan</a>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="specTabsContent">
+            <div class="tab-pane fade show active" id="mesin" role="tabpanel" aria-labelledby="mesin-tab">
+                @if(isset($specifications['mesin']))
+                    <table class="table">
+                        @foreach ($specifications['mesin'] as $spec)
+                            <tr>
+                                <td><strong>{{ $spec['label'] }}</strong></td>
+                                <td>{{ $spec['value'] ?? '-' }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                @else
+                    <p>Spesifikasi mesin tidak tersedia.</p>
+                @endif
             </div>
-        </nav>
-        <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-spec" role="tabpanel" aria-labelledby="nav-spec-tab">
-                <div class="spec-wrapper">
-                    <a class="spec-part" data-bs-toggle="collapse" href="#collapse-1" role="button" aria-expanded="false" aria-controls="collapse-1">
-                        <div class="spec-part-title row">
-                            <b>Mesin</b>
-                        </div>
-                    </a>
-                    <div class="collapse row show" id="collapse-1">
-                        @if ( $groupSpec != null )
-                        <table>
+            <div class="tab-pane fade" id="rangka" role="tabpanel" aria-labelledby="rangka-tab">
+                @if(isset($specifications['rangka']))
+                    <table class="table">
+                        @foreach ($specifications['rangka'] as $spec)
                             <tr>
-                                <td class="spec-part-td1">Tipe Mesin</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->tipe_mesin : '-' }}</td>
+                                <td><strong>{{ $spec['label'] }}</strong></td>
+                                <td>{{ $spec['value'] ?? '-' }}</td>
                             </tr>
-                            <tr>
-                                <td class="spec-part-td1">Jumlah/Posisi Silinder</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->jumlah_silinder : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Volume Silinder</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->volume_silinder : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Diameter x Langkah</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->diameter_x_langkah : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Perbandingan Kompresi</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->perbandingan_kompresi : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Daya Maksimum</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->daya_maksimum : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Torsi Maksimum</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->torsi_maksimum : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Sistem Starter</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->sistem_starter : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Sistem Pelumasan</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->sistem_pelumasan : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Kapasitas Oli Mesin</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->kapasitas_oli : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Sistem Bahan Bakar</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->sistem_bahan_bakar : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Tipe Kopling</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->tipe_kopling : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Tipe Transmisi</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->tipe_transmisi : '-' }}</td>
-                            </tr>
-                            @if ( $groupSpec->pola_transmisi == !null )
-                            <tr>
-                                <td class="spec-part-td1">Pola Pengoperasian Transmisi</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->pola_transmisi : '-' }}</td>
-                            </tr>
-                            @endif
-                        </table>
-                        @endif
-                    </div>
-                    <a class="spec-part" data-bs-toggle="collapse" href="#collapse-2" role="button" aria-expanded="false" aria-controls="collapse-2">
-                        <div class="spec-part-title row">
-                            <b>Rangka</b>
-                        </div>
-                    </a>
-                    <div class="collapse row" id="collapse-2">
-                        @if ( $groupSpec != null )
-                        <table>
-                            <tr>
-                                <td class="spec-part-td1">Tipe Rangka</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->tipe_rangka : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Suspensi Depan</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->suspensi_depan : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Suspensi Belakang</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->suspensi_belakang : '-' }}</td>
-                            </tr>
-                            @if ( $groupSpec->tipe_ban == !null )
-                            <tr>
-                                <td class="spec-part-td1">Tipe Ban</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->tipe_ban : '-' }}</td>
-                            </tr>
-                            @endif
-                            <tr>
-                                <td class="spec-part-td1">Ban Depan</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->ban_depan : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Ban Belakang</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->ban_belakang : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Rem Depan</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->rem_depan : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Rem Belakang</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->rem_belakang : '-' }}</td>
-                            </tr>
-                        </table>
-                        @endif
-                    </div>
-                    <a class="spec-part" data-bs-toggle="collapse" href="#collapse-3" role="button" aria-expanded="false" aria-controls="collapse-3">
-                        <div class="spec-part-title row">
-                            <b>Dimensi</b>
-                        </div>
-                    </a>
-                    <div class="collapse row" id="collapse-3">
-                        @if ( $groupSpec != null )
-                        <table>
-                            <tr>
-                                <td class="spec-part-td1">P x L x T</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->p_l_t : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Jarak Sumbu Roda</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->jarak_sumbu : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Jarak Terendah Ke Tanah</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->jarak_terendah_ketanah : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Tinggi Tempat Duduk</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->tinggi_tempat_duduk : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Berat Isi</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->berat_isi : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Kapasitas Tangki Bensin</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->kapasitas_tangki : '-' }}</td>
-                            </tr>
-                        </table>
-                        @endif
-                    </div>
-                    <a class="spec-part" data-bs-toggle="collapse" href="#collapse-4" role="button" aria-expanded="false" aria-controls="collapse-4">
-                        <div class="spec-part-title row">
-                            <b>Kelistrikan</b>
-                        </div>
-                    </a>
-                    <div class="collapse row" id="collapse-4">
-                        @if ( $groupSpec != null )
-                        <table>
-                            <tr>
-                                <td class="spec-part-td1">Sistem pengapian</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->sistem_pengapian : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Battery</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->battery : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="spec-part-td1">Tipe Busi</td>
-                                <td class="spec-part-td2">:</td>
-                                <td class="spec-part-td3">{{ $groupSpec ? $groupSpec->tipe_busi : '-' }}</td>
-                            </tr>
-                        </table>
-                        @endif
-                    </div>
-                </div>
+                        @endforeach
+                    </table>
+                @else
+                    <p>Spesifikasi rangka tidak tersedia.</p>
+                @endif
             </div>
-            <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
-                <div class="review-wrapper row">
-                    @foreach ($reviews as $review)
-                        <div class="review-item">
-                            <picture>
-                                <img class="review-img" src="{{ url($review->thumbnail) }}" alt="">
-                            </picture>
-                            <a href="{{$review->uri}}" target="_blank">
-                                <p class="review-title">{{$review->title}}</p>
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
+            <div class="tab-pane fade" id="dimensi" role="tabpanel" aria-labelledby="dimensi-tab">
+                @if(isset($specifications['dimensi']))
+                    <table class="table">
+                        @foreach ($specifications['dimensi'] as $spec)
+                            <tr>
+                                <td><strong>{{ $spec['label'] }}</strong></td>
+                                <td>{{ $spec['value'] ?? '-' }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                @else
+                    <p>Spesifikasi dimensi tidak tersedia.</p>
+                @endif
+            </div>
+            <div class="tab-pane fade" id="kelistrikan" role="tabpanel" aria-labelledby="kelistrikan-tab">
+                @if(isset($specifications['kelistrikan']))
+                    <table class="table">
+                        @foreach ($specifications['kelistrikan'] as $spec)
+                            <tr>
+                                <td><strong>{{ $spec['label'] }}</strong></td>
+                                <td>{{ $spec['value'] ?? '-' }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                @else
+                    <p>Spesifikasi kelistrikan tidak tersedia.</p>
+                @endif
             </div>
         </div>
     </div>
 </section>
 
+<!-- Section Video Review -->
+<section class="container my-5">
+    <h2 class="title blue">Video Review Produk</h2>
+    <div class="row">
+        @foreach ($reviews as $review)
+            <div class="col-md-4 mb-4">
+                <!-- Embed YouTube Video -->
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe width="100%" height="315" src="{{$review->uri}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</section>
+
 <section class="main-form consultation-form">
     <div class="form-container">
-        <h1>Konsultasi pembelian</h1>
+        <h2 class="title blue">Konsultasi pembelian</h2>
         <p>Berminat dengan produk ini? Segera konsultasikan langsung dengan dealer kami.</p>
 
         @if (!empty($cookieSales))
