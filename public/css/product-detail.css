@@ -351,8 +351,8 @@
 }
 
 .features-wrapper .swiper-pagination-bullet {
-    width: 7px;
-    height: 7px;
+    width: 10px;
+    height: 10px;
     background: #ccc;
     opacity: 1;
 }

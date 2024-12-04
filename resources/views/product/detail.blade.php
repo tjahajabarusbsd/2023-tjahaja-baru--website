@@ -576,19 +576,21 @@
     });
 
     var swiper = new Swiper(".features-slider", {
-        slidesPerView: 1.2,
+        slidesPerView: 1,
         spaceBetween: 10,
         pagination: {
             el: ".swiper-pagination",
             clickable: true,
+            dynamicBullets: true,
+            dynamicMainBullets: 1
         },
         breakpoints: {
             600: {
-                slidesPerView: 2.3,
+                slidesPerView: 1.2,
                 spaceBetween: 20
             },
             1024: {
-                slidesPerView: 3.4,
+                slidesPerView: 2.3,
                 spaceBetween: 30
             }
         },
