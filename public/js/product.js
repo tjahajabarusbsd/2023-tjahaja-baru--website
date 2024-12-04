@@ -64,38 +64,38 @@ $(document).ready(function () {
         }
     });
 
-    $('.features-wrapper').slick({
-        slidesToShow: 3,
-        slidesToScroll: 3,
-        dots: true,
-        arrows: true,
-        autoplay: false,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    dots: true
-                }
-            },
-            {
-                breakpoint: 845,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
-                }
-            },
-            {
-                breakpoint: 568,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    dots: false
-                }
-            }
-        ]
-    });
+    // $('.features-wrapper').slick({
+    //     slidesToShow: 3,
+    //     slidesToScroll: 3,
+    //     dots: true,
+    //     arrows: true,
+    //     autoplay: false,
+    //     responsive: [
+    //         {
+    //             breakpoint: 1024,
+    //             settings: {
+    //                 slidesToShow: 3,
+    //                 slidesToScroll: 3,
+    //                 dots: true
+    //             }
+    //         },
+    //         {
+    //             breakpoint: 845,
+    //             settings: {
+    //                 slidesToShow: 2,
+    //                 slidesToScroll: 2
+    //             }
+    //         },
+    //         {
+    //             breakpoint: 568,
+    //             settings: {
+    //                 slidesToShow: 1,
+    //                 slidesToScroll: 1,
+    //                 dots: false
+    //             }
+    //         }
+    //     ]
+    // });
 
     // setTimeout(function() { 
     //     $('iframe.delayed').attr('src'); 
