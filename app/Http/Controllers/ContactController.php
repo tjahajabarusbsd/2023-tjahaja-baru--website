@@ -31,12 +31,12 @@ class ContactController extends Controller
         }
 
         // Cek dan set cookie sales jika utm_campaign tidak ada
-        if ($salesCodeParameter && !$utmCampaignParameter) {
-            Cookie::queue('sales', $salesCodeParameter);
-            $cookieValue = $salesCodeParameter;
-        } else {
-            Cookie::forget('sales');
-        }
+        // if ($salesCodeParameter && !$utmCampaignParameter) {
+        //     Cookie::queue('sales', $salesCodeParameter);
+        //     $cookieValue = $salesCodeParameter;
+        // } else {
+        //     Cookie::forget('sales');
+        // }
 
         return view('contact', compact('cookieValue', 'lists'));
     }

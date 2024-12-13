@@ -22,7 +22,7 @@ class SetSalesCookie
 
         // Jika ada, buat cookie dengan nama "sales"
         if ($salesCodeParameter) {
-            Cookie::queue('sales', $salesCodeParameter);
+            Cookie::queue('sales', $salesCodeParameter, 1440);
         }
         
         return $next($request);
