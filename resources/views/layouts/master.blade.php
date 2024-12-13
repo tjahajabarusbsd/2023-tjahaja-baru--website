@@ -69,7 +69,7 @@
     @php
     use Illuminate\Support\Str;
     @endphp
-    @unless(request()->is('consultation') ||  Str::is('product*', request()->path()))
+    @unless(request()->is('consultation') || Str::is('product*', request()->path()) || request()->hasCookie('sales') || request()->has('sales'))
       <a class="btn-wa" href="https://api.whatsapp.com/send?phone=62811805898&amp;text=Halo admin, saya ingin menanyakan" target="_blank" rel="noopener noreferrer">
         <section class="link-wa">
         <div class="konten-gambar">

@@ -60,22 +60,22 @@ class ConsultationController extends Controller
             $dpValue = $validatedDataDP !== null ? ($dpRanges[$validatedDataDP] ?? 'Diatas Rp 15 juta') : null;
             
             $consultationData = Consultation::storeSubmission($validatedData, $dpValue, $charactersAfterLastSlash, $salesCode, $utmCampaign);
-
             $messageBody = $this->buildMessageBody($validatedData, $dpValue);
             
             $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
             
             if ($apiResponse->getStatusCode() === 200) {
                 $successMessage = "Pengajuan Anda telah diterima.\nDealer kami akan segera menghubungi Anda.";
-                $deleteSalesCookie = Cookie::forget('sales');
+                // $deleteSalesCookie = Cookie::forget('sales');
                 $deleteUtmCookie = Cookie::forget('utm_campaign');
                 
                 $response = new Response([
                     'successMessage' => $successMessage
                 ], 201);
     
-                return $response->withCookie($deleteSalesCookie)
-                                ->withCookie($deleteUtmCookie);
+                // return $response->withCookie($deleteSalesCookie)
+                //                 ->withCookie($deleteUtmCookie);
+                return $response->withCookie($deleteUtmCookie);
             } else { 
                 $consultationData->delete(); 
                 return response()->json(['errorMessage' => 'Pesan gagal terkirim!'], 422);
