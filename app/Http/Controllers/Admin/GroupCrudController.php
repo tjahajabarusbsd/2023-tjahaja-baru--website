@@ -42,6 +42,12 @@ class GroupCrudController extends CrudController
         CRUD::column('name');
         CRUD::column('category_id');
         CRUD::column('price');
+        CRUD::column('is_active')
+            ->label('Status')
+            ->type('closure')
+            ->function(function ($entry) {
+                return $entry->is_active ? 'Show' : 'Hide';
+            });
         CRUD::column('created_at');
         // CRUD::column('updated_at');
 
@@ -67,6 +73,7 @@ class GroupCrudController extends CrudController
         CRUD::field('image')->type('image')->upload(true);
         CRUD::field('banner')->type('image')->upload(true);
         CRUD::field('price');
+        CRUD::field('is_active');
         CRUD::field('created_at');
         CRUD::field('updated_at');
 

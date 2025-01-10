@@ -14,8 +14,10 @@ class ContactController extends Controller
 {
     public function getContactForm(Request $request)
     {
-        $lists = Variant::all()->unique('name')->sortBy('name');
-        
+        $lists = Variant::whereHas('group', function ($query) {
+            $query->where('is_active', true);
+        })->get()->unique('name')->sortBy('name');
+
         $utmCampaignParameter = $request->query('utm_campaign');
         $salesCodeParameter = $request->query('sales');
 
@@ -46,13 +48,13 @@ class ContactController extends Controller
         $score = RecaptchaV3::verify($request->get('g-recaptcha-response'), 'contact');
         if ($score > 0.7) {
             $phone = env('NO_MARKOM');
-            
-            $validatedData  = $request->validated();
+
+            $validatedData = $request->validated();
 
             $contactData = Contact::storeSubmission($validatedData);
 
             $messageBody = $this->buildMessageBody($validatedData);
-            
+
             $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
 
             if ($apiResponse->getStatusCode() === 200) {

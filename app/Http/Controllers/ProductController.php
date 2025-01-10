@@ -11,11 +11,11 @@ class ProductController extends Controller
     public function getCategory($uri)
     {
         $category = Category::where('uri', $uri)->first();
-        
-        if ( $category == null ) {
+
+        if ($category == null) {
             return view('errors/404');
         } else {
-            $groups = Group::where('category_id', $category->id)->orderBy('price', 'desc')->get();
+            $groups = Group::where('category_id', $category->id)->where('is_active', true)->orderBy('price', 'desc')->get();
         }
 
         return view('product/product', compact('groups'));
