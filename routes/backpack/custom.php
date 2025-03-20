@@ -28,4 +28,5 @@ Route::group([
     Route::crud('dealer', 'DealerCrudController');
     Route::crud('review', 'ReviewCrudController');
     Route::crud('group-product-spec', 'GroupProductSpecCrudController');
+    Route::crud('consultation', 'ConsultationCrudController');
 }); // this should be the absolute last line of this file

@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Consultation extends Model
 {
+    use CrudTrait;
     protected $table = 'consultations';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
