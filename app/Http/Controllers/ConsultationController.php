@@ -36,6 +36,7 @@ class ConsultationController extends Controller
         
         if ($score > 0.7) {
             $salesCode = $request->cookie('sales');
+            $salesCode = Staff::where('code', $salesCode)->exists() ? $salesCode : null;            
             $utmCampaign = $request->cookie('utm_campaign');
             $currentURL = $request->input('url');
             // $charactersAfterLastSlash = substr($currentURL, strrpos($currentURL, '/') + 1);
