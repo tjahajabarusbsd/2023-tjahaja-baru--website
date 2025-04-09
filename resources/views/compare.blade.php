@@ -203,11 +203,11 @@
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td>Harga (OTR)</td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
