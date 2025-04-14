@@ -16,7 +16,7 @@ class ContactController extends Controller
     {
         $lists = Variant::whereHas('group', function ($query) {
             $query->where('is_active', true);
-        })->get()->unique('name')->sortBy('name');
+        })->where('is_active', true)->get()->unique('name')->sortBy('name');
 
         $utmCampaignParameter = $request->query('utm_campaign');
         $salesCodeParameter = $request->query('sales');

@@ -75,6 +75,7 @@ class VariantController extends Controller
             $groupUri = $group->uri;
 
             $variantNames = Variant::where('group_id', $group->id)
+                ->where('is_active', true)
                 ->distinct('name')
                 ->pluck('name');
 
@@ -84,6 +85,7 @@ class VariantController extends Controller
 
             $data = Variant::where('group_id', $group->id)
                 ->where('name', $variantNames[0])
+                ->where('is_active', true)
                 ->get();
 
             return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data', 'cookieSales', 'features', 'reviews', 'specifications'));
