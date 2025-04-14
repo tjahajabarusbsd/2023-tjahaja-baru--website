@@ -71,7 +71,12 @@ class VariantCrudController extends CrudController
         CRUD::column('name')->label('Variant Name');
         CRUD::column('price');
         CRUD::column('color_name')->label('Color Name');
-
+        CRUD::column('is_active')
+            ->label('Status')
+            ->type('closure')
+            ->function(function ($entry) {
+                return $entry->is_active ? 'Show' : 'Hide';
+            });
         CRUD::column('updated_at');
         CRUD::column('created_at');
 
@@ -98,7 +103,7 @@ class VariantCrudController extends CrudController
         CRUD::field('color')->type('color_picker');
         CRUD::field('color_name');
         CRUD::field('price');
-
+        CRUD::field('is_active');
         CRUD::field('created_at');
         CRUD::field('updated_at');
 
