@@ -179,7 +179,7 @@ class ConsultationCrudController extends CrudController
         CRUD::column('cara_bayar');
         // CRUD::column('dp');
         // CRUD::column('tenor');
-        CRUD::column('created_at')->type('date')->format('YYYY/MM/DD');
+        CRUD::column('created_at')->type('date')->format('YYYY/MM/DD HH:mm:ss');
         // CRUD::column('updated_at');
         CRUD::enableExportButtons();
 
