@@ -120,9 +120,34 @@ class ConsultationCrudController extends CrudController
             CRUD::addClause('whereYear', 'created_at', $currentYear);
         }
 
-        CRUD::column('name');
-        CRUD::column('nohp');
+        CRUD::column('sales_code');
+        CRUD::addColumn([
+            'name' => 'sales_name',
+            'label' => 'Sales Name',
+            'type' => 'closure',
+            'function' => function ($entry) {
+                $salesCode = $entry->sales_code;
+                $staff = \App\Models\Staff::where('code', $salesCode)->first();
+                return $staff ? $staff->name : "Habib";
+            },
+        ]);
+        CRUD::addColumn([
+            'name' => 'division',
+            'label' => 'Division',
+            'type' => 'closure',
+            'function' => function ($entry) {
+                $salesCode = $entry->sales_code;
+                $staff = \App\Models\Staff::where('code', $salesCode)->first();
+                return $staff ? $staff->division : "CRO";
+            },
+        ]);
+        CRUD::column('name')->label('Nama Konsumen')->type('text');
+        CRUD::column('nohp')->label('No HP')->type('text');
         CRUD::column('product');
+        CRUD::column('cara_bayar');
+        CRUD::column('dp');
+        CRUD::column('tenor');
+        CRUD::column('utm_campaign');
         CRUD::addColumn([
             'name' => 'status',
             'label' => 'Status',
@@ -173,14 +198,7 @@ class ConsultationCrudController extends CrudController
                 return $status;
             },
         ]);
-
-        CRUD::column('sales_code');
-        CRUD::column('utm_campaign');
-        CRUD::column('cara_bayar');
-        // CRUD::column('dp');
-        // CRUD::column('tenor');
-        // buat kolom date demgan format DD/MM/YYYY HH:mm:ss am/
-        CRUD::column('created_at')->type('datetime')->format('DD/MM/YYYY HH:mm:ss');
+        CRUD::column('created_at')->type('datetime')->format('M/DD/YYYY HH:mm:ss');
         // CRUD::column('updated_at');
         CRUD::enableExportButtons();
 
