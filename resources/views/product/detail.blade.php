@@ -1,76 +1,58 @@
 @extends('layouts.master')
 
-@section('title','Yamaha ' . $group->name . ' | Tjahaja Baru')
+@section('title', 'Yamaha ' . $group->name . ' | Tjahaja Baru')
 
 @section('meta_og')
-  <meta property="og:title" content="Yamaha {{ $group->name }} | Tjahaja Baru" />
-  <meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="{{ url($group->banner) }}">
-  <meta property="og:image:width" content="1000" />
-  <meta property="og:image:height" content="667" />
-  <meta property="og:url" content="{{ Request::url() }}" />
+<meta property="og:title" content="Yamaha {{ $group->name }} | Tjahaja Baru" />
+<meta property="og:description"
+    content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="{{ url($group->banner) }}">
+<meta property="og:image:width" content="1000" />
+<meta property="og:image:height" content="667" />
+<meta property="og:url" content="{{ Request::url() }}" />
 @endsection
 
 @section('main_class', 'product-detail')
 
 @section('additional_css')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <link rel="stylesheet" href="{{ asset('css/product-detail.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/main-form.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/modal.css') }}" />
-    {{-- <style>
-        .youtube-container {
-            overflow: hidden;
-            width: 100%;
-            /* Keep it the right aspect-ratio */
-            aspect-ratio: 16/9;
-            /* No clicking/hover effects */
-            pointer-events: none;
-        } 
-
-        .youtube-container iframe {
-            /* Extend it beyond the viewport... */
-            width: 300%;
-            height: 100%;
-            /* ...and bring it back again */
-            margin-left: -100%;
-        }
-    </style> --}}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<link rel="stylesheet" href="{{ asset('css/product-detail.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/main-form.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/modal.css') }}" />
 @endsection
 
 @section('content')
-
 <section class="first-section">
     <div class="container-fluid icon-container">
         <div class="row icon-row pc">
             <div class="product-icon-box">
                 <a href="/products/category/maxi">
-                    <img src="{{ url('images/products/icons/maxi_i.png')}}" alt="" class="icon">
+                    <img src="{{ url('images/products/icons/maxi_i.png') }}" alt="" class="icon">
                     <p class="text">MAXi</p>
                 </a>
             </div>
             <div class="product-icon-box">
                 <a href="/products/category/classy">
-                    <img src="{{ url('images/products/icons/classy_i.png')}}" alt="" class="icon">
+                    <img src="{{ url('images/products/icons/classy_i.png') }}" alt="" class="icon">
                     <p class="text">Classy</p>
                 </a>
             </div>
             <div class="product-icon-box">
                 <a href="/products/category/matic">
-                    <img src="{{ url('images/products/icons/matic_i.png')}}" alt="" class="icon">
+                    <img src="{{ url('images/products/icons/matic_i.png') }}" alt="" class="icon">
                     <p class="text">Matic</p>
                 </a>
             </div>
             <div class="product-icon-box">
                 <a href="/products/category/sport">
-                    <img src="{{ url('images/products/icons/sport_i.png')}}" alt="" class="icon">
+                    <img src="{{ url('images/products/icons/sport_i.png') }}" alt="" class="icon">
                     <p class="text">Sport</p>
                 </a>
             </div>
             <div class="product-icon-box">
                 <a href="/products/category/moped">
-                    <img src="{{ url('images/products/icons/moped_i.png')}}" alt="" class="icon">
+                    <img src="{{ url('images/products/icons/moped_i.png') }}" alt="" class="icon">
                     <p class="text">Moped</p>
                 </a>
             </div>
@@ -81,31 +63,31 @@
         <div class="row icon-row mobile">
             <div class="product-icon-box">
                 <a href="/products/category/maxi">
-                    <img src="{{ url('images/products/icons/maxi_i.png')}}" alt="" class="icon">
+                    <img src="{{ url('images/products/icons/maxi_i.png') }}" alt="" class="icon">
                     <p class="text">MAXi</p>
                 </a>
             </div>
             <div class="product-icon-box">
                 <a href="/products/category/classy">
-                    <img src="{{ url('images/products/icons/classy_i.png')}}" alt="" class="icon">
+                    <img src="{{ url('images/products/icons/classy_i.png') }}" alt="" class="icon">
                     <p class="text">Classy</p>
                 </a>
             </div>
             <div class="product-icon-box">
                 <a href="/products/category/matic">
-                    <img src="{{ url('images/products/icons/matic_i.png')}}" alt="" class="icon">
+                    <img src="{{ url('images/products/icons/matic_i.png') }}" alt="" class="icon">
                     <p class="text">Matic</p>
                 </a>
             </div>
             <div class="product-icon-box">
                 <a href="/products/category/sport">
-                    <img src="{{ url('images/products/icons/sport_i.png')}}" alt="" class="icon">
+                    <img src="{{ url('images/products/icons/sport_i.png') }}" alt="" class="icon">
                     <p class="text">Sport</p>
                 </a>
             </div>
             <div class="product-icon-box">
                 <a href="/products/category/moped">
-                    <img src="{{ url('images/products/icons/moped_i.png')}}" alt="" class="icon">
+                    <img src="{{ url('images/products/icons/moped_i.png') }}" alt="" class="icon">
                     <p class="text">Moped</p>
                 </a>
             </div>
@@ -114,30 +96,12 @@
             </div>
         </div>
     </div>
-    @if(!empty($group->banner))
+    @if (!empty($group->banner))
     <div class="banner">
         <picture>
             <img src="{{ url($group->banner) }}" alt="">
         </picture>
     </div>
-    {{-- <div class="banner-wrapper">
-        <div class="banner-wrapper-pc">
-            <div class="banner-pc">
-                <div class="youtube-container" style="pointer-events: none;">
-                    <span>
-                        <iframe frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" width="640" height="360" src="https://www.youtube.com/embed/iwCDfpYSoHk?autoplay=1&controls=0&mute=1&keyboard=1&iv_load_policy=3&disablekb=1&rel=0&enablejsapi=1&loop=1&playlist=iwCDfpYSoHk&start=0" title="YouTube video player"></iframe>
-                    </span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="banner-mobile">
-            <picture>
-                <img src="{{ url($group->banner) }}" alt="">
-            </picture>
-        </div>
-    </div> --}}
-    
     @else
     <div class="features">
         <picture>
@@ -146,14 +110,13 @@
         <h1>Banner</h2>
     </div>
     @endif
-    
 </section>
 
 <section class="second-section">
     <div class="background-wrapper">
         <div class="background"></div>
     </div>
-    
+
     <div class="container-fluid">
         <div class="row">
             <h2 class="title blue">variant & price</h2>
@@ -161,21 +124,19 @@
         <div class="row version-row">
             <ul class="variant-wrapper">
                 @php
-                    $currentUrl = url()->current(); 
-                    $nmaxTurbo = strpos($currentUrl, 'nmax-turbo') !== false; 
+                $currentUrl = url()->current();
+                $nmaxTurbo = strpos($currentUrl, 'nmax-turbo') !== false;
                 @endphp
                 @foreach ($variantNames as $item)
-                    @php
-                        if ($nmaxTurbo) {
-                            // Memecah string berdasarkan spasi jika URL mengandung 'motor-A'
-                            $parts = explode(' ', $item, 2); // 2 adalah jumlah maksimum elemen dalam array
-                            $result = isset($parts[1]) ? $parts[1] : ''; // Mengambil elemen kedua jika ada
-                        } else {
-                            // Tidak memodifikasi string jika URL tidak mengandung 'nmax-turbo'
-                            $result = $item;
-                        }
-                    @endphp
-                    <li data-variant="{{ $item }}" class="variant-unit">{{ $result }}</li>
+                @php
+                if ($nmaxTurbo) {
+                $parts = explode(' ', $item, 2);
+                $result = isset($parts[1]) ? $parts[1] : '';
+                } else {
+                $result = $item;
+                }
+                @endphp
+                <li data-variant="{{ $item }}" class="variant-unit">{{ $result }}</li>
                 @endforeach
             </ul>
         </div>
@@ -184,9 +145,9 @@
             <div class="swiper product-slider">
                 <div class="swiper-wrapper">
                     @foreach ($data as $item)
-                        <div class="swiper-slide">
-                            <img src="{{ url($item->image) }}" alt="">
-                        </div>
+                    <div class="swiper-slide">
+                        <img src="{{ url($item->image) }}" alt="">
+                    </div>
                     @endforeach
                 </div>
             </div>
@@ -210,69 +171,20 @@
                 <h2 class="title blue">features</h2>
                 <div class="swiper features-slider">
                     <div class="swiper-wrapper">
-                        @foreach($features as $feature)
+                        @foreach ($features as $feature)
                         <div class="swiper-slide">
                             <div class="features-slide">
                                 <img src="{{ url($feature->image) }}" loading="lazy" class="feature-img">
-                                <p class="feature-title">{{$feature->title}}</p>
-                                <p class="feature-body">{{$feature->body}}</p>
+                                <p class="feature-title">{{ $feature->title }}</p>
+                                <p class="feature-body">{{ $feature->body }}</p>
                             </div>
                         </div>
                         @endforeach
                     </div>
-                    
+
                     <div class="swiper-pagination mt-8"></div>
-                    
-                    {{-- <div class="absolute top-8 right-4 flex space-x-2">
-                        <button class="swiper-prev-button bg-white/10 hover:bg-white/20 p-2 rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                            </svg>
-                        </button>
-                        <button class="swiper-next-button bg-white/10 hover:bg-white/20 p-2 rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                    </div> --}}
                 </div>
-                    
-                {{-- @php
-                    $totalFeatures = count($features);
-                    $columnSize = ceil($totalFeatures / 3); // Ukuran setiap kolom
-                @endphp
-
-                <div class="left-column">
-                    @for ($i = 0; $i < $columnSize && $i < $totalFeatures; $i++)
-                        <div class="features-content">
-                            <img src="{{ url($features[$i]->image) }}" loading="lazy" class="feature-img">
-                            <p class="feature-title">{{ $features[$i]->title }}</p>
-                            <p class="feature-body">{{ $features[$i]->body }}</p>
-                        </div>
-                    @endfor
-                </div>
-
-                <div class="center-column">
-                    @for ($i = $columnSize; $i < 2 * $columnSize && $i < $totalFeatures; $i++)
-                        <div class="features-content">
-                            <img src="{{ url($features[$i]->image) }}" loading="lazy" class="feature-img">
-                            <p class="feature-title">{{ $features[$i]->title }}</p>
-                            <p class="feature-body">{{ $features[$i]->body }}</p>
-                        </div>
-                    @endfor
-                </div>
-
-                <div class="right-column">
-                    @for ($i = 2 * $columnSize; $i < $totalFeatures; $i++)
-                        <div class="features-content">
-                            <img src="{{ url($features[$i]->image) }}" loading="lazy" class="feature-img">
-                            <p class="feature-title">{{ $features[$i]->title }}</p>
-                            <p class="feature-body">{{ $features[$i]->body }}</p>
-                        </div>
-                    @endfor
-                </div> --}}
             </div>
-            
         </div>
     </div>
 </section>
@@ -283,75 +195,79 @@
         <!-- Nav Tabs -->
         <ul class="nav nav-tabs" id="specTabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="mesin-tab" data-bs-toggle="tab" href="#mesin" role="tab" aria-controls="mesin" aria-selected="true">Mesin</a>
+                <a class="nav-link active" id="mesin-tab" data-bs-toggle="tab" href="#mesin" role="tab"
+                    aria-controls="mesin" aria-selected="true">Mesin</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="rangka-tab" data-bs-toggle="tab" href="#rangka" role="tab" aria-controls="rangka" aria-selected="false">Rangka</a>
+                <a class="nav-link" id="rangka-tab" data-bs-toggle="tab" href="#rangka" role="tab"
+                    aria-controls="rangka" aria-selected="false">Rangka</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="dimensi-tab" data-bs-toggle="tab" href="#dimensi" role="tab" aria-controls="dimensi" aria-selected="false">Dimensi</a>
+                <a class="nav-link" id="dimensi-tab" data-bs-toggle="tab" href="#dimensi" role="tab"
+                    aria-controls="dimensi" aria-selected="false">Dimensi</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="kelistrikan-tab" data-bs-toggle="tab" href="#kelistrikan" role="tab" aria-controls="kelistrikan" aria-selected="false">Kelistrikan</a>
+                <a class="nav-link" id="kelistrikan-tab" data-bs-toggle="tab" href="#kelistrikan" role="tab"
+                    aria-controls="kelistrikan" aria-selected="false">Kelistrikan</a>
             </li>
         </ul>
 
         <!-- Tab Content -->
         <div class="tab-content" id="specTabsContent">
             <div class="tab-pane fade show active" id="mesin" role="tabpanel" aria-labelledby="mesin-tab">
-                @if(isset($specifications['mesin']))
-                    <table class="table">
-                        @foreach ($specifications['mesin'] as $spec)
-                            <tr>
-                                <td><strong>{{ $spec['label'] }}</strong></td>
-                                <td>{{ $spec['value'] ?? '-' }}</td>
-                            </tr>
-                        @endforeach
-                    </table>
+                @if (isset($specifications['mesin']))
+                <table class="table">
+                    @foreach ($specifications['mesin'] as $spec)
+                    <tr>
+                        <td><strong>{{ $spec['label'] }}</strong></td>
+                        <td>{{ $spec['value'] ?? '-' }}</td>
+                    </tr>
+                    @endforeach
+                </table>
                 @else
-                    <p>Spesifikasi mesin tidak tersedia.</p>
+                <p>Spesifikasi mesin tidak tersedia.</p>
                 @endif
             </div>
             <div class="tab-pane fade" id="rangka" role="tabpanel" aria-labelledby="rangka-tab">
-                @if(isset($specifications['rangka']))
-                    <table class="table">
-                        @foreach ($specifications['rangka'] as $spec)
-                            <tr>
-                                <td><strong>{{ $spec['label'] }}</strong></td>
-                                <td>{{ $spec['value'] ?? '-' }}</td>
-                            </tr>
-                        @endforeach
-                    </table>
+                @if (isset($specifications['rangka']))
+                <table class="table">
+                    @foreach ($specifications['rangka'] as $spec)
+                    <tr>
+                        <td><strong>{{ $spec['label'] }}</strong></td>
+                        <td>{{ $spec['value'] ?? '-' }}</td>
+                    </tr>
+                    @endforeach
+                </table>
                 @else
-                    <p>Spesifikasi rangka tidak tersedia.</p>
+                <p>Spesifikasi rangka tidak tersedia.</p>
                 @endif
             </div>
             <div class="tab-pane fade" id="dimensi" role="tabpanel" aria-labelledby="dimensi-tab">
-                @if(isset($specifications['dimensi']))
-                    <table class="table">
-                        @foreach ($specifications['dimensi'] as $spec)
-                            <tr>
-                                <td><strong>{{ $spec['label'] }}</strong></td>
-                                <td>{{ $spec['value'] ?? '-' }}</td>
-                            </tr>
-                        @endforeach
-                    </table>
+                @if (isset($specifications['dimensi']))
+                <table class="table">
+                    @foreach ($specifications['dimensi'] as $spec)
+                    <tr>
+                        <td><strong>{{ $spec['label'] }}</strong></td>
+                        <td>{{ $spec['value'] ?? '-' }}</td>
+                    </tr>
+                    @endforeach
+                </table>
                 @else
-                    <p>Spesifikasi dimensi tidak tersedia.</p>
+                <p>Spesifikasi dimensi tidak tersedia.</p>
                 @endif
             </div>
             <div class="tab-pane fade" id="kelistrikan" role="tabpanel" aria-labelledby="kelistrikan-tab">
-                @if(isset($specifications['kelistrikan']))
-                    <table class="table">
-                        @foreach ($specifications['kelistrikan'] as $spec)
-                            <tr>
-                                <td><strong>{{ $spec['label'] }}</strong></td>
-                                <td>{{ $spec['value'] ?? '-' }}</td>
-                            </tr>
-                        @endforeach
-                    </table>
+                @if (isset($specifications['kelistrikan']))
+                <table class="table">
+                    @foreach ($specifications['kelistrikan'] as $spec)
+                    <tr>
+                        <td><strong>{{ $spec['label'] }}</strong></td>
+                        <td>{{ $spec['value'] ?? '-' }}</td>
+                    </tr>
+                    @endforeach
+                </table>
                 @else
-                    <p>Spesifikasi kelistrikan tidak tersedia.</p>
+                <p>Spesifikasi kelistrikan tidak tersedia.</p>
                 @endif
             </div>
         </div>
@@ -363,12 +279,14 @@
     <h2 class="title blue">Video Review Produk</h2>
     <div class="row">
         @foreach ($reviews as $review)
-            <div class="col-md-4 mb-4">
-                <!-- Embed YouTube Video -->
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe width="100%" height="315" src="{{$review->uri}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                </div>
+        <div class="col-md-4 mb-4">
+            <!-- Embed YouTube Video -->
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe width="100%" height="315" src="{{ $review->uri }}" title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
+        </div>
         @endforeach
     </div>
 </section>
@@ -379,30 +297,32 @@
         <p>Berminat dengan produk ini? Segera konsultasikan langsung dengan dealer kami.</p>
 
         @if (!empty($cookieSales))
-            <input name="sales" type="text" hidden value="{{ $cookieSales }}">
+        <input name="sales" type="text" hidden value="{{ $cookieSales }}">
         @endif
         <input name="url" type="text" hidden value="{{ Request::url() }}">
 
         <div class="form-group row">
             <label for="name" class="col-md-4">Nama</label>
             <div class="col-md-8">
-                <input name="name" class="form-control" id="name" type="text" value="{{ old('name') }}"  placeholder="Nama Lengkap" maxlength="50" required>
+                <input name="name" class="form-control" id="name" type="text" value="{{ old('name') }}"
+                    placeholder="Nama Lengkap" maxlength="50" required>
             </div>
         </div>
-        
+
         <div class="form-group row">
             <label for="nohp" class="col-md-4">No Handphone</label>
             <div class="col-md-8">
-                <input name="nohp" id="nohp" class="form-control" type="tel" value="{{ old('nohp') }}"  placeholder="08123456789" maxlength="15" required>
+                <input name="nohp" id="nohp" class="form-control" type="tel" value="{{ old('nohp') }}"
+                    placeholder="08123456789" maxlength="15" required>
             </div>
         </div>
-        
+
         <div class="form-group row">
             <label class="col-md-4">Motor yang diminati</label>
             <div class="col-md-8">
                 <select name="produk" id="pilih-produk" class="form-select" aria-label="Default select example">
                     @foreach ($variantNames as $variantName)
-                        <option value="{{ $variantName }}">{{ $variantName }}</option>
+                    <option value="{{ $variantName }}">{{ $variantName }}</option>
                     @endforeach
                 </select>
             </div>
@@ -449,10 +369,11 @@
         <div class="form-group" style="margin-top: 20px;">
             <label id="label-checkbox" class="d-flex align-items-start">
                 <input type="checkbox" name="terms" id="termsCheckbox" style="margin-top: 5px; margin-right: 10px;">
-                <span>Saya setuju bahwa informasi diatas mengizinkan TJAHAJA BARU untuk menghubungi Saya melalui telepon/WhatsApp.</span>
+                <span>Saya setuju bahwa informasi diatas mengizinkan TJAHAJA BARU untuk menghubungi Saya melalui
+                    telepon/WhatsApp.</span>
             </label>
         </div>
-            
+
         <div class="form-group">
             {!! RecaptchaV3::field('contact') !!}
             @error('g-recaptcha-response')
@@ -473,27 +394,29 @@
 
 <div id="myModal" class="modal">
     <div class="modal-dialog modal-confirm">
-		<div class="modal-content">
-			<div class="modal-header">
-				<div class="icon-box">
-					<i class="material-icons">close</i>
-				</div>
-                <h4 class="modal-title w-100">Success!</h4>	
-			</div>
-			<div class="modal-body"></div>
-		</div>
-	</div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="icon-box">
+                    <i class="material-icons">close</i>
+                </div>
+                <h4 class="modal-title w-100">Success!</h4>
+            </div>
+            <div class="modal-body"></div>
+        </div>
+    </div>
 </div>
 @endsection
 
 @section('additional_script')
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>const siteKey = '{{ config('app.recaptcha_sitekey') }}';</script>
+<script>
+    const siteKey = '{{ config("app.recaptcha_sitekey") }}';
+</script>
 <script src="{{ asset('js/product.js') }}"></script>
 <script src="{{ asset('js/contact.js') }}"></script>
 <script>
-    $(document).ready(function () {
-        $('.variant-unit').click(function () {
+    $(document).ready(function() {
+        $('.variant-unit').click(function() {
             var variant = $(this).attr('data-variant');
             var url = "/get-data/" + variant;
 
@@ -503,7 +426,7 @@
             $.ajax({
                 url: url,
                 method: 'GET',
-                success: function (response) {
+                success: function(response) {
                     var productCard = $('.product-card');
                     productCard.empty();
 
@@ -515,12 +438,12 @@
                         .addClass('swiper-wrapper');
                     swiperDiv.append(swiperWrapper);
 
-                    response.forEach(function (item, index) {
+                    response.forEach(function(item, index) {
                         var swiperSlide = $('<div>')
                             .addClass('swiper-slide');
 
                         var itemImage = $('<img>')
-                            .attr('src', '{{ url("/") }}' + '/' + item.image)
+                            .attr('src', '{{ url(' / ') }}' + '/' + item.image)
                             .attr('alt', '...');
                         swiperSlide.append(itemImage);
                         swiperWrapper.append(swiperSlide);
@@ -537,7 +460,9 @@
                     captionBox.append('<p class="price">' + response[0].price + '</p>');
                     captionBox.append('<p class="price">' + response[0].name + '</p>');
                     captionBox.append('<p class="area-price">Harga OTR Sumatera Barat</p>');
-                    captionBox.append('<div class="button-compare"><a href="/compare_product" class="btn btn-primary">Compare Product</a></div>');
+                    captionBox.append(
+                        '<div class="button-compare"><a href="/compare_product" class="btn btn-primary">Compare Product</a></div>'
+                    );
 
                     const swiper = new Swiper('.product-slider', {
                         slidesPerView: 1,
@@ -545,13 +470,15 @@
                         pagination: {
                             el: '.color-wrapper',
                             clickable: true,
-                            renderBullet: function (index, className) {
-                                return '<span class="' + className + '" style="background: ' + response[index].color + '"></span>';
+                            renderBullet: function(index, className) {
+                                return '<span class="' + className +
+                                    '" style="background: ' + response[index]
+                                    .color + '"></span>';
                             }
                         },
                     });
                 },
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error) {
                     console.error("Terjadi kesalahan:", error);
                 }
             });
@@ -559,14 +486,19 @@
         const swiper = new Swiper(".product-slider", {
             slidesPerView: 1,
             centeredSlides: true,
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
             pagination: {
                 el: '.color-wrapper',
                 clickable: true,
-                renderBullet: function (index, className) {
+                renderBullet: function(index, className) {
                     var colors = @json($data);
 
                     if (index >= 0 && index < colors.length) {
-                        return '<span class="' + className + '" style="background: ' + colors[index].color + '"></span>';
+                        return '<span class="' + className + '" style="background: ' + colors[index]
+                            .color + '"></span>';
                     }
 
                     return '';
