@@ -150,7 +150,7 @@
     height: auto;
     bottom: -76px;
     left: -40px;
-    scale: 0.256
+    transform: scale(0.256);
 }
 
 @media only screen and (min-width:338px) {
@@ -170,7 +170,7 @@
     .product .second-section .grid-container .grid-content .box-text .tombol-biru {
         bottom: -85px;
         left: -50px;
-        scale: 0.3
+        transform: scale(0.3);
     }
 }
 
