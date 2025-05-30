@@ -1,6 +1,5 @@
 /* Radio Button - Pilihan Topik */
 :root {
-    --card-line-height: 1.2em;
     --card-padding: 1em;
     --card-radius: 0.5em;
     --color-green: #558309;
@@ -36,8 +35,6 @@
 
 @supports(-webkit-appearance: none) or (-moz-appearance: none) {
     .radio {
-        font-size: inherit;
-        margin: 0;
         position: absolute;
         right: calc(var(--card-padding) + var(--radio-border-width));
         top: calc(var(--card-padding) + var(--radio-border-width));
@@ -49,11 +46,11 @@
         border-radius: 50%;
         cursor: pointer;
         height: var(--radio-size);
+        width: var(--radio-size);
         outline: none;
         transition:
             background 0.2s ease-out,
             border-color 0.2s ease-out;
-        width: var(--radio-size);
     }
 }
 
