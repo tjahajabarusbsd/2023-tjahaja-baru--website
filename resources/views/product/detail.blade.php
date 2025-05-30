@@ -443,7 +443,7 @@
                             .addClass('swiper-slide');
 
                         var itemImage = $('<img>')
-                            .attr('src', '{{ url(' / ') }}' + '/' + item.image)
+                            .attr('src', '{{ url("/") }}' + '/' + item.image)
                             .attr('alt', '...');
                         swiperSlide.append(itemImage);
                         swiperWrapper.append(swiperSlide);
