@@ -26,7 +26,7 @@ class ContactRequest extends FormRequest
     {
         return [
             'name'    => 'required|max:50|regex:/^[a-zA-Z\s]+$/',
-            'nohp'    => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/'],
+            'nohp'    => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/'],
             'message' => 'required',
             'g-recaptcha-response' => 'required',
         ];

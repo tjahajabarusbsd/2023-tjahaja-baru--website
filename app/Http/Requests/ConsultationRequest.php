@@ -25,7 +25,7 @@ class ConsultationRequest extends FormRequest
     {
         return [
             'name'       => ['required', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
-            'nohp'       => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{6,10}$/'],
+            'nohp'       => ['required', 'numeric', 'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/'],
             'produk'     => 'required',
             'cara_bayar' => 'required',
             'dp'         => 'required_if:cara_bayar,kredit', 
