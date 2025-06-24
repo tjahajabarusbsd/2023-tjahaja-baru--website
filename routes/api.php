@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\v1\ProductController;
+use App\Http\Controllers\Api\v1\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +18,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('v1')->group(function () {
+    Route::get('/products', [ProductController::class, 'index']); // public
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/products', [ProductController::class, 'store']); // butuh login
+        // dst
+    });
+
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
 });
