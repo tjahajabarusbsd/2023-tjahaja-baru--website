@@ -24,7 +24,7 @@ class ProductController extends Controller
                 'default_category' => $defaultCategory ? strtolower($defaultCategory->name) : null,
                 'categories' => $categories->map(function ($category) {
                     return [
-                        'id' => strtolower($category->name),
+                        'id' => strtolower($category->id),
                         'category' => $category->name,
                         'products' => ProductResource::collection($category->groups)->resolve()
                     ];
