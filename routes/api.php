@@ -22,6 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
     Route::get('/products', [ProductController::class, 'index']); // public
+    Route::get('/products/{id}', [ProductController::class, 'show']); // public
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/products', [ProductController::class, 'store']); // butuh login
