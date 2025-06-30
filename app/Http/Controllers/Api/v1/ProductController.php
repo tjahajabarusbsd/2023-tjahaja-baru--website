@@ -116,7 +116,7 @@ class ProductController extends Controller
         $featuresXml = $xmlObject->xpath("//feature[uri='{$group->uri}']");
         $features = collect($featuresXml)->map(function ($item) {
             return [
-                'image' => (string) $item->image,
+                'image' => (string) asset($item->image),
                 'title' => (string) $item->title,
                 'description' => (string) $item->body,
             ];
