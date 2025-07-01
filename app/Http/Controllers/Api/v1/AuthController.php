@@ -15,10 +15,28 @@ class AuthController extends Controller
     {
         // Validasi input
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            // 'phone_number' => 'required|string|unique:users,phone_number',
-            'phone_number' => 'required|string',
-            'password' => 'required|string|min:6',
+            'name' => ['required', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
+            'phone_number' => [
+                'required',
+                'numeric',
+                'regex:/^08[1-9][0-9]{6,10}$/',
+                'unique:users,phone_number', // Tambahkan aturan unik di sini jika diperlukan
+            ],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password_confirmation' => 'required|string|min:8',
+        ], [
+            'name.required' => 'Kolom nama wajib diisi.',
+            'name.string' => 'Kolom nama harus berupa teks.',
+            'name.max' => 'Kolom nama tidak boleh lebih dari :max karakter.',
+            'name.regex' => 'Wajib menggunakan huruf.',
+            'phone_number.required' => 'Kolom nomor handphone wajib diisi.',
+            'phone_number.numeric' => 'Kolom nomor handphone harus berupa angka.',
+            'phone_number.regex' => 'Format nomor handphone tidak valid. Pastikan diawali dengan 08 dan maksimal 13 digit',
+            'phone_number.unique' => 'Nomor handphone sudah digunakan.',
+            'password.required' => 'Kolom password wajib diisi.',
+            'password.string' => 'Kolom password harus berupa teks.',
+            'password.min' => 'Password minimal harus :min karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
         if ($validator->fails()) {
@@ -31,30 +49,30 @@ class AuthController extends Controller
         }
 
         // Buat OTP hardcoded untuk development
-        $otp = rand(1000, 9999);
-        $otpExpiresAt = Carbon::now()->addMinutes(5);
+        // $otp = rand(1000, 9999);
+        // $otpExpiresAt = Carbon::now()->addMinutes(5);
 
         // Simpan user ke database
-        // $user = User::create([
-        //     'name' => $request->name,
-        //     'phone_number' => $request->phone_number,
-        //     'password' => Hash::make($request->password),
-        //     'otp' => $otp,
-        //     'otp_expires_at' => $otpExpiresAt,
-        // ]);
+        $user = User::create([
+            'name' => $request->name,
+            'phone_number' => $request->phone_number,
+            'password' => Hash::make($request->password),
+            // 'otp' => $otp,
+            // 'otp_expires_at' => $otpExpiresAt,
+        ]);
 
         return response()->json([
             'status' => 'success',
             'code' => 200,
             'message' => 'Register berhasil',
             'data' => [
-                'id' => 1,
+                'id' => $user->id,
                 'name' => $request->name,
                 'phone_number' => $request->phone_number,
                 'created_at' => Carbon::now()->toISOString(),
                 'updated_at' => Carbon::now()->toISOString(),
-                'otp' => $otp,
-                'otp_expired_in' => $otpExpiresAt->diffInSeconds(Carbon::now()),
+                'otp' => 1111,
+                // 'otp_expired_in' => $otpExpiresAt->diffInSeconds(Carbon::now()),
             ]
         ]);
     }
