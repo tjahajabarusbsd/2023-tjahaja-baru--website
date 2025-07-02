@@ -151,4 +151,49 @@ class AuthController extends Controller
         //     ]
         // ]);
     }
+
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'phone_number' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            $errorMessages = implode(' ', $validator->errors()->all());
+
+            return response()->json([
+                'status' => 'error',
+                'code' => 422,
+                'message' => 'Validasi gagal. ' . $errorMessages,
+                'data' => null,
+            ], 422);
+        }
+
+        $user = User::where('phone_number', $request->phone_number)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 401,
+                'message' => 'Nomor telepon atau password salah',
+                'data' => null
+            ], 401);
+        }
+
+        // Generate token
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Login berhasil',
+            'data' => [
+                'id' => (string) $user->id,
+                'name' => (string) $user->name,
+                'phone_number' => (string) $user->phone_number,
+                'token' => (string) $token,
+            ]
+        ]);
+    }
 }
