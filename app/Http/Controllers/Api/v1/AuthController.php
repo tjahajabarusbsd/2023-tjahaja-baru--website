@@ -40,11 +40,13 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
+            $errorMessages = implode(' ', $validator->errors()->all());
+
             return response()->json([
                 'status' => 'error',
                 'code' => 422,
-                'message' => 'Validasi gagal',
-                'errors' => $validator->errors(),
+                'message' => 'Validasi gagal. ' . $errorMessages,
+                'data' => null,
             ], 422);
         }
 
