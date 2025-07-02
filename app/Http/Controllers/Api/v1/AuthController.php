@@ -66,12 +66,12 @@ class AuthController extends Controller
             'code' => 200,
             'message' => 'Register berhasil',
             'data' => [
-                'id' => $user->id,
-                'name' => $request->name,
-                'phone_number' => $request->phone_number,
+                'id' => (string) $user->id,
+                'name' => (string) $request->name,
+                'phone_number' => (string) $request->phone_number,
                 'created_at' => Carbon::now()->toISOString(),
                 'updated_at' => Carbon::now()->toISOString(),
-                'otp' => 1111,
+                'otp' => (string) 1111,
                 // 'otp_expired_in' => $otpExpiresAt->diffInSeconds(Carbon::now()),
             ]
         ]);
