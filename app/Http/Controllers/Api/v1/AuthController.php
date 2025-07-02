@@ -93,10 +93,10 @@ class AuthController extends Controller
             ], 422);
         }
 
-        // $user = User::where('phone', $request->phone)->first();
-        $user = "081234567890"; // Hardcoded user for development
+        $user = User::where('phone_number', $request->phone_number)->first();
+        $phone_number = $user->phone_number;
         
-        if ($user != $request->phone_number) {
+        if ($phone_number != $request->phone_number) {
             return response()->json([
                 'status' => 'error',
                 'code' => 404,
@@ -109,9 +109,9 @@ class AuthController extends Controller
             'code' => 200,
             'message' => 'OTP berhasil diverifikasi',
             'data' => [
-                'user_id' => 1,
-                'nama' => "Fadhil",
-                'no_handphone' => $user,
+                'id' => (string) $user->id,
+                'name' => (string) $user->name,
+                'phone_number' => (string) $user->phone_number,
             ]
         ]);
 
@@ -123,13 +123,13 @@ class AuthController extends Controller
         //     ]);
         // }
 
-        if ($user->otp !== $request->otp || Carbon::now()->gt($user->otp_expires_at)) {
-            return response()->json([
-                'status' => 'error',
-                'code' => 401,
-                'message' => 'Kode OTP salah atau sudah kadaluarsa',
-            ], 401);
-        }
+        // if ($user->otp !== $request->otp || Carbon::now()->gt($user->otp_expires_at)) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'code' => 401,
+        //         'message' => 'Kode OTP salah atau sudah kadaluarsa',
+        //     ], 401);
+        // }
 
         // OTP cocok dan masih aktif
         // $user->update([
