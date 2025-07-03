@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\ProductController;
 use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,8 +26,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/products/{id}', [ProductController::class, 'show']); // public
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('/products', [ProductController::class, 'store']); // butuh login
-        // dst
+        // Route::post('/products', [ProductController::class, 'store']);
+        Route::get('/user', [UserController::class, 'profile']);
     });
 
     Route::post('/register', [AuthController::class, 'register']);
