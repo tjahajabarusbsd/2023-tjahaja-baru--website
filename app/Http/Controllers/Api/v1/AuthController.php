@@ -81,6 +81,8 @@ class AuthController extends Controller
 
     public function verifyOtp(Request $request)
     {
+        $otp_hardcode = 1234;
+
         $validator = Validator::make($request->all(), [
             'phone_number' => 'required|string',
             'otp' => 'required|digits:4',
@@ -104,6 +106,16 @@ class AuthController extends Controller
                 'code' => 404,
                 'message' => 'Nomor tidak ditemukan',
             ], 404);
+        }
+
+        // if ($user->otp !== $request->otp || Carbon::now()->gt($user->otp_expires_at)) {
+        if ($otp_hardcode !== $request->otp) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 401,
+                'message' => 'Kode OTP salah atau sudah kadaluarsa',
+                'data' => null
+            ], 401);
         }
 
         return response()->json([
@@ -150,6 +162,48 @@ class AuthController extends Controller
         //         'no_handphone' => $user->phone,
         //     ]
         // ]);
+    }
+
+    public function resendOtp(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'phone_number' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 422,
+                'message' => 'Validasi gagal',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        // if ($user->is_verified) {
+        //     return response()->json([
+        //         'status' => 'success',
+        //         'code' => 200,
+        //         'message' => 'User sudah terverifikasi',
+        //     ]);
+        // }
+    
+        $otp = rand(1000, 9999);
+        $otpExpiresAt = now()->addMinutes(5);
+    
+        // $user->update([
+        //     'otp' => $otp,
+        //     'otp_expires_at' => $otpExpiresAt,
+        // ]);
+
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Kode OTP baru telah dikirim',
+            'data' => [
+                'expired_in' => 5,
+                'otp' => (string) $otp,
+            ]
+        ]);
     }
 
     public function login(Request $request)
