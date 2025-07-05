@@ -114,7 +114,11 @@ class AuthController extends Controller
                 'status' => 'error',
                 'code' => 401,
                 'message' => 'Kode OTP salah atau sudah kadaluarsa',
-                'data' => null
+                'data' => [
+                    'id' => (string) $user->id,
+                    'name' => (string) $user->name,
+                    'phone_number' => (string) $user->phone_number,
+                ]
             ], 401);
         }
 
