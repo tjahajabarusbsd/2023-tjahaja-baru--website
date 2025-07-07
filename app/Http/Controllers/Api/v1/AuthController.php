@@ -126,7 +126,7 @@ class AuthController extends Controller
 
     public function verifyOtp(Request $request)
     {
-        $otp_hardcode = 1234;
+        $otp_hardcode = "1234"; // Hardcoded OTP for development purposes
 
         $validator = Validator::make($request->all(), [
             'phone_number' => 'required|string',
