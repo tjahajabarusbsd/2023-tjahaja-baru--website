@@ -143,15 +143,25 @@ class AuthController extends Controller
         }
 
         $user = User::where('phone_number', $request->phone_number)->first();
-        $phone_number = $user->phone_number;
-        
-        if ($phone_number != $request->phone_number) {
+
+        if (!$user) {
             return response()->json([
                 'status' => 'error',
                 'code' => 404,
-                'message' => 'Nomor tidak ditemukan',
+                'message' => 'Nomor handphone tidak ditemukan.',
+                'data' => null,
             ], 404);
         }
+
+        // $phone_number = $user->phone_number;
+        
+        // if ($phone_number != $request->phone_number) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'code' => 404,
+        //         'message' => 'Nomor tidak ditemukan',
+        //     ], 404);
+        // }
 
         // if ($user->otp !== $request->otp || Carbon::now()->gt($user->otp_expires_at)) {
         if ($otp_hardcode !== $request->otp) {
