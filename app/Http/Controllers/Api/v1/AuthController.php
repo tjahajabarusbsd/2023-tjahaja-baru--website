@@ -129,8 +129,13 @@ class AuthController extends Controller
         $otp_hardcode = "1234"; // Hardcoded OTP for development purposes
 
         $validator = Validator::make($request->all(), [
-            'phone_number' => 'required|string',
+            'phone_number' => 'required|numeric',
             'otp' => 'required|digits:4',
+        ], [
+            'phone_number.required' => 'Nomor handphone wajib diisi.',
+            'phone_number.numeric' => 'Nomor handphone hanya boleh diisi dengan angka.',
+            'otp.required' => 'Kode OTP wajib diisi.',
+            'otp.digits' => 'Kode OTP harus terdiri dari 4 digit angka.',
         ]);
 
         if ($validator->fails()) {
