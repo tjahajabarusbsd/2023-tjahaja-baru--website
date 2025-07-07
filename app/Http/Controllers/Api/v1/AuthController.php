@@ -161,7 +161,7 @@ class AuthController extends Controller
         }
 
         // $phone_number = $user->phone_number;
-        
+
         // if ($phone_number != $request->phone_number) {
         //     return response()->json([
         //         'status' => 'error',
@@ -263,7 +263,7 @@ class AuthController extends Controller
 
         $otp = rand(1000, 9999);
         $otpExpiresAt = now()->addMinutes(5);
-    
+
         // $user->update([
         //     'otp' => $otp,
         //     'otp_expires_at' => $otpExpiresAt,
@@ -277,6 +277,63 @@ class AuthController extends Controller
                 'expired_in' => now()->diffInSeconds($otpExpiresAt),
                 'otp' => (string) $otp,
             ]
+        ]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'phone_number' => 'required|numeric',
+            'otp' => 'required|digits:4',
+            'new_password' => 'required|min:6|confirmed',
+        ], [
+            'phone_number.required' => 'Nomor handphone wajib diisi.',
+            'otp.required' => 'Kode OTP wajib diisi.',
+            'otp.digits' => 'Kode OTP harus terdiri dari 4 digit angka.',
+            'new_password.required' => 'Password baru wajib diisi.',
+            'new_password.min' => 'Password minimal 6 karakter.',
+            'new_password.confirmed' => 'Konfirmasi password tidak cocok.',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 422,
+                'message' => 'Validasi gagal. ' . implode(' ', $validator->errors()->all()),
+                'data' => null,
+            ], 422);
+        }
+
+        // $user = User::where('phone_number', $request->phone_number)
+        //     ->where('otp', $request->otp)
+        //     ->where('otp_expires_at', '>=', now())
+        //     ->first();
+        $user = User::where('phone_number', $request->phone_number)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 401,
+                'message' => 'OTP tidak valid atau sudah kedaluwarsa.',
+                'data' => null,
+            ], 401);
+        }
+
+        // Update password
+        $user->update([
+            'password' => Hash::make($request->new_password),
+            // 'otp' => null,
+            // 'otp_expires_at' => null,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Password berhasil diubah.',
+            'data' => [
+                'id' => $user->id,
+                'updated_at' => Carbon::now()->toISOString(),
+            ],
         ]);
     }
 }
