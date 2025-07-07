@@ -228,7 +228,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'error',
                 'code' => 422,
-                'message' => 'Validasi gagal. ' . $errorMessages,
+                'message' => $errorMessages,
                 'data' => null,
             ], 422);
         }
