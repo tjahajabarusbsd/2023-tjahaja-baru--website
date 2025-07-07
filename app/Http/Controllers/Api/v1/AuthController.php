@@ -79,6 +79,51 @@ class AuthController extends Controller
         ]);
     }
 
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'phone_number' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            $errorMessages = implode(' ', $validator->errors()->all());
+
+            return response()->json([
+                'status' => 'error',
+                'code' => 422,
+                'message' => 'Validasi gagal. ' . $errorMessages,
+                'data' => null,
+            ], 422);
+        }
+
+        $user = User::where('phone_number', $request->phone_number)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 401,
+                'message' => 'Nomor telepon atau password salah',
+                'data' => null
+            ], 401);
+        }
+
+        // Generate token
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Login berhasil',
+            'data' => [
+                'id' => (string) $user->id,
+                'name' => (string) $user->name,
+                'phone_number' => (string) $user->phone_number,
+                'token' => (string) $token,
+            ]
+        ]);
+    }
+
     public function verifyOtp(Request $request)
     {
         $otp_hardcode = 1234;
@@ -171,50 +216,10 @@ class AuthController extends Controller
     public function resendOtp(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone_number' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'code' => 422,
-                'message' => 'Validasi gagal',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        // if ($user->is_verified) {
-        //     return response()->json([
-        //         'status' => 'success',
-        //         'code' => 200,
-        //         'message' => 'User sudah terverifikasi',
-        //     ]);
-        // }
-    
-        $otp = rand(1000, 9999);
-        $otpExpiresAt = now()->addMinutes(5);
-    
-        // $user->update([
-        //     'otp' => $otp,
-        //     'otp_expires_at' => $otpExpiresAt,
-        // ]);
-
-        return response()->json([
-            'status' => 'success',
-            'code' => 200,
-            'message' => 'Kode OTP baru telah dikirim',
-            'data' => [
-                'expired_in' => 5,
-                'otp' => (string) $otp,
-            ]
-        ]);
-    }
-
-    public function login(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'phone_number' => 'required|string',
-            'password' => 'required|string',
+            'phone_number' => 'required|numeric',
+        ], [
+            'phone_number.required' => 'Nomor handphone wajib diisi.',
+            'phone_number.numeric' => 'Nomor handphone hanya boleh diisi dengan angka.',
         ]);
 
         if ($validator->fails()) {
@@ -230,27 +235,30 @@ class AuthController extends Controller
 
         $user = User::where('phone_number', $request->phone_number)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (!$user) {
             return response()->json([
                 'status' => 'error',
-                'code' => 401,
-                'message' => 'Nomor telepon atau password salah',
-                'data' => null
-            ], 401);
+                'code' => 404,
+                'message' => 'Nomor handphone tidak ditemukan.',
+                'data' => null,
+            ], 404);
         }
 
-        // Generate token
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $otp = rand(1000, 9999);
+        $otpExpiresAt = now()->addMinutes(5);
+    
+        // $user->update([
+        //     'otp' => $otp,
+        //     'otp_expires_at' => $otpExpiresAt,
+        // ]);
 
         return response()->json([
             'status' => 'success',
             'code' => 200,
-            'message' => 'Login berhasil',
+            'message' => 'Kode OTP baru telah dikirim',
             'data' => [
-                'id' => (string) $user->id,
-                'name' => (string) $user->name,
-                'phone_number' => (string) $user->phone_number,
-                'token' => (string) $token,
+                'expired_in' => now()->diffInSeconds($otpExpiresAt),
+                'otp' => (string) $otp,
             ]
         ]);
     }
