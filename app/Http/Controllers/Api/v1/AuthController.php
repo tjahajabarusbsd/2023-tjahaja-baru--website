@@ -92,7 +92,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'error',
                 'code' => 422,
-                'message' => 'Validasi gagal. ' . $errorMessages,
+                'message' => $errorMessages,
                 'data' => null,
             ], 422);
         }
@@ -103,7 +103,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'error',
                 'code' => 404,
-                'message' => 'Nomor telepon belum terdaftar',
+                'message' => 'Nomor Handphone belum terdaftar',
                 'data' => null
             ], 404);
         }
@@ -118,11 +118,9 @@ class AuthController extends Controller
         }
 
         if ($user->tokens()->count() >= 3) {
-            // Hapus token paling lama
             $user->tokens()->oldest()->first()?->delete();
         }
 
-        // Generate token
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
@@ -143,13 +141,8 @@ class AuthController extends Controller
         $otp_hardcode = "1234"; // Hardcoded OTP for development purposes
 
         $validator = Validator::make($request->all(), [
-            'phone_number' => 'required|numeric',
+            'phone_number' => 'required|string',
             'otp' => 'required|digits:4',
-        ], [
-            'phone_number.required' => 'Nomor handphone wajib diisi.',
-            'phone_number.numeric' => 'Nomor handphone hanya boleh diisi dengan angka.',
-            'otp.required' => 'Kode OTP wajib diisi.',
-            'otp.digits' => 'Kode OTP harus terdiri dari 4 digit angka.',
         ]);
 
         if ($validator->fails()) {
@@ -169,32 +162,18 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'error',
                 'code' => 404,
-                'message' => 'Nomor handphone tidak ditemukan.',
+                'message' => 'Nomor Handphone belum terdaftar',
                 'data' => null,
             ], 404);
         }
-
-        // $phone_number = $user->phone_number;
-
-        // if ($phone_number != $request->phone_number) {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'code' => 404,
-        //         'message' => 'Nomor tidak ditemukan',
-        //     ], 404);
-        // }
 
         // if ($user->otp !== $request->otp || Carbon::now()->gt($user->otp_expires_at)) {
         if ($otp_hardcode !== $request->otp) {
             return response()->json([
                 'status' => 'error',
                 'code' => 401,
-                'message' => 'Kode OTP salah atau sudah kadaluarsa',
-                'data' => [
-                    'id' => (string) $user->id,
-                    'name' => (string) $user->name,
-                    'phone_number' => (string) $user->phone_number,
-                ]
+                'message' => 'Kode OTP salah',
+                'data' => null,
             ], 401);
         }
 
@@ -217,14 +196,6 @@ class AuthController extends Controller
         //     ]);
         // }
 
-        // if ($user->otp !== $request->otp || Carbon::now()->gt($user->otp_expires_at)) {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'code' => 401,
-        //         'message' => 'Kode OTP salah atau sudah kadaluarsa',
-        //     ], 401);
-        // }
-
         // OTP cocok dan masih aktif
         // $user->update([
         //     'is_verified' => true,
@@ -237,9 +208,9 @@ class AuthController extends Controller
         //     'code' => 200,
         //     'message' => 'OTP berhasil diverifikasi',
         //     'data' => [
-        //         'user_id' => $user->id,
-        //         'nama' => $user->nama,
-        //         'no_handphone' => $user->phone,
+        //         'id' => (string) $user->id,
+        //         'name' => (string) $user->name,
+        //         'phone_number' => (string) $user->phone_number,
         //     ]
         // ]);
     }
