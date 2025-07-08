@@ -99,13 +99,27 @@ class AuthController extends Controller
 
         $user = User::where('phone_number', $request->phone_number)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 404,
+                'message' => 'Nomor telepon belum terdaftar',
+                'data' => null
+            ], 404);
+        }
+
+        if (!Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status' => 'error',
                 'code' => 401,
-                'message' => 'Nomor telepon atau password salah',
+                'message' => 'Password tidak cocok',
                 'data' => null
             ], 401);
+        }
+
+        if ($user->tokens()->count() >= 3) {
+            // Hapus token paling lama
+            $user->tokens()->oldest()->first()?->delete();
         }
 
         // Generate token
