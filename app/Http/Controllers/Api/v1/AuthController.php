@@ -82,8 +82,18 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone_number' => 'required|string',
+            'phone_number' => [
+                'required',
+                'string',
+                'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
+            ],
             'password' => 'required|string',
+        ], [
+            'phone_number.required' => 'Nomor handphone wajib diisi',
+            'phone_number.string' => 'Nomor handphone harus berupa teks',
+            'phone_number.regex' => 'Format nomor handphone tidak valid',
+            'password.required' => 'Password wajib diisi',
+            'password.string' => 'Password harus berupa teks',
         ]);
 
         if ($validator->fails()) {
@@ -141,8 +151,18 @@ class AuthController extends Controller
         $otp_hardcode = "1234"; // Hardcoded OTP for development purposes
 
         $validator = Validator::make($request->all(), [
-            'phone_number' => 'required|string',
+            'phone_number' => [
+                'required',
+                'string',
+                'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
+            ],
             'otp' => 'required|digits:4',
+        ], [
+            'phone_number.required' => 'Nomor handphone wajib diisi',
+            'phone_number.string' => 'Nomor handphone harus berupa teks',
+            'phone_number.regex' => 'Format nomor handphone tidak valid',
+            'otp.required' => 'Kode OTP wajib diisi',
+            'otp.digits' => 'Kode OTP harus terdiri dari 4 digit angka',
         ]);
 
         if ($validator->fails()) {
@@ -218,10 +238,15 @@ class AuthController extends Controller
     public function resendOtp(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone_number' => 'required|numeric',
+            'phone_number' => [
+                'required',
+                'string',
+                'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
+            ],
         ], [
-            'phone_number.required' => 'Nomor handphone wajib diisi.',
-            'phone_number.numeric' => 'Nomor handphone hanya boleh diisi dengan angka.',
+            'phone_number.required' => 'Nomor handphone wajib diisi',
+            'phone_number.string' => 'Nomor handphone harus berupa teks',
+            'phone_number.regex' => 'Format nomor handphone tidak valid',
         ]);
 
         if ($validator->fails()) {
