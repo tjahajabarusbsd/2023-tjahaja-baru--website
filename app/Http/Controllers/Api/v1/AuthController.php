@@ -293,23 +293,31 @@ class AuthController extends Controller
     public function resetPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone_number' => 'required|numeric',
+            'phone_number' => [
+                'required',
+                'string',
+                'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
+            ],
             'otp' => 'required|digits:4',
-            'new_password' => 'required|min:6|confirmed',
+            'new_password' => 'required|min:8|confirmed',
         ], [
-            'phone_number.required' => 'Nomor handphone wajib diisi.',
-            'otp.required' => 'Kode OTP wajib diisi.',
-            'otp.digits' => 'Kode OTP harus terdiri dari 4 digit angka.',
-            'new_password.required' => 'Password baru wajib diisi.',
-            'new_password.min' => 'Password minimal 6 karakter.',
+            'phone_number.required' => 'Nomor handphone wajib diisi',
+            'phone_number.string' => 'Nomor handphone harus berupa teks',
+            'phone_number.regex' => 'Format nomor handphone tidak valid',
+            'otp.required' => 'Kode OTP wajib diisi',
+            'otp.digits' => 'Kode OTP harus terdiri dari 4 digit angka',
+            'new_password.required' => 'Password baru wajib diisi',
+            'new_password.min' => 'Password minimal 8 karakter',
             'new_password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
         if ($validator->fails()) {
+            $errorMessages = implode(' ', $validator->errors()->all());
+
             return response()->json([
                 'status' => 'error',
                 'code' => 422,
-                'message' => 'Validasi gagal. ' . implode(' ', $validator->errors()->all()),
+                'message' => $errorMessages,
                 'data' => null,
             ], 422);
         }
