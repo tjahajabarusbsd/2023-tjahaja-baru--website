@@ -13,45 +13,43 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        // Validasi input
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'max:50', 'regex:/^[a-zA-Z\s]+$/'],
             'phone_number' => [
                 'required',
-                'numeric',
-                'regex:/^08[1-9][0-9]{6,10}$/',
-                'unique:users,phone_number', // Tambahkan aturan unik di sini jika diperlukan
+                'string',
+                'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
+                'unique:users,phone_number',
             ],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'password_confirmation' => 'required|string|min:8',
         ], [
-            'name.required' => 'Kolom nama wajib diisi.',
-            'name.string' => 'Kolom nama harus berupa teks.',
-            'name.max' => 'Kolom nama tidak boleh lebih dari :max karakter.',
-            'name.regex' => 'Wajib menggunakan huruf.',
-            'phone_number.required' => 'Kolom nomor handphone wajib diisi.',
-            'phone_number.numeric' => 'Kolom nomor handphone harus berupa angka.',
-            'phone_number.regex' => 'Format nomor handphone tidak valid. Pastikan diawali dengan 08 dan maksimal 13 digit',
-            'phone_number.unique' => 'Nomor handphone sudah digunakan.',
-            'password.required' => 'Kolom password wajib diisi.',
-            'password.string' => 'Kolom password harus berupa teks.',
-            'password.min' => 'Password minimal harus :min karakter.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'name.required' => 'Nama wajib diisi',
+            'name.string' => 'Nama harus berupa teks',
+            'name.max' => 'Nama tidak boleh lebih dari :max karakter',
+            'name.regex' => 'Nama wajib menggunakan huruf',
+            'phone_number.required' => 'Nomor handphone wajib diisi',
+            'phone_number.string' => 'Nomor handphone harus berupa teks',
+            'phone_number.regex' => 'Format nomor handphone tidak valid',
+            'phone_number.unique' => 'Nomor handphone sudah terdaftar',
+            'password.required' => 'Password wajib diisi',
+            'password.string' => 'Password harus berupa teks',
+            'password.min' => 'Password minimal harus :min karakter',
+            'password.confirmed' => 'Konfirmasi password tidak cocok',
         ]);
 
         if ($validator->fails()) {
-            $errorMessages = implode(' ', $validator->errors()->all());
+            $firstError = $validator->errors()->first();
 
             return response()->json([
                 'status' => 'error',
                 'code' => 422,
-                'message' => 'Validasi gagal. ' . $errorMessages,
+                'message' => $firstError,
                 'data' => null,
             ], 422);
         }
 
-        // Buat OTP hardcoded untuk development
-        // $otp = rand(1000, 9999);
+        $otp = rand(1000, 9999);
         // $otpExpiresAt = Carbon::now()->addMinutes(5);
 
         // Simpan user ke database
@@ -73,7 +71,7 @@ class AuthController extends Controller
                 'phone_number' => (string) $request->phone_number,
                 'created_at' => Carbon::now()->toISOString(),
                 'updated_at' => Carbon::now()->toISOString(),
-                'otp' => (string) 1111,
+                'otp' => (string) $otp,
                 // 'otp_expired_in' => $otpExpiresAt->diffInSeconds(Carbon::now()),
             ]
         ]);
