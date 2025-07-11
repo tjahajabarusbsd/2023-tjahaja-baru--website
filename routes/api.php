@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\ProductController;
 use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\MyMotorController;
 use App\Http\Controllers\Api\v1\UserController;
 
 /*
@@ -24,10 +25,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
     Route::get('/products', [ProductController::class, 'index']); // public
     Route::get('/products/{id}', [ProductController::class, 'show']); // public
-    Route::post('/products/order', [ProductController::class, 'order']);
+    Route::post('/products/order', [ProductController::class, 'order']); // nanti letakkan di middleware auth
+    Route::post('/motor-registration', [MyMotorController::class, 'register']); // nanti letakkan di middleware auth
 
     Route::middleware('auth:sanctum')->group(function () {
-        // Route::post('/products', [ProductController::class, 'store']);
         Route::get('/user', [UserController::class, 'profile']);
     });
 
