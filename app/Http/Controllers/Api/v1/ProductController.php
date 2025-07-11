@@ -204,7 +204,7 @@ class ProductController extends Controller
             'model' => 'required|string',
             'warna' => 'required|string',
             'tipe_pembayaran' => 'required|in:Cash,Kredit',
-            'setuju_dihubungi' => 'required|boolean',
+            'setuju_dihubungi' => 'required|string',
         ]);
 
         // Simpan ke database
@@ -228,7 +228,7 @@ class ProductController extends Controller
                 'model' => $request->model,
                 'warna' => $request->warna,
                 'tipe_pembayaran' => $request->tipe_pembayaran,
-                'setuju_dihubungi' => (bool) $request->setuju_dihubungi,
+                'setuju_dihubungi' => (string) $request->setuju_dihubungi,
                 'status_pesanan' => 'processing',
             ]]
         ], 200);
