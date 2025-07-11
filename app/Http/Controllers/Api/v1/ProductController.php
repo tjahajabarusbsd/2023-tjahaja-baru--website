@@ -196,4 +196,41 @@ class ProductController extends Controller
         //     ]
         // ], 200);
     }
+
+    public function order(Request $request)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'model' => 'required|string',
+            'warna' => 'required|string',
+            'tipe_pembayaran' => 'required|in:Cash,Kredit',
+            'setuju_dihubungi' => 'required|boolean',
+        ]);
+
+        // Simpan ke database
+        // $order = Order::create([
+        //     'model' => $validated['model'],
+        //     'warna' => $validated['warna'],
+        //     'tipe_pembayaran' => $validated['tipe_pembayaran'],
+        //     'setuju_dihubungi' => $validated['setuju_dihubungi'],
+        //     'status_pesanan' => 'processing',
+        // ]);
+
+        $orderId = Str::uuid()->toString();
+
+        // Response JSON
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Pesanan berhasil diproses',
+            'data' => [[
+                'id' => (string) $orderId,
+                'model' => $request->model,
+                'warna' => $request->warna,
+                'tipe_pembayaran' => $request->tipe_pembayaran,
+                'setuju_dihubungi' => (bool) $request->setuju_dihubungi,
+                'status_pesanan' => 'processing',
+            ]]
+        ], 200);
+    }
 }
