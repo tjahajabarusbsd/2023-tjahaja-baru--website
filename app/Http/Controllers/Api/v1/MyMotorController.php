@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use App\Models\NomorRangka;
 
 class MyMotorController extends Controller
 {
@@ -66,6 +68,79 @@ class MyMotorController extends Controller
                 'nomor_rangka' => (string) $request->nomor_rangka,
                 'status_verifikasi' => 'pending',
             ]
+        ], 200);
+    }
+
+    public function list(Request $request)
+    {
+        // $user = Auth::user();
+
+        // if (!$user) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'code' => 401,
+        //         'message' => 'Unauthorized',
+        //         'data' => null,
+        //     ], 401);
+        // }
+
+        // $getAllNomorRangka = NomorRangka::where('user_id', $user->id)->where('status_verifikasi', 'verified')->get();
+
+        // if ($getAllNomorRangka->isEmpty()) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'code' => 404,
+        //         'message' => 'Tidak ada motor terdaftar',
+        //         'data' => null,
+        //     ], 404);
+        // }
+
+        // gunakan nomor rangka untuk mendapatkan data motor dan servis dari pooling
+
+        $registeredMotors = [
+            [
+                'motor_id' => '12345',
+                'motor_model' => 'NMAX',
+                'plat_nomor' => 'AB1234CD',
+                'nomor_rangka' => 'ABC1234567890',
+                'warna' => 'Hitam',
+                'tahun' => '2020',
+                'riwayat_servis' => [
+                    [
+                        'servis_id' => 'svc001',
+                        'tanggal_servis' => '2023-01-15',
+                    ],
+                    [
+                        'servis_id' => 'svc002',
+                        'tanggal_servis' => '2023-06-15',
+                    ],
+                ],
+            ],
+            [
+                'motor_id' => '67890',
+                'motor_model' => 'NMAX',
+                'plat_nomor' => 'AB1234CD',
+                'nomor_rangka' => 'XYZ0987654321',
+                'warna' => 'Merah',
+                'tahun' => '2021',
+                'riwayat_servis' => [
+                    [
+                        'servis_id' => 'svc101',
+                        'tanggal_servis' => '2023-01-15',
+                    ],
+                    [
+                        'servis_id' => 'svc201',
+                        'tanggal_servis' => '2023-01-15',
+                    ],
+                ],
+            ],
+        ];
+
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Daftar motor berhasil diambil',
+            'data' => $registeredMotors,
         ], 200);
     }
 }
