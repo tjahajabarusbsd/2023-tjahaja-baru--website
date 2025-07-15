@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\NomorRangka;
+use App\Models\MasterPart;
+use Illuminate\Support\Facades\Http;
 
 class MyMotorController extends Controller
 {
@@ -44,6 +46,9 @@ class MyMotorController extends Controller
             'kk.mimes' => 'KK harus berformat JPG, JPEG, atau PNG.',
             'kk.max' => 'Ukuran file KK maksimal 2MB.',
         ]);
+
+        $ktpPath = $request->file('ktp')->store('uploads/ktp', 'public');
+        $kkPath = $request->file('kk')->store('uploads/kk', 'public');
 
         if ($validator->fails()) {
             $firstError = $validator->errors()->first();
@@ -96,12 +101,20 @@ class MyMotorController extends Controller
         // }
 
         // gunakan nomor rangka untuk mendapatkan data motor dan servis dari pooling
+        // $nomorRangka = 'MH3SG5620PK787104'; // contoh nomor rangka, ganti dengan yang sesuai
+
+        // $url_services = env('GET_URL_SERIVCES');
+        // $apiUrl = $url_services . "?id=" . $nomorRangka;
+        // $response = Http::withoutVerifying()->get($apiUrl);
+        // $data = $response->json();
+
+        // dd($data);
 
         $registeredMotors = [
             [
                 'motor_id' => '12345',
                 'motor_model' => 'NMAX',
-                'plat_nomor' => 'AB1234CD',
+                'plat_nomor' => 'BA 12 CD',
                 'nomor_rangka' => 'ABC1234567890',
                 'warna' => 'Hitam',
                 'tahun' => '2020',
@@ -118,19 +131,19 @@ class MyMotorController extends Controller
             ],
             [
                 'motor_id' => '67890',
-                'motor_model' => 'NMAX',
-                'plat_nomor' => 'AB1234CD',
+                'motor_model' => 'Fazzio',
+                'plat_nomor' => 'BA 1234 CD',
                 'nomor_rangka' => 'XYZ0987654321',
                 'warna' => 'Merah',
                 'tahun' => '2021',
                 'riwayat_servis' => [
                     [
                         'servis_id' => 'svc101',
-                        'tanggal_servis' => '2023-01-15',
+                        'tanggal_servis' => '2024-03-20',
                     ],
                     [
                         'servis_id' => 'svc201',
-                        'tanggal_servis' => '2023-01-15',
+                        'tanggal_servis' => '2024-08-18',
                     ],
                 ],
             ],
@@ -143,4 +156,45 @@ class MyMotorController extends Controller
             'data' => $registeredMotors,
         ], 200);
     }
+
+    // public function getRiwayatServis($nomorRangka)
+    // {
+    //     $url_services = env('GET_URL_SERIVCES');
+    //     $apiUrl = $url_services . "?id=" . $nomorRangka;
+    //     $response = Http::withoutVerifying()->get($apiUrl);
+    //     $data = $response->json();
+
+    //     if (!$data) {
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'code' => 404,
+    //             'message' => 'Riwayat servis tidak ditemukan.',
+    //             'data' => null,
+    //         ], 404);
+    //     }
+
+    //     foreach ($data as &$innerArray) {
+    //         if (isset($innerArray['part_id'])) {
+    //             $partIds = json_decode($innerArray['part_id'], true);
+
+    //             $partNames = [];
+    //             foreach ($partIds as $partId) {
+    //                 $part = MasterPart::where('part_number', $partId)->first();
+    //                 if ($part) {
+    //                     $partNames[] = $part->part_name;
+    //                 } else {
+    //                     $partNames[] = 'UNNAME PART';
+    //                 }
+    //             }
+
+    //             $innerArray['part_name'] = $partNames;
+    //         } else {
+    //             $innerArray['part_name'] = [];
+    //         }
+    //     }
+
+    //     $filtered = collect($data)->firstWhere('id', 'SV250109335');
+    //     dd($filtered);
+
+    // }
 }
