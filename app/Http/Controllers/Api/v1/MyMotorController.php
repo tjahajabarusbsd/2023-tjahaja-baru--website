@@ -115,9 +115,7 @@ class MyMotorController extends Controller
             ], 401);
         }
 
-        $getAllNomorRangka = NomorRangka::where('user_id', $user->id)
-            ->where('status_verifikasi', 'verified')
-            ->get();
+        $getAllNomorRangka = NomorRangka::where('user_id', $user->id)->get();
 
         if ($getAllNomorRangka->isEmpty()) {
             return response()->json([
