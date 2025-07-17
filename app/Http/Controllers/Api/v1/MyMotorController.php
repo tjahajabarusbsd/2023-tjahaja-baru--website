@@ -126,12 +126,34 @@ class MyMotorController extends Controller
             ], 404);
         }
 
-        $registeredMotors = $getAllNomorRangka->map(function ($item) {
+        $url_services = env('GET_URL_SERIVCES');
+
+        $registeredMotors = $getAllNomorRangka->map(function ($item) use ($url_services) {
+            // Buat URL dengan nomor rangka
+            $apiUrl = $url_services . "?id=" . $item->nomor_rangka;
+
+            // Request ke API eksternal
+            $response = Http::withoutVerifying()->get($apiUrl);
+            $data = $response->json();
+
+            // Ambil data dari respons API dan format ulang
+            $riwayatServis = [];
+
+            if (is_array($data)) {
+                foreach ($data as $d) {
+                    $riwayatServis[] = [
+                        'service_id' => $d['id'] ?? null,
+                        'tanggal_servis' => $d['event_walkin'] ?? null,
+                    ];
+                }
+            }
+
             return [
-                'nama_model'   => $item->nama_model,
-                'nomor_plat'    => $item->nomor_plat,
-                'nomor_rangka'  => $item->nomor_rangka,
+                'nama_model'        => $item->nama_model,
+                'nomor_plat'        => $item->nomor_plat,
+                'nomor_rangka'      => $item->nomor_rangka,
                 'status_verifikasi' => $item->status_verifikasi,
+                'riwayat_servis'    => $riwayatServis,
             ];
         });
 
