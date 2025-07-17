@@ -40,3 +40,4 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('review') }}'><i class='nav-icon la la-question'></i> Reviews</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('group-product-spec') }}"><i class="nav-icon las la-wrench"></i> Group product specs</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('consultation') }}"><i class="nav-icon las la-file-alt"></i> Consultations</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('nomor-rangka') }}"><i class="nav-icon la la-question"></i> Nomor Rangka</a></li>
