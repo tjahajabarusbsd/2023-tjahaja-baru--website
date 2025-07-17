@@ -27,10 +27,11 @@ Route::prefix('v1')->group(function () {
     Route::get('/products/{id}', [ProductController::class, 'show']); // public
     Route::post('/products/order', [ProductController::class, 'order']); // nanti letakkan di middleware auth
     Route::post('/motor-registration', [MyMotorController::class, 'register']); // nanti letakkan di middleware auth
-    Route::get('/user-motor', [MyMotorController::class, 'list']); // nanti letakkan di middleware auth
+    Route::get('/services/{nomorRangka}/{svsId}', [MyMotorController::class, 'getRiwayatServis']); // nanti letakkan di middleware auth
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user', [UserController::class, 'profile']);
+        Route::get('/user-motor', [MyMotorController::class, 'list']);
     });
 
     Route::post('/register', [AuthController::class, 'register']);

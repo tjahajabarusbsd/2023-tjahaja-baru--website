@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\NomorRangka;
 use App\Models\MasterPart;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 
 class MyMotorController extends Controller
@@ -76,78 +77,39 @@ class MyMotorController extends Controller
         ], 200);
     }
 
-    public function list(Request $request)
+    public function list()
     {
-        // $user = Auth::user();
+        $user = Auth::user();
 
-        // if (!$user) {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'code' => 401,
-        //         'message' => 'Unauthorized',
-        //         'data' => null,
-        //     ], 401);
-        // }
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 401,
+                'message' => 'Unauthorized',
+                'data' => null,
+            ], 401);
+        }
 
-        // $getAllNomorRangka = NomorRangka::where('user_id', $user->id)->where('status_verifikasi', 'verified')->get();
+        $getAllNomorRangka = NomorRangka::where('user_id', $user->id)
+            ->where('status_verifikasi', 'verified')
+            ->get();
 
-        // if ($getAllNomorRangka->isEmpty()) {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'code' => 404,
-        //         'message' => 'Tidak ada motor terdaftar',
-        //         'data' => null,
-        //     ], 404);
-        // }
+        if ($getAllNomorRangka->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 404,
+                'message' => 'Tidak ada motor terdaftar',
+                'data' => null,
+            ], 404);
+        }
 
-        // gunakan nomor rangka untuk mendapatkan data motor dan servis dari pooling
-        // $nomorRangka = 'MH3SG5620PK787104'; // contoh nomor rangka, ganti dengan yang sesuai
-
-        // $url_services = env('GET_URL_SERIVCES');
-        // $apiUrl = $url_services . "?id=" . $nomorRangka;
-        // $response = Http::withoutVerifying()->get($apiUrl);
-        // $data = $response->json();
-
-        // dd($data);
-
-        $registeredMotors = [
-            [
-                'motor_id' => '12345',
-                'motor_model' => 'NMAX',
-                'plat_nomor' => 'BA 12 CD',
-                'nomor_rangka' => 'ABC1234567890',
-                'warna' => 'Hitam',
-                'tahun' => '2020',
-                'riwayat_servis' => [
-                    [
-                        'servis_id' => 'svc001',
-                        'tanggal_servis' => '2023-01-15',
-                    ],
-                    [
-                        'servis_id' => 'svc002',
-                        'tanggal_servis' => '2023-06-15',
-                    ],
-                ],
-            ],
-            [
-                'motor_id' => '67890',
-                'motor_model' => 'Fazzio',
-                'plat_nomor' => 'BA 1234 CD',
-                'nomor_rangka' => 'XYZ0987654321',
-                'warna' => 'Merah',
-                'tahun' => '2021',
-                'riwayat_servis' => [
-                    [
-                        'servis_id' => 'svc101',
-                        'tanggal_servis' => '2024-03-20',
-                    ],
-                    [
-                        'servis_id' => 'svc201',
-                        'tanggal_servis' => '2024-08-18',
-                    ],
-                ],
-            ],
-        ];
+        $registeredMotors = $getAllNomorRangka->map(function ($item) {
+            return [
+                'nama_model'   => $item->nama_model,
+                'nomor_plat'    => $item->nomor_plat,
+                'nomor_rangka'  => $item->nomor_rangka,
+            ];
+        });
 
         return response()->json([
             'status' => 'success',
@@ -157,44 +119,102 @@ class MyMotorController extends Controller
         ], 200);
     }
 
-    // public function getRiwayatServis($nomorRangka)
-    // {
-    //     $url_services = env('GET_URL_SERIVCES');
-    //     $apiUrl = $url_services . "?id=" . $nomorRangka;
-    //     $response = Http::withoutVerifying()->get($apiUrl);
-    //     $data = $response->json();
+    public function getRiwayatServis($nomorRangka, $svsId)
+    {
+        $url_services = env('GET_URL_SERIVCES');
+        $apiUrl = $url_services . "?id=" . $nomorRangka;
+        $response = Http::withoutVerifying()->get($apiUrl);
+        $data = $response->json();
 
-    //     if (!$data) {
-    //         return response()->json([
-    //             'status' => 'error',
-    //             'code' => 404,
-    //             'message' => 'Riwayat servis tidak ditemukan.',
-    //             'data' => null,
-    //         ], 404);
-    //     }
+        if (!$data) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 404,
+                'message' => 'Riwayat servis tidak ditemukan.',
+                'data' => null,
+            ], 404);
+        }
 
-    //     foreach ($data as &$innerArray) {
-    //         if (isset($innerArray['part_id'])) {
-    //             $partIds = json_decode($innerArray['part_id'], true);
+        foreach ($data as &$innerArray) {
+            if (isset($innerArray['part_id'])) {
+                $partIds = json_decode($innerArray['part_id'], true);
 
-    //             $partNames = [];
-    //             foreach ($partIds as $partId) {
-    //                 $part = MasterPart::where('part_number', $partId)->first();
-    //                 if ($part) {
-    //                     $partNames[] = $part->part_name;
-    //                 } else {
-    //                     $partNames[] = 'UNNAME PART';
-    //                 }
-    //             }
+                $partNames = [];
+                foreach ($partIds as $partId) {
+                    $part = MasterPart::where('part_number', $partId)->first();
+                    if ($part) {
+                        $partNames[] = $part->part_name;
+                    } else {
+                        $partNames[] = 'UNNAME PART';
+                    }
+                }
 
-    //             $innerArray['part_name'] = $partNames;
-    //         } else {
-    //             $innerArray['part_name'] = [];
-    //         }
-    //     }
+                $innerArray['part_name'] = $partNames;
+            } else {
+                $innerArray['part_name'] = [];
+            }
+        }
 
-    //     $filtered = collect($data)->firstWhere('id', 'SV250109335');
-    //     dd($filtered);
+        $filtered = collect($data)->firstWhere('id', $svsId);
 
-    // }
+        if (!$filtered) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 404,
+                'message' => 'Data servis tidak ditemukan',
+                'data' => null,
+            ], 404);
+        }
+    
+        // Bersihkan data nested (karena svc_pac, svc_cost, dll dalam bentuk string JSON array)
+        $paketList = json_decode($filtered['svc_pac'], true) ?? [];
+        $hargaList = json_decode($filtered['svc_cost'], true) ?? [];
+        $partNameList = $filtered['part_name'] ?? [];
+        $partQtyList = json_decode($filtered['part_qty'], true) ?? [];
+        $partHargaList = json_decode($filtered['part_cost'], true) ?? [];
+
+        // Format paket_servis
+        $paketServis = [];
+        foreach ($paketList as $index => $namaPaket) {
+            $paketServis[] = [
+                'nama_paket' => $namaPaket,
+                'harga' => (int) ($hargaList[$index] ?? 0),
+            ];
+        }
+    
+        // Format part_terpakai
+        $partTerpakai = [];
+        foreach ($partNameList as $index => $partName) {
+            $partTerpakai[] = [
+                'nama_part' => $partName,
+                'jumlah' => (int) ($partQtyList[$index] ?? 0),
+                'harga_satuan' => (int) ($partHargaList[$index] ?? 0),
+            ];
+        }
+    
+        // Tanggal servis dari event_invoice
+        $tanggalServis = Carbon::parse($filtered['event_invoice'])->translatedFormat('d F Y');
+    
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Detail servis berhasil diambil',
+            'data' => [
+                'service_id' => $filtered['svc_id'],
+                'tanggal_servis' => $tanggalServis,
+                'nomor_invoice' => $filtered['invoice'],
+                'tempat_servis' => $filtered['nama_dealer'],
+                'kategori_servis' => $filtered['svc_cat'],
+                'mekanik' => $filtered['mechanic_name'],
+                'paket_servis' => $paketServis,
+                'part_terpakai' => $partTerpakai,
+                'total_biaya' => (int) $filtered['cost_total'],
+                'review' => [
+                    'rating' => 5, // default rating
+                    'nama_pengguna' => $filtered['kons_nama'],
+                    'ulasan' => $filtered['cust_respon'],
+                ],
+            ],
+        ]);
+    }
 }
