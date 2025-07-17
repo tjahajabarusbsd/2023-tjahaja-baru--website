@@ -133,6 +133,7 @@ class MyMotorController extends Controller
                 'nama_model'   => $item->nama_model,
                 'nomor_plat'    => $item->nomor_plat,
                 'nomor_rangka'  => $item->nomor_rangka,
+                'status_verifikasi' => $item->status_verifikasi,
             ];
         });
 
