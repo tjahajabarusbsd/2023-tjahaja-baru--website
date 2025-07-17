@@ -95,7 +95,7 @@ class MyMotorController extends Controller
             'code' => 200,
             'message' => 'Motor berhasil didaftarkan',
             'data' => [
-                'motor_id' => $nomorRangka->id,
+                'motor_id' => (string) $nomorRangka->id,
                 'nomor_rangka' => (string) $request->nomor_rangka,
                 'status_verifikasi' => 'pending',
             ]
