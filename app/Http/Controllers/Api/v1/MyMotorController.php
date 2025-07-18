@@ -15,6 +15,16 @@ class MyMotorController extends Controller
 {
     public function register(Request $request)
     {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 401,
+                'message' => 'Unauthorized',
+                'data' => null,
+            ], 401);
+        }
+
         $validator = Validator::make($request->all(), [
             'nomor_rangka' => [
                 'required',
@@ -48,9 +58,6 @@ class MyMotorController extends Controller
             'kk.max' => 'Ukuran file KK maksimal 2MB.',
         ]);
 
-        $ktpPath = $request->file('ktp')->store('uploads/ktp', 'public');
-        $kkPath = $request->file('kk')->store('uploads/kk', 'public');
-
         if ($validator->fails()) {
             $firstError = $validator->errors()->first();
 
@@ -62,15 +69,8 @@ class MyMotorController extends Controller
             ], 422);
         }
 
-        $user = Auth::user();
-        if (!$user) {
-            return response()->json([
-                'status' => 'error',
-                'code' => 401,
-                'message' => 'Unauthorized',
-                'data' => null,
-            ], 401);
-        }
+        $ktpPath = $request->file('ktp')->store('uploads/ktp', 'public');
+        $kkPath = $request->file('kk')->store('uploads/kk', 'public');
 
         $nomorRangka = NomorRangka::create([
             'nomor_rangka' => $request->nomor_rangka,
@@ -255,11 +255,11 @@ class MyMotorController extends Controller
                 'paket_servis' => $paketServis,
                 'part_terpakai' => $partTerpakai,
                 'total_biaya' => (int) $filtered['cost_total'],
-                'review' => [
-                    'rating' => 5, // default rating
-                    'nama_pengguna' => $filtered['kons_nama'],
-                    'ulasan' => $filtered['cust_respon'],
-                ],
+                // 'review' => [
+                //     'rating' => 5, // default rating
+                //     'nama_pengguna' => $filtered['kons_nama'],
+                //     'ulasan' => $filtered['cust_respon'],
+                // ],
             ],
         ]);
     }
