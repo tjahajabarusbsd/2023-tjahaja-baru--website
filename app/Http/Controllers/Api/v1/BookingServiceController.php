@@ -38,6 +38,7 @@ class BookingServiceController extends Controller
         // Buat kode booking seperti bkg001
         // $booking->kode_booking = 'bkg' . str_pad($booking->id, 3, '0', STR_PAD_LEFT);
         // $booking->save();
+        $booking_id = 'bkg' . rand(100, 999);
 
         // Kembalikan response
         // return response()->json([
@@ -57,12 +58,11 @@ class BookingServiceController extends Controller
             'code'    => 200,
             'message' => 'Booking berhasil diproses. Kami akan segera menghubungi Anda untuk langkah selanjutnya.',
             'data'    => [
-                'booking_id' => "bkg001",
-                'motor_id'   => "mtr001",
-                'dealer_id'  => "dlr001",
-                // current date and time for demonstration
-                'tanggal'    => date('Y-m-d'),
-                'jam'        => "09:00",
+                'booking_id' => $booking_id,
+                'motor_id'   => $request->motor_id,
+                'dealer_id'  => $request->dealer_id,
+                'tanggal'    => $request->tanggal,
+                'jam'        => $request->jam,
             ]
         ], 200);
     }
