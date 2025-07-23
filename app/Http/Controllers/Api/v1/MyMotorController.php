@@ -40,17 +40,17 @@ class MyMotorController extends Controller
         ], [
             'nomor_rangka.required' => 'Nomor rangka wajib diisi.',
             'nomor_rangka.string' => 'Nomor rangka harus berupa teks.',
-        
+
             'phone_number.required' => 'Nomor handphone wajib diisi.',
             'phone_number.string' => 'Nomor handphone harus berupa teks.',
             'phone_number.regex' => 'Format nomor handphone tidak valid.',
-        
+
             'ktp.required' => 'Foto KTP wajib diunggah.',
             'ktp.file' => 'KTP harus berupa file.',
             'ktp.image' => 'File KTP harus berupa gambar.',
             'ktp.mimes' => 'KTP harus berformat JPG, JPEG, atau PNG.',
             'ktp.max' => 'Ukuran file KTP maksimal 2MB.',
-        
+
             'kk.required' => 'Foto KK wajib diunggah.',
             'kk.file' => 'KK harus berupa file.',
             'kk.image' => 'File KK harus berupa gambar.',
@@ -211,7 +211,7 @@ class MyMotorController extends Controller
                 'data' => null,
             ], 404);
         }
-    
+
         // Bersihkan data nested (karena svc_pac, svc_cost, dll dalam bentuk string JSON array)
         $paketList = json_decode($filtered['svc_pac'], true) ?? [];
         $hargaList = json_decode($filtered['svc_cost'], true) ?? [];
@@ -227,7 +227,7 @@ class MyMotorController extends Controller
                 'harga' => (int) ($hargaList[$index] ?? 0),
             ];
         }
-    
+
         // Format part_terpakai
         $partTerpakai = [];
         foreach ($partNameList as $index => $partName) {
@@ -237,10 +237,10 @@ class MyMotorController extends Controller
                 'harga_satuan' => (int) ($partHargaList[$index] ?? 0),
             ];
         }
-    
+
         // Tanggal servis dari event_invoice
         $tanggalServis = Carbon::parse($filtered['event_invoice'])->translatedFormat('d F Y');
-    
+
         return response()->json([
             'status' => 'success',
             'code' => 200,
