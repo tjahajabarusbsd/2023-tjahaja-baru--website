@@ -43,4 +43,5 @@ Route::prefix('v1')->group(function () {
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);
     Route::post('/booking-servis', [BookingServiceController::class, 'store']);
     Route::get('/merchants', [MerchantController::class, 'index']);
+    Route::get('/merchants/{id}', [MerchantController::class, 'show']);
 });
