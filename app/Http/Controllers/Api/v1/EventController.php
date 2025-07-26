@@ -40,4 +40,26 @@ class EventController extends Controller
             'data' => $events,
         ], 200);
     }
+    public function show($id): JsonResponse
+    {
+        // For demonstration, returning a static event.
+        // In a real application, you would fetch the event from the database.
+        $event = [
+            'id' => $id,
+            'title' => 'Event ' . $id,
+            'subtitle' => 'Dp Mulai 1.5 Juta',
+            'description' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+            'image' => 'https://duckdumber.com/bannerEvent1.png',
+            'start_date' => '12/12/2025',
+            'end_date' => '31/12/2025',
+            'type' => 'online',
+        ];
+
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'message' => "Detail event dengan ID {$id} berhasil diambil",
+            'data' => $event,
+        ], 200);
+    }
 }
