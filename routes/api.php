@@ -46,5 +46,5 @@ Route::prefix('v1')->group(function () {
     Route::get('/merchants', [MerchantController::class, 'index']);
     Route::get('/merchants/{id}', [MerchantController::class, 'show']);
     Route::get('/events', [EventController::class, 'index']);
-    Route::get('/events/{id}', [EventController::class, 'index']);
+    Route::get('/events/{id}', [EventController::class, 'show']);
 });
