@@ -46,9 +46,9 @@ class EventController extends Controller
         $eventDetails = [
             '1' => [
                 'id' => 1,
-                'title' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                'title' => 'Event 1',
                 'timestamp' => '1 jam lalu',
-                'views' => 150,
+                'views' => 230,
                 'description' => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus.\n\nMaecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar.",
                 'bannerImage' => 'https://duckdumber.com/banerEventDetail.png',
                 'promo' => [
