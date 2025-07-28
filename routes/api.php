@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\v1\BookingServiceController;
 use App\Http\Controllers\Api\v1\EventController;
 use App\Http\Controllers\Api\v1\MerchantController;
 use App\Http\Controllers\Api\v1\MyMotorController;
+use App\Http\Controllers\Api\v1\NotificationController;
 use App\Http\Controllers\Api\v1\UserController;
 
 /*
@@ -47,4 +48,5 @@ Route::prefix('v1')->group(function () {
     Route::get('/merchants/{id}', [MerchantController::class, 'show']);
     Route::get('/events', [EventController::class, 'index']);
     Route::get('/events/{id}', [EventController::class, 'show']);
+    Route::get('/notifications', [NotificationController::class, 'index']);
 });
