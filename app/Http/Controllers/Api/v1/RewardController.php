@@ -58,6 +58,7 @@ class RewardController extends Controller
                 'image_url' => 'https://via.placeholder.com/300x150',
                 'description' => "Dapatkan voucher diskon 25% untuk pembelian di merchant A.",
                 'terms_conditions' => "Voucher ini berlaku untuk pembelian minimal Rp 100.000. Tidak dapat digabung dengan promo lain.",
+                'is_redeemable' => true,
             ],
         ];
 
