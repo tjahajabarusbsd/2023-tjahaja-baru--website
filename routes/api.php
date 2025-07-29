@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\v1\ProductController;
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\BookingServiceController;
 use App\Http\Controllers\Api\v1\EventController;
+use App\Http\Controllers\Api\v1\LoyaltyTierController;
 use App\Http\Controllers\Api\v1\MerchantController;
 use App\Http\Controllers\Api\v1\MyMotorController;
 use App\Http\Controllers\Api\v1\NotificationController;
@@ -57,4 +58,5 @@ Route::prefix('v1')->group(function () {
     Route::get('/voucher/{id}', [VoucherController::class, 'show']);
     Route::get('/rewards', [RewardController::class, 'index']);
     Route::get('/reward/{id}', [RewardController::class, 'show']);
+    Route::get('/loyalty-tiers', [LoyaltyTierController::class, 'index']);
 });
