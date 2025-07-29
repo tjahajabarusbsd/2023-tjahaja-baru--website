@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\v1\EventController;
 use App\Http\Controllers\Api\v1\MerchantController;
 use App\Http\Controllers\Api\v1\MyMotorController;
 use App\Http\Controllers\Api\v1\NotificationController;
+use App\Http\Controllers\Api\v1\RewardController;
 use App\Http\Controllers\Api\v1\UserController;
 use App\Http\Controllers\Api\v1\VoucherController;
 
@@ -54,4 +55,6 @@ Route::prefix('v1')->group(function () {
     Route::get('/activity', [ActivityController::class, 'index']);
     Route::get('/vouchers', [VoucherController::class, 'index']);
     Route::get('/voucher/{id}', [VoucherController::class, 'show']);
+    Route::get('/rewards', [RewardController::class, 'index']);
+    Route::get('/reward/{id}', [RewardController::class, 'show']);
 });
