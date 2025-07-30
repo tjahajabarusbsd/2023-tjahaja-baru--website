@@ -72,6 +72,7 @@ class GroupCrudController extends CrudController
         CRUD::field('category_id');
         CRUD::field('image')->type('image')->upload(true);
         CRUD::field('banner')->type('image')->upload(true);
+        CRUD::field('logo')->type('image')->upload(true);
         CRUD::field('price');
         CRUD::field('is_active');
         CRUD::field('created_at');
