@@ -18,7 +18,9 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'uri' => $this->uri,
             'image' => asset($this->image),
-            'logo' => "https://duckdumber.com/logoNmax1.png",
+            'logo' => !empty($this->logo)
+                ? asset($this->logo)
+                : 'https://duckdumber.com/logoNmax1.png',
             'name' => $this->name,
             'price' => $this->price,
         ];
