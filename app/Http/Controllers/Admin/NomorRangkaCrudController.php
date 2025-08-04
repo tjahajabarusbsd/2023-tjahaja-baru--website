@@ -20,7 +20,9 @@ class NomorRangkaCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitUpdate; }
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
+        update as traitUpdate;
+    }
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -68,9 +70,9 @@ class NomorRangkaCrudController extends CrudController
         CRUD::setValidation(NomorRangkaRequest::class);
 
         CRUD::field('nomor_rangka')->type('text')->attributes(['disabled' => 'disabled'])->label('Nomor Rangka');
-        CRUD::field('phone_number')->type('text')->attributes(['disabled' => 'disabled'])->label('Nomor Handphone');        
-        CRUD::field('ktp')->type('image')->upload(true)->disk('uploads')->prefix('ktp/');
-        CRUD::field('kk')->type('image')->upload(true)->disk('uploads')->prefix('kk/');
+        CRUD::field('phone_number')->type('text')->attributes(['disabled' => 'disabled'])->label('Nomor Handphone');
+        CRUD::field('ktp')->type('image')->upload(true);
+        CRUD::field('kk')->type('image')->upload(true);
         CRUD::field('status_verifikasi')->type('enum')->options([
             'pending' => 'Pending',
             'verified' => 'Verified',
@@ -130,7 +132,6 @@ class NomorRangkaCrudController extends CrudController
                 $entry->nama_model = null;
                 $entry->save();
             }
-
         }
         $response = $this->traitUpdate();
         return $response;
