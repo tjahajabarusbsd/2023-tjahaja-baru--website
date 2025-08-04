@@ -34,4 +34,9 @@ class UserPublic extends Authenticatable
     {
         return $this->hasOne(UserPublicProfile::class, 'user_public_id');
     }
+
+    public function nomorRangkas()
+    {
+        return $this->hasMany(NomorRangka::class, 'user_public_id');
+    }
 }
