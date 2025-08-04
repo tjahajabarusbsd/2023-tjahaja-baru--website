@@ -69,15 +69,29 @@ class MyMotorController extends Controller
             ], 422);
         }
 
-        $ktpPath = $request->file('ktp')->store('uploads/ktp', 'public');
-        $kkPath = $request->file('kk')->store('uploads/kk', 'public');
+        // Cek apakah nomor rangka sudah terdaftar
+        $existingMotor = NomorRangka::where('nomor_rangka', $request->nomor_rangka)
+            ->where('user_public_id', $user->id)
+            ->where('status_verifikasi', '!=', 'rejected')
+            ->first();
+        if ($existingMotor) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 409,
+                'message' => 'Motor dengan nomor rangka ini sudah terdaftar.',
+                'data' => null,
+            ], 409);
+        }
+
+        $ktpBase64 = 'data:' . $request->file('ktp')->getMimeType() . ';base64,' . base64_encode(file_get_contents($request->file('ktp')));
+        $kkBase64 = 'data:' . $request->file('kk')->getMimeType() . ';base64,' . base64_encode(file_get_contents($request->file('kk')));
 
         $nomorRangka = NomorRangka::create([
             'nomor_rangka' => $request->nomor_rangka,
             'phone_number' => $request->phone_number,
             'user_public_id' => $user->id,
-            'ktp' => $ktpPath,
-            'kk' => $kkPath,
+            'ktp' => $ktpBase64,
+            'kk' => $kkBase64,
             'status_verifikasi' => 'pending',
         ]);
 
