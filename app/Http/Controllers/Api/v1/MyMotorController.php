@@ -75,7 +75,7 @@ class MyMotorController extends Controller
         $nomorRangka = NomorRangka::create([
             'nomor_rangka' => $request->nomor_rangka,
             'phone_number' => $request->phone_number,
-            'user_id' => $user->id,
+            'user_public_id' => $user->id,
             'ktp' => $ktpPath,
             'kk' => $kkPath,
             'status_verifikasi' => 'pending',
@@ -115,7 +115,7 @@ class MyMotorController extends Controller
             ], 401);
         }
 
-        $getAllNomorRangka = NomorRangka::where('user_id', $user->id)->get();
+        $getAllNomorRangka = NomorRangka::where('user_public_id', $user->id)->get();
 
         if ($getAllNomorRangka->isEmpty()) {
             return response()->json([
