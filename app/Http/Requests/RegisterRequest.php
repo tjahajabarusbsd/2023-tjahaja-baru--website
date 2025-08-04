@@ -27,7 +27,7 @@ class RegisterRequest extends BaseRequest
                 'required',
                 'string',
                 'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
-                'unique:users,phone_number',
+                'unique:user_publics,phone_number',
             ],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'password_confirmation' => 'required|string|min:8',
