@@ -43,12 +43,12 @@ return [
 
         'api' => [
             'driver' => 'token',
-            'provider' => 'user_publics',
+            'provider' => 'users',
             'hash' => false,
         ],
 
         'user_public' => [
-            'driver' => 'session',
+            'driver' => 'sanctum',
             'provider' => 'user_publics', // Public user
         ],
     ],
