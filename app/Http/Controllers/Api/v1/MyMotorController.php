@@ -119,16 +119,15 @@ class MyMotorController extends Controller
     public function list()
     {
         $user = Auth::user();
-        // $user = Auth::guard('api')->user();
 
-        if (!$user) {
-            return response()->json([
-                'status' => 'error',
-                'code' => 401,
-                'message' => 'Unauthorized',
-                'data' => null,
-            ], 401);
-        }
+        // if (!$user) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'code' => 401,
+        //         'message' => 'Unauthorized',
+        //         'data' => null,
+        //     ], 401);
+        // }
 
         $getAllNomorRangka = NomorRangka::where('user_public_id', $user->id)->get();
 
@@ -186,9 +185,29 @@ class MyMotorController extends Controller
 
     public function getRiwayatServis($nomorRangka, $svsId)
     {
+        $user = Auth::user();
+
+        $motor = NomorRangka::where('nomor_rangka', $nomorRangka)
+            ->where('user_public_id', $user->id)
+            ->first();
+
+        if (!$motor) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 404,
+                'message' => 'Motor tidak ditemukan atau tidak terdaftar pada akun ini.',
+                'data' => null,
+            ], 404);
+        }
+
         $url_services = env('GET_URL_SERIVCES');
         $apiUrl = $url_services . "?id=" . $nomorRangka;
-        $response = Http::withoutVerifying()->get($apiUrl);
+        $secret = env('SECRET_RIWAYAT_SERVICE');
+        $now = date('Y_m_d');
+        $token = md5($now . $secret);
+        $response = Http::withoutVerifying()->withHeaders([
+            'X-XSRF-TOKEN' => $token
+        ])->get($apiUrl);
         $data = $response->json();
 
         if (!$data) {
