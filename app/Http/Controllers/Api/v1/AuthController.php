@@ -131,4 +131,16 @@ class AuthController extends Controller
             'updated_at' => now()->toISOString(),
         ]);
     }
+
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user) {
+            $user->tokens()->delete();
+            return ApiResponse::success('Logout berhasil');
+        }
+
+        return ApiResponse::error('User tidak ditemukan', 404);
+    }
 }
