@@ -35,12 +35,13 @@ Route::prefix('v1')->group(function () {
     Route::get('/products', [ProductController::class, 'index']); // public
     Route::get('/products/{id}', [ProductController::class, 'show']); // public
     Route::post('/products/order', [ProductController::class, 'order']); // nanti letakkan di middleware auth
-    Route::get('/services/{nomorRangka}/{svsId}', [MyMotorController::class, 'getRiwayatServis']); // nanti letakkan di middleware auth
 
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('auth:user_public')->group(function () {
         Route::get('/user', [UserController::class, 'profile']);
         Route::post('/motor-registration', [MyMotorController::class, 'register']);
         Route::get('/user-motor', [MyMotorController::class, 'list']);
+        Route::get('/services/{nomorRangka}/{svsId}', [MyMotorController::class, 'getRiwayatServis']);
+        Route::post('/logout', [AuthController::class, 'logout']);
     });
 
     Route::post('/register', [AuthController::class, 'register']);
