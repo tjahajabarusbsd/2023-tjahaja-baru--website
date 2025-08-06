@@ -119,6 +119,7 @@ class MyMotorController extends Controller
     public function list()
     {
         $user = Auth::user();
+        // $user = Auth::guard('api')->user();
 
         if (!$user) {
             return response()->json([
@@ -143,11 +144,15 @@ class MyMotorController extends Controller
         $url_services = env('GET_URL_SERIVCES');
 
         $registeredMotors = $getAllNomorRangka->map(function ($item) use ($url_services) {
-            // Buat URL dengan nomor rangka
             $apiUrl = $url_services . "?id=" . $item->nomor_rangka;
+            $secret = env('SECRET_RIWAYAT_SERVICE');
+            $now = date('Y_m_d');
+            $token = md5($now . $secret);
 
             // Request ke API eksternal
-            $response = Http::withoutVerifying()->get($apiUrl);
+            $response = Http::withoutVerifying()->withHeaders([
+                'X-XSRF-TOKEN' => $token
+            ])->get($apiUrl);
             $data = $response->json();
 
             // Ambil data dari respons API dan format ulang
