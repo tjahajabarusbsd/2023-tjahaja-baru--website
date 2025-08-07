@@ -10,39 +10,32 @@ use App\Models\GroupProductSpec;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $data = Cache::rememberForever('products_catalog', function () {
-            $defaultCategory = Category::where('name', 'like', '%maxi%')->first();
+        $defaultCategory = Category::where('name', 'like', '%maxi%')->first();
 
-            $categories = Category::with(['groups' => function ($query) {
-                $query->where('is_active', 1);
-            }])->get();
+        $categories = Category::with(['groups' => function ($query) {
+            $query->where('is_active', 1);
+        }])->get();
 
-            return [
-                'status' => 'success',
-                'code' => 200,
-                'message' => 'Produk berhasil diambil',
-                'data' => [
-                    'default_category' => $defaultCategory ? strtolower($defaultCategory->name) : null,
-                    'categories' => $categories->map(function ($category) {
-                        return [
-                            'id' => strtolower($category->id),
-                            'category' => $category->name,
-                            'products' => ProductResource::collection($category->groups)->resolve()
-                        ];
-                    })->values()
-                ]
-            ];
-        });
-
-        $data = Cache::get('products_catalog');
-
-        return response()->json($data);
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Produk berhasil diambil',
+            'data' => [
+                'default_category' => $defaultCategory ? strtolower($defaultCategory->name) : null,
+                'categories' => $categories->map(function ($category) {
+                    return [
+                        'id' => strtolower($category->id),
+                        'category' => $category->name,
+                        'products' => ProductResource::collection($category->groups)->resolve()
+                    ];
+                })->values()
+            ]
+        ]);
     }
 
     public function show($id, Request $request)
