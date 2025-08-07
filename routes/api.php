@@ -44,7 +44,8 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::middleware('auth:user_public')->group(function () {
-        Route::get('/user', [UserController::class, 'profile']);
+        Route::get('/user', [UserController::class, 'getUser']);
+        Route::get('/account/profile', [UserController::class, 'getAccount']);
         Route::post('/motor-registration', [MyMotorController::class, 'register']);
         Route::get('/user-motor', [MyMotorController::class, 'list']);
         Route::get('/services/{nomorRangka}/{svsId}', [MyMotorController::class, 'getRiwayatServis']);
