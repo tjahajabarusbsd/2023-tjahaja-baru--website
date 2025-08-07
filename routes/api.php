@@ -32,9 +32,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::get('/products', [ProductController::class, 'index']); // public
-    Route::get('/products/{id}', [ProductController::class, 'show']); // public
     Route::post('/products/order', [ProductController::class, 'order']); // nanti letakkan di middleware auth
+
+    Route::middleware('throttle:60,1')->group(function () {
+        Route::get('/products', [ProductController::class, 'index']);
+        Route::get('/products/{id}', [ProductController::class, 'show']);
+        Route::get('/merchants', [MerchantController::class, 'index']);
+        Route::get('/merchants/{id}', [MerchantController::class, 'show']);
+        Route::get('/events', [EventController::class, 'index']);
+        Route::get('/events/{id}', [EventController::class, 'show']);
+    });
 
     Route::middleware('auth:user_public')->group(function () {
         Route::get('/user', [UserController::class, 'profile']);
@@ -42,6 +49,13 @@ Route::prefix('v1')->group(function () {
         Route::get('/user-motor', [MyMotorController::class, 'list']);
         Route::get('/services/{nomorRangka}/{svsId}', [MyMotorController::class, 'getRiwayatServis']);
         Route::post('/logout', [AuthController::class, 'logout']);
+        Route::get('/notifications', [NotificationController::class, 'index']);
+        Route::get('/activity', [ActivityController::class, 'index']);
+        Route::get('/vouchers', [VoucherController::class, 'index']);
+        Route::get('/voucher/{id}', [VoucherController::class, 'show']);
+        Route::get('/rewards', [RewardController::class, 'index']);
+        Route::get('/reward/{id}', [RewardController::class, 'show']);
+        Route::get('/loyalty-tiers', [LoyaltyTierController::class, 'index']);
     });
 
     Route::post('/register', [AuthController::class, 'register']);
@@ -52,15 +66,4 @@ Route::prefix('v1')->group(function () {
 
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);
     Route::post('/booking-servis', [BookingServiceController::class, 'store']);
-    Route::get('/merchants', [MerchantController::class, 'index']);
-    Route::get('/merchants/{id}', [MerchantController::class, 'show']);
-    Route::get('/events', [EventController::class, 'index']);
-    Route::get('/events/{id}', [EventController::class, 'show']);
-    Route::get('/notifications', [NotificationController::class, 'index']);
-    Route::get('/activity', [ActivityController::class, 'index']);
-    Route::get('/vouchers', [VoucherController::class, 'index']);
-    Route::get('/voucher/{id}', [VoucherController::class, 'show']);
-    Route::get('/rewards', [RewardController::class, 'index']);
-    Route::get('/reward/{id}', [RewardController::class, 'show']);
-    Route::get('/loyalty-tiers', [LoyaltyTierController::class, 'index']);
 });
