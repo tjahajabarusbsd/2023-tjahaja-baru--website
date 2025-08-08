@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\v1\LoyaltyTierController;
 use App\Http\Controllers\Api\v1\MerchantController;
 use App\Http\Controllers\Api\v1\MyMotorController;
 use App\Http\Controllers\Api\v1\NotificationController;
+use App\Http\Controllers\Api\v1\OnboardingController;
 use App\Http\Controllers\Api\v1\OtpController;
 use App\Http\Controllers\Api\v1\RewardController;
 use App\Http\Controllers\Api\v1\UserController;
@@ -35,6 +36,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/products/order', [ProductController::class, 'order']); // nanti letakkan di middleware auth
 
     Route::middleware('throttle:60,1')->group(function () {
+        Route::get('/onboarding', [OnboardingController::class, 'index']);
         Route::get('/products', [ProductController::class, 'index']);
         Route::get('/products/{id}', [ProductController::class, 'show']);
         Route::get('/merchants', [MerchantController::class, 'index']);
