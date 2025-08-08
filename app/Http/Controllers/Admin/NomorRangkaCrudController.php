@@ -108,7 +108,14 @@ class NomorRangkaCrudController extends CrudController
             $nomorRangka = $entry->nomor_rangka;
             $url_services = env('GET_URL_SERIVCES');
             $apiUrl = $url_services . "?id=" . $nomorRangka;
-            $response = Http::withoutVerifying()->get($apiUrl);
+            $secret = env('SECRET_RIWAYAT_SERVICE');
+            $now = date('Y_m_d');
+            $token = md5($now . $secret);
+
+            // Request ke API eksternal
+            $response = Http::withoutVerifying()->withHeaders([
+                'X-XSRF-TOKEN' => $token
+            ])->get($apiUrl);
             $data = $response->json();
 
             // Jika data tidak ditemukan, kembalikan error
