@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
+use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ActivityController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+
+        if (!$user) {
+            return ApiResponse::error('Unauthorized', 401);
+        }
+
         $activity = [
             [
                 "id" => 1,
