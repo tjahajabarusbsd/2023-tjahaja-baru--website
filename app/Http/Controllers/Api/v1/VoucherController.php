@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -9,6 +10,12 @@ class VoucherController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+
+        if (!$user) {
+            return ApiResponse::error('Unauthorized', 401);
+        }
+
         $voucher = [
             [
                 "id" => (string) 1,
