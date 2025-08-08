@@ -40,9 +40,9 @@ class UserController extends Controller
             'name'          => (string) $user->name,
             'email'         => (string) $user->email,
             'no_handphone'  => (string) $user->phone_number,
-            'jenis_kelamin' => $user->profile->jenis_kelamin ?? null,
-            'tanggal_lahir' => $user->profile->tgl_lahir ?? null,
-            'foto_profil'   => $user->profile->foto_profil ?? null,
+            'jenis_kelamin' => $user->profile->jenis_kelamin ?? '',
+            'tanggal_lahir' => $user->profile->tgl_lahir ?? '',
+            'foto_profil'   => $user->profile->foto_profil ?? '',
             'membership'    => $membership,
         ]);
     }
