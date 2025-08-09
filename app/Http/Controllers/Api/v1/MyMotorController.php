@@ -272,7 +272,7 @@ class MyMotorController extends Controller
             $partTerpakai[] = [
                 'nama_part' => $partName,
                 'jumlah' => (int) ($partQtyList[$index] ?? 0),
-                'harga_satuan' => (int) ($partHargaList[$index] ?? 0),
+                'harga_total' => (int) (($partHargaList[$index] ?? 0) * ($partQtyList[$index] ?? 0)),
             ];
         }
 
