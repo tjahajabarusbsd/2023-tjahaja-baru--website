@@ -14,13 +14,13 @@ class ApiResponse
         ], $code);
     }
 
-    public static function error($message = 'Error', $code = 400, $data = null)
+    public static function error($message = 'Error', $code = 400, $data = [])
     {
         return response()->json([
             'status' => 'error',
             'code' => $code,
             'message' => $message,
-            'data' => $data,
+            'data' => $data ?? [],
         ], $code);
     }
 }
