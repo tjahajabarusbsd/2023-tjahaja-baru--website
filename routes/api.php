@@ -59,6 +59,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/rewards', [RewardController::class, 'index']);
         Route::get('/reward/{id}', [RewardController::class, 'show']);
         Route::get('/loyalty-tiers', [LoyaltyTierController::class, 'index']);
+        Route::post('/booking-servis', [BookingServiceController::class, 'store']);
     });
 
     Route::post('/register', [AuthController::class, 'register']);
@@ -68,5 +69,4 @@ Route::prefix('v1')->group(function () {
     Route::post('/send-otp', [OtpController::class, 'sendOtp']);
 
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);
-    Route::post('/booking-servis', [BookingServiceController::class, 'store']);
 });

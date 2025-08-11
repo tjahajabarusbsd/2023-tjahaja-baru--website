@@ -3,67 +3,50 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\BookingService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Helpers\ApiResponse;
+use App\Models\NomorRangka;
 
 class BookingServiceController extends Controller
 {
-    public function index()
-    {
-        // Logic to list all booking services
-        return response()->json(['message' => 'List of booking services']);
-    }
-    public function show($id)
-    {
-        // Logic to show a specific booking service by ID
-        return response()->json(['message' => 'Booking service details for ID: ' . $id]);
-    }
     public function store(Request $request)
     {
-        // Validasi input
-        // $request->validate([
-        //     'motor_id'  => 'required|string|exists:motors,id',
-        //     'dealer_id' => 'required|string|exists:dealers,id',
-        //     'tanggal'   => 'required|date|after_or_equal:today',
-        //     'jam'       => 'required|date_format:H:i',
-        // ]);
+        $user = Auth::user();
 
-        // Simpan data booking
-        // $booking = \App\Models\BookingServis::create([
-        //     'motor_id'  => $request->motor_id,
-        //     'dealer_id' => $request->dealer_id,
-        //     'tanggal'   => $request->tanggal,
-        //     'jam'       => $request->jam,
-        // ]);
+        if (!$user) {
+            return ApiResponse::error('Unauthorized', 401);
+        }
 
-        // Buat kode booking seperti bkg001
-        // $booking->kode_booking = 'bkg' . str_pad($booking->id, 3, '0', STR_PAD_LEFT);
-        // $booking->save();
+        $request->validate([
+            'motor_id'  => 'required|exists:nomor_rangkas,id',
+            'dealer_id' => 'required|integer',
+            'tanggal'   => 'required|date',
+            'jam'       => 'required',
+        ]);
+
+        $motor = NomorRangka::where('id', $request->motor_id)
+            ->where('user_public_id', $user->id)
+            ->first();
+
+        if (!$motor) {
+            return ApiResponse::error('Motor ini tidak terdaftar atas nama Anda.', 403);
+        }
+
         $booking_id = 'bkg' . rand(100, 999);
 
-        // Kembalikan response
-        // return response()->json([
-        //     'status'  => 'success',
-        //     'code'    => 200,
-        //     'message' => 'Booking berhasil diproses. Kami akan segera menghubungi Anda untuk langkah selanjutnya.',
-        //     'data'    => [
-        //         'booking_id' => $booking->kode_booking,
-        //         'motor_id'   => $booking->motor_id,
-        //         'dealer_id'  => $booking->dealer_id,
-        //         'tanggal'    => $booking->tanggal,
-        //         'jam'        => $booking->jam,
-        //     ]
-        // ], 200);
-        return response()->json([
-            'status'  => 'success',
-            'code'    => 200,
-            'message' => 'Booking berhasil diproses. Kami akan segera menghubungi Anda untuk langkah selanjutnya.',
-            'data'    => [
-                'booking_id' => $booking_id,
-                'motor_id'   => $request->motor_id,
-                'dealer_id'  => $request->dealer_id,
-                'tanggal'    => $request->tanggal,
-                'jam'        => $request->jam,
-            ]
-        ], 200);
+        $booking = BookingService::create([
+            'user_id'    => $user->id,
+            'motor_id'   => $request->motor_id,
+            'booking_id' => $booking_id,
+            'dealer_id'  => $request->dealer_id,
+            'tanggal'    => $request->tanggal,
+            'jam'        => $request->jam,
+        ]);
+
+        return ApiResponse::success('Booking berhasil diproses. Kami akan segera menghubungi Anda.', [
+            'data'    => $booking
+        ]);
     }
 }
