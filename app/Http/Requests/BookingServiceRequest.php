@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class BookingServiseRequest extends BaseRequest
+class BookingServiceRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
