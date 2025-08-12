@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class BookingService extends Model
 {
+    use CrudTrait;
     use HasFactory;
 
     protected $fillable = [
@@ -16,6 +18,7 @@ class BookingService extends Model
         'dealer_id',
         'tanggal',
         'jam',
+        'status',
     ];
 
     public function user()
