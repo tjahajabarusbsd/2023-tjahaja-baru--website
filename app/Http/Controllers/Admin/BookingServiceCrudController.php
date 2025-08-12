@@ -52,6 +52,7 @@ class BookingServiceCrudController extends CrudController
         CRUD::column('dealer_id');
         CRUD::column('tanggal');
         CRUD::column('jam');
+        CRUD::column('status');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
