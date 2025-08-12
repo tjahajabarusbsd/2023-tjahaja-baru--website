@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Helpers\ApiResponse;
 use App\Models\BookingService;
 use App\Models\NomorRangka;
-use App\Http\Requests\BookingServiseRequest;
+use App\Http\Requests\BookingServiceRequest;
 
 class BookingServiceController extends Controller
 {
-    public function store(BookingServiseRequest $request)
+    public function store(BookingServiceRequest $request)
     {
         $user = Auth::user();
 
