@@ -3,28 +3,21 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Models\BookingService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\ApiResponse;
+use App\Models\BookingService;
 use App\Models\NomorRangka;
+use App\Http\Requests\BookingServiseRequest;
 
 class BookingServiceController extends Controller
 {
-    public function store(Request $request)
+    public function store(BookingServiseRequest $request)
     {
         $user = Auth::user();
 
         if (!$user) {
             return ApiResponse::error('Unauthorized', 401);
         }
-
-        $request->validate([
-            'motor_id'  => 'required|exists:nomor_rangkas,id',
-            'dealer_id' => 'required|integer',
-            'tanggal'   => 'required|date',
-            'jam'       => 'required',
-        ]);
 
         $motor = NomorRangka::where('id', $request->motor_id)
             ->where('user_public_id', $user->id)
@@ -34,7 +27,8 @@ class BookingServiceController extends Controller
             return ApiResponse::error('Motor ini tidak terdaftar atas nama Anda.', 403);
         }
 
-        $booking_id = 'bkg' . rand(100, 999);
+        // Generate booking ID unik
+        $booking_id = 'bkg-' . time() . rand(100, 999);
 
         $booking = BookingService::create([
             'user_id'    => $user->id,
@@ -45,8 +39,6 @@ class BookingServiceController extends Controller
             'jam'        => $request->jam,
         ]);
 
-        return ApiResponse::success('Booking berhasil diproses. Kami akan segera menghubungi Anda.', [
-            'data'    => $booking
-        ]);
+        return ApiResponse::success('Booking berhasil diproses. Kami akan segera menghubungi Anda.', $booking);
     }
 }
