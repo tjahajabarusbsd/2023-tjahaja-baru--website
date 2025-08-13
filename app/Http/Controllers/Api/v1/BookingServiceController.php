@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Helpers\ApiResponse;
 use App\Models\BookingService;
 use App\Models\NomorRangka;
+use App\Models\ActivityLog;
 use App\Http\Requests\BookingServiceRequest;
 
 class BookingServiceController extends Controller
@@ -37,6 +38,19 @@ class BookingServiceController extends Controller
             'dealer_id'  => $request->dealer_id,
             'tanggal'    => $request->tanggal,
             'jam'        => $request->jam,
+        ]);
+
+
+        // Simpan ke activity log
+        ActivityLog::create([
+            'user_public_id'    => $user->id,
+            'source_type'       => BookingService::class,
+            'source_id'         => $booking->id,
+            'type'              => 'services',
+            'title'             => 'Servis telah dipesan',
+            'description'       => 'Booking servis untuk motor ' . $motor->nomor_rangka,
+            'points'            => 0, // belum dapat poin karena belum completed
+            'activity_date'     => now(),
         ]);
 
         return ApiResponse::success('Booking berhasil diproses. Kami akan segera menghubungi Anda.', $booking);
