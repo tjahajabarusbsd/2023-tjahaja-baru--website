@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Helpers\ApiResponse;
-use Illuminate\Http\Request;
+use App\Models\ActivityLog;
 use App\Http\Controllers\Controller;
 
 class ActivityController extends Controller
@@ -16,46 +16,25 @@ class ActivityController extends Controller
             return ApiResponse::error('Unauthorized', 401);
         }
 
-        $activity = [
-            [
-                "id" => 1,
-                "type" => "redeem",
-                "title" => "Redeem",
-                "description" => "25% discount voucher",
-                "date" => "Today, 1 Dec 2025",
-                "points" => "-2500"
-            ],
-            [
-                "id" => 2,
-                "type" => "services",
-                "title" => "Servis telah dipesan",
-                "description" => "",
-                "date" => "28 November 2025",
-                "points" => ""
-            ],
-            [
-                "id" => 3,
-                "type" => "referral",
-                "title" => "Invite Friends",
-                "description" => "Referral code",
-                "date" => "Today, 1 Dec 2025",
-                "points" => "+500"
-            ],
-            [
-                "id" => 4,
-                "type" => "scan",
-                "title" => "Scan QR Code",
-                "description" => "QR code touring",
-                "date" => "Today, 1 Dec 2025",
-                "points" => "+500"
-            ]
-        ];
+        // Ambil log dari database untuk user ini
+        $activityLogs = ActivityLog::where('user_public_id', $user->id)
+            ->orderBy('activity_date', 'desc')
+            ->get()
+            ->map(function ($log) {
+                return [
+                    'id'          => $log->id,
+                    'type'        => $log->type,
+                    'title'       => $log->title,
+                    'description' => $log->description ?? '',
+                    'date' => $log->activity_date
+                        ? \Carbon\Carbon::parse($log->activity_date)->format('d M Y')
+                        : null,
+                    'points'      => $log->points > 0
+                        ? '+' . $log->points
+                        : (string) $log->points
+                ];
+            });
 
-        return response()->json([
-            "status" => "success",
-            "code" => 200,
-            "message" => "Riwayat aktivitas poin berhasil dimuat",
-            "data" => $activity
-        ]);
+        return ApiResponse::success('Daftar aktivitas berhasil diambil.', $activityLogs);
     }
 }
