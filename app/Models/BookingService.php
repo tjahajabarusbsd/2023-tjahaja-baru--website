@@ -21,6 +21,11 @@ class BookingService extends Model
         'status',
     ];
 
+    public function dealer()
+    {
+        return $this->belongsTo(Dealer::class, 'dealer_id');
+    }
+
     public function user()
     {
         return $this->belongsTo(UserPublic::class, 'user_id');
