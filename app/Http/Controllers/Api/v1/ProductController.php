@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderMotorRequest;
 use App\Models\Category;
 use App\Models\Group;
 use App\Models\Variant;
 use App\Models\GroupProductSpec;
 use App\Http\Resources\ProductResource;
+use App\Models\OrderMotor;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -197,40 +201,36 @@ class ProductController extends Controller
         // ], 200);
     }
 
-    public function order(Request $request)
+    public function order(OrderMotorRequest $request)
     {
-        // Validasi input
-        $validated = $request->validate([
-            'model' => 'required|string',
-            'warna' => 'required|string',
-            'tipe_pembayaran' => 'required|in:Cash,Kredit',
-            'setuju_dihubungi' => 'required|string',
-        ]);
+        $user = auth()->user();
+
+        if (!$user) {
+            return ApiResponse::error('Unauthorized', 401);
+        }
+
+        // Tanggal hari ini
+        $today = Carbon::now()->format('Ymd');
+
+        // Hitung order hari ini
+        $countToday = OrderMotor::whereDate('created_at', Carbon::today())->count() + 1;
+
+        // Format order_id: ORD-YYYYMMDD-00001
+        $orderId = sprintf("ORD-%s-%05d", $today, $countToday);
 
         // Simpan ke database
-        // $order = Order::create([
-        //     'model' => $validated['model'],
-        //     'warna' => $validated['warna'],
-        //     'tipe_pembayaran' => $validated['tipe_pembayaran'],
-        //     'setuju_dihubungi' => $validated['setuju_dihubungi'],
-        //     'status_pesanan' => 'processing',
-        // ]);
+        $orderMotor = OrderMotor::create([
+            'order_id'        => $orderId,
+            'user_public_id'  => $user->id,
+            'model'           => $request->model,
+            'warna'           => $request->warna,
+            'tipe_pembayaran' => $request->tipe_pembayaran,
+            'status'          => 'pending',
+        ]);
 
-        $orderId = Str::uuid()->toString();
-
-        // Response JSON
-        return response()->json([
-            'status' => 'success',
-            'code' => 200,
-            'message' => 'Pesanan berhasil diproses',
-            'data' => [[
-                'id' => (string) $orderId,
-                'model' => $request->model,
-                'warna' => $request->warna,
-                'tipe_pembayaran' => $request->tipe_pembayaran,
-                'setuju_dihubungi' => (string) $request->setuju_dihubungi,
-                'status_pesanan' => 'processing',
-            ]]
-        ], 200);
+        return ApiResponse::success(
+            'Pesanan berhasil diproses',
+            $orderMotor
+        );
     }
 }
