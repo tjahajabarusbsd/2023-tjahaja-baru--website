@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\ProductController;
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\BookingServiceController;
+use App\Http\Controllers\Api\v1\DealerController;
 use App\Http\Controllers\Api\v1\EventController;
 use App\Http\Controllers\Api\v1\LoyaltyTierController;
 use App\Http\Controllers\Api\v1\MerchantController;
@@ -43,6 +44,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/merchants/{id}', [MerchantController::class, 'show']);
         Route::get('/events', [EventController::class, 'index']);
         Route::get('/events/{id}', [EventController::class, 'show']);
+        Route::get('/dealers', [DealerController::class, 'index']);
     });
 
     Route::middleware('auth:user_public')->group(function () {
