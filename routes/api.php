@@ -34,7 +34,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::post('/products/order', [ProductController::class, 'order']); // nanti letakkan di middleware auth
 
     Route::middleware('throttle:60,1')->group(function () {
         Route::get('/onboarding', [OnboardingController::class, 'index']);
@@ -48,6 +47,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::middleware('auth:user_public')->group(function () {
+        Route::post('/products/order', [ProductController::class, 'order']); // nanti letakkan di middleware auth
         Route::get('/user', [UserController::class, 'getUser']);
         Route::get('/account/profile', [UserController::class, 'getAccount']);
         Route::post('/motor-registration', [MyMotorController::class, 'register']);
