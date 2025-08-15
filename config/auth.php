@@ -36,17 +36,20 @@ return [
     */
 
     'guards' => [
+        // Guard untuk web
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
 
+        // Guard API untuk admin/user web
         'api' => [
-            'driver' => 'token',
+            'driver' => 'token', // atau sanctum
             'provider' => 'users',
             'hash' => false,
         ],
 
+        // Guard API untuk user public
         'user_public' => [
             'driver' => 'sanctum',
             'provider' => 'user_publics', // Public user
