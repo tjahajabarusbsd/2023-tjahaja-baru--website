@@ -42,3 +42,4 @@
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('consultation') }}"><i class="nav-icon las la-file-alt"></i> Consultations</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('nomor-rangka') }}"><i class="nav-icon la la-question"></i> Nomor Rangka</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('booking-service') }}"><i class="nav-icon la la-question"></i> Booking services</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('event') }}"><i class="nav-icon la la-question"></i> Events</a></li>
