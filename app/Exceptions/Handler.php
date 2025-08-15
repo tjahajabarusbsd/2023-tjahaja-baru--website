@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use App\Helpers\ApiResponse;
+use Illuminate\Auth\AuthenticationException;
 
 class Handler extends ExceptionHandler
 {
@@ -51,5 +53,16 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         return parent::render($request, $exception);
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        // Kalau request mengharapkan JSON (API)
+        if ($request->expectsJson() || $request->is('api/*')) {
+            return ApiResponse::error('Unauthorized', 401);
+        }
+
+        // Kalau request web biasa, tetap redirect ke login
+        return redirect()->guest(route('login'));
     }
 }
