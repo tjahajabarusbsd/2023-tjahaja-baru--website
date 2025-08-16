@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UserUpdateRequest;
-use App\Http\Requests\SaveNoRangkaRequest ;
+use App\Http\Requests\SaveNoRangkaRequest;
 use App\Models\NomorRangka;
 use App\Models\MasterPart;
 use App\Models\Spec;
@@ -21,7 +21,7 @@ class UserProfileController extends Controller
         $apiUrl = $url_services . "?id=" . $nomorRangka;
         $response = Http::withoutVerifying()->get($apiUrl);
         $data = $response->json();
-        
+
         if (!$data) {
             throw new \Exception('Riwayat servis tidak ditemukan.');
         }
@@ -52,7 +52,7 @@ class UserProfileController extends Controller
     public function getUserProfile(Request $request, $nomorRangka = null)
     {
         $user = Auth::user();
-        $getAllNomorRangka = NomorRangka::where('user_id', $user->id)->get();
+        $getAllNomorRangka = NomorRangka::where('user_public_id', $user->id)->get();
         $specList = Spec::orderBy('name')->distinct('name')->get();
 
         try {
@@ -69,7 +69,7 @@ class UserProfileController extends Controller
                 $nomorRangka = $getNomorRangka->nomor_rangka;
                 if ($nomorRangka) {
                     $data = $this->getRiwayatServis($nomorRangka);
-                    
+
                     return view('users.details', compact('data', 'user', 'nomorRangka', 'getAllNomorRangka', 'specList'));
                 } else {
                     throw new \Exception('Nomor rangka tidak ditemukan.');
@@ -103,11 +103,11 @@ class UserProfileController extends Controller
         try {
             $data = $this->getRiwayatServis($nomorRangka);
 
-            $pdf = PDF::loadview('users/riwayat-servis-view',['riwayat'=>$data]);
+            $pdf = PDF::loadview('users/riwayat-servis-view', ['riwayat' => $data]);
             return $pdf->stream('laporan-riwayat-servis.pdf');
         } catch (\Exception $e) {
             $message = $e->getMessage();
-            
+
             return view('users.details', compact('user', 'nomorRangka'));
         }
     }
@@ -116,7 +116,7 @@ class UserProfileController extends Controller
     {
         // Get the authenticated user
         $user = $request->user();
-        
+
         // Fill the user model with the validated data
         $user->fill($request->validated());
 
