@@ -47,13 +47,13 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::middleware('auth:user_public')->group(function () {
-        Route::post('/products/order', [ProductController::class, 'order']); // nanti letakkan di middleware auth
         Route::get('/user', [UserController::class, 'getUser']);
         Route::get('/account/profile', [UserController::class, 'getAccount']);
+        Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/motor-registration', [MyMotorController::class, 'register']);
         Route::get('/user-motor', [MyMotorController::class, 'list']);
         Route::get('/services/{nomorRangka}/{svsId}', [MyMotorController::class, 'getRiwayatServis']);
-        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/products/order', [ProductController::class, 'order']);
         Route::get('/notifications', [NotificationController::class, 'index']);
         Route::get('/activity', [ActivityController::class, 'index']);
         Route::get('/vouchers', [VoucherController::class, 'index']);
