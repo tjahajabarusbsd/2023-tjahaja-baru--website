@@ -38,11 +38,14 @@ Route::get('/consultation', [RedirectController::class, 'redirectToContact']);
 Route::get('/', [HomeController::class, 'getData'])->name('home');
 Route::get('/dealers', [DealerController::class, 'getDealer']);
 Route::get('/profile', function () {
-    return view('/about-us'); });
+    return view('/about-us');
+});
 Route::get('/myyamaha', function () {
-    return view('myyamaha'); });
+    return view('myyamaha');
+});
 Route::get('/promo', function () {
-    return view('promo'); });
+    return view('promo');
+});
 // --- End Page Section --- 
 
 // --- Product Section --- 
@@ -76,7 +79,8 @@ Route::get('/get_spec_details/{id}', [ComparisonController::class, 'getSpecDetai
 
 // --- Personality Quiz Section
 Route::get('/kuis', function () {
-    return view('/quiz'); });
+    return view('/quiz');
+});
 Route::post('/submit-quiz/', [PersonalityController::class, 'submitQuiz']);
 // --- End Personality Quiz Section
 
@@ -123,5 +127,4 @@ if (env('APP_ENV') == 'local') {
     Route::get('/auth/redirect', [LoginController::class, 'redirectToGoogle']);
 
     Route::get('/auth/callback', [LoginController::class, 'handleGoogleCallback']);
-
 }
