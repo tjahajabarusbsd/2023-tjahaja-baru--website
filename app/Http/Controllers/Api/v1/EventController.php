@@ -43,10 +43,10 @@ class EventController extends Controller
         $event->increment('views');
 
         $eventDetails = [
-            'id' => (string) $event->id,
+            'id' => $event->id,
             'title' => $event->name,
             'timestamp' => $event->created_at
-                ? $event->created_at->diffForHumans()
+                ? $event->created_at->locale('id')->diffForHumans()
                 : '',
             'views' => $event->views ?? 0,
             'description' => $event->description,
