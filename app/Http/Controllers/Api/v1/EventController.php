@@ -19,9 +19,7 @@ class EventController extends Controller
                 'id' => (string) $event->id,
                 'title' => $event->name,
                 'description' => Str::limit(strip_tags($event->description), 100, '...'),
-                'image' => $event->image
-                    ? asset('storage/' . $event->image)
-                    : '',
+                'image' => asset($event->image),
                 'start_date' => $event->start_date
                     ? $event->start_date->format('d/m/Y')
                     : '',
