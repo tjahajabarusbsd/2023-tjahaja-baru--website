@@ -9,8 +9,9 @@ use App\Models\Category;
 use App\Models\Group;
 use App\Models\Variant;
 use App\Models\GroupProductSpec;
-use App\Http\Resources\ProductResource;
+use App\Models\ActivityLog;
 use App\Models\OrderMotor;
+use App\Http\Resources\ProductResource;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -205,10 +206,6 @@ class ProductController extends Controller
     {
         $user = auth()->user();
 
-        if (!$user) {
-            return ApiResponse::error('Unauthorized', 401);
-        }
-
         // Tanggal hari ini
         $today = Carbon::now()->format('Ymd');
 
@@ -226,6 +223,18 @@ class ProductController extends Controller
             'warna'           => $request->warna,
             'tipe_pembayaran' => $request->tipe_pembayaran,
             'status'          => 'pending',
+        ]);
+
+        // Simpan ke activity log
+        ActivityLog::create([
+            'user_public_id'    => $user->id,
+            'source_type'       => OrderMotor::class,
+            'source_id'         => $orderMotor->id,
+            'type'              => 'products',
+            'title'             => 'Pesanan motor telah dibuat',
+            'description'       => 'Pesan motor untuk model ' . $orderMotor->model,
+            'points'            => 0, // belum dapat poin karena belum completed
+            'activity_date'     => now(),
         ]);
 
         return ApiResponse::success(
