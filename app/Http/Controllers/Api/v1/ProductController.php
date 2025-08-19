@@ -225,6 +225,8 @@ class ProductController extends Controller
             'status'          => 'pending',
         ]);
 
+        $orderMotor->setAttribute('setuju_dihubungi', (string) $request->setuju_dihubungi);
+
         // Simpan ke activity log
         ActivityLog::create([
             'user_public_id'    => $user->id,
