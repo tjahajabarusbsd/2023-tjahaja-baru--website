@@ -12,10 +12,6 @@ class ActivityController extends Controller
     {
         $user = auth()->user();
 
-        if (!$user) {
-            return ApiResponse::error('Unauthorized', 401);
-        }
-
         // Ambil log dari database untuk user ini
         $activityLogs = ActivityLog::where('user_public_id', $user->id)
             ->orderBy('activity_date', 'desc')
