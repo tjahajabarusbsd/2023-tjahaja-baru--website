@@ -51,7 +51,13 @@ class BookingServiceCrudController extends CrudController
             'attribute' => 'name',
             'model' => "App\Models\UserPublic",
         ]);
-        CRUD::column('motor_id');
+        CRUD::addColumn([
+            'label' => 'Nomor Handphone',
+            'entity' => 'user',
+            'attribute' => 'phone_number',
+            'model' => "App\Models\UserPublic",
+        ]);
+        CRUD::column('motor_id')->label('Nomor Rangka');
         CRUD::addColumn([
             'label'     => 'Dealer',
             'entity'    => 'dealer',
@@ -64,6 +70,8 @@ class BookingServiceCrudController extends CrudController
 
         // Hilangkan tombol preview
         CRUD::denyAccess('show');
+        CRUD::denyAccess('create');
+        CRUD::denyAccess('delete');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
