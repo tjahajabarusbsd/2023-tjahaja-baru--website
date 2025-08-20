@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\BookingServiceCRUDRequest;
+use App\Models\ActivityLog;
+use App\Models\BookingService;
+use App\Models\UserPublicProfile;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -18,6 +21,9 @@ class BookingServiceCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
+        update as traitUpdate;
+    }
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -150,5 +156,38 @@ class BookingServiceCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function update()
+    {
+        $response = $this->traitUpdate();
+
+        $booking = $this->crud->entry;
+
+        // cek kalau status berubah jadi completed
+        if ($booking->status === 'completed') {
+            // cari activity log berdasarkan booking ini
+            $activityLog = ActivityLog::where('source_type', BookingService::class)
+                ->where('source_id', $booking->id)
+                ->first();
+
+            if ($activityLog) {
+                // misal rule: booking completed = 100 poin
+                $points = 100;
+
+                // update poin di activity log
+                $activityLog->points = $points;
+                $activityLog->save();
+
+                // tambahkan total_points di user_public_profiles
+                $user = UserPublicProfile::find($booking->user_id);
+                if ($user) {
+                    $user->total_points += $points;
+                    $user->save();
+                }
+            }
+        }
+
+        return $response;
     }
 }
