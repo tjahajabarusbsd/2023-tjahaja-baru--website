@@ -96,12 +96,12 @@ class MyMotorController extends Controller
             }
 
             return [
-                'motor_id'          => (string) $item->id ?? '',
-                'nama_model'        => (string) $item->nama_model ?? '',
-                'nomor_plat'        => (string) $item->nomor_plat ?? '',
-                'nomor_rangka'      => (string) $item->nomor_rangka ?? '',
+                'motor_id' => (string) $item->id ?? '',
+                'nama_model' => (string) $item->nama_model ?? '',
+                'nomor_plat' => (string) $item->nomor_plat ?? '',
+                'nomor_rangka' => (string) $item->nomor_rangka ?? '',
                 'status_verifikasi' => $item->status_verifikasi,
-                'riwayat_servis'    => $riwayatServis,
+                'riwayat_servis' => $riwayatServis,
             ];
         });
 
