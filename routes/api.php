@@ -49,6 +49,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:user_public')->group(function () {
         Route::get('/user', [UserController::class, 'getUser']);
         Route::get('/account/profile', [UserController::class, 'getAccount']);
+        Route::post('/profile/edit', [UserController::class, 'editProfile']);
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/motor-registration', [MyMotorController::class, 'register']);
         Route::get('/user-motor', [MyMotorController::class, 'list']);
