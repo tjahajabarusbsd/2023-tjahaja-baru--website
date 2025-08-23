@@ -24,7 +24,7 @@ class EditProfileRequest extends BaseRequest
         return [
             'full_name' => 'required|string|max:255',
             'gender' => 'nullable|string|max:10',
-            'birth_date' => 'nullable|date',
+            'birth_date' => 'nullable|date_format:d/m/Y',
             'photo_filename' => 'nullable|file|image|mimes:jpg,jpeg,png|max:2048',
         ];
     }
