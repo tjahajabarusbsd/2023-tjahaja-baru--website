@@ -36,7 +36,7 @@ class UserController extends Controller
             'no_handphone' => (string) $user->phone_number,
             'jenis_kelamin' => $user->profile->jenis_kelamin ?? '',
             'tanggal_lahir' => $user->profile->tgl_lahir ?? '',
-            'foto_profil' => $user->profile->foto_profil ?? '',
+            'foto_profil' => asset($user->profile->foto_profil) ?? '',
             'membership' => $membership,
         ]);
     }
