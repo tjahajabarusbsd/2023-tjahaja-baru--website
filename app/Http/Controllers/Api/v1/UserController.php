@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -59,7 +60,10 @@ class UserController extends Controller
 
             // Update field profile
             $profile->jenis_kelamin = $request->gender ?? $profile->jenis_kelamin;
-            $profile->tgl_lahir = $request->birth_date ?? $profile->tgl_lahir;
+            if ($request->filled('birth_date')) {
+                $profile->tgl_lahir = Carbon::createFromFormat('d/m/Y', $request->birth_date)
+                    ->format('Y-m-d');
+            }
 
             // Update foto profil (hanya kalau ada upload)
             if ($request->hasFile('photo_filename')) {
@@ -79,7 +83,9 @@ class UserController extends Controller
                 'phone' => (string) $user->phone_number,
                 'email' => (string) $user->email,
                 'gender' => (string) $profile->jenis_kelamin,
-                'birth_date' => (string) $profile->tgl_lahir,
+                'birth_date' => $profile->tgl_lahir
+                    ? Carbon::parse($profile->tgl_lahir)->format('d/m/Y')
+                    : null, // balikin ke format Flutter
                 'photo_filename' => (string) $profile->foto_profil,
             ]);
 
