@@ -63,7 +63,7 @@ class UserController extends Controller
 
             // Update foto profil (hanya kalau ada upload)
             if ($request->hasFile('photo_filename')) {
-                $fotoProfil64 = 'data:' . $request->file('foto_profil')->getMimeType()
+                $fotoProfil64 = 'data:' . $request->file('photo_filename')->getMimeType()
                     . ';base64,' . base64_encode(file_get_contents($request->file('photo_filename')));
 
                 // ini akan memicu setFotoProfilAttribute() di model
