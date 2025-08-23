@@ -75,12 +75,12 @@ class UserController extends Controller
             DB::commit();
 
             return ApiResponse::success('Profil berhasil diperbarui', [
-                'name' => (string) $user->name,
-                'phone_number' => (string) $user->phone_number,
+                'full_name' => (string) $user->name,
+                'phone' => (string) $user->phone_number,
                 'email' => (string) $user->email,
-                'jenis_kelamin' => (string) $profile->jenis_kelamin,
-                'tgl_lahir' => (string) $profile->tgl_lahir,
-                'foto_profil' => (string) $profile->foto_profil,
+                'gender' => (string) $profile->jenis_kelamin,
+                'birth_date' => (string) $profile->tgl_lahir,
+                'photo_filename' => (string) $profile->foto_profil,
             ]);
 
         } catch (\Exception $e) {
