@@ -22,17 +22,17 @@ class EditProfileRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'jenis_kelamin' => 'nullable|string|max:10',
-            'tgl_lahir' => 'nullable|date',
-            'foto_profil' => 'nullable|file|image|mimes:jpg,jpeg,png|max:2048',
+            'full_name' => 'required|string|max:255',
+            'gender' => 'nullable|string|max:10',
+            'birth_date' => 'nullable|date',
+            'photo_filename' => 'nullable|file|image|mimes:jpg,jpeg,png|max:2048',
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Nama wajib diisi.',
+            'full_name.required' => 'Nama wajib diisi.',
         ];
     }
 }

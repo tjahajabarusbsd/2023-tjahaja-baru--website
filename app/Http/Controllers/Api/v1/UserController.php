@@ -49,8 +49,8 @@ class UserController extends Controller
         try {
             // Update tabel user_publics
             $user->update([
-                'name' => $request->name,
-                'phone_number' => $request->phone_number ?? $user->phone_number,
+                'name' => $request->full_name,
+                'phone_number' => $request->phone ?? $user->phone_number,
                 'email' => $request->email ?? $user->email,
             ]);
 
@@ -58,13 +58,13 @@ class UserController extends Controller
             $profile = $user->profile;
 
             // Update field profile
-            $profile->jenis_kelamin = $request->jenis_kelamin ?? $profile->jenis_kelamin;
-            $profile->tgl_lahir = $request->tgl_lahir ?? $profile->tgl_lahir;
+            $profile->jenis_kelamin = $request->gender ?? $profile->jenis_kelamin;
+            $profile->tgl_lahir = $request->birth_date ?? $profile->tgl_lahir;
 
             // Update foto profil (hanya kalau ada upload)
-            if ($request->hasFile('foto_profil')) {
+            if ($request->hasFile('photo_filename')) {
                 $fotoProfil64 = 'data:' . $request->file('foto_profil')->getMimeType()
-                    . ';base64,' . base64_encode(file_get_contents($request->file('foto_profil')));
+                    . ';base64,' . base64_encode(file_get_contents($request->file('photo_filename')));
 
                 // ini akan memicu setFotoProfilAttribute() di model
                 $profile->foto_profil = $fotoProfil64;
