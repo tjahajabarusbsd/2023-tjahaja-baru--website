@@ -2,80 +2,64 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Reward;
+use Illuminate\Http\JsonResponse;
 
 class RewardController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
-        $rewards = [
-            [
-                "id" => (string) 1,
-                "title" => "voucher diskon 10%",
-                "points_required" => 1000,
-                "image_url" => "https://via.placeholder.com/150",
-                "detail" => "Get 10% off on your next purchase",
-            ],
-            [
-                "id" => (string) 2,
-                "title" => "voucher diskon 25%",
-                "points_required" => 2500,
-                "image_url" => "https://via.placeholder.com/150",
-                "detail" => "Save 25% on selected items",
-            ],
-            [
-                "id" => (string) 3,
-                "title" => "voucher diskon 10%",
-                "points_required" => 1000,
-                "image_url" => "https://via.placeholder.com/150",
-                "detail" => "Applicable on all products",
-            ],
-            [
-                "id" => (string) 4,
-                "title" => "voucher diskon 25%",
-                "points_required" => 2500,
-                "image_url" => "https://via.placeholder.com/150",
-                "detail" => "Limited time offer",
-            ],
-        ];
+        $rewards = Reward::with('merchant')
+            ->where('aktif', true)
+            ->whereHas('merchant', function ($q) {
+                $q->where('aktif', true);
+            })
+            ->get();
 
-        return response()->json([
-            "status" => "success",
-            "code" => 200,
-            "message" => "Data voucher berhasil diambil",
-            "data" => $rewards
-        ]);
-    }
-
-    public function show($id)
-    {
-        $rewardDetails = [
-            '1' => [
-                'id' => (string) 1,
-                'title' => 'voucher diskon 25%',
-                "points_required" => 2500,
-                'image_url' => 'https://via.placeholder.com/300x150',
-                'description' => "Dapatkan voucher diskon 25% untuk pembelian di merchant A.",
-                'terms_conditions' => "Voucher ini berlaku untuk pembelian minimal Rp 100.000. Tidak dapat digabung dengan promo lain.",
-                'is_redeemable' => true,
-            ],
-        ];
-
-        if (!isset($rewardDetails[$id])) {
-            return response()->json([
-                'status' => 'error',
-                'code' => 404,
-                'message' => 'Detail reward tidak ditemukan',
-                'data' => null,
-            ], 404);
+        if ($rewards->isEmpty()) {
+            return ApiResponse::error('Tidak ada reward tersedia', 404);
         }
 
-        return response()->json([
-            'status' => 'success',
-            'code' => 200,
-            'message' => 'Detail reward berhasil diambil',
-            'data' => $rewardDetails[$id],
-        ], 200);
+        $formatted = $rewards->map(function ($reward) {
+            return [
+                'id' => $reward->id,
+                'title' => $reward->title,
+                'image_url' => $reward->image
+                    ? asset($reward->image)
+                    : 'https://via.placeholder.com/150',
+                'points_required' => $reward->point,
+                'detail' => $reward->deskripsi,
+            ];
+        });
+
+        return ApiResponse::success('List reward berhasil diambil', $formatted);
+    }
+
+    public function show(int $id): JsonResponse
+    {
+        $reward = Reward::with('merchant')
+            ->where('aktif', true)
+            ->where('id', $id)
+            ->first();
+
+        if (!$reward) {
+            return ApiResponse::error('Reward tidak ditemukan', 404);
+        }
+
+        $rewardDetails = [
+            'id' => $reward->id,
+            'title' => $reward->title,
+            'points_required' => $reward->point,
+            'image_url' => $reward->image
+                ? asset($reward->image)
+                : 'https://via.placeholder.com/300x150',
+            'description' => $reward->deskripsi,
+            'terms_conditions' => $reward->terms_conditions,
+            'is_redeemable' => true,
+        ];
+
+        return ApiResponse::success('Detail reward berhasil diambil', $rewardDetails);
     }
 }
