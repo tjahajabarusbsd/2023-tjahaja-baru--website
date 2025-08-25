@@ -62,3 +62,6 @@
         Events</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('order-motor') }}"><i
             class="nav-icon la la-question"></i> Order motors</a></li>
+
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('reward') }}"><i class="nav-icon la la-question"></i> Rewards</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('merchant') }}"><i class="nav-icon la la-question"></i> Merchants</a></li>
