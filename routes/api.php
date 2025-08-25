@@ -41,6 +41,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/products/{id}', [ProductController::class, 'show']);
         Route::get('/merchants', [MerchantController::class, 'index']);
         Route::get('/merchants/{id}', [MerchantController::class, 'show']);
+        Route::get('/rewards', [RewardController::class, 'index']);
+        Route::get('/reward/{id}', [RewardController::class, 'show']);
         Route::get('/events', [EventController::class, 'index']);
         Route::get('/events/{id}', [EventController::class, 'show']);
         Route::get('/dealers', [DealerController::class, 'index']);
@@ -59,8 +61,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/activity', [ActivityController::class, 'index']);
         Route::get('/vouchers', [VoucherController::class, 'index']);
         Route::get('/voucher/{id}', [VoucherController::class, 'show']);
-        Route::get('/rewards', [RewardController::class, 'index']);
-        Route::get('/reward/{id}', [RewardController::class, 'show']);
         Route::get('/loyalty-tiers', [LoyaltyTierController::class, 'index']);
         Route::post('/booking-servis', [BookingServiceController::class, 'store']);
     });
