@@ -19,7 +19,7 @@ class MerchantController extends Controller
 
         $formatted = $merchants->map(function ($merchant) {
             return [
-                'id' => $merchant->id,
+                'id' => (string) $merchant->id,
                 'name' => $merchant->title,
                 'image' => $merchant->image
                     ? asset($merchant->image)
