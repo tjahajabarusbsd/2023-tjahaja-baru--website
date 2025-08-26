@@ -25,8 +25,10 @@ class BookingServiceController extends Controller
             return [
                 'id' => $booking->id,
                 'booking_id' => $booking->booking_id,
-                'dealer' => $booking->dealer ? $booking->dealer->name_dealer : null,
-                'motor' => $booking->motor ? $booking->motor->nomor_rangka : null,
+                'dealer' => $booking->dealer ? $booking->dealer->name_dealer : '',
+                'motor' => $booking->motor ? $booking->motor->nomor_rangka : '',
+                'model' => $booking->motor ? $booking->motor->nama_model : '',
+                'plat' => $booking->motor ? $booking->motor->nomor_plat : '',
                 'tanggal' => $booking->tanggal,
                 'jam' => $booking->jam,
                 'status' => $booking->status,
