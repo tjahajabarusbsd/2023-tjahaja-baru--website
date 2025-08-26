@@ -61,7 +61,7 @@ class MerchantCrudController extends CrudController
         CRUD::setValidation(MerchantRequest::class);
 
         CRUD::field('title');
-        CRUD::field('image')->type('image');
+        CRUD::field('image')->type('image')->upload(true);
         CRUD::field('deskripsi')->type('textarea');
         CRUD::field('lokasi')->type('textarea');
         CRUD::field('aktif')->type('checkbox');

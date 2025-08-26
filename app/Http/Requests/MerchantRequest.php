@@ -26,7 +26,7 @@ class MerchantRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'image' => 'nullable|image',
+            'image' => 'required',
             'deskripsi' => 'nullable|string',
             'lokasi' => 'nullable|string',
             'aktif' => 'boolean',
