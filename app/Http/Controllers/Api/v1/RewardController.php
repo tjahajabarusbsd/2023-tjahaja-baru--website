@@ -28,7 +28,7 @@ class RewardController extends Controller
                 'title' => $reward->title,
                 'image_url' => $reward->image
                     ? asset($reward->image)
-                    : 'https://placehold.co/150',
+                    : 'https://placehold.co/150.png',
                 'points_required' => (int) $reward->point,
                 'detail' => $reward->deskripsi,
             ];
@@ -54,7 +54,7 @@ class RewardController extends Controller
             'points_required' => (int) $reward->point,
             'image_url' => $reward->image
                 ? asset($reward->image)
-                : 'https://placehold.co/150',
+                : 'https://placehold.co/150.png',
             'description' => $reward->deskripsi,
             'terms_conditions' => $reward->terms_conditions,
             'is_redeemable' => true,
