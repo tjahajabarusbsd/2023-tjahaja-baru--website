@@ -24,11 +24,11 @@ class RewardController extends Controller
 
         $formatted = $rewards->map(function ($reward) {
             return [
-                'id' => $reward->id,
+                'id' => (string) $reward->id,
                 'title' => $reward->title,
                 'image_url' => $reward->image
                     ? asset($reward->image)
-                    : 'https://via.placeholder.com/150',
+                    : 'https://placehold.co/150',
                 'points_required' => $reward->point,
                 'detail' => $reward->deskripsi,
             ];
@@ -49,12 +49,12 @@ class RewardController extends Controller
         }
 
         $rewardDetails = [
-            'id' => $reward->id,
+            'id' => (string) $reward->id,
             'title' => $reward->title,
             'points_required' => $reward->point,
             'image_url' => $reward->image
                 ? asset($reward->image)
-                : 'https://via.placeholder.com/300x150',
+                : 'https://placehold.co/150',
             'description' => $reward->deskripsi,
             'terms_conditions' => $reward->terms_conditions,
             'is_redeemable' => true,
