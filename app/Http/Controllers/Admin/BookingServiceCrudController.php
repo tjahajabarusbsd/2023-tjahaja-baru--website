@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\BookingServiceCRUDRequest;
 use App\Models\ActivityLog;
 use App\Models\BookingService;
+use App\Models\NomorRangka;
 use App\Models\UserPublicProfile;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -32,7 +33,7 @@ class BookingServiceCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\BookingService::class);
+        CRUD::setModel(BookingService::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/booking-service');
         CRUD::setEntityNameStrings('booking service', 'booking services');
     }
@@ -59,19 +60,19 @@ class BookingServiceCrudController extends CrudController
         ]);
         CRUD::column('motor_id')->label('Nomor Rangka');
         CRUD::addColumn([
-            'label'     => 'Dealer',
-            'entity'    => 'dealer',
+            'label' => 'Dealer',
+            'entity' => 'dealer',
             'attribute' => 'name_dealer',
-            'model'     => "App\Models\Dealer",
+            'model' => "App\Models\Dealer",
         ]);
         CRUD::column('tanggal');
         CRUD::column('jam');
         CRUD::column('status');
 
         // Hilangkan tombol preview
-        CRUD::denyAccess('show');
-        CRUD::denyAccess('create');
-        CRUD::denyAccess('delete');
+        CRUD::denyAccess(['show']);
+        CRUD::denyAccess(['create']);
+        CRUD::denyAccess(['delete']);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -91,16 +92,16 @@ class BookingServiceCrudController extends CrudController
         CRUD::setValidation(BookingServiceCRUDRequest::class);
 
         CRUD::addField([
-            'name'  => 'user_id',
+            'name' => 'user_id',
             'label' => 'User',
-            'type'  => 'custom_html',
+            'type' => 'custom_html',
             'value' => '<p><strong>Nama: </strong><strong>' . optional($this->crud->getCurrentEntry()->user)->name . '</strong></p>',
         ]);
 
         CRUD::addField([
-            'name'  => 'motor_id',
+            'name' => 'motor_id',
             'label' => 'Nomor Rangka',
-            'type'  => 'custom_html',
+            'type' => 'custom_html',
             'value' => '<p><strong>Nomor Rangka: </strong><strong>'
                 . optional($this->crud->getCurrentEntry()->motor)->nomor_rangka
                 . '</strong></p>'
@@ -118,24 +119,24 @@ class BookingServiceCrudController extends CrudController
         //     ],
         // ]);
         CRUD::addField([
-            'name'  => 'dealer',
-            'type'  => 'custom_html',
+            'name' => 'dealer',
+            'type' => 'custom_html',
             'value' => '<p><strong>Dealer: </strong><strong>'
                 . optional($this->crud->getCurrentEntry()->dealer)->name_dealer
                 . '</strong></p>'
         ]);
 
         CRUD::addField([
-            'name'  => 'tanggal',
-            'type'  => 'custom_html',
+            'name' => 'tanggal',
+            'type' => 'custom_html',
             'value' => '<p><strong>Tanggal Servis: </strong><strong>'
                 . \Carbon\Carbon::parse($this->crud->getCurrentEntry()->tanggal)->format('d/m/Y')
                 . '</strong></p>',
         ]);
 
         CRUD::addField([
-            'name'  => 'jam',
-            'type'  => 'custom_html',
+            'name' => 'jam',
+            'type' => 'custom_html',
             'value' => '<p><strong>Jam Servis: </strong><strong>'
                 . $this->crud->getCurrentEntry()->jam
                 . '</strong></p>'
@@ -172,30 +173,38 @@ class BookingServiceCrudController extends CrudController
 
         $booking = $this->crud->entry;
 
-        // cek kalau status berubah jadi completed
+        // ambil user publik dari booking
+        $user = \App\Models\UserPublic::find($booking->user_id);
+
+        // ambil motor yang sesuai dengan booking
+        $motor = NomorRangka::where('id', $booking->motor_id)
+            ->where('user_public_id', $user->id)
+            ->first();
+
         if ($booking->status === 'completed') {
-            // cari activity log berdasarkan booking ini
-            $activityLog = ActivityLog::where('source_type', BookingService::class)
-                ->where('source_id', $booking->id)
-                ->first();
+            $points = 100;
 
-            if ($activityLog) {
-                // misal rule: booking completed = 100 poin
-                $points = 100;
+            // buat activity log baru
+            ActivityLog::create([
+                'user_public_id' => $user->id,
+                'source_type' => BookingService::class,
+                'source_id' => $booking->id,
+                'type' => 'services',
+                'title' => 'Servis selesai',
+                'description' => 'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-'),
+                'points' => $points,
+                'activity_date' => now(),
+            ]);
 
-                // update poin di activity log
-                $activityLog->points = $points;
-                $activityLog->save();
-
-                // tambahkan total_points di user_public_profiles
-                $user = UserPublicProfile::find($booking->user_id);
-                if ($user) {
-                    $user->total_points += $points;
-                    $user->save();
-                }
+            // update total points user
+            // update total_points di profile
+            $profile = UserPublicProfile::where('user_public_id', $user->id)->first();
+            if ($profile) {
+                $profile->increment('total_points', $points);
             }
         }
 
         return $response;
     }
+
 }
