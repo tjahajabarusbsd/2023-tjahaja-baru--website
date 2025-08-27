@@ -67,19 +67,6 @@ class BookingServiceController extends Controller
             'jam' => $request->jam,
         ]);
 
-
-        // Simpan ke activity log
-        ActivityLog::create([
-            'user_public_id' => $user->id,
-            'source_type' => BookingService::class,
-            'source_id' => $booking->id,
-            'type' => 'services',
-            'title' => 'Servis telah dipesan',
-            'description' => 'Booking servis untuk motor ' . $motor->nomor_rangka,
-            'points' => 0, // belum dapat poin karena belum completed
-            'activity_date' => now(),
-        ]);
-
         return ApiResponse::success('Booking berhasil diproses. Kami akan segera menghubungi Anda.', $booking);
     }
 }
