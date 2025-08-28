@@ -66,7 +66,7 @@ class RewardCrudController extends CrudController
 
         CRUD::field('merchant_id')->type('relationship')->label('Merchant');
         CRUD::field('title');
-        CRUD::field('image')->type('image');
+        CRUD::field('image')->type('image')->upload(true);
         CRUD::field('point');
         CRUD::field('quantity');
         CRUD::field('masa_berlaku_mulai')->type('date');

@@ -27,7 +27,7 @@ class RewardRequest extends FormRequest
         return [
             'merchant_id' => 'nullable|exists:merchants,id',
             'title' => 'required|string|max:255',
-            'image' => 'nullable|image',
+            'image' => 'required',
             'point' => 'required|integer|min:0',
             'quantity' => 'required|integer|min:0',
             'masa_berlaku_mulai' => 'nullable|date',
