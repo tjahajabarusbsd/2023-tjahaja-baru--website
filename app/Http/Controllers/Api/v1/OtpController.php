@@ -8,6 +8,7 @@ use App\Http\Requests\VerifyOtpRequest;
 use App\Http\Requests\SendOtpRequest;
 use App\Helpers\ApiResponse;
 use App\Models\UserPublic;
+use Illuminate\Support\Facades\DB;
 
 class OtpController extends Controller
 {
@@ -27,17 +28,33 @@ class OtpController extends Controller
             return ApiResponse::error('Kode OTP sudah kedaluwarsa', 401);
         }
 
-        $user->update([
-            'status_akun' => 'aktif',
-            'otp' => null,
-            'otp_expires_at' => null,
-        ]);
+        DB::beginTransaction();
 
-        return ApiResponse::success('OTP berhasil diverifikasi', [
-            'id' => (string) $user->id,
-            'name' => (string) $user->name,
-            'phone_number' => (string) $user->phone_number,
-        ]);
+        try {
+            $user->update([
+                'status_akun' => 'aktif',
+                'otp' => null,
+                'otp_expires_at' => null,
+            ]);
+
+            $user->profile()->create([
+                'tgl_lahir' => now(),
+                'alamat' => '',
+                'jenis_kelamin' => 'L',
+                'total_points' => 0,
+            ]);
+
+            DB::commit();
+
+            return ApiResponse::success('OTP berhasil diverifikasi', [
+                'id' => (string) $user->id,
+                'name' => (string) $user->name,
+                'phone_number' => (string) $user->phone_number,
+            ]);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return ApiResponse::error('Terjadi kesalahan saat verifikasi OTP', 500);
+        }
     }
 
     public function sendOtp(SendOtpRequest $request)
@@ -61,7 +78,7 @@ class OtpController extends Controller
         }
 
         $otp = rand(1000, 9999);
-        $otpExpiresAt = Carbon::now()->addMinutes(5);
+        $otpExpiresAt = Carbon::now()->addMinutes(1);
 
         $user->update([
             'otp' => $otp,
