@@ -30,7 +30,9 @@ class OtpController extends Controller
 
         if ($user->otp_expires_at < Carbon::now()) {
             return ApiResponse::error('Kode OTP sudah kedaluwarsa', 401, [
-                'expired_at' => $user->otp_expires_at,
+                'id' => (string) $user->id,
+                'nama' => (string) $user->name,
+                'phone_number' => (string) $user->phone_number,
             ]);
         }
 
