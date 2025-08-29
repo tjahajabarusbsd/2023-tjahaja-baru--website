@@ -18,7 +18,7 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         $otp = rand(1000, 9999);
-        $otpExpiresAt = Carbon::now()->addMinutes(1);
+        $otpExpiresAt = Carbon::now()->addMinutes(5);
 
         DB::beginTransaction();
 

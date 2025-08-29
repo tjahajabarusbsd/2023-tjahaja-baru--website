@@ -73,18 +73,28 @@ class OtpController extends Controller
             return ApiResponse::error('Akun belum aktif. Tidak bisa reset password.', 400);
         }
 
-        if ($user->otp_expires_at && $user->otp_expires_at > now()->subMinute()) {
-            return ApiResponse::error('Kode OTP telah dikirim. Silakan tunggu sebentar.', 429);
+        if ($user && $user->updated_at && $user->updated_at > now()->subMinute()) {
+            return ApiResponse::error(
+                'Kode OTP telah dikirim. Silakan tunggu sebentar.',
+                429,
+                [
+                    // waktu tunggu = (updated_at + 60 detik) - sekarang
+                    'retry_after' => (string) $user->updated_at->addMinute()->diffInSeconds(now())
+                ]
+            );
         }
 
         $otp = rand(1000, 9999);
-        $otpExpiresAt = Carbon::now()->addMinutes(1);
+        $otpExpiresAt = Carbon::now()->addMinutes(5);
 
         $user->update([
             'otp' => $otp,
             'otp_expires_at' => $otpExpiresAt,
         ]);
 
-        return ApiResponse::success('Kode OTP baru telah dikirim');
+        return ApiResponse::success('Kode OTP baru telah dikirim', [
+            'otp' => (string) $otp,
+            'expired_in' => 300,
+        ]);
     }
 }
