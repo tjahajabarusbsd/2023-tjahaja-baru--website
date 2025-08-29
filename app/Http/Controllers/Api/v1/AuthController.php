@@ -18,34 +18,42 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         $otp = rand(1000, 9999);
-        $otpExpiresAt = Carbon::now()->addMinutes(5);
+        $otpExpiresAt = Carbon::now()->addMinutes(1);
 
         DB::beginTransaction();
 
         try {
-            $user = UserPublic::create([
-                'name' => $request->name,
-                'phone_number' => $request->phone_number,
-                'password' => Hash::make($request->password),
-                'status_akun' => 'pending',
-                'login_method' => 'manual',
-                'otp' => $otp,
-                'otp_expires_at' => $otpExpiresAt,
-            ]);
+            $user = UserPublic::where('phone_number', $request->phone_number)->first();
 
-            $user->profile()->create([
-                'tgl_lahir' => now(), // placeholder tanggal lahir sementara
-                'alamat' => '',
-                'jenis_kelamin' => 'L', // default misalnya
-                'total_points' => '0',
-            ]);
+            if ($user) {
+                if ($user->status_akun === 'aktif') {
+                    return ApiResponse::error('Nomor sudah terdaftar dan aktif', 409);
+                }
+
+                $user->update([
+                    'otp' => $otp,
+                    'otp_expires_at' => $otpExpiresAt,
+                    'password' => Hash::make($request->password),
+                ]);
+
+            } else {
+                $user = UserPublic::create([
+                    'name' => $request->name,
+                    'phone_number' => $request->phone_number,
+                    'password' => Hash::make($request->password),
+                    'status_akun' => 'pending',
+                    'login_method' => 'manual',
+                    'otp' => $otp,
+                    'otp_expires_at' => $otpExpiresAt,
+                ]);
+            }
 
             DB::commit();
 
-            return ApiResponse::success('Register berhasil', [
+            return ApiResponse::success('Register berhasil, silakan verifikasi OTP', [
                 'id' => (string) $user->id,
-                'name' => (string) $request->name,
-                'phone_number' => (string) $request->phone_number,
+                'name' => (string) $user->name,
+                'phone_number' => (string) $user->phone_number,
                 'otp' => (string) $otp,
                 'created_at' => Carbon::now()->toISOString(),
                 'updated_at' => Carbon::now()->toISOString(),
