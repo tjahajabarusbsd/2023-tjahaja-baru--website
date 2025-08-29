@@ -30,6 +30,11 @@ class UserPublic extends Authenticatable
         'remember_token',
     ];
 
+    protected $casts = [
+        'otp_expires_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     public function profile()
     {
         return $this->hasOne(UserPublicProfile::class, 'user_public_id');
