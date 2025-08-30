@@ -28,6 +28,7 @@ class VerifyOtpRequest extends BaseRequest
                 'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
             ],
             'otp' => 'required|digits:4',
+            'type' => ['required', 'in:register,lupa_password'],
         ];
     }
 
@@ -39,6 +40,8 @@ class VerifyOtpRequest extends BaseRequest
             'phone_number.regex' => 'Format nomor handphone tidak valid',
             'otp.required' => 'Kode OTP wajib diisi',
             'otp.digits' => 'Kode OTP harus terdiri dari 4 digit angka',
+            'type.required' => 'Tipe permintaan OTP wajib diisi',
+            'type.in' => 'Tipe permintaan OTP tidak valid',
         ];
     }
 }

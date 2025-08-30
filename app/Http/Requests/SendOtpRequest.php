@@ -28,7 +28,7 @@ class SendOtpRequest extends BaseRequest
                 'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
                 'exists:user_publics,phone_number',
             ],
-            'type' => 'required|in:verifikasi,lupa_password',
+            'type' => ['required', 'in:register,lupa_password'],
         ];
     }
 
