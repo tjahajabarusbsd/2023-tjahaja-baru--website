@@ -39,26 +39,45 @@ class OtpController extends Controller
         DB::beginTransaction();
 
         try {
-            $user->update([
-                'status_akun' => 'aktif',
-                'otp' => null,
-                'otp_expires_at' => null,
-            ]);
+            if ($request->type === 'register') {
+                $user->update([
+                    'status_akun' => 'aktif',
+                    'otp' => null,
+                    'otp_expires_at' => null,
+                ]);
 
-            $user->profile()->create([
-                'tgl_lahir' => now(),
-                'alamat' => '',
-                'jenis_kelamin' => 'L',
-                'total_points' => 0,
-            ]);
+                if (!$user->profile) {
+                    $user->profile()->create([
+                        'tgl_lahir' => now(),
+                        'alamat' => '',
+                        'jenis_kelamin' => 'L',
+                        'total_points' => 0,
+                    ]);
+                }
+
+                $response = [
+                    'id' => (string) $user->id,
+                    'name' => (string) $user->name,
+                    'phone_number' => (string) $user->phone_number,
+                    'status' => 'otp_register_verified',
+                ];
+            } elseif ($request->type === 'lupa_password') {
+                $user->update([
+                    'otp' => null,
+                    'otp_expires_at' => null,
+                ]);
+
+                $response = [
+                    'id' => (string) $user->id,
+                    'name' => (string) $user->name,
+                    'phone_number' => (string) $user->phone_number,
+                    'status' => 'otp_forgot_password_verified',
+                ];
+            }
 
             DB::commit();
 
-            return ApiResponse::success('OTP berhasil diverifikasi', [
-                'id' => (string) $user->id,
-                'name' => (string) $user->name,
-                'phone_number' => (string) $user->phone_number,
-            ]);
+            return ApiResponse::success('OTP berhasil diverifikasi', $response);
         } catch (\Throwable $e) {
             DB::rollBack();
             return ApiResponse::error('Terjadi kesalahan saat verifikasi OTP', 500);
@@ -73,7 +92,7 @@ class OtpController extends Controller
             return ApiResponse::error('Nomor Handphone belum terdaftar', 404);
         }
 
-        if ($request->type === 'verifikasi' && $user->status_akun === 'aktif') {
+        if ($request->type === 'register' && $user->status_akun === 'aktif') {
             return ApiResponse::error('Akun sudah aktif. Tidak perlu verifikasi ulang.', 400);
         }
 
