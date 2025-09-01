@@ -40,7 +40,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/products', [ProductController::class, 'index']);
         Route::get('/products/{id}', [ProductController::class, 'show']);
         Route::get('/merchants', [MerchantController::class, 'index']);
-        Route::get('/merchants/{id}', [MerchantController::class, 'show']);
+        Route::get('/merchant/{id}', [MerchantController::class, 'show']);
         Route::get('/rewards', [RewardController::class, 'index']);
         Route::get('/reward/{id}', [RewardController::class, 'show']);
         Route::get('/events', [EventController::class, 'index']);
