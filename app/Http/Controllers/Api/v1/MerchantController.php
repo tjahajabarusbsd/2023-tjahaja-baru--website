@@ -33,55 +33,32 @@ class MerchantController extends Controller
 
     public function show($id): JsonResponse
     {
-        // $merchant = Merchant::with(['rewards' => function ($q) {
-        //     $q->where('aktif', true);
-        // }])->where('aktif', true)->find($id);
+        $merchant = Merchant::with([
+            'rewards' => function ($q) {
+                $q->where('aktif', true);
+            }
+        ])->where('aktif', true)->find($id);
 
-        // if (!$merchant) {
-        //     return ApiResponse::error('Merchant tidak ditemukan', 404);
-        // }
-
-        // Contoh data dummy detail merchant
-        $merchantDetails = [
-            '1' => [
-                'id' => 1,
-                'name' => 'Nama Merchant 1',
-                'logo' => 'https://yourcdn.com/images/merchant1.png',
-                'info' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus.',
-                'location' => [
-                    [
-                        'place' => 'Sentral Yamaha Damar',
-                        'address' => 'Jl. Damar No. 59 (25117) Padang - Sumatera Barat INDONESIA'
-                    ]
-                ],
-                'promos' => [
-                    [
-                        'title' => 'Promo Kredit Diskon',
-                        'valid_until' => '25 Juli 2025'
-                    ],
-                    [
-                        'title' => 'Diskon 20rb',
-                        'valid_until' => '31 Des 2025'
-                    ]
-                ]
-            ],
-            // Kamu bisa tambah data lainnya di sini...
-        ];
-
-        if (!isset($merchantDetails[$id])) {
-            return response()->json([
-                'status' => 'error',
-                'code' => 404,
-                'message' => 'Merchant tidak ditemukan',
-                'data' => null,
-            ], 404);
+        if (!$merchant) {
+            return ApiResponse::error('Merchant tidak ditemukan', 404);
         }
 
-        return response()->json([
-            'status' => 'success',
-            'code' => 200,
-            'message' => 'Detail merchant berhasil dimuat',
-            'data' => $merchantDetails[$id],
-        ], 200);
+        $merchantDetails = [
+            'id' => $merchant->id,
+            'name' => $merchant->title ?? '',
+            'logo' => $merchant->image
+                ? asset($merchant->image)
+                : '',
+            'info' => $merchant->deskripsi ?? '',
+            'location' => $merchant->lokasi ?? '',
+            'promos' => $merchant->rewards->map(function ($reward) {
+                return [
+                    'title' => $reward->title,
+                    'valid_until' => $reward->terms_conditions,
+                ];
+            }),
+        ];
+
+        return ApiResponse::success('Detail merchant berhasil dimuat', $merchantDetails);
     }
 }
