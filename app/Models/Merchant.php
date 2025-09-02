@@ -19,6 +19,9 @@ class Merchant extends Model
     protected $fillable = [
         'title',
         'image',
+        'deskripsi',
+        'lokasi',
+        'aktif',
     ];
 
     public function rewards()
