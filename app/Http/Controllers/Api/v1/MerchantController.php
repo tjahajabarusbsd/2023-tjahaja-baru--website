@@ -11,9 +11,9 @@ class MerchantController extends Controller
 {
     public function index(): JsonResponse
     {
-        $merchants = Merchant::where('aktif', true)->get();
+        $merchants = Merchant::where('aktif', true)->where('is_internal', false)->get();
 
-        if (!$merchants) {
+        if (!$merchants || $merchants->isEmpty()) {
             return ApiResponse::error('Tidak ada merchant tersedia', 404);
         }
 
@@ -23,7 +23,7 @@ class MerchantController extends Controller
                 'name' => $merchant->title,
                 'image' => $merchant->image
                     ? asset($merchant->image)
-                    : 'https://example.com/img1.png',
+                    : '',
                 'isPromo' => (bool) $merchant->aktif,
             ];
         });
@@ -37,9 +37,9 @@ class MerchantController extends Controller
             'rewards' => function ($q) {
                 $q->where('aktif', true);
             }
-        ])->where('aktif', true)->find($id);
+        ])->where('aktif', true)->where('is_internal', false)->find($id);
 
-        if (!$merchant) {
+        if (!$merchant || !$merchant->isEmpty()) {
             return ApiResponse::error('Merchant tidak ditemukan', 404);
         }
 

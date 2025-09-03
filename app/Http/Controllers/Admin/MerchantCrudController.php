@@ -39,9 +39,9 @@ class MerchantCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('title');
-        CRUD::column('lokasi');
-        CRUD::column('aktif')->type('boolean');
+        CRUD::column('title')->label('Nama');
+        CRUD::column('aktif')->type('boolean')->label('Aktif?');
+        CRUD::column('is_internal')->type('boolean')->label('Dari Internal?');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -60,11 +60,12 @@ class MerchantCrudController extends CrudController
     {
         CRUD::setValidation(MerchantRequest::class);
 
-        CRUD::field('title');
-        CRUD::field('image')->type('image')->upload(true);
+        CRUD::field('title')->type('text')->label('Nama');
+        CRUD::field('image')->type('image')->upload(true)->label('Gambar');
         CRUD::field('deskripsi')->type('textarea');
         CRUD::field('lokasi')->type('textarea');
-        CRUD::field('aktif')->type('checkbox');
+        CRUD::field('aktif')->type('checkbox')->label('Apakah ini Aktif?');
+        CRUD::field('is_internal')->type('checkbox')->label('Apakah ini dari Internal?');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
