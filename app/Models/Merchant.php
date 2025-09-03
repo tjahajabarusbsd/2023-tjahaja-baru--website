@@ -22,6 +22,7 @@ class Merchant extends Model
         'deskripsi',
         'lokasi',
         'aktif',
+        'is_internal',
     ];
 
     public function rewards()

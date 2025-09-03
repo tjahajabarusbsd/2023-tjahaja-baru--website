@@ -27,9 +27,10 @@ class MerchantRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'image' => 'required',
-            'deskripsi' => 'nullable|string',
-            'lokasi' => 'nullable|string',
+            'deskripsi' => 'required|string',
+            'lokasi' => 'required|string',
             'aktif' => 'boolean',
+            'is_internal' => 'boolean',
         ];
     }
 
@@ -53,7 +54,10 @@ class MerchantRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            'title.required' => 'Nama merchant wajib diisi.',
+            'image.required' => 'Gambar merchant wajib diisi.',
+            'deskripsi.required' => 'Deskripsi merchant wajib diisi.',
+            'lokasi.required' => 'Lokasi merchant wajib diisi.',
         ];
     }
 }
