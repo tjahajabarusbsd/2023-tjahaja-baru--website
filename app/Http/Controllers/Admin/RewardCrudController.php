@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\RewardRequest;
+use App\Models\Reward;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -39,13 +40,12 @@ class RewardCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('title');
+        CRUD::column('title')->label('Nama Reward');
         CRUD::column('merchant_id')->type('relationship')->label('Merchant');
-        CRUD::column('point');
-        CRUD::column('quantity');
+        CRUD::column('point')->label('Poin');
+        CRUD::column('quantity')->label('Kuantitas');
         CRUD::column('masa_berlaku_mulai');
         CRUD::column('masa_berlaku_selesai');
-        CRUD::column('aktif')->type('boolean');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -64,16 +64,22 @@ class RewardCrudController extends CrudController
     {
         CRUD::setValidation(RewardRequest::class);
 
-        CRUD::field('merchant_id')->type('relationship')->label('Merchant');
-        CRUD::field('title');
+        CRUD::field('merchant_id')->type('relationship')->label('Pilih Merchant');
+        CRUD::field('title')->type('text')->label('Nama Reward');
         CRUD::field('image')->type('image')->upload(true);
-        CRUD::field('point');
-        CRUD::field('quantity');
+        CRUD::field('point')->type('number')->label('Poin');
+        CRUD::field('quantity')->type('number')->label('Kuantitas');
         CRUD::field('masa_berlaku_mulai')->type('date');
         CRUD::field('masa_berlaku_selesai')->type('date');
         CRUD::field('deskripsi')->type('textarea');
-        CRUD::field('terms_conditions')->type('textarea');
-        CRUD::field('aktif')->type('checkbox');
+        CRUD::field('terms_conditions')->type('textarea')->label('Syarat & Ketentuan');
+        CRUD::field('type')
+            ->type('select_from_array')
+            ->options(Reward::TYPES)
+            ->label('Jenis Reward')
+            ->allows_null(false)
+            ->default('voucher');
+        CRUD::field('aktif')->type('checkbox')->label('Aktif?')->default(true);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
