@@ -27,6 +27,10 @@ class Reward extends Model
         'terms_conditions',
     ];
 
+    protected $casts = [
+        'masa_berlaku_selesai' => 'datetime',
+    ];
+
     const TYPE_VOUCHER = 'voucher';
     const TYPE_PHYSICAL = 'physical';
 
