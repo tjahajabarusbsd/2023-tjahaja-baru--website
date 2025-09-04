@@ -13,6 +13,7 @@ class RewardController extends Controller
     {
         $rewards = Reward::with('merchant')
             ->where('aktif', true)
+            ->where('masa_berlaku_selesai', '>=', now())
             ->whereHas('merchant', function ($q) {
                 $q->where('aktif', true);
             })
@@ -42,6 +43,10 @@ class RewardController extends Controller
         $reward = Reward::with('merchant')
             ->where('aktif', true)
             ->where('id', $id)
+            ->where('masa_berlaku_selesai', '>=', now())
+            ->whereHas('merchant', function ($q) {
+                $q->where('aktif', true);
+            })
             ->first();
 
         if (!$reward) {
