@@ -22,8 +22,28 @@ class Reward extends Model
         'masa_berlaku_mulai',
         'masa_berlaku_selesai',
         'aktif',
+        'type',
         'deskripsi',
         'terms_conditions',
+    ];
+
+    const TYPE_VOUCHER = 'voucher';
+    const TYPE_PHYSICAL = 'physical';
+
+    // accessor cepat
+    public function isVoucher()
+    {
+        return $this->type === self::TYPE_VOUCHER;
+    }
+
+    public function isPhysical()
+    {
+        return $this->type === self::TYPE_PHYSICAL;
+    }
+
+    public const TYPES = [
+        'voucher' => 'Voucher',
+        'physical' => 'Physical Item',
     ];
 
     public function merchant()
