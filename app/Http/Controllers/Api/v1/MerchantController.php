@@ -11,9 +11,21 @@ class MerchantController extends Controller
 {
     public function index(): JsonResponse
     {
-        $merchants = Merchant::where('aktif', true)->where('is_internal', false)->get();
+        $merchants = Merchant::where('aktif', true)
+            ->where('is_internal', false)
+            ->whereHas('rewards', function ($query) {
+                $query->where('aktif', true)
+                    ->where('masa_berlaku_selesai', '>=', now());
+            })
+            ->with([
+                'rewards' => function ($query) {
+                    $query->where('aktif', true)
+                        ->where('masa_berlaku_selesai', '>=', now());
+                }
+            ])
+            ->get();
 
-        if (!$merchants || $merchants->isEmpty()) {
+        if ($merchants->isEmpty()) {
             return ApiResponse::error('Tidak ada merchant tersedia', 404);
         }
 
@@ -35,11 +47,19 @@ class MerchantController extends Controller
     {
         $merchant = Merchant::with([
             'rewards' => function ($q) {
-                $q->where('aktif', true);
+                $q->where('aktif', true)
+                    ->where('masa_berlaku_selesai', '>=', now());
             }
-        ])->where('aktif', true)->where('is_internal', false)->find($id);
+        ])
+            ->where('aktif', true)
+            ->where('is_internal', false)
+            ->whereHas('rewards', function ($q) {
+                $q->where('aktif', true)
+                    ->where('masa_berlaku_selesai', '>=', now());
+            })
+            ->find($id);
 
-        if (!$merchant || !$merchant->isEmpty()) {
+        if (!$merchant) {
             return ApiResponse::error('Merchant tidak ditemukan', 404);
         }
 
@@ -53,8 +73,9 @@ class MerchantController extends Controller
             'location' => $merchant->lokasi ?? '',
             'promos' => $merchant->rewards->map(function ($reward) {
                 return [
+                    'id' => $reward->id,
                     'title' => $reward->title,
-                    'valid_until' => $reward->terms_conditions,
+                    'valid_until' => $reward->masa_berlaku_selesai->format('d-m-Y'),
                 ];
             }),
         ];
