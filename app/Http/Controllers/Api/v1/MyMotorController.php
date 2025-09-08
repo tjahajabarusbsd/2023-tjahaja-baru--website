@@ -19,12 +19,7 @@ class MyMotorController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user) {
-            return ApiResponse::error('Unauthorized', 401);
-        }
-
         $existingMotor = NomorRangka::where('nomor_rangka', $request->nomor_rangka)
-            ->where('user_public_id', $user->id)
             ->where('status_verifikasi', '!=', 'rejected')
             ->first();
 
