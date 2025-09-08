@@ -49,6 +49,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::middleware('auth:user_public')->group(function () {
+        Route::post('/reward/{id}/claim', [RewardController::class, 'store']);
         Route::get('/user', [UserController::class, 'getUser']);
         Route::get('/account/profile', [UserController::class, 'getAccount']);
         Route::post('/profile/edit', [UserController::class, 'editProfile']);
