@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Reward;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RewardRequest extends FormRequest
@@ -35,7 +36,9 @@ class RewardRequest extends FormRequest
             'deskripsi' => 'required|string',
             'terms_conditions' => 'required|string',
             'aktif' => 'boolean',
-            'type' => 'required|in:' . implode(',', array_keys(\App\Models\Reward::TYPES)),
+            'type' => 'required|in:' . implode(',', array_keys(Reward::TYPES)),
+            'discount_type' => 'required|string|in:' . implode(',', array_keys(Reward::DISCOUNT_TYPES)),
+            'discount_value' => 'required|integer|min:0',
         ];
     }
 
@@ -61,11 +64,13 @@ class RewardRequest extends FormRequest
         return [
             'merchant_id.required' => 'Merchant wajib diisi.',
             'title.required' => 'Nama reward wajib diisi.',
+            'type.required' => 'Tipe reward wajib diisi.',
             'image.required' => 'Gambar reward wajib diunggah.',
             'point.required' => 'Poin reward wajib diisi.',
             'point.integer' => 'Poin reward harus berupa angka.',
             'quantity.required' => 'Kuantitas reward wajib diisi.',
             'quantity.integer' => 'Kuantitas reward harus berupa angka.',
+            'discount_value.required' => 'Nilai diskon wajib diisi.',
             'masa_berlaku_mulai.required' => 'Masa berlaku mulai wajib diisi.',
             'masa_berlaku_mulai.date' => 'Masa berlaku mulai tidak valid.',
             'masa_berlaku_selesai.required' => 'Masa berlaku selesai wajib diisi.',
@@ -73,7 +78,6 @@ class RewardRequest extends FormRequest
             'deskripsi.required' => 'Deskripsi reward wajib diisi.',
             'terms_conditions.required' => 'Syarat & Ketentuan reward wajib diisi.',
             'aktif.boolean' => 'Status aktif tidak valid.',
-            'type.required' => 'Tipe reward wajib diisi.',
             'type.in' => 'Tipe reward tidak valid.',
         ];
     }
