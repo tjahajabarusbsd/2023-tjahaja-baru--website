@@ -19,6 +19,8 @@ class Reward extends Model
         'image',
         'point',
         'quantity',
+        'discount_type',
+        'discount_value',
         'masa_berlaku_mulai',
         'masa_berlaku_selesai',
         'aktif',
@@ -48,6 +50,11 @@ class Reward extends Model
     public const TYPES = [
         'voucher' => 'Voucher',
         'physical' => 'Physical Item',
+    ];
+
+    public const DISCOUNT_TYPES = [
+        'percentage' => 'Persentase (%)',
+        'amount' => 'Nominal (Rp)',
     ];
 
     public function merchant()
