@@ -112,7 +112,7 @@ class RewardController extends Controller
             $claim = RewardClaim::create([
                 'user_profile_id' => $userProfile->id,
                 'reward_id' => $reward->id,
-                'status' => 'pending',
+                'status' => 'aktif',
                 'point_used' => $reward->point,
                 'kode_voucher' => $reward->type === 'voucher' ? strtoupper(Str::random(10)) : null,
                 'shipping_address' => $request->shipping_address,
