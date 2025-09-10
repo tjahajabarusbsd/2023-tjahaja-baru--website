@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\v1\ActivityController;
+use App\Http\Controllers\Api\v1\RewardClaimController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\ProductController;
@@ -50,6 +51,7 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:user_public')->group(function () {
         Route::post('/reward/{id}/claim', [RewardController::class, 'store']);
+        Route::get('/reward-claims', [RewardClaimController::class, 'index']);
         Route::get('/user', [UserController::class, 'getUser']);
         Route::get('/account/profile', [UserController::class, 'getAccount']);
         Route::post('/profile/edit', [UserController::class, 'editProfile']);
