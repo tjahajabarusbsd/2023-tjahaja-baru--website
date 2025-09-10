@@ -17,6 +17,7 @@ class RewardClaim extends Model
         'kode_voucher',
         'shipping_address',
         'source',
+        'expires_at',
     ];
 
     public function reward()
