@@ -65,20 +65,27 @@ class RewardCrudController extends CrudController
         CRUD::setValidation(RewardRequest::class);
 
         CRUD::field('merchant_id')->type('relationship')->label('Pilih Merchant');
-        CRUD::field('title')->type('text')->label('Nama Reward');
-        CRUD::field('image')->type('image')->upload(true);
-        CRUD::field('point')->type('number')->label('Poin');
-        CRUD::field('quantity')->type('number')->label('Kuantitas');
-        CRUD::field('masa_berlaku_mulai')->type('date');
-        CRUD::field('masa_berlaku_selesai')->type('date');
-        CRUD::field('deskripsi')->type('textarea');
-        CRUD::field('terms_conditions')->type('textarea')->label('Syarat & Ketentuan');
         CRUD::field('type')
             ->type('select_from_array')
             ->options(Reward::TYPES)
             ->label('Jenis Reward')
             ->allows_null(false)
             ->default('voucher');
+        CRUD::field('title')->type('text')->label('Nama Reward');
+        CRUD::field('image')->type('image')->upload(true);
+        CRUD::field('point')->type('number')->label('Poin Reward');
+        CRUD::field('quantity')->type('number')->label('Kuantitas Reward');
+        CRUD::field('discount_type')
+            ->type('select_from_array')
+            ->options(Reward::DISCOUNT_TYPES)
+            ->label('Jenis Diskon')
+            ->allows_null(false)
+            ->default('percentage');
+        CRUD::field('discount_value')->type('number')->label('Nilai Diskon');
+        CRUD::field('masa_berlaku_mulai')->type('date');
+        CRUD::field('masa_berlaku_selesai')->type('date');
+        CRUD::field('deskripsi')->type('textarea');
+        CRUD::field('terms_conditions')->type('textarea')->label('Syarat & Ketentuan');
         CRUD::field('aktif')->type('checkbox')->label('Aktif?')->default(true);
 
         /**
