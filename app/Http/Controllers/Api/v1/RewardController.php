@@ -122,7 +122,10 @@ class RewardController extends Controller
 
             DB::commit();
 
-            return ApiResponse::success('Reward berhasil diklaim', $claim);
+            return ApiResponse::success('Reward berhasil diklaim', [
+                'id' => (string) $reward->id,
+                'title' => (string) $reward->title,
+            ]);
 
         } catch (\Exception $e) {
             DB::rollBack();
