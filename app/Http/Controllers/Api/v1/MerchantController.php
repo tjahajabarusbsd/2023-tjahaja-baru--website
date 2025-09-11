@@ -25,10 +25,6 @@ class MerchantController extends Controller
             ])
             ->get();
 
-        if ($merchants->isEmpty()) {
-            return ApiResponse::error('Tidak ada merchant tersedia', 404);
-        }
-
         $formatted = $merchants->map(function ($merchant) {
             return [
                 'id' => (string) $merchant->id,
@@ -40,7 +36,12 @@ class MerchantController extends Controller
             ];
         });
 
-        return ApiResponse::success('Daftar merchant berhasil diambil', $formatted);
+        return ApiResponse::success(
+            $merchants->isNotEmpty()
+            ? 'Daftar merchant berhasil diambil'
+            : 'Tidak ada merchant tersedia',
+            $formatted
+        );
     }
 
     public function show($id): JsonResponse
@@ -77,7 +78,7 @@ class MerchantController extends Controller
                     'title' => $reward->title,
                     'valid_until' => $reward->masa_berlaku_selesai->format('d-m-Y'),
                 ];
-            }),
+            })->values(),
         ];
 
         return ApiResponse::success('Detail merchant berhasil dimuat', $merchantDetails);
