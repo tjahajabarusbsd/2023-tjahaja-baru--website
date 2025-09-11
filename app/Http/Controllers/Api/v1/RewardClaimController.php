@@ -23,7 +23,7 @@ class RewardClaimController extends Controller
                 'id' => (string) $claim->id,
                 'merchantName' => $claim->reward->merchant ? $claim->reward->merchant->title : null,
                 'promo' => $claim->reward->title,
-                'status' => $claim->status,
+                'status' => $claim->status_label,
                 'expiredAt' => $claim->expires_at,
                 'logoUrl' => '',
             ];

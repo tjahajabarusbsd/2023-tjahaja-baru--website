@@ -20,6 +20,20 @@ class RewardClaim extends Model
         'expires_at',
     ];
 
+    protected $casts = [
+        'expires_at' => 'datetime',
+    ];
+
+    // Accessor: status_label
+    public function getStatusLabelAttribute()
+    {
+        if ($this->status === 'aktif' && $this->expires_at && $this->expires_at->isPast()) {
+            return 'kadaluarsa';
+        }
+
+        return $this->status;
+    }
+
     public function reward()
     {
         return $this->belongsTo(Reward::class);
