@@ -31,7 +31,9 @@ class EventController extends Controller
         });
 
         return ApiResponse::success(
-            'Daftar event berhasil diambil',
+            $events->isNotEmpty()
+            ? 'Daftar event berhasil diambil'
+            : 'Tidak ada event tersedia',
             $formattedEvents
         );
     }
