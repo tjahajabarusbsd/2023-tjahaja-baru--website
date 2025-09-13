@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderMotorRequest;
 use App\Models\Category;
 use App\Models\Group;
+use App\Models\Notification;
 use App\Models\Variant;
 use App\Models\GroupProductSpec;
 use App\Models\ActivityLog;
@@ -22,9 +23,11 @@ class ProductController extends Controller
     {
         $defaultCategory = Category::where('name', 'like', '%maxi%')->first();
 
-        $categories = Category::with(['groups' => function ($query) {
-            $query->where('is_active', 1);
-        }])->get();
+        $categories = Category::with([
+            'groups' => function ($query) {
+                $query->where('is_active', 1);
+            }
+        ])->get();
 
         return response()->json([
             'status' => 'success',
@@ -217,26 +220,23 @@ class ProductController extends Controller
 
         // Simpan ke database
         $orderMotor = OrderMotor::create([
-            'order_id'        => $orderId,
-            'user_public_id'  => $user->id,
-            'model'           => $request->model,
-            'warna'           => $request->warna,
+            'order_id' => $orderId,
+            'user_public_id' => $user->id,
+            'model' => $request->model,
+            'warna' => $request->warna,
             'tipe_pembayaran' => $request->tipe_pembayaran,
-            'status'          => 'pending',
+            'status' => 'pending',
         ]);
 
         $orderMotor->setAttribute('setuju_dihubungi', (string) $request->setuju_dihubungi);
 
-        // Simpan ke activity log
-        ActivityLog::create([
-            'user_public_id'    => $user->id,
-            'source_type'       => OrderMotor::class,
-            'source_id'         => $orderMotor->id,
-            'type'              => 'products',
-            'title'             => 'Pesanan motor telah dibuat',
-            'description'       => 'Pesan motor untuk model ' . $orderMotor->model,
-            'points'            => 0, // belum dapat poin karena belum completed
-            'activity_date'     => now(),
+        Notification::create([
+            'user_public_id' => $user->id,
+            'source_type' => OrderMotor::class,
+            'source_id' => $orderMotor->id,
+            'title' => 'Pemesanan motor berhasil.',
+            'description' => "Pemesanan motor {$orderMotor->model} telah berhasil dan sedang diproses",
+            'is_read' => false,
         ]);
 
         return ApiResponse::success(
