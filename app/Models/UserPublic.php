@@ -44,4 +44,12 @@ class UserPublic extends Authenticatable
     {
         return $this->hasMany(NomorRangka::class, 'user_public_id');
     }
+
+    /**
+     * Relasi ke notifikasi
+     */
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'user_public_id');
+    }
 }
