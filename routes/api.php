@@ -35,6 +35,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/verify-otp', [OtpController::class, 'verifyOtp']);
+    Route::post('/send-otp', [OtpController::class, 'sendOtp']);
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
     Route::middleware('throttle:60,1')->group(function () {
         Route::get('/onboarding', [OnboardingController::class, 'index']);
@@ -69,11 +74,5 @@ Route::prefix('v1')->group(function () {
         Route::get('/booking-servis/status', [BookingServiceController::class, 'index']);
     });
 
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
 
-    Route::post('/verify-otp', [OtpController::class, 'verifyOtp']);
-    Route::post('/send-otp', [OtpController::class, 'sendOtp']);
-
-    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 });
