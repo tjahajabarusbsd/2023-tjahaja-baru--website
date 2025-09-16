@@ -37,8 +37,12 @@ Route::get('/consultation', [RedirectController::class, 'redirectToContact']);
 // --- Page Section --- 
 Route::get('/', [HomeController::class, 'getData'])->name('home');
 Route::get('/dealers', [DealerController::class, 'getDealer']);
-Route::get('/profile', function () { return view('/about-us'); });
-Route::get('/myyamaha', function () { return view('myyamaha'); });
+Route::get('/profile', function () {
+    return view('/about-us'); });
+Route::get('/myyamaha', function () {
+    return view('myyamaha'); });
+Route::get('/promo', function () {
+    return view('promo'); });
 // --- End Page Section --- 
 
 // --- Product Section --- 
@@ -71,7 +75,8 @@ Route::get('/get_spec_details/{id}', [ComparisonController::class, 'getSpecDetai
 // --- End Comparison Section --- 
 
 // --- Personality Quiz Section
-Route::get('/kuis', function () { return view('/quiz'); });
+Route::get('/kuis', function () {
+    return view('/quiz'); });
 Route::post('/submit-quiz/', [PersonalityController::class, 'submitQuiz']);
 // --- End Personality Quiz Section
 
@@ -90,7 +95,7 @@ Route::post('/hitung-pinjaman', [PinjamanDanaController::class, 'hitungPinjaman'
 Route::post('/hitung-angsuran', [PinjamanDanaController::class, 'hitungAngsuran'])->name('hitung.angsuran');
 Route::post('/ajukan-angsuran', [PinjamanDanaController::class, 'ajukanAngsuran'])->name('ajukan.angsuran');
 
-if(env('APP_ENV') == 'local'){
+if (env('APP_ENV') == 'local') {
     Route::middleware('auth')->group(function () {
         Route::get('/myprofile', [UserProfileController::class, 'getUserProfile'])->name('user.profile');
         Route::get('/myprofile/{nomorRangka}', [UserProfileController::class, 'getUserProfile']);

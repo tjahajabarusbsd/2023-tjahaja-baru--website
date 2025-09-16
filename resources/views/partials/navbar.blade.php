@@ -2,9 +2,12 @@
 	<nav class="navbar navbar-expand-lg navbar-dark static-top">
 		<div class="container">
 			<a class="main-logo" href="/">
-				<img src="{{ url('/images/logo.png')}}" title="Kembali ke Beranda" class="logo-image" alt="TJAHAJA BARU">
+				<img src="{{ url('/images/logo.png')}}" title="Kembali ke Beranda" class="logo-image"
+					alt="TJAHAJA BARU">
 			</a>
-			<button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -56,16 +59,17 @@
 						</div>
 					</li>
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						  products
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">
+							products
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						  <li><a class="dropdown-item" href="/products/category/maxi">Maxi</a></li>
-						  <li><a class="dropdown-item" href="/products/category/classy">Classy</a></li>
-						  <li><a class="dropdown-item" href="/products/category/matic">Matic</a></li>
-						  <li><a class="dropdown-item" href="/products/category/sport">Sport</a></li>
-						  <li><a class="dropdown-item" href="/products/category/moped">Moped</a></li>
-						  <li><a class="dropdown-item" href="/compare_product">Compare Product</a></li>
+							<li><a class="dropdown-item" href="/products/category/maxi">Maxi</a></li>
+							<li><a class="dropdown-item" href="/products/category/classy">Classy</a></li>
+							<li><a class="dropdown-item" href="/products/category/matic">Matic</a></li>
+							<li><a class="dropdown-item" href="/products/category/sport">Sport</a></li>
+							<li><a class="dropdown-item" href="/products/category/moped">Moped</a></li>
+							<li><a class="dropdown-item" href="/compare_product">Compare Product</a></li>
 						</ul>
 					</li>
 					{{-- <li class="nav-item">
@@ -80,12 +84,15 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/kuis">Quiz</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/promo">Promo</a>
+					</li>
 					@if(env('APP_ENV') == 'local')
 						@auth
 							<li class="nav-item">
 								<a class="nav-link" href="/myprofile">My Profile</a>
 							</li>
-							<form action="{{url('logout')}}" method="GET" class="logout-form"> 
+							<form action="{{url('logout')}}" method="GET" class="logout-form">
 								<button type="submit">Logout</button>
 							</form>
 						@else
