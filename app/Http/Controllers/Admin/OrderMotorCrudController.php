@@ -32,7 +32,7 @@ class OrderMotorCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\OrderMotor::class);
+        CRUD::setModel(OrderMotor::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/order-motor');
         CRUD::setEntityNameStrings('order motor', 'order motors');
     }
@@ -59,13 +59,11 @@ class OrderMotorCrudController extends CrudController
             'model' => "App\Models\UserPublic",
         ]);
         CRUD::column('model');
-        CRUD::column('warna');
-        CRUD::column('tipe_pembayaran');
         CRUD::column('status');
 
-        CRUD::denyAccess('show');
-        CRUD::denyAccess('create');
-        CRUD::denyAccess('delete');
+        CRUD::denyAccess(['show']);
+        CRUD::denyAccess(['create']);
+        CRUD::denyAccess(['delete']);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -85,33 +83,33 @@ class OrderMotorCrudController extends CrudController
         CRUD::setValidation(OrderMotorCRUDRequest::class);
 
         CRUD::addField([
-            'name'  => 'order_id',
-            'type'  => 'custom_html',
+            'name' => 'order_id',
+            'type' => 'custom_html',
             'value' => '<p style="margin-bottom:0"><strong>ID Order: </strong>' . $this->crud->getCurrentEntry()->order_id . '</p>',
         ]);
         CRUD::addField([
-            'name'  => 'name',
-            'type'  => 'custom_html',
+            'name' => 'name',
+            'type' => 'custom_html',
             'value' => '<p style="margin-bottom:0"><strong>Nama: </strong>' . optional($this->crud->getCurrentEntry()->user)->name . '</p>',
         ]);
         CRUD::addField([
-            'name'  => 'phone_number',
-            'type'  => 'custom_html',
+            'name' => 'phone_number',
+            'type' => 'custom_html',
             'value' => '<p style="margin-bottom:0"><strong>Nomor Handphone: </strong>' . optional($this->crud->getCurrentEntry()->user)->phone_number . '</p>',
         ]);
         CRUD::addField([
-            'name'  => 'model',
-            'type'  => 'custom_html',
+            'name' => 'model',
+            'type' => 'custom_html',
             'value' => '<p style="margin-bottom:0"><strong>Model: </strong>' . $this->crud->getCurrentEntry()->model . '</p>',
         ]);
         CRUD::addField([
-            'name'  => 'warna',
-            'type'  => 'custom_html',
+            'name' => 'warna',
+            'type' => 'custom_html',
             'value' => '<p style="margin-bottom:0"><strong>Warna: </strong>' . $this->crud->getCurrentEntry()->warna . '</p>',
         ]);
         CRUD::addField([
-            'name'  => 'tipe_pembayaran',
-            'type'  => 'custom_html',
+            'name' => 'tipe_pembayaran',
+            'type' => 'custom_html',
             'value' => '<p style="margin-bottom:0"><strong>Tipe Pembayaran: </strong>' . $this->crud->getCurrentEntry()->tipe_pembayaran . '</p>',
         ]);
         CRUD::field('status')->type('enum')->options([
@@ -143,24 +141,26 @@ class OrderMotorCrudController extends CrudController
     {
         $response = $this->traitUpdate();
 
-        $order = $this->crud->entry;
+        $order = $this->crud->entry->fresh();
 
         if ($order->status === 'completed') {
-            $activityLog = ActivityLog::where('source_type', OrderMotor::class)
-                ->where('source_id', $order->id)
-                ->first();
+            $points = 1000;
 
-            if ($activityLog) {
-                $points = 1000;
+            ActivityLog::create([
+                'user_public_id' => $order->user_public_id,
+                'source_type' => OrderMotor::class,
+                'source_id' => $order->id,
+                'type' => 'order_motor',
+                'title' => 'Order motor selesai',
+                'description' => 'Order motor <strong>' . $order->model . '</strong> telah selesai.',
+                'points' => $points,
+                'activity_date' => now(),
+            ]);
 
-                $activityLog->points = $points;
-                $activityLog->save();
-
-                $user = UserPublicProfile::find($order->user_public_id);
-                if ($user) {
-                    $user->total_points += $points;
-                    $user->save();
-                }
+            // Update poin user
+            $user = UserPublicProfile::find($order->user_public_id);
+            if ($user) {
+                $user->increment('total_points', $points);
             }
         }
 
