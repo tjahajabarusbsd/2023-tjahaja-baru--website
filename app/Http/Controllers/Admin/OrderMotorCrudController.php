@@ -150,15 +150,15 @@ class OrderMotorCrudController extends CrudController
                 'user_public_id' => $order->user_public_id,
                 'source_type' => OrderMotor::class,
                 'source_id' => $order->id,
-                'type' => 'order_motor',
-                'title' => 'Order motor selesai',
-                'description' => 'Order motor <strong>' . $order->model . '</strong> telah selesai.',
+                'type' => 'Order',
+                'title' => 'Order motor Berhasil',
+                'description' => 'Order motor ' . $order->model . ' selesai.',
                 'points' => $points,
                 'activity_date' => now(),
             ]);
 
             // Update poin user
-            $user = UserPublicProfile::find($order->user_public_id);
+            $user = UserPublicProfile::where('user_public_id', $order->user_public_id)->first();
             if ($user) {
                 $user->increment('total_points', $points);
             }
