@@ -10,12 +10,10 @@ use App\Models\Group;
 use App\Models\Notification;
 use App\Models\Variant;
 use App\Models\GroupProductSpec;
-use App\Models\ActivityLog;
 use App\Models\OrderMotor;
 use App\Http\Resources\ProductResource;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -209,14 +207,15 @@ class ProductController extends Controller
     {
         $user = auth()->user();
 
-        // Tanggal hari ini
-        $today = Carbon::now()->format('Ymd');
+        // Ambil tahun & bulan
+        $year = Carbon::now()->format('y');
+        $month = Carbon::now()->format('m');
 
         // Hitung order hari ini
         $countToday = OrderMotor::whereDate('created_at', Carbon::today())->count() + 1;
 
-        // Format order_id: ORD-YYYYMMDD-00001
-        $orderId = sprintf("ORD-%s-%05d", $today, $countToday);
+        // Contoh: ORD25090001
+        $orderId = sprintf("ORD%s%s%04d", $year, $month, $countToday);
 
         // Simpan ke database
         $orderMotor = OrderMotor::create([

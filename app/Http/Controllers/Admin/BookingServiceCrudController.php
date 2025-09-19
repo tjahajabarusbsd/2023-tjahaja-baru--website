@@ -65,8 +65,6 @@ class BookingServiceCrudController extends CrudController
             'attribute' => 'name_dealer',
             'model' => "App\Models\Dealer",
         ]);
-        CRUD::column('tanggal');
-        CRUD::column('jam');
         CRUD::column('status');
 
         // Hilangkan tombol preview
