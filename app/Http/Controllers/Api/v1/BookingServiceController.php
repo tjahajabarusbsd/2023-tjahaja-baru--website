@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\ApiResponse;
 use App\Models\BookingService;
 use App\Models\NomorRangka;
-use App\Models\ActivityLog;
+use App\Models\Notification;
 use App\Http\Requests\BookingServiceRequest;
 
 class BookingServiceController extends Controller
@@ -43,20 +44,24 @@ class BookingServiceController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user) {
-            return ApiResponse::error('Unauthorized', 401);
-        }
-
         $motor = NomorRangka::where('id', $request->motor_id)
             ->where('user_public_id', $user->id)
+            ->where('status_verifikasi', 'verified')
             ->first();
 
         if (!$motor) {
             return ApiResponse::error('Motor ini tidak terdaftar atas nama Anda.', 403);
         }
 
-        // Generate booking ID unik
-        $booking_id = 'bkg-' . time() . rand(100, 999);
+        // Ambil tahun & bulan
+        $year = Carbon::now()->format('y');
+        $month = Carbon::now()->format('m');
+
+        // Hitung booking hari ini
+        $countToday = BookingService::whereDate('created_at', Carbon::today())->count() + 1;
+
+        // Contoh: BKG25090001
+        $booking_id = sprintf("BKG%s%s%04d", $year, $month, $countToday);
 
         $booking = BookingService::create([
             'user_id' => $user->id,
@@ -65,6 +70,15 @@ class BookingServiceController extends Controller
             'dealer_id' => $request->dealer_id,
             'tanggal' => $request->tanggal,
             'jam' => $request->jam,
+        ]);
+
+        Notification::create([
+            'user_public_id' => $user->id,
+            'source_type' => BookingService::class,
+            'source_id' => $booking->id,
+            'title' => 'Booking servis berhasil.',
+            'description' => "Servis motor Anda telah berhasil dan sedang diproses",
+            'is_read' => false,
         ]);
 
         return ApiResponse::success('Booking berhasil diproses. Kami akan segera menghubungi Anda.', $booking);
