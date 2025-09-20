@@ -46,6 +46,7 @@ class BookingServiceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        CRUD::column('booking_id')->label('ID Booking');
         CRUD::addColumn([
             'label' => 'Nama',
             'entity' => 'user',
@@ -90,54 +91,55 @@ class BookingServiceCrudController extends CrudController
         CRUD::setValidation(BookingServiceCRUDRequest::class);
 
         CRUD::addField([
+            'name' => 'booking_id',
+            'type' => 'custom_html',
+            'value' => '<p style="margin-bottom:0"><strong>ID Booking: </strong>' . $this->crud->getCurrentEntry()->booking_id . '</p>',
+        ]);
+
+        CRUD::addField([
             'name' => 'user_id',
             'label' => 'User',
             'type' => 'custom_html',
-            'value' => '<p><strong>Nama: </strong><strong>' . optional($this->crud->getCurrentEntry()->user)->name . '</strong></p>',
+            'value' => '<p style="margin-bottom:0"><strong>Nama: </strong>' . optional($this->crud->getCurrentEntry()->user)->name . '</p>',
+        ]);
+
+        CRUD::addField([
+            'name' => 'phone_number',
+            'type' => 'custom_html',
+            'value' => '<p style="margin-bottom:0"><strong>Nomor Handphone: </strong>' . optional($this->crud->getCurrentEntry()->user)->phone_number . '</p>',
         ]);
 
         CRUD::addField([
             'name' => 'motor_id',
             'label' => 'Nomor Rangka',
             'type' => 'custom_html',
-            'value' => '<p><strong>Nomor Rangka: </strong><strong>'
+            'value' => '<p style="margin-bottom:0"><strong>Nomor Rangka: </strong>'
                 . optional($this->crud->getCurrentEntry()->motor)->nomor_rangka
-                . '</strong></p>'
+                . '</p>'
         ]);
 
-        // CRUD::addField([
-        //     'name' => 'dealer', // field di tabel booking_services
-        //     'label' => 'Dealer',
-        //     'type' => 'select',
-        //     'entity' => 'dealer', // nama method relasi di model BookingService
-        //     'attribute' => 'name_dealer', // kolom di tabel dealers yang ingin ditampilkan
-        //     'model' => "App\Models\Dealer",
-        //     'attributes' => [
-        //         'disabled' => 'disabled', // nonaktifkan inputan
-        //     ],
-        // ]);
         CRUD::addField([
             'name' => 'dealer',
             'type' => 'custom_html',
-            'value' => '<p><strong>Dealer: </strong><strong>'
+            'value' => '<p style="margin-bottom:0"><strong>Dealer: </strong>'
                 . optional($this->crud->getCurrentEntry()->dealer)->name_dealer
-                . '</strong></p>'
+                . '</p>'
         ]);
 
         CRUD::addField([
             'name' => 'tanggal',
             'type' => 'custom_html',
-            'value' => '<p><strong>Tanggal Servis: </strong><strong>'
+            'value' => '<p style="margin-bottom:0"><strong>Tanggal Servis: </strong>'
                 . \Carbon\Carbon::parse($this->crud->getCurrentEntry()->tanggal)->format('d/m/Y')
-                . '</strong></p>',
+                . '</p>',
         ]);
 
         CRUD::addField([
             'name' => 'jam',
             'type' => 'custom_html',
-            'value' => '<p><strong>Jam Servis: </strong><strong>'
+            'value' => '<p style="margin-bottom:0"><strong>Jam Servis: </strong>'
                 . $this->crud->getCurrentEntry()->jam
-                . '</strong></p>'
+                . '</p>'
         ]);
 
         CRUD::field('status')->type('enum')->options([
