@@ -42,10 +42,11 @@ class RewardCrudController extends CrudController
     {
         CRUD::column('title')->label('Nama Reward');
         CRUD::column('merchant_id')->type('relationship')->label('Merchant');
+        CRUD::column('type')->type('select_from_array')->options(Reward::TYPES)->label('Jenis Reward');
         CRUD::column('point')->label('Poin');
         CRUD::column('quantity')->label('Kuantitas');
-        CRUD::column('masa_berlaku_mulai');
-        CRUD::column('masa_berlaku_selesai');
+        // CRUD::column('masa_berlaku_mulai');
+        // CRUD::column('masa_berlaku_selesai');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -69,8 +70,7 @@ class RewardCrudController extends CrudController
             ->type('select_from_array')
             ->options(Reward::TYPES)
             ->label('Jenis Reward')
-            ->allows_null(false)
-            ->default('voucher');
+            ->allows_null(false);
         CRUD::field('title')->type('text')->label('Nama Reward');
         CRUD::field('image')->type('image')->upload(true);
         CRUD::field('point')->type('number')->label('Poin Reward');
@@ -79,8 +79,7 @@ class RewardCrudController extends CrudController
             ->type('select_from_array')
             ->options(Reward::DISCOUNT_TYPES)
             ->label('Jenis Diskon')
-            ->allows_null(false)
-            ->default('percentage');
+            ->allows_null(false);
         CRUD::field('discount_value')->type('number')->label('Nilai Diskon');
         CRUD::field('masa_berlaku_mulai')->type('date');
         CRUD::field('masa_berlaku_selesai')->type('date');

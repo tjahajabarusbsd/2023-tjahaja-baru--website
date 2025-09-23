@@ -25,21 +25,28 @@ class RewardRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'merchant_id' => 'required|exists:merchants,id',
-            'title' => 'required|string|max:255',
-            'image' => 'required',
-            'point' => 'required|integer|min:0',
-            'quantity' => 'required|integer|min:0',
-            'masa_berlaku_mulai' => 'required|date',
-            'masa_berlaku_selesai' => 'required|date|after_or_equal:masa_berlaku_mulai',
-            'deskripsi' => 'required|string',
-            'terms_conditions' => 'required|string',
-            'aktif' => 'boolean',
             'type' => 'required|in:' . implode(',', array_keys(Reward::TYPES)),
+            'title' => 'required|string|max:255',
+            'aktif' => 'boolean',
             'discount_type' => 'required|string|in:' . implode(',', array_keys(Reward::DISCOUNT_TYPES)),
             'discount_value' => 'required|integer|min:0',
+            'masa_berlaku_mulai' => 'required|date',
+            'masa_berlaku_selesai' => 'required|date|after_or_equal:masa_berlaku_mulai',
         ];
+
+        if ($this->input('type') === 'public') {
+            $rules = array_merge($rules, [
+                'image' => 'required',
+                'point' => 'required|integer|min:0',
+                'quantity' => 'required|integer|min:0',
+                'deskripsi' => 'required|string',
+                'terms_conditions' => 'required|string',
+            ]);
+        }
+
+        return $rules;
     }
 
     /**

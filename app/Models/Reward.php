@@ -48,8 +48,8 @@ class Reward extends Model
     }
 
     public const TYPES = [
-        'voucher' => 'Voucher',
-        'physical' => 'Physical Item',
+        'public' => 'Hadiah Publik',
+        'loyalty' => 'Hadiah Loyalty',
     ];
 
     public const DISCOUNT_TYPES = [
