@@ -18,6 +18,7 @@ class RewardController extends Controller
         $rewards = Reward::with('merchant')
             ->where('aktif', true)
             ->where('masa_berlaku_selesai', '>=', now())
+            ->where('type', 'public')
             ->whereHas('merchant', function ($q) {
                 $q->where('aktif', true);
             })
