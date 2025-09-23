@@ -57,11 +57,13 @@ class BookingServiceController extends Controller
         $year = Carbon::now()->format('y');
         $month = Carbon::now()->format('m');
 
-        // Hitung booking hari ini
-        $countToday = BookingService::whereDate('created_at', Carbon::today())->count() + 1;
+        // Hitung order bulan ini
+        $countThisMonth = BookingService::whereYear('created_at', Carbon::now()->year)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->count() + 1;
 
         // Contoh: BKG25090001
-        $booking_id = sprintf("BKG%s%s%04d", $year, $month, $countToday);
+        $booking_id = sprintf("BKG%s%s%04d", $year, $month, $countThisMonth);
 
         $booking = BookingService::create([
             'user_id' => $user->id,
