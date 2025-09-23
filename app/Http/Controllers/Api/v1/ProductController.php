@@ -211,11 +211,13 @@ class ProductController extends Controller
         $year = Carbon::now()->format('y');
         $month = Carbon::now()->format('m');
 
-        // Hitung order hari ini
-        $countToday = OrderMotor::whereDate('created_at', Carbon::today())->count() + 1;
+        // Hitung order bulan ini
+        $countThisMonth = OrderMotor::whereYear('created_at', Carbon::now()->year)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->count() + 1;
 
         // Contoh: ORD25090001
-        $orderId = sprintf("ORD%s%s%04d", $year, $month, $countToday);
+        $orderId = sprintf("ORD%s%s%04d", $year, $month, $countThisMonth);
 
         // Simpan ke database
         $orderMotor = OrderMotor::create([
