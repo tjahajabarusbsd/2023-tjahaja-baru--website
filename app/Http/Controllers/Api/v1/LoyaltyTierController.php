@@ -4,61 +4,64 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoyaltyTierController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+        $points = (int) ($user->profile->lifetime_points ?? 0);
+
+        $tiers = config('loyalty.tiers');
+        $currentTier = $tiers[0];
+
+        foreach (array_reverse($tiers) as $tier) {
+            if ($points >= $tier['min_points']) {
+                $currentTier = $tier;
+                break;
+            }
+        }
+
+        // Hitung progress
+        if (isset($currentTier['max_points']) && $currentTier['max_points'] !== null) {
+            $progress = ($points - $currentTier['min_points']) /
+                ($currentTier['max_points'] - $currentTier['min_points']);
+            $progress = max(0, min(1, round($progress, 2)));
+        } else {
+            $progress = 1;
+        }
+
+        // Generate benefits dummy
+        $generateBenefits = function ($tier) {
+            return [
+                $tier['voucher_service'] . ' voucher servis'
+            ];
+        };
+
         $response = [
             "status" => "success",
             "code" => 200,
             "message" => "Data loyalty tier berhasil diambil",
             "data" => [
-                "current_points" => 1200,
+                "current_points" => $points,
                 "current_tier" => [
-                    "name" => "Silver",
-                    "min_points" => 1000,
-                    "max_points" => 49999,
-                    "progress" => 0.2,
-                    "color" => "#4D7CFE"
+                    "name" => $currentTier['name'],
+                    "min_points" => $currentTier['min_points'],
+                    "max_points" => $currentTier['max_points'] ?? null,
+                    "progress" => $progress,
+                    "color" => $currentTier['color'],
+                    "benefits" => $generateBenefits($currentTier),
                 ],
-                "tiers" => [
-                    [
-                        "name" => "Basic",
-                        "min_points" => 0,
-                        "benefits" => [
-                            "2 voucher servis",
-                            "[Benefit lainnya]"
-                        ]
-                    ],
-                    [
-                        "name" => "Silver",
-                        "min_points" => 1000,
-                        "benefits" => [
-                            "4 voucher servis",
-                            "Diskon produk 5%"
-                        ]
-                    ],
-                    [
-                        "name" => "Gold",
-                        "min_points" => 50000,
-                        "benefits" => [
-                            "6 voucher servis",
-                            "Diskon produk 10%",
-                            "Gratis ongkir"
-                        ]
-                    ],
-                    [
-                        "name" => "Platinum",
-                        "min_points" => 100000,
-                        "benefits" => [
-                            "10 voucher servis",
-                            "Diskon produk 15%",
-                            "Gratis ongkir",
-                            "Priority customer support"
-                        ]
-                    ]
-                ]
+                "tiers" => array_map(function ($tier) use ($generateBenefits) {
+                    return [
+                        "name" => $tier['name'],
+                        "min_points" => $tier['min_points'],
+                        "max_points" => $tier['max_points'] ?? null,
+                        "color" => $tier['color'],
+                        "benefits" => $generateBenefits($tier),
+                    ];
+                }, $tiers)
             ]
         ];
 
