@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditProfileRequest;
+use App\Services\LoyaltyService;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
 use Illuminate\Support\Facades\DB;
@@ -26,18 +27,28 @@ class UserController extends Controller
     public function getAccount(Request $request)
     {
         $user = Auth::user();
+        $profile = $user->profile;
 
-        $points = (int) ($user->profile->total_points ?? 0);
-        $membership = $this->getMembershipTier($points);
+        $lifetimePoints = (int) ($profile->lifetime_points ?? 0);
+        $membership = LoyaltyService::getTierByPoints($lifetimePoints);
+
+        // Pastikan reward tier hanya diberikan sekali
+        $alreadyGranted = \App\Models\RewardClaim::where('user_profile_id', $profile->id)
+            ->where('source', 'loyalty_' . strtolower($membership['tier']))
+            ->exists();
+
+        if (!$alreadyGranted) {
+            LoyaltyService::grantTierBenefits($profile, $membership['tier']);
+        }
 
         return ApiResponse::success('Data akun berhasil dimuat', [
             'user_id' => (int) $user->id,
             'name' => (string) $user->name,
             'email' => (string) $user->email,
             'no_handphone' => (string) $user->phone_number,
-            'jenis_kelamin' => $user->profile->jenis_kelamin ?? '',
-            'tanggal_lahir' => $user->profile->tgl_lahir ?? '',
-            'foto_profil' => asset($user->profile->foto_profil) ?? '',
+            'jenis_kelamin' => $profile->jenis_kelamin ?? '',
+            'tanggal_lahir' => $profile->tgl_lahir ?? '',
+            'foto_profil' => asset($profile->foto_profil) ?? '',
             'membership' => $membership,
         ]);
     }
@@ -95,27 +106,21 @@ class UserController extends Controller
         }
     }
 
-    private function getMembershipTier(int $points): array
+    private function getMembershipTier(int $lifetimePoints): array
     {
-        $tiers = [
-            ['name' => 'Platinum', 'min_points' => 100000],
-            ['name' => 'Gold', 'min_points' => 50000],
-            ['name' => 'Silver', 'min_points' => 1000],
-            ['name' => 'Basic', 'min_points' => 0],
-        ];
+        $tiers = config('loyalty.tiers');
 
-        foreach ($tiers as $tier) {
-            if ($points >= $tier['min_points']) {
-                return [
-                    'tier' => $tier['name'],
-                    'points' => $points,
-                ];
+        $currentTier = $tiers[0]; // default Basic
+        foreach (array_reverse($tiers) as $tier) {
+            if ($lifetimePoints >= $tier['min_points']) {
+                $currentTier = $tier;
+                break;
             }
         }
 
         return [
-            'tier' => 'Unknown',
-            'points' => $points,
+            'tier' => $currentTier['name'],
+            'points' => $lifetimePoints,
         ];
     }
 }
