@@ -17,7 +17,7 @@ class QrScanController extends Controller
 
         $qrCode = $request->qr_code;
         if ($qrCode !== "QDFKADJIEKA") {
-            return ApiResponse::error('QR code tidak valid.', null, 400);
+            return ApiResponse::error('QR code tidak valid.', 400);
         }
 
         $points = 100;
