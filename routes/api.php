@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\v1\ActivityController;
+use App\Http\Controllers\Api\v1\QrScanController;
 use App\Http\Controllers\Api\v1\RewardClaimController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/loyalty-tiers', [LoyaltyTierController::class, 'index']);
         Route::post('/booking-servis', [BookingServiceController::class, 'store']);
         Route::get('/booking-servis/status', [BookingServiceController::class, 'index']);
+        Route::post('/qr/redeem', [QrScanController::class, 'store']);
     });
 
 
