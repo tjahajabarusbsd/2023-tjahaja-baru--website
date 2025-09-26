@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
 use App\Models\BookingService;
 use App\Models\NomorRangka;
@@ -84,5 +85,27 @@ class BookingServiceController extends Controller
         ]);
 
         return ApiResponse::success('Booking berhasil diproses. Kami akan segera menghubungi Anda.', $booking);
+    }
+
+    public function batal(Request $request)
+    {
+        $request->validate([
+            'booking_id' => 'required|exists:booking_services,id',
+        ]);
+
+        $user = Auth::user();
+        $booking = BookingService::where('id', $request->booking_id)
+            ->where('user_id', $user->id)
+            ->where('status', 'pending')
+            ->first();
+
+        if (!$booking) {
+            return ApiResponse::error('Booking tidak ditemukan atau tidak dapat dibatalkan.', 404);
+        }
+
+        $booking->status = 'cancelled';
+        $booking->save();
+
+        return ApiResponse::success('Booking berhasil dibatalkan', $booking);
     }
 }
