@@ -73,6 +73,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/loyalty-tiers', [LoyaltyTierController::class, 'index']);
         Route::post('/booking-servis', [BookingServiceController::class, 'store']);
         Route::get('/booking-servis/status', [BookingServiceController::class, 'index']);
+        Route::post('/booking-servis/batal', [BookingServiceController::class, 'batal']);
         Route::post('/qr/redeem', [QrScanController::class, 'store']);
     });
 
