@@ -44,13 +44,23 @@ class NomorRangkaCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        CRUD::addColumn([
+            'label' => 'Nama',
+            'entity' => 'user',
+            'attribute' => 'name',
+            'model' => "App\Models\UserPublic",
+        ]);
         CRUD::column('nomor_rangka');
-        CRUD::column('phone_number')->label('Nomor Handphone');
         CRUD::column('status_verifikasi')->type('enum')->options([
             'pending' => 'Pending',
             'verified' => 'Verified',
             'rejected' => 'Rejected'
         ]);
+
+        // Hilangkan tombol preview
+        CRUD::denyAccess(['show']);
+        CRUD::denyAccess(['create']);
+        CRUD::denyAccess(['delete']);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -69,10 +79,42 @@ class NomorRangkaCrudController extends CrudController
     {
         CRUD::setValidation(NomorRangkaRequest::class);
 
-        CRUD::field('nomor_rangka')->type('text')->attributes(['disabled' => 'disabled'])->label('Nomor Rangka');
-        CRUD::field('phone_number')->type('text')->attributes(['disabled' => 'disabled'])->label('Nomor Handphone');
-        CRUD::field('ktp')->type('image')->upload(true);
-        CRUD::field('kk')->type('image')->upload(true);
+        CRUD::addField([
+            'name' => 'user_public_id',
+            'type' => 'custom_html',
+            'value' => '<p style="margin-bottom:0"><strong>Nama: </strong>' . optional($this->crud->getCurrentEntry()->user)->name . '</p>',
+        ]);
+
+        CRUD::addField([
+            'name' => 'phone_numbers',
+            'type' => 'custom_html',
+            'value' => '<p style="margin-bottom:0"><strong>Nomor Handphone yang terdaftar di aplikasi: </strong>' . optional($this->crud->getCurrentEntry()->user)->phone_number . '</p>',
+        ]);
+
+        CRUD::addField([
+            'name' => 'nomor_rangka',
+            'type' => 'custom_html',
+            'value' => '<p style="margin-bottom:0"><strong>Nomor Rangka: </strong>' . $this->crud->getCurrentEntry()->nomor_rangka . '</p>',
+        ]);
+
+        CRUD::addField([
+            'name' => 'phone_number',
+            'type' => 'custom_html',
+            'value' => '<p style="margin-bottom:0"><strong>Nomor Handphone yang tercatat saat pembelian: </strong>' . $this->crud->getCurrentEntry()->phone_number . '</p>',
+        ]);
+
+        $this->crud->addField([
+            'name' => 'ktp',
+            'type' => 'custom_html',
+            'value' => '<p style="margin-bottom:0"><strong>KTP: </strong><br/><img src="' . asset($this->crud->getCurrentEntry()->ktp) . '">',
+        ]);
+
+        $this->crud->addField([
+            'name' => 'kk',
+            'type' => 'custom_html',
+            'value' => '<p style="margin-bottom:0"><strong>KK: </strong><br/><img src="' . asset($this->crud->getCurrentEntry()->kk) . '">',
+        ]);
+
         CRUD::field('status_verifikasi')->type('enum')->options([
             'pending' => 'Pending',
             'verified' => 'Verified',
