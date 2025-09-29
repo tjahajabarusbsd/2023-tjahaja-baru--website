@@ -8,6 +8,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use App\Models\UserPublic;
@@ -150,5 +151,78 @@ class AuthController extends Controller
         }
 
         return ApiResponse::error('User tidak ditemukan', 404);
+    }
+
+    public function loginGoogle(Request $request)
+    {
+        $request->validate([
+            'idToken' => 'required|string',
+        ]);
+
+        try {
+            // 1. Verifikasi token ke Google
+            $response = Http::get("https://oauth2.googleapis.com/tokeninfo", [
+                'id_token' => $request->idToken,
+            ]);
+
+            if ($response->failed()) {
+                return ApiResponse::error('ID Token tidak valid', 401);
+            }
+
+            $googleData = $response->json();
+
+            // Data penting dari Google
+            $googleId = $googleData['sub'];       // unique google user id
+            $email = $googleData['email'] ?? null;
+            $name = $googleData['name'] ?? 'User Google';
+
+            if (!$email) {
+                return ApiResponse::error('Email dari Google tidak ditemukan', 422);
+            }
+
+            DB::beginTransaction();
+
+            // 2. Cari user di DB
+            $user = UserPublic::where('google_id', $googleId)
+                ->orWhere('email', $email)
+                ->first();
+
+            if (!$user) {
+                // 3. Buat user baru
+                $user = UserPublic::create([
+                    'name' => $name,
+                    'email' => $email,
+                    'google_id' => $googleId,
+                    'status_akun' => 'active',
+                    'login_method' => 'google',
+                ]);
+            } else {
+                // 4. Update data user lama
+                $user->update([
+                    'google_id' => $googleId,
+                    'name' => $name,
+                    'login_method' => 'google',
+                    'status_akun' => 'active',
+                ]);
+            }
+
+            // 5. Buat token aplikasi (gunakan Sanctum/Passport sesuai setupmu)
+            $token = $user->createToken('auth_google_token')->plainTextToken;
+
+            DB::commit();
+
+            return ApiResponse::success('Login Google berhasil', [
+                'id' => (string) $user->id,
+                'name' => (string) $user->name,
+                'email' => (string) $user->email,
+                'google_id' => (string) $user->google_id,
+                'login_method' => (string) $user->login_method,
+                'token' => $token,
+                'updated_at' => Carbon::now()->toISOString(),
+            ]);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return ApiResponse::error('Terjadi kesalahan saat login Google: ' . $e->getMessage(), 500);
+        }
     }
 }
