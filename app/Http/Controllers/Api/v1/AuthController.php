@@ -193,7 +193,7 @@ class AuthController extends Controller
                     'name' => $name,
                     'email' => $email,
                     'google_id' => $googleId,
-                    'status_akun' => 'active',
+                    'status_akun' => 'aktif',
                     'login_method' => 'google',
                 ]);
             } else {
@@ -202,7 +202,7 @@ class AuthController extends Controller
                     'google_id' => $googleId,
                     'name' => $name,
                     'login_method' => 'google',
-                    'status_akun' => 'active',
+                    'status_akun' => 'aktif',
                 ]);
             }
 
