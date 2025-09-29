@@ -196,6 +196,12 @@ class AuthController extends Controller
                     'status_akun' => 'aktif',
                     'login_method' => 'google',
                 ]);
+                $user->profile()->create([
+                    'tgl_lahir' => now(),
+                    'alamat' => '',
+                    'jenis_kelamin' => 'L',
+                    'total_points' => 0,
+                ]);
             } else {
                 // 4. Update data user lama
                 $user->update([
