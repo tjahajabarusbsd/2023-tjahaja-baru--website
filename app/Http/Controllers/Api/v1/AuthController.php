@@ -273,7 +273,7 @@ class AuthController extends Controller
             }
 
             // 4. Generate token Sanctum
-            $token = $user->createToken('auth_token')->plainTextToken;
+            $token = $user->createToken('auth_facebook_token')->plainTextToken;
 
             DB::commit();
 
