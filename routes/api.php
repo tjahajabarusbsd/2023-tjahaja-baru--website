@@ -39,6 +39,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/login/google', [AuthController::class, 'loginGoogle']);
+    Route::post('/login/facebook', [AuthController::class, 'loginFacebook']);
     Route::post('/verify-otp', [OtpController::class, 'verifyOtp']);
     Route::post('/send-otp', [OtpController::class, 'sendOtp']);
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);

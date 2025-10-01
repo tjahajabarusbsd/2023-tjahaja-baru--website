@@ -231,4 +231,63 @@ class AuthController extends Controller
             return ApiResponse::error('Terjadi kesalahan saat login Google: ' . $e->getMessage(), 500);
         }
     }
+
+    public function loginFacebook(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $facebookId = $request->input('facebook_id');
+            $name = $request->input('name');
+            $email = $request->input('email');
+
+            if (!$facebookId) {
+                return ApiResponse::error('Facebook ID wajib dikirim', 400);
+            }
+
+            // 1. Cari user berdasarkan facebook_id
+            $user = UserPublic::where('facebook_id', $facebookId)->first();
+
+            // 2. Kalau belum ada, cek pakai email
+            if (!$user && $email) {
+                $user = UserPublic::where('email', $email)->first();
+            }
+
+            // 3. Kalau user belum ada → buat baru
+            if (!$user) {
+                $user = UserPublic::create([
+                    'name' => $name ?? 'User FB',
+                    'email' => $email,
+                    'facebook_id' => $facebookId,
+                    'status_akun' => 'aktif',
+                    'login_method' => 'facebook',
+                ]);
+
+                // Buat profile default
+                $user->profile()->create([
+                    'tgl_lahir' => now(),
+                    'alamat' => '',
+                    'jenis_kelamin' => 'L',
+                    'total_points' => 0,
+                ]);
+            }
+
+            // 4. Generate token Sanctum
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            DB::commit();
+
+            return ApiResponse::success('Login Facebook berhasil', [
+                'id' => (string) $user->id,
+                'name' => (string) $user->name,
+                'email' => (string) $user->email,
+                'token' => $token,
+                'login_method' => $user->login_method,
+            ]);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return ApiResponse::error('Terjadi kesalahan saat login Facebook: ' . $e->getMessage(), 500);
+        }
+    }
+
 }
