@@ -6,6 +6,7 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Services\PhoneNumberService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -27,10 +28,9 @@ class AuthController extends Controller
 
             $otp = $otpService->generateOtpWithoutFour();
             $expiry = $otpService->expiryTime();
-            $phone = $request->phone_number;
+            $phone = PhoneNumberService::normalize($request->phone_number);
             $messageBody = $otpService->buildMessage($otp);
 
-            // kirim WA
             $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
 
             // cek response WA (pastikan format return sesuai)
