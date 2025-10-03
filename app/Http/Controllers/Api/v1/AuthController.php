@@ -13,18 +13,33 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use App\Models\UserPublic;
 use Illuminate\Support\Facades\DB;
+use App\Services\OtpService;
+use App\Http\Controllers\WhatsAppController;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request, OtpService $otpService, WhatsAppController $whatsAppController)
     {
-        $otp = rand(1000, 9999);
-        $otpExpiresAt = Carbon::now()->addMinutes(5);
-
         DB::beginTransaction();
 
         try {
             $user = UserPublic::where('phone_number', $request->phone_number)->first();
+
+            $otp = $otpService->generateOtpWithoutFour();
+            $expiry = $otpService->expiryTime();
+            $phone = $request->phone_number;
+            $messageBody = $otpService->buildMessage($otp);
+
+            // kirim WA
+            $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
+
+            // cek response WA (pastikan format return sesuai)
+            if (!method_exists($apiResponse, 'getStatusCode') || $apiResponse->getStatusCode() !== 200) {
+                DB::rollBack();
+                return ApiResponse::error('Gagal mengirim OTP. Silakan coba lagi.', 500, [
+                    'details' => $apiResponse
+                ]);
+            }
 
             if ($user) {
                 if ($user->status_akun === 'aktif') {
@@ -33,7 +48,7 @@ class AuthController extends Controller
 
                 $user->update([
                     'otp' => $otp,
-                    'otp_expires_at' => $otpExpiresAt,
+                    'otp_expires_at' => $expiry,
                     'password' => Hash::make($request->password),
                 ]);
 
@@ -45,7 +60,7 @@ class AuthController extends Controller
                     'status_akun' => 'pending',
                     'login_method' => 'manual',
                     'otp' => $otp,
-                    'otp_expires_at' => $otpExpiresAt,
+                    'otp_expires_at' => $expiry,
                 ]);
             }
 
@@ -61,6 +76,12 @@ class AuthController extends Controller
             ]);
         } catch (\Throwable $e) {
             DB::rollBack();
+
+            \Log::error('Register gagal', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
             return ApiResponse::error('Terjadi kesalahan saat register', 500);
         }
     }
