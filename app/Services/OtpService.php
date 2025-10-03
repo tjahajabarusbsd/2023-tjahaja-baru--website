@@ -36,7 +36,7 @@ class OtpService
 
     public function buildMessage(string $otp): string
     {
-        return "Kode OTP Anda adalah: *{$otp}*\n\n"
+        return "Kode OTP Anda adalah: *{$otp}*. "
             . "Berlaku {$this->expiryMinutes} menit. Jangan bagikan ke siapa pun.";
     }
 }

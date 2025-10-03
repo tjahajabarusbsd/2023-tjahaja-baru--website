@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Services\PhoneNumberService;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VerifyOtpRequest;
@@ -9,6 +10,8 @@ use App\Http\Requests\SendOtpRequest;
 use App\Helpers\ApiResponse;
 use App\Models\UserPublic;
 use Illuminate\Support\Facades\DB;
+use App\Services\OtpService;
+use App\Http\Controllers\WhatsAppController;
 
 class OtpController extends Controller
 {
@@ -84,7 +87,7 @@ class OtpController extends Controller
         }
     }
 
-    public function sendOtp(SendOtpRequest $request)
+    public function sendOtp(SendOtpRequest $request, WhatsAppController $whatsAppController, OtpService $otpService)
     {
         $user = UserPublic::where('phone_number', $request->phone_number)->first();
 
@@ -105,23 +108,33 @@ class OtpController extends Controller
                 'Kode OTP telah dikirim. Silakan tunggu sebentar.',
                 429,
                 [
-                    // waktu tunggu = (updated_at + 60 detik) - sekarang
                     'retry_after' => (string) $user->updated_at->addMinute()->diffInSeconds(now())
                 ]
             );
         }
 
-        $otp = rand(1000, 9999);
-        $otpExpiresAt = Carbon::now()->addMinutes(5);
+        $otp = $otpService->generateOtpWithoutFour();
+        $expiry = $otpService->expiryTime();
+        $phone = PhoneNumberService::normalize($request->phone_number);
+        $messageBody = $this->buildMessageBody($otp);
+
+        $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
+
+        if (!method_exists($apiResponse, 'getStatusCode') || $apiResponse->getStatusCode() !== 200) {
+            DB::rollBack();
+            return ApiResponse::error('Gagal mengirim OTP. Silakan coba lagi.', 500, [
+                'details' => $apiResponse
+            ]);
+        }
 
         $user->update([
             'otp' => $otp,
-            'otp_expires_at' => $otpExpiresAt,
+            'otp_expires_at' => $expiry,
         ]);
 
-        return ApiResponse::success('Kode OTP baru telah dikirim', [
+        return ApiResponse::success('Kode OTP telah dikirim', [
             'otp' => (string) $otp,
-            'expired_in' => 300,
+            'expired_in' => $otpService->getExpirySeconds(),
         ]);
     }
 }
