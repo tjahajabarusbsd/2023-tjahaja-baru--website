@@ -116,7 +116,7 @@ class OtpController extends Controller
         $otp = $otpService->generateOtpWithoutFour();
         $expiry = $otpService->expiryTime();
         $phone = PhoneNumberService::normalize($request->phone_number);
-        $messageBody = $this->buildMessageBody($otp);
+        $messageBody = $otpService->buildMessage($otp);
 
         $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
 
