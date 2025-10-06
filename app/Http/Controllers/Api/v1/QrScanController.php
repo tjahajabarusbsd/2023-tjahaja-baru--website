@@ -10,7 +10,17 @@ use Illuminate\Support\Facades\Auth;
 
 class QrScanController extends Controller
 {
-    public function store(QrScanRequest $request)
+    public function scan(QrScanRequest $request)
+    {
+        return $this->processQr($request, 'scan');
+    }
+
+    public function manualInput(QrScanRequest $request)
+    {
+        return $this->processQr($request, 'manual');
+    }
+
+    public function processQr(QrScanRequest $request, $type)
     {
         $user = Auth::user();
         $profile = $user->profile;
@@ -21,7 +31,6 @@ class QrScanController extends Controller
         }
 
         $points = 100;
-
         $profile->total_points += $points;
         $profile->lifetime_points += $points;
         $profile->save();
