@@ -20,7 +20,7 @@ class UserController extends Controller
         return ApiResponse::success('Data user berhasil diambil', [
             'id' => (string) $user->id,
             'name' => (string) $user->name,
-            'points' => (int) ($user->profile->total_points ?? 0),
+            'points' => (int) ($user->profile->lifetime_points ?? 0),
         ]);
     }
 
