@@ -115,10 +115,10 @@ class RewardController extends Controller
                 'reward_id' => $reward->id,
                 'status' => 'aktif',
                 'point_used' => $reward->point,
-                'kode_voucher' => $reward->type === 'voucher' ? strtoupper(Str::random(10)) : null,
+                'kode_voucher' => $reward->type === 'public' ? strtoupper(Str::random(10)) : null,
                 'shipping_address' => $request->shipping_address,
                 'source' => 'manual',
-                'expires_at' => $reward->type === 'voucher' ? now()->addDays(7) : null,
+                'expires_at' => $reward->type === 'public' ? now()->addDays(7) : null,
             ]);
 
             DB::commit();
