@@ -5,11 +5,14 @@ namespace App\Services;
 use App\Models\Reward;
 use App\Models\RewardClaim;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class LoyaltyService
 {
     public static function getTierByPoints(int $lifetimePoints): array
     {
+        $user = Auth::user();
+
         $tiers = config('loyalty.tiers');
         $currentTier = $tiers[0];
 
@@ -22,7 +25,8 @@ class LoyaltyService
 
         return [
             'tier' => $currentTier['name'],
-            'points' => $lifetimePoints,
+            'points' => (int) ($user->profile->total_points ?? 0),
+            'life_time_points' => $lifetimePoints,
             'color' => $currentTier['color'],
             'voucher_service' => $currentTier['voucher_service'],
         ];
