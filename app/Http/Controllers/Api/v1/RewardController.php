@@ -6,6 +6,7 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Reward;
 use App\Models\RewardClaim;
+use App\Models\ActivityLog;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -119,6 +120,17 @@ class RewardController extends Controller
                 'shipping_address' => $request->shipping_address,
                 'source' => 'manual',
                 'expires_at' => $reward->type === 'public' ? now()->addDays(7) : null,
+            ]);
+
+            ActivityLog::create([
+                'user_public_id' => $user->id,
+                'source_type' => RewardClaim::class,
+                'source_id' => $claim->id,
+                'type' => 'Hadiah',
+                'title' => 'Klaim hadiah berhasil',
+                'description' => 'Klaim hadiah ' . $reward->title . ' berhasil.',
+                'points' => -$reward->point,
+                'activity_date' => now(),
             ]);
 
             DB::commit();
