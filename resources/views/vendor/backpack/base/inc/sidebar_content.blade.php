@@ -58,4 +58,6 @@
                         Rewards</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('event') }}"><i class="nav-icon la la-question"></i>
                         Events</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('qrcode') }}"><i class="nav-icon la la-question"></i>
+                        Qrcodes</a></li>
 @endcan

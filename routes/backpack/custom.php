@@ -41,5 +41,6 @@ Route::group([
         Route::crud('order-motor', 'OrderMotorCrudController');
         Route::crud('merchant', 'MerchantCrudController');
         Route::crud('reward', 'RewardCrudController');
+        Route::crud('qrcode', 'QrcodeCrudController');
     });
 }); // this should be the absolute last line of this file
