@@ -85,8 +85,8 @@ class QrScanController extends Controller
             DB::commit();
 
             return ApiResponse::success('QR berhasil divalidasi. Poin telah ditambahkan.', [
-                'points_received' => $points,
-                'total_points' => $profile->total_points,
+                'points_received' => (int) $points,
+                'total_points' => (int) $profile->total_points,
                 'description' => 'Poin telah ditambahkan ke akunmu! Terus kumpulkan poin untuk mendapatkan hadiah menarik.'
             ]);
 
