@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\QrcodeRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Validation\Rule;
 
 /**
  * Class QrcodeCrudController
@@ -67,7 +68,11 @@ class QrcodeCrudController extends CrudController
         // CRUD::setValidation(QrcodeRequest::class);
         $this->crud->setValidation([
             'nama_qrcode' => 'required|min:3',
-            'kode' => 'unique:qrcodes,kode',
+            'kode' => [
+                'nullable',
+                Rule::unique('qrcodes', 'kode')
+                    ->ignore($this->crud->getCurrentEntryId()), // abaikan ID saat edit
+            ],
             'poin' => 'required|integer|min:1',
             'masa_berlaku_mulai' => 'required|date',
             'masa_berlaku_selesai' => 'required|date|after:masa_berlaku_mulai',

@@ -47,17 +47,18 @@
 
 @can('can_manage_menu_mobile')
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('nomor-rangka') }}"><i
-                                class="nav-icon la la-question"></i> Nomor Rangka</a></li>
+                                class='nav-icon la la-barcode'></i> Nomor Rangka</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('booking-service') }}"><i
-                                class="nav-icon la la-question"></i> Booking services</a></li>
+                                class='nav-icon la la-calendar-check'></i> Booking services</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('order-motor') }}"><i
-                                class="nav-icon la la-question"></i> Order motors</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('merchant') }}"><i class="nav-icon la la-question"></i>
+                                class='nav-icon la la-motorcycle'></i>
+                        Order motors</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('merchant') }}"><i class='nav-icon la la-store'></i>
                         Merchants</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('reward') }}"><i class="nav-icon la la-question"></i>
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('reward') }}"><i class="nav-icon la la-gift"></i>
                         Rewards</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('event') }}"><i class="nav-icon la la-question"></i>
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('event') }}"><i class="nav-icon la-calendar-alt"></i>
                         Events</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('qrcode') }}"><i class="nav-icon la la-question"></i>
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('qrcode') }}"><i class="nav-icon la la-qrcode"></i>
                         Qrcodes</a></li>
 @endcan
