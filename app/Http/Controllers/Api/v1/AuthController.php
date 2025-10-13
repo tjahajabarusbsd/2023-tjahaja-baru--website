@@ -311,4 +311,34 @@ class AuthController extends Controller
         }
     }
 
+    public function updateFcmToken(Request $request)
+    {
+        $request->validate([
+            'fcm_token' => 'required|string',
+        ]);
+
+        try {
+            $user = auth()->user(); // pastikan pakai sanctum/jwt
+
+            if (!$user) {
+                return response()->json(['success' => false, 'message' => 'User tidak ditemukan'], 401);
+            }
+
+            $user->fcm_token = $request->fcm_token;
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'FCM token berhasil diperbarui',
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Gagal update FCM token: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan server',
+            ], 500);
+        }
+    }
+
+
 }

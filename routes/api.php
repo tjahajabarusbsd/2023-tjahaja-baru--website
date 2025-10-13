@@ -58,6 +58,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::middleware('auth:user_public')->group(function () {
+        Route::post('/update-fcm-token', [AuthController::class, 'updateFcmToken']);
         Route::post('/reward/{id}/claim', [RewardController::class, 'store']);
         Route::get('/reward-claims', [RewardClaimController::class, 'index']);
         Route::get('/user', [UserController::class, 'getUser']);

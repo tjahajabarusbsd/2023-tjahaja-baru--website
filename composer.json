@@ -20,6 +20,7 @@
         "guzzlehttp/guzzle": "^7.0",
         "intervention/image": "^2.7",
         "josiasmontag/laravel-recaptchav3": "^1.0",
+        "kreait/laravel-firebase": "5.8",
         "laravel/framework": "^9.0",
         "laravel/sanctum": "*",
         "laravel/socialite": "^5.12",
