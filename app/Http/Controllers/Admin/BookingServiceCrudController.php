@@ -9,6 +9,7 @@ use App\Models\NomorRangka;
 use App\Models\UserPublicProfile;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\Http;
 
 /**
  * Class BookingServiceCrudController
@@ -134,12 +135,25 @@ class BookingServiceCrudController extends CrudController
                 . '</p>',
         ]);
 
+        // CRUD::addField([
+        //     'name' => 'jam',
+        //     'type' => 'custom_html',
+        //     'value' => '<p style="margin-bottom:0"><strong>Jam Servis: </strong>'
+        //         . $this->crud->getCurrentEntry()->jam
+        //         . '</p>'
+        // ]);
+
+        // make crud time
         CRUD::addField([
             'name' => 'jam',
-            'type' => 'custom_html',
-            'value' => '<p style="margin-bottom:0"><strong>Jam Servis: </strong>'
-                . $this->crud->getCurrentEntry()->jam
-                . '</p>'
+            'type' => 'time',
+            'label' => 'Jam Servis',
+            'attributes' => [
+                'step' => '900', // 15 menit dalam detik
+            ],
+            'wrapper' => [
+                'class' => 'form-group col-md-6',
+            ],
         ]);
 
         CRUD::field('status')->type('enum')->options([
@@ -196,15 +210,60 @@ class BookingServiceCrudController extends CrudController
                 'activity_date' => now(),
             ]);
 
-            // update total points user
-            // update total_points di profile
+            // update points di profile
             $profile = UserPublicProfile::where('user_public_id', $user->id)->first();
             if ($profile) {
                 $profile->increment('total_points', $points);
+                $profile->increment('lifetime_points', $points);
             }
+
+            // kirim push notifikasi ke user
+            $this->sendFcmNotification(
+                $user->fcm_token, // pastikan kolom ini ada di tabel user_public
+                'Servis Selesai 🚗',
+                'Servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah selesai. Anda mendapatkan +' . $points . ' poin.'
+            );
         }
 
         return $response;
+    }
+
+    /**
+     * Kirim notifikasi FCM v1
+     */
+    protected function sendFcmNotification($deviceToken, $title, $body)
+    {
+        if (!$deviceToken) {
+            \Log::warning('User tidak punya FCM token, notifikasi tidak dikirim.');
+            return;
+        }
+
+        try {
+            $factory = (new \Kreait\Firebase\Factory)
+                ->withServiceAccount(config('services.firebase.credentials.file'));
+
+            $messaging = $factory->createMessaging();
+
+            $message = [
+                'token' => $deviceToken,
+                'notification' => [
+                    'title' => $title,
+                    'body' => $body,
+                ],
+                'android' => [
+                    'notification' => [
+                        'sound' => 'default',
+                        'priority' => 'high',
+                    ],
+                ],
+            ];
+
+            $messaging->send($message);
+
+            \Log::info("FCM notification sent to user ID {$deviceToken}");
+        } catch (\Exception $e) {
+            \Log::error('Gagal mengirim FCM notifikasi: ' . $e->getMessage());
+        }
     }
 
 }
