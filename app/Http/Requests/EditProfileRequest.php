@@ -26,7 +26,7 @@ class EditProfileRequest extends BaseRequest
         return [
             'full_name' => ['required', 'max:50', 'regex:/^[a-zA-Z\s\'.-]+$/'],
             'gender' => ['nullable', 'in:L,P'],
-            'birth_date' => ['nullable', 'date', 'before:today'],
+            'birth_date' => ['nullable', 'date_format:d/m/Y', 'before_or_equal:today'],
             'photo_filename' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
             'email' => ['required', 'email', 'max:255', 'unique:user_publics,email,' . $userId],
             'phone' => ['required', 'string', 'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/', 'unique:user_publics,phone_number,' . $userId],

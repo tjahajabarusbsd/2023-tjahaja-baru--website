@@ -251,9 +251,9 @@ class BookingServiceCrudController extends CrudController
                     'body' => $body,
                 ],
                 'android' => [
+                    'priority' => 'high',
                     'notification' => [
                         'sound' => 'default',
-                        'priority' => 'high',
                     ],
                 ],
             ];
