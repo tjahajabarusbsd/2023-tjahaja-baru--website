@@ -57,7 +57,7 @@
                         Merchants</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('reward') }}"><i class="nav-icon la la-gift"></i>
                         Rewards</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('event') }}"><i class="nav-icon la-calendar-alt"></i>
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('event') }}"><i class="nav-icon la la-calendar-alt"></i>
                         Events</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('qrcode') }}"><i class="nav-icon la la-qrcode"></i>
                         Qrcodes</a></li>

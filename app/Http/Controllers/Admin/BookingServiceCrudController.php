@@ -195,6 +195,24 @@ class BookingServiceCrudController extends CrudController
             ->where('user_public_id', $user->id)
             ->first();
 
+        if ($booking->status === 'cancelled') {
+            // kirim push notifikasi ke user
+            $this->sendFcmNotification(
+                $user->fcm_token, // pastikan kolom ini ada di tabel user_public
+                'Booking Servis Dibatalkan ❌',
+                'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dibatalkan.'
+            );
+        }
+
+        if ($booking->status === 'confirmed') {
+            // kirim push notifikasi ke user
+            $this->sendFcmNotification(
+                $user->fcm_token, // pastikan kolom ini ada di tabel user_public
+                'Booking Servis Dikonfirmasi ✅',
+                'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dikonfirmasi. Sampai jumpa di dealer!'
+            );
+        }
+
         if ($booking->status === 'completed') {
             $points = 100;
 
@@ -220,7 +238,7 @@ class BookingServiceCrudController extends CrudController
             // kirim push notifikasi ke user
             $this->sendFcmNotification(
                 $user->fcm_token, // pastikan kolom ini ada di tabel user_public
-                'Servis Selesai 🚗',
+                'Servis Selesai ✅',
                 'Servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah selesai. Anda mendapatkan +' . $points . ' poin.'
             );
         }
