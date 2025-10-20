@@ -72,7 +72,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/notifications', [NotificationController::class, 'index']);
         Route::get('/activity', [ActivityController::class, 'index']);
         Route::get('/vouchers', [VoucherController::class, 'index']);
-        Route::get('/voucher/{id}', [VoucherController::class, 'show']);
+        Route::get('/voucher/{id}', [RewardClaimController::class, 'show']);
         Route::get('/loyalty-tiers', [LoyaltyTierController::class, 'index']);
         Route::post('/booking-servis', [BookingServiceController::class, 'store']);
         Route::get('/booking-servis/status', [BookingServiceController::class, 'index']);
