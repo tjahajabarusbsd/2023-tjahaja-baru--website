@@ -7,6 +7,7 @@ use App\Models\ActivityLog;
 use App\Models\BookingService;
 use App\Models\NomorRangka;
 use App\Models\UserPublicProfile;
+use App\Models\Notification;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Http;
@@ -202,6 +203,15 @@ class BookingServiceCrudController extends CrudController
                 'Booking Servis Dibatalkan ❌',
                 'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dibatalkan.'
             );
+
+            Notification::create([
+                'user_public_id' => $user->id,
+                'source_type' => BookingService::class,
+                'source_id' => $booking->id,
+                'title' => 'Booking Servis Dibatalkan.',
+                'description' => "Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dibatalkan.",
+                'is_read' => false,
+            ]);
         }
 
         if ($booking->status === 'confirmed') {
@@ -211,6 +221,15 @@ class BookingServiceCrudController extends CrudController
                 'Booking Servis Dikonfirmasi ✅',
                 'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dikonfirmasi. Sampai jumpa di dealer!'
             );
+
+            Notification::create([
+                'user_public_id' => $user->id,
+                'source_type' => BookingService::class,
+                'source_id' => $booking->id,
+                'title' => 'Booking Servis Dikonfirmasi.',
+                'description' => "Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dikonfirmasi. Sampai jumpa di dealer!",
+                'is_read' => false,
+            ]);
         }
 
         if ($booking->status === 'completed') {
@@ -241,6 +260,15 @@ class BookingServiceCrudController extends CrudController
                 'Servis Selesai ✅',
                 'Servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah selesai. Anda mendapatkan +' . $points . ' poin.'
             );
+
+            Notification::create([
+                'user_public_id' => $user->id,
+                'source_type' => BookingService::class,
+                'source_id' => $booking->id,
+                'title' => 'Servis Selesai.',
+                'description' => "Servis motor Anda telah selesai.",
+                'is_read' => false,
+            ]);
         }
 
         return $response;

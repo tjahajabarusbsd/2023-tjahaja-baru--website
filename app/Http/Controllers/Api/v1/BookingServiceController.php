@@ -75,14 +75,14 @@ class BookingServiceController extends Controller
             'jam' => $request->jam,
         ]);
 
-        Notification::create([
-            'user_public_id' => $user->id,
-            'source_type' => BookingService::class,
-            'source_id' => $booking->id,
-            'title' => 'Booking servis berhasil.',
-            'description' => "Servis motor Anda telah berhasil dan sedang diproses",
-            'is_read' => false,
-        ]);
+        // Notification::create([
+        //     'user_public_id' => $user->id,
+        //     'source_type' => BookingService::class,
+        //     'source_id' => $booking->id,
+        //     'title' => 'Booking servis berhasil.',
+        //     'description' => "Servis motor Anda telah berhasil dan sedang diproses",
+        //     'is_read' => false,
+        // ]);
 
         return ApiResponse::success('Booking berhasil diproses. Kami akan segera menghubungi Anda.', $booking);
     }
