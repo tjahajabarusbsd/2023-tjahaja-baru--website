@@ -80,6 +80,7 @@ Route::prefix('v1')->group(function () {
         // Route::post('/qr/redeem', [QrScanController::class, 'store']);
         Route::post('/qr/scan', [QrScanController::class, 'scan']);
         Route::post('/qr/redeem', [QrScanController::class, 'manualInput']);
+        Route::post('/qr/scanByKasir', [QrScanController::class, 'scanByKasir']);
     });
 
 
