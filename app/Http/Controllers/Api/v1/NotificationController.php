@@ -20,6 +20,10 @@ class NotificationController extends Controller
             ->latest()
             ->paginate(10);
 
+        Notification::where('user_public_id', $user->id)
+            ->where('is_read', 0)
+            ->update(['is_read' => 1]);
+
         return NotificationResource::collection($notifications)
             ->additional([
                 'status' => 'success',
