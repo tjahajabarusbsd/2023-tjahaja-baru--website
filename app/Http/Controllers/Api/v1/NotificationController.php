@@ -22,7 +22,10 @@ class NotificationController extends Controller
 
         Notification::where('user_public_id', $user->id)
             ->where('is_read', 0)
-            ->update(['is_read' => 1]);
+            ->update([
+                'is_read' => 1,
+                'read_at' => now(),
+            ]);
 
         return NotificationResource::collection($notifications)
             ->additional([
