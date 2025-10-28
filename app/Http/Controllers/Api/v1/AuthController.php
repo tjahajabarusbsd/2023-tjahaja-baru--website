@@ -24,16 +24,23 @@ class AuthController extends Controller
         DB::beginTransaction();
 
         try {
-            $user = UserPublic::where('phone_number', $request->phone_number)->first();
+            $phone = PhoneNumberService::normalize($request->phone_number);
+            $user = UserPublic::where('phone_number', $phone)->first();
 
+            // 1️⃣ Cek apakah user sudah terdaftar dan aktif
+            if ($user && $user->status_akun === 'aktif') {
+                return ApiResponse::error('Nomor sudah terdaftar dan aktif', 409);
+            }
+
+            // 2️⃣ Generate OTP
             $otp = $otpService->generateOtpWithoutFour();
             $expiry = $otpService->expiryTime();
-            $phone = PhoneNumberService::normalize($request->phone_number);
             $messageBody = $otpService->buildMessage($otp);
 
+            // 3️⃣ Kirim OTP via WhatsApp
             $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
 
-            // cek response WA (pastikan format return sesuai)
+            // 4️⃣ Cek response dari WhatsApp API
             if (!method_exists($apiResponse, 'getStatusCode') || $apiResponse->getStatusCode() !== 200) {
                 DB::rollBack();
                 return ApiResponse::error('Gagal mengirim OTP. Silakan coba lagi.', 500, [
@@ -41,21 +48,18 @@ class AuthController extends Controller
                 ]);
             }
 
+            // 5️⃣ Simpan / update user data
             if ($user) {
-                if ($user->status_akun === 'aktif') {
-                    return ApiResponse::error('Nomor sudah terdaftar dan aktif', 409);
-                }
-
                 $user->update([
                     'otp' => $otp,
                     'otp_expires_at' => $expiry,
                     'password' => Hash::make($request->password),
+                    'status_akun' => 'pending', // pastikan status direset ke pending
                 ]);
-
             } else {
                 $user = UserPublic::create([
                     'name' => $request->name,
-                    'phone_number' => $request->phone_number,
+                    'phone_number' => $phone,
                     'password' => Hash::make($request->password),
                     'status_akun' => 'pending',
                     'login_method' => 'manual',
@@ -66,6 +70,7 @@ class AuthController extends Controller
 
             DB::commit();
 
+            // 6️⃣ Return response sukses
             return ApiResponse::success('Register berhasil, silakan verifikasi OTP', [
                 'id' => (string) $user->id,
                 'name' => (string) $user->name,
@@ -74,6 +79,7 @@ class AuthController extends Controller
                 'created_at' => Carbon::now()->toISOString(),
                 'updated_at' => Carbon::now()->toISOString(),
             ]);
+
         } catch (\Throwable $e) {
             DB::rollBack();
 
