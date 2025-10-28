@@ -34,4 +34,17 @@ class NotificationController extends Controller
                 'message' => 'Daftar notifikasi berhasil dimuat',
             ]);
     }
+
+    public function unreadCount(Request $request)
+    {
+        $user = $request->user();
+
+        $count = Notification::where('user_public_id', $user->id)
+            ->where('is_read', 0)
+            ->count();
+
+        return response()->json([
+            'unread_count' => $count,
+        ]);
+    }
 }

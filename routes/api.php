@@ -71,6 +71,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/services/{nomorRangka}/{svsId}', [MyMotorController::class, 'getRiwayatServis']);
         Route::post('/products/order', [ProductController::class, 'order']);
         Route::get('/notifications', [NotificationController::class, 'index']);
+        Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount']);
         Route::get('/activity', [ActivityController::class, 'index']);
         Route::get('/vouchers', [VoucherController::class, 'index']);
         Route::get('/voucher/{id}', [RewardClaimController::class, 'show']);
@@ -83,6 +84,4 @@ Route::prefix('v1')->group(function () {
         Route::post('/qr/redeem', [QrScanController::class, 'manualInput']);
         Route::post('/qr/scanByKasir', [QrScanController::class, 'scanByKasir']);
     });
-
-
 });
