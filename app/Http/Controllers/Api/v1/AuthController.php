@@ -94,7 +94,10 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $user = UserPublic::where('phone_number', $request->phone_number)->first();
+        // Normalisasi nomor agar sama dengan format di database
+        $phone = PhoneNumberService::normalize($request->phone_number);
+
+        $user = UserPublic::where('phone_number', $phone)->first();
 
         if (!$user) {
             return ApiResponse::error('Nomor Handphone belum terdaftar', 404);
@@ -104,6 +107,7 @@ class AuthController extends Controller
             return ApiResponse::error('Password tidak cocok', 401);
         }
 
+        // Batasi maksimal 3 token aktif
         $user->tokens()->when($user->tokens()->count() >= 3, function ($query) {
             $query->oldest()->first()?->delete();
         });
@@ -137,17 +141,11 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $errorMessages = implode(' ', $validator->errors()->all());
-
-            return response()->json([
-                'status' => 'error',
-                'code' => 422,
-                'message' => $errorMessages,
-                'data' => null,
-            ], 422);
+            return ApiResponse::error($validator->errors()->first(), 422);
         }
 
-        $user = UserPublic::where('phone_number', $request->phone_number)->first();
+        $phone = PhoneNumberService::normalize($request->phone_number);
+        $user = UserPublic::where('phone_number', $phone)->first();
 
         if (!$user) {
             return ApiResponse::error('Nomor Handphone belum terdaftar', 404);
