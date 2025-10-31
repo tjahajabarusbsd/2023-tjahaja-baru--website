@@ -48,27 +48,67 @@ class BookingServiceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('booking_id')->label('ID Booking');
+        // CRUD::column('booking_id')->label('ID Booking');
+        // tanggal dan jam dipisah
         CRUD::addColumn([
-            'label' => 'Nama',
-            'entity' => 'user',
-            'attribute' => 'name',
-            'model' => "App\Models\UserPublic",
+            'name' => 'tanggal',
+            'label' => 'Tanggal Servis',
+            'type' => 'date',
+            'format' => 'DD/MM/YYYY',
         ]);
+
+        CRUD::addColumn([
+            'name' => 'jam',
+            'label' => 'Jam Servis',
+            'type' => 'time',
+            'format' => 'H:i',
+        ]);
+
+        // nomor plat ditambahkan
+        CRUD::addColumn([
+            'name' => 'nomor_plat',
+            'label' => 'Nomor Plat',
+            'type' => 'closure',
+            'function' => function ($entry) {
+                $motor = $entry->motor;
+                return $motor ? $motor->nomor_plat : '-';
+            },
+        ]);
+
+        // nama model
+        CRUD::addColumn([
+            'name' => 'nama_model',
+            'label' => 'Brand Motor',
+            'type' => 'closure',
+            'function' => function ($entry) {
+                $motor = $entry->motor;
+                return $motor ? $motor->nama_model : '-';
+            },
+        ]);
+
         CRUD::addColumn([
             'label' => 'Nomor Handphone',
             'entity' => 'user',
             'attribute' => 'phone_number',
             'model' => "App\Models\UserPublic",
         ]);
-        CRUD::column('motor_id')->label('Nomor Rangka');
+
         CRUD::addColumn([
-            'label' => 'Dealer',
-            'entity' => 'dealer',
-            'attribute' => 'name_dealer',
-            'model' => "App\Models\Dealer",
+            'label' => 'Nama',
+            'entity' => 'user',
+            'attribute' => 'name',
+            'model' => "App\Models\UserPublic",
         ]);
+
+        // CRUD::column('motor_id')->label('Nomor Rangka');
+        // CRUD::addColumn([
+        //     'label' => 'Dealer',
+        //     'entity' => 'dealer',
+        //     'attribute' => 'name_dealer',
+        //     'model' => "App\Models\Dealer",
+        // ]);
         CRUD::column('status');
+        CRUD::enableExportButtons();
 
         // Hilangkan tombol preview
         CRUD::denyAccess(['show']);
@@ -81,6 +121,8 @@ class BookingServiceCrudController extends CrudController
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
          */
     }
+
+
 
     /**
      * Define what happens when the Create operation is loaded.
@@ -102,7 +144,7 @@ class BookingServiceCrudController extends CrudController
             'name' => 'user_id',
             'label' => 'User',
             'type' => 'custom_html',
-            'value' => '<p style="margin-bottom:0"><strong>Nama: </strong>' . optional($this->crud->getCurrentEntry()->user)->name . '</p>',
+            'value' => '<p style="margin-bottom:0"><strong>Nama Customer: </strong>' . optional($this->crud->getCurrentEntry()->user)->name . '</p>',
         ]);
 
         CRUD::addField([
@@ -117,6 +159,24 @@ class BookingServiceCrudController extends CrudController
             'type' => 'custom_html',
             'value' => '<p style="margin-bottom:0"><strong>Nomor Rangka: </strong>'
                 . optional($this->crud->getCurrentEntry()->motor)->nomor_rangka
+                . '</p>'
+        ]);
+
+        CRUD::addField([
+            'name' => 'Plat_no',
+            'label' => 'Nomor Plat',
+            'type' => 'custom_html',
+            'value' => '<p style="margin-bottom:0"><strong>Nomor Plat: </strong>'
+                . optional($this->crud->getCurrentEntry()->motor)->nomor_plat
+                . '</p>'
+        ]);
+
+        CRUD::addField([
+            'name' => 'Brand_id',
+            'label' => 'Brand Motor',
+            'type' => 'custom_html',
+            'value' => '<p style="margin-bottom:0"><strong>Brand Motor: </strong>'
+                . optional($this->crud->getCurrentEntry()->motor)->nama_model
                 . '</p>'
         ]);
 
