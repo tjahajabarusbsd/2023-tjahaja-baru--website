@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditProfileRequest;
+use App\Models\UserPublic;
+use App\Services\PhoneNumberService;
+use App\Services\OtpService;
 use App\Services\LoyaltyService;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
@@ -12,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use App\Http\Controllers\WhatsAppController;
 
 class UserController extends Controller
 {
@@ -145,6 +149,70 @@ class UserController extends Controller
             return ApiResponse::error('Terjadi kesalahan server: ' . $e->getMessage(), 500);
         }
     }
+
+    public function requestChangeNomorHp(Request $request)
+    {
+        $user = Auth::user();
+
+        $validator = Validator::make($request->all(), [
+            'new_phone_number' => [
+                'required',
+                'string',
+                'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
+            ],
+        ], [
+            'new_phone_number.required' => 'Nomor handphone baru wajib diisi',
+            'new_phone_number.string' => 'Nomor handphone baru harus berupa teks',
+            'new_phone_number.regex' => 'Format nomor handphone tidak valid',
+        ]);
+
+        if ($validator->fails()) {
+            return ApiResponse::error($validator->errors()->first(), 400);
+        }
+
+        $normalizedPhone = PhoneNumberService::normalize($request->new_phone_number);
+
+        if ($normalizedPhone === $user->phone_number) {
+            return ApiResponse::error('Nomor HP baru sama dengan nomor yang terdaftar', 400);
+        }
+
+        $exists = UserPublic::where('phone_number', $normalizedPhone)->where('id', '!=', $user->id)->exists();
+        if ($exists) {
+            return ApiResponse::error('Nomor handphone sudah digunakan oleh pengguna lain', 409);
+        }
+
+        // Generate OTP
+        $otp = 1111;
+
+        // Kirim OTP via WhatsApp
+        // Cek response dari WhatsApp API
+
+        $user->update([
+            'otp' => $otp,
+            'temp_new_phone_number' => $normalizedPhone,
+        ]);
+
+        return ApiResponse::success('Kode OTP telah dikirim ke WhatsApp Anda');
+
+    }
+
+    public function verifyChangeNomorHp(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($user->otp != $request->otp) {
+            return ApiResponse::error('Kode OTP tidak valid', 400);
+        }
+
+        $user->update([
+            'phone_number' => $user->temp_new_phone_number,
+            'temp_new_phone_number' => null,
+            'otp' => null,
+        ]);
+
+        return ApiResponse::success('Nomor handphone Anda berhasil diganti');
+    }
+
 
     private function getMembershipTier(int $lifetimePoints): array
     {
