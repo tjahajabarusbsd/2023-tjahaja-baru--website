@@ -23,6 +23,7 @@ class UserPublic extends Authenticatable
         'otp',
         'otp_expires_at',
         'email_verified_at',
+        'temp_new_phone_number',
     ];
 
     protected $hidden = [
