@@ -52,7 +52,7 @@ class UserController extends Controller
             'user_id' => (int) $user->id,
             'name' => (string) $user->name,
             // 'email' => (string) $user->email,
-            // 'no_handphone' => (string) $user->phone_number,
+            'no_handphone' => (string) $user->phone_number,
             'jenis_kelamin' => $profile->jenis_kelamin ?? '',
             'tanggal_lahir' => $profile->tgl_lahir ?? '',
             'foto_profil' => asset($profile->foto_profil) ?? '',
@@ -215,7 +215,7 @@ class UserController extends Controller
         ]);
 
         return ApiResponse::success('Nomor handphone Anda berhasil diganti', [
-            'id' => $user->id,
+            'id' => (string) $user->id,
             'name' => (string) $user->name,
             'phone_number' => (string) $user->phone_number,
         ]);
