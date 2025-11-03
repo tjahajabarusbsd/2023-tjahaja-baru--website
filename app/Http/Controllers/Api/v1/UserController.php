@@ -214,7 +214,11 @@ class UserController extends Controller
             'otp' => null,
         ]);
 
-        return ApiResponse::success('Nomor handphone Anda berhasil diganti');
+        return ApiResponse::success('Nomor handphone Anda berhasil diganti', [
+            'id' => $user->id,
+            'name' => (string) $user->name,
+            'phone_number' => (string) $user->phone_number,
+        ]);
     }
 
 
