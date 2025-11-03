@@ -51,7 +51,7 @@ class UserController extends Controller
         return ApiResponse::success('Data akun berhasil dimuat', [
             'user_id' => (int) $user->id,
             'name' => (string) $user->name,
-            // 'email' => (string) $user->email,
+            'email' => (string) $user->email,
             'no_handphone' => (string) $user->phone_number,
             'jenis_kelamin' => $profile->jenis_kelamin ?? '',
             'tanggal_lahir' => $profile->tgl_lahir ?? '',
@@ -69,8 +69,8 @@ class UserController extends Controller
             // Update tabel user_publics
             $user->update([
                 'name' => $request->full_name,
-                // 'phone_number' => $request->phone ?? $user->phone_number,
-                // 'email' => $request->email ?? $user->email,
+                'phone_number' => $request->phone ?? $user->phone_number,
+                'email' => $request->email ?? $user->email,
             ]);
 
             // Ambil profile relasi
@@ -98,8 +98,8 @@ class UserController extends Controller
 
             return ApiResponse::success('Profil berhasil diperbarui', [
                 'full_name' => (string) $user->name,
-                // 'phone' => (string) $user->phone_number,
-                // 'email' => (string) $user->email,
+                'phone' => (string) $user->phone_number,
+                'email' => (string) $user->email,
                 'gender' => (string) $profile->jenis_kelamin,
                 'birth_date' => $profile->tgl_lahir
                     ? Carbon::parse($profile->tgl_lahir)->format('d/m/Y')
