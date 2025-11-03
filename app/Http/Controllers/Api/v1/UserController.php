@@ -192,7 +192,11 @@ class UserController extends Controller
             'temp_new_phone_number' => $normalizedPhone,
         ]);
 
-        return ApiResponse::success('Kode OTP telah dikirim ke WhatsApp Anda');
+        return ApiResponse::success('Kode OTP telah dikirim ke WhatsApp Anda', [
+            'id' => $user->id,
+            'new_phone_number' => $normalizedPhone,
+            'updated_at' => Carbon::now()->toISOString(),
+        ]);
 
     }
 
