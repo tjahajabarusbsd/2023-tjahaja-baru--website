@@ -156,7 +156,7 @@ class UserController extends Controller
         }
     }
 
-    public function requestChangeNomorHp(Request $request)
+    public function requestChangeNomorHp(Request $request, OtpService $otpService, WhatsAppController $whatsAppController)
     {
         $user = Auth::user();
 
@@ -188,13 +188,24 @@ class UserController extends Controller
         }
 
         // Generate OTP
-        $otp = 1111;
+        $otp = $otpService->generateOtpWithoutFour();
+        $expiry = $otpService->expiryTime();
+        $messageBody = $otpService->buildMessage($otp);
 
         // Kirim OTP via WhatsApp
+        $apiResponse = $whatsAppController->sendWhatsAppMessage($normalizedPhone, $messageBody);
         // Cek response dari WhatsApp API
+        if (!method_exists($apiResponse, 'getStatusCode') || $apiResponse->getStatusCode() !== 200) {
+            DB::rollBack();
+            return ApiResponse::error('Gagal mengirim OTP. Silakan coba lagi.', 500, [
+                'details' => $apiResponse
+            ]);
+        }
 
         $user->update([
             'otp' => $otp,
+            'otp_expires_at' => $expiry,
+            'updated_at' => Carbon::now(),
             'temp_new_phone_number' => $normalizedPhone,
         ]);
 
@@ -203,7 +214,6 @@ class UserController extends Controller
             'new_phone_number' => $normalizedPhone,
             'updated_at' => Carbon::now()->toISOString(),
         ]);
-
     }
 
     public function verifyChangeNomorHp(Request $request)
@@ -218,6 +228,8 @@ class UserController extends Controller
             'phone_number' => $user->temp_new_phone_number,
             'temp_new_phone_number' => null,
             'otp' => null,
+            'otp_expires_at' => null,
+            'updated_at' => Carbon::now(),
         ]);
 
         return ApiResponse::success('Nomor HP Anda berhasil diganti', [
@@ -227,6 +239,72 @@ class UserController extends Controller
         ]);
     }
 
+    public function otpResendChangeNumber(Request $request, OtpService $otpService, WhatsAppController $whatsAppController)
+    {
+        $user = Auth::user();
+
+        $validator = Validator::make($request->all(), [
+            'new_phone_number' => [
+                'required',
+                'string',
+                'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
+            ],
+        ], [
+            'new_phone_number.required' => 'Nomor HP baru wajib diisi',
+            'new_phone_number.string' => 'Nomor HP baru harus berupa teks',
+            'new_phone_number.regex' => 'Format nomor HP tidak valid',
+        ]);
+
+        if ($validator->fails()) {
+            return ApiResponse::error($validator->errors()->first(), 400);
+        }
+
+        $temporaryPhone = $user->temp_new_phone_number;
+
+        if (!$temporaryPhone) {
+            return ApiResponse::error('Tidak ada permintaan perubahan nomor HP', 400);
+        }
+
+        if ($temporaryPhone != $request->new_phone_number) {
+            return ApiResponse::error('Nomor HP baru tidak sesuai dengan permintaan sebelumnya', 400);
+        }
+
+        if ($user && $user->updated_at && $user->updated_at > now()->subMinute()) {
+            return ApiResponse::error(
+                'Silakan tunggu untuk mengirim ulang kode OTP.',
+                429,
+                [
+                    'retry_after' => (string) $user->updated_at->addMinute()->diffInSeconds(now())
+                ]
+            );
+        }
+
+        // Generate OTP
+        $otp = $otpService->generateOtpWithoutFour();
+        $expiry = $otpService->expiryTime();
+        $messageBody = $otpService->buildMessage($otp);
+
+        // Kirim OTP via WhatsApp
+        $apiResponse = $whatsAppController->sendWhatsAppMessage($temporaryPhone, $messageBody);
+        // Cek response dari WhatsApp API
+        if (!method_exists($apiResponse, 'getStatusCode') || $apiResponse->getStatusCode() !== 200) {
+            DB::rollBack();
+            return ApiResponse::error('Gagal mengirim OTP. Silakan coba lagi.', 500, [
+                'details' => $apiResponse
+            ]);
+        }
+
+        $user->update([
+            'otp' => $otp,
+            'otp_expires_at' => $expiry,
+            'updated_at' => Carbon::now(),
+        ]);
+
+        return ApiResponse::success('Kode OTP telah dikirim', [
+            'otp' => (string) $otp,
+            'expired_in' => $otpService->getExpirySeconds(),
+        ]);
+    }
 
     private function getMembershipTier(int $lifetimePoints): array
     {
