@@ -167,9 +167,9 @@ class UserController extends Controller
                 'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
             ],
         ], [
-            'new_phone_number.required' => 'Nomor handphone baru wajib diisi',
-            'new_phone_number.string' => 'Nomor handphone baru harus berupa teks',
-            'new_phone_number.regex' => 'Format nomor handphone tidak valid',
+            'new_phone_number.required' => 'Nomor HP baru wajib diisi',
+            'new_phone_number.string' => 'Nomor HP baru harus berupa teks',
+            'new_phone_number.regex' => 'Format nomor HP tidak valid',
         ]);
 
         if ($validator->fails()) {
@@ -179,12 +179,12 @@ class UserController extends Controller
         $normalizedPhone = PhoneNumberService::normalize($request->new_phone_number);
 
         if ($normalizedPhone === $user->phone_number) {
-            return ApiResponse::error('Nomor HP baru sama dengan nomor yang terdaftar', 400);
+            return ApiResponse::error('Nomor HP baru sama dengan nomor saat ini', 400);
         }
 
         $exists = UserPublic::where('phone_number', $normalizedPhone)->where('id', '!=', $user->id)->exists();
         if ($exists) {
-            return ApiResponse::error('Nomor handphone sudah digunakan oleh pengguna lain', 409);
+            return ApiResponse::error('Nomor HP sudah digunakan oleh pengguna lain', 409);
         }
 
         // Generate OTP
@@ -220,7 +220,7 @@ class UserController extends Controller
             'otp' => null,
         ]);
 
-        return ApiResponse::success('Nomor handphone Anda berhasil diganti', [
+        return ApiResponse::success('Nomor HP Anda berhasil diganti', [
             'id' => (string) $user->id,
             'name' => (string) $user->name,
             'phone_number' => (string) $user->phone_number,
