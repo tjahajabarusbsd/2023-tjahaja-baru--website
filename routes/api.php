@@ -67,6 +67,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/profile/ganti-password', [UserController::class, 'changePassword']);
         Route::post('/account/request-ganti-nomor-hp', [UserController::class, 'requestChangeNomorHp']);
         Route::post('/account/verify-ganti-nomor-hp', [UserController::class, 'verifyChangeNomorHp']);
+        Route::post('/account/otp-resend-ganti-nomor-hp', [UserController::class, 'otpResendChangeNumber']);
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/motor-registration', [MyMotorController::class, 'register']);
         Route::get('/user-motor', [MyMotorController::class, 'list']);
