@@ -48,11 +48,17 @@ class UserController extends Controller
             LoyaltyService::grantTierBenefits($profile, $membership['tier']);
         }
 
+        $phoneNumber = $user->phone_number;
+        // change phone number format from 62 to 0
+        if (substr($phoneNumber, 0, 2) === '62') {
+            $phoneNumber = '0' . substr($phoneNumber, 2);
+        }
+
         return ApiResponse::success('Data akun berhasil dimuat', [
             'user_id' => (int) $user->id,
             'name' => (string) $user->name,
             'email' => (string) $user->email,
-            'no_handphone' => (string) $user->phone_number,
+            'no_handphone' => (string) $phoneNumber,
             'jenis_kelamin' => $profile->jenis_kelamin ?? '',
             'tanggal_lahir' => $profile->tgl_lahir ?? '',
             'foto_profil' => asset($profile->foto_profil) ?? '',
