@@ -45,13 +45,13 @@ class EditProfileRequest extends BaseRequest
             'photo_filename.image' => 'Foto profil harus berupa gambar.',
             'photo_filename.mimes' => 'Foto profil harus berformat jpg, jpeg, atau png.',
             'photo_filename.max' => 'Ukuran foto maksimal 2MB.',
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah digunakan.',
-            'phone.required' => 'Nomor handphone wajib diisi.',
-            'phone.string' => 'Nomor handphone harus berupa teks',
-            'phone.regex' => 'Format nomor handphone tidak valid',
-            'phone.unique' => 'Nomor handphone sudah digunakan.',
+            // 'email.required' => 'Email wajib diisi.',
+            // 'email.email' => 'Format email tidak valid.',
+            // 'email.unique' => 'Email sudah digunakan.',
+            // 'phone.required' => 'Nomor handphone wajib diisi.',
+            // 'phone.string' => 'Nomor handphone harus berupa teks',
+            // 'phone.regex' => 'Format nomor handphone tidak valid',
+            // 'phone.unique' => 'Nomor handphone sudah digunakan.',
         ];
     }
 }
