@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class OtpService
 {
@@ -22,6 +23,11 @@ class OtpService
         }
 
         return $otp;
+    }
+
+    public function hashOtp(string $otp): string
+    {
+        return Hash::make($otp);
     }
 
     public function expiryTime(): Carbon
