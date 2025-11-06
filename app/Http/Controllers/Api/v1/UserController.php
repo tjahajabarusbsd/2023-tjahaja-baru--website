@@ -7,6 +7,7 @@ use App\Http\Requests\EditProfileRequest;
 use App\Models\UserPublic;
 use App\Services\PhoneNumberService;
 use App\Services\OtpService;
+use App\Services\WhatsAppService;
 use App\Services\LoyaltyService;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
@@ -14,8 +15,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
-use App\Http\Controllers\WhatsAppController;
 
 class UserController extends Controller
 {
@@ -156,7 +157,7 @@ class UserController extends Controller
         }
     }
 
-    public function requestChangeNomorHp(Request $request, OtpService $otpService, WhatsAppController $whatsAppController)
+    public function requestChangeNomorHp(Request $request, OtpService $otpService, WhatsAppService $whatsAppService)
     {
         $user = Auth::user();
 
@@ -182,37 +183,51 @@ class UserController extends Controller
             return ApiResponse::error('Nomor HP baru sama dengan nomor saat ini', 400);
         }
 
-        $exists = UserPublic::where('phone_number', $normalizedPhone)->where('id', '!=', $user->id)->exists();
-        if ($exists) {
-            return ApiResponse::error('Nomor HP sudah digunakan oleh pengguna lain', 409);
+        $phoneExists = UserPublic::where('phone_number', $normalizedPhone)->where('id', '!=', $user->id)->exists();
+        if ($phoneExists) {
+            return ApiResponse::error('Tidak dapat memproses permintaan. Silakan periksa kembali nomor Anda atau coba lagi nanti.', 400);
         }
 
-        // Generate OTP
-        $otp = $otpService->generateOtpWithoutFour();
-        $expiry = $otpService->expiryTime();
-        $messageBody = $otpService->buildMessage($otp);
+        DB::beginTransaction();
+        try {
+            $otpPlain = $otpService->generateOtpWithoutFour();
+            $otpHash = $otpService->hashOtp($otpPlain);
+            $expiry = $otpService->expiryTime();
 
-        // Kirim OTP via WhatsApp
-        $apiResponse = $whatsAppController->sendWhatsAppMessage($normalizedPhone, $messageBody);
-        // Cek response dari WhatsApp API
-        if (!method_exists($apiResponse, 'getStatusCode') || $apiResponse->getStatusCode() !== 200) {
-            DB::rollBack();
-            return ApiResponse::error('Gagal mengirim OTP. Silakan coba lagi.', 500, [
-                'details' => $apiResponse
+            $user->update([
+                'otp' => $otpHash,
+                'otp_expires_at' => $expiry,
+                'temp_new_phone_number' => $normalizedPhone,
             ]);
-        }
 
-        $user->update([
-            'otp' => $otp,
-            'otp_expires_at' => $expiry,
-            'updated_at' => Carbon::now(),
-            'temp_new_phone_number' => $normalizedPhone,
-        ]);
+            $messageBody = $otpService->buildMessage($otpPlain);
+            $apiResponse = $whatsAppService->send($normalizedPhone, $messageBody);
+
+            if ($apiResponse->failed()) {
+                // Jika gagal kirim, batalkan semua perubahan di database
+                DB::rollBack();
+
+                Log::error('WhatsApp API Failed during phone change for user ' . $user->id, [
+                    'phone' => $normalizedPhone,
+                    'response_body' => $apiResponse->body(),
+                    'status' => $apiResponse->status(),
+                ]);
+
+                return ApiResponse::error('Gagal mengirim kode verifikasi. Silakan periksa nomor Anda dan coba lagi.', 500);
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            // Jika terjadi error tak terduga (misal: database down), rollback transaksi
+            DB::rollBack();
+            Log::error('Error during phone change request for user ' . $user->id . ': ' . $e->getMessage());
+            return ApiResponse::error('Terjadi kesalahan internal pada server. Silakan coba lagi.', 500);
+        }
 
         return ApiResponse::success('Kode OTP telah dikirim ke WhatsApp Anda', [
             'id' => $user->id,
             'new_phone_number' => $normalizedPhone,
-            'updated_at' => Carbon::now()->toISOString(),
+            'expires_at' => $user->otp_expires_at->toISOString(),
         ]);
     }
 
@@ -220,88 +235,120 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->otp != $request->otp) {
-            return ApiResponse::error('Kode OTP tidak valid', 400);
-        }
-
-        $user->update([
-            'phone_number' => $user->temp_new_phone_number,
-            'temp_new_phone_number' => null,
-            'otp' => null,
-            'otp_expires_at' => null,
-            'updated_at' => Carbon::now(),
-        ]);
-
-        return ApiResponse::success('Nomor HP Anda berhasil diganti', [
-            'id' => (string) $user->id,
-            'name' => (string) $user->name,
-            'phone_number' => (string) $user->phone_number,
-        ]);
-    }
-
-    public function otpResendChangeNumber(Request $request, OtpService $otpService, WhatsAppController $whatsAppController)
-    {
-        $user = Auth::user();
-
         $validator = Validator::make($request->all(), [
-            'new_phone_number' => [
-                'required',
-                'string',
-                'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
-            ],
+            'otp' => 'required|string|digits:4',
         ], [
-            'new_phone_number.required' => 'Nomor HP baru wajib diisi',
-            'new_phone_number.string' => 'Nomor HP baru harus berupa teks',
-            'new_phone_number.regex' => 'Format nomor HP tidak valid',
+            'otp.required' => 'Kode OTP wajib diisi',
+            'otp.string' => 'Kode OTP harus berupa teks',
+            'otp.digits' => 'Kode OTP harus 4 digit angka',
         ]);
 
         if ($validator->fails()) {
             return ApiResponse::error($validator->errors()->first(), 400);
         }
 
+        if (empty($user->otp) || empty($user->temp_new_phone_number)) {
+            Log::warning('User ' . $user->id . ' mencoba verifikasi OTP tanpa inisiasi perubahan nomor.');
+            return ApiResponse::error('Tidak ada proses perubahan nomor HP yang sedang berjalan. Silakan minta kode OTP baru.', 400);
+        }
+
+        if ($user->otp_expires_at->isPast()) {
+            // Hapus OTP yang sudah kadaluarsa untuk keamanan
+            $user->update([
+                'otp' => null,
+                'otp_expires_at' => null,
+                'temp_new_phone_number' => null,
+            ]);
+            return ApiResponse::error('Kode OTP telah kadaluarsa. Silakan minta kode OTP baru.', 400);
+        }
+
+        if (!Hash::check($request->otp, $user->otp)) {
+            Log::warning('Percobaan verifikasi OTP gagal untuk user ' . $user->id . '. OTP: ' . $request->otp);
+            return ApiResponse::error('Kode OTP tidak valid.', 400);
+        }
+
+        try {
+            $updated = $user->update([
+                // Update hanya jika temp_new_phone_number masih ada (mencegah race condition)
+                'phone_number' => $user->temp_new_phone_number,
+                'temp_new_phone_number' => null,
+                'otp' => null,
+                'otp_expires_at' => null,
+            ]);
+
+            if (!$updated) {
+                throw new \Exception('Gagal mengupdate data user.');
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Gagal update nomor HP untuk user ' . $user->id . ': ' . $e->getMessage());
+            return ApiResponse::error('Gagal menyimpan perubahan. Silakan coba lagi.', 500);
+        }
+
+        $user->refresh();
+
+        return ApiResponse::success('Nomor HP Anda berhasil diganti', [
+            'id' => $user->id,
+            'name' => $user->name,
+            'phone_number' => $user->phone_number,
+        ]);
+    }
+
+    public function otpResendChangeNumber(Request $request, OtpService $otpService, WhatsAppService $whatsAppService)
+    {
+        $user = Auth::user();
+
+        // Cek apakah ada proses perubahan nomor yang sedang berjalan
         $temporaryPhone = $user->temp_new_phone_number;
-
         if (!$temporaryPhone) {
-            return ApiResponse::error('Tidak ada permintaan perubahan nomor HP', 400);
+            return ApiResponse::error('Tidak ada proses perubahan nomor HP yang sedang berjalan. Silakan mulai dari awal.', 400);
         }
 
-        if ($temporaryPhone != $request->new_phone_number) {
-            return ApiResponse::error('Nomor HP baru tidak sesuai dengan permintaan sebelumnya', 400);
-        }
-
-        if ($user && $user->updated_at && $user->updated_at > now()->subMinute()) {
+        // Cek apakah OTP sebelumnya masih valid
+        if ($user->otp_expires_at && $user->otp_expires_at->isFuture()) {
+            $remainingSeconds = $user->otp_expires_at->diffInSeconds(now());
             return ApiResponse::error(
-                'Silakan tunggu untuk mengirim ulang kode OTP.',
+                'Kode OTP Anda masih valid. Silakan periksa WhatsApp Anda.',
                 429,
                 [
-                    'retry_after' => (string) $user->updated_at->addMinute()->diffInSeconds(now())
+                    'retry_after' => $remainingSeconds
                 ]
             );
         }
 
-        // Generate OTP
-        $otp = $otpService->generateOtpWithoutFour();
-        $expiry = $otpService->expiryTime();
-        $messageBody = $otpService->buildMessage($otp);
+        DB::beginTransaction();
+        try {
+            $otpPlain = $otpService->generateOtpWithoutFour();
+            $otpHash = $otpService->hashOtp($otpPlain);
+            $expiry = $otpService->expiryTime();
 
-        // Kirim OTP via WhatsApp
-        $apiResponse = $whatsAppController->sendWhatsAppMessage($temporaryPhone, $messageBody);
-        // Cek response dari WhatsApp API
-        if (!method_exists($apiResponse, 'getStatusCode') || $apiResponse->getStatusCode() !== 200) {
-            DB::rollBack();
-            return ApiResponse::error('Gagal mengirim OTP. Silakan coba lagi.', 500, [
-                'details' => $apiResponse
+            $user->update([
+                'otp' => $otpHash,
+                'otp_expires_at' => $expiry,
             ]);
+
+            $messageBody = $otpService->buildMessage($otpPlain);
+            $apiResponse = $whatsAppService->send($temporaryPhone, $messageBody);
+
+            if ($apiResponse->failed()) {
+                DB::rollBack();
+                Log::error('WhatsApp API Failed during phone change for user ' . $user->id, [
+                    'phone' => $temporaryPhone,
+                    'response_body' => $apiResponse->body(),
+                    'status' => $apiResponse->status(),
+                ]);
+                return ApiResponse::error('Gagal mengirim kode verifikasi. Silakan periksa nomor Anda dan coba lagi.', 500);
+            }
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error during phone change request for user ' . $user->id . ': ' . $e->getMessage());
+            return ApiResponse::error('Terjadi kesalahan internal pada server. Silakan coba lagi.', 500);
         }
 
-        $user->update([
-            'otp' => $otp,
-            'otp_expires_at' => $expiry,
-            'updated_at' => Carbon::now(),
-        ]);
-
-        return ApiResponse::success('Kode OTP telah dikirim', [
-            'otp' => (string) $otp,
+        return ApiResponse::success('Kode OTP telah dikirim ulang ke WhatsApp Anda.', [
             'expired_in' => $otpService->getExpirySeconds(),
         ]);
     }
