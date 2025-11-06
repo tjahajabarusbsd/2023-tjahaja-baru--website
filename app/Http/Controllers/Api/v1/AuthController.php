@@ -6,90 +6,101 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Services\PhoneNumberService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
-use App\Models\UserPublic;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Models\UserPublic;
+use App\Services\PhoneNumberService;
 use App\Services\OtpService;
-use App\Http\Controllers\WhatsAppController;
+use App\Services\WhatsAppService;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $request, OtpService $otpService, WhatsAppController $whatsAppController)
+    public function register(RegisterRequest $request, OtpService $otpService, WhatsAppService $whatsAppService)
     {
+        $phone = PhoneNumberService::normalize($request->phone_number);
+
+        $existingUser = UserPublic::where('phone_number', $phone)->first();
+        if ($existingUser && $existingUser->status_akun === 'aktif') {
+            return ApiResponse::error('Nomor sudah terdaftar dan aktif', 409);
+        }
+
         DB::beginTransaction();
-
         try {
-            $phone = PhoneNumberService::normalize($request->phone_number);
-            $user = UserPublic::where('phone_number', $phone)->first();
-
-            // 1️⃣ Cek apakah user sudah terdaftar dan aktif
-            if ($user && $user->status_akun === 'aktif') {
-                return ApiResponse::error('Nomor sudah terdaftar dan aktif', 409);
-            }
-
-            // 2️⃣ Generate OTP
-            $otp = $otpService->generateOtpWithoutFour();
+            $otpPlain = $otpService->generateOtpWithoutFour();
+            $otpHash = $otpService->hashOtp($otpPlain);
             $expiry = $otpService->expiryTime();
-            $messageBody = $otpService->buildMessage($otp);
 
-            // 3️⃣ Kirim OTP via WhatsApp
-            $apiResponse = $whatsAppController->sendWhatsAppMessage($phone, $messageBody);
-
-            // 4️⃣ Cek response dari WhatsApp API
-            if (!method_exists($apiResponse, 'getStatusCode') || $apiResponse->getStatusCode() !== 200) {
-                DB::rollBack();
-                return ApiResponse::error('Gagal mengirim OTP. Silakan coba lagi.', 500, [
-                    'details' => $apiResponse
-                ]);
-            }
-
-            // 5️⃣ Simpan / update user data
-            if ($user) {
-                $user->update([
-                    'otp' => $otp,
+            // Simpan / Update Data User
+            if ($existingUser) {
+                // Jika user ada tapi mungkin statusnya 'tidak aktif' atau 'pending'
+                $existingUser->update([
+                    'otp' => $otpHash,
                     'otp_expires_at' => $expiry,
                     'password' => Hash::make($request->password),
-                    'status_akun' => 'pending', // pastikan status direset ke pending
+                    'status_akun' => 'pending',
                 ]);
+                $user = $existingUser;
             } else {
+                // Jika user benar-benar baru
                 $user = UserPublic::create([
                     'name' => $request->name,
                     'phone_number' => $phone,
                     'password' => Hash::make($request->password),
                     'status_akun' => 'pending',
                     'login_method' => 'manual',
-                    'otp' => $otp,
+                    'otp' => $otpHash,
                     'otp_expires_at' => $expiry,
                 ]);
             }
 
+            // Kirim OTP via WhatsApp SETELAH Data Tersimpan
+            $messageBody = $otpService->buildMessage($otpPlain);
+            $apiResponse = $whatsAppService->send($phone, $messageBody);
+
+            // Cek response dari WhatsApp API
+            if ($apiResponse->failed()) {
+                // Jika gagal kirim, batalkan semua perubahan di database
+                DB::rollBack();
+
+                Log::error('WhatsApp API Failed during phone change for user ' . $user->id, [
+                    'phone' => $phone,
+                    'response_body' => $apiResponse->body(),
+                    'status' => $apiResponse->status(),
+                ]);
+
+                return ApiResponse::error('Gagal mengirim kode verifikasi. Silakan periksa nomor Anda dan coba lagi.', 500);
+            }
+
             DB::commit();
-
-            // 6️⃣ Return response sukses
-            return ApiResponse::success('Register berhasil, silakan verifikasi OTP', [
-                'id' => (string) $user->id,
-                'name' => (string) $user->name,
-                'phone_number' => (string) $user->phone_number,
-                'otp' => (string) $otp,
-                'created_at' => Carbon::now()->toISOString(),
-                'updated_at' => Carbon::now()->toISOString(),
-            ]);
-
         } catch (\Throwable $e) {
             DB::rollBack();
 
-            \Log::error('Register gagal', [
+            Log::error('User registration failed', [
+                'phone' => $phone,
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
 
-            return ApiResponse::error('Terjadi kesalahan saat register', 500);
+            return ApiResponse::error('Terjadi kesalahan saat proses pendaftaran. Silakan coba lagi.', 500);
         }
+
+        // Return Response Sukses
+        // Refresh model untuk mendapatkan data terbaru setelah commit
+        $user->refresh();
+
+        return ApiResponse::success('Pendaftaran berhasil. Silakan verifikasi kode OTP yang telah dikirim ke WhatsApp Anda.', [
+            'id' => $user->id,
+            'name' => $user->name,
+            'phone_number' => $user->phone_number,
+            'status_akun' => $user->status_akun,
+            'created_at' => $user->created_at->toISOString(),
+            'updated_at' => $user->updated_at->toISOString(),
+        ]);
     }
 
     public function login(LoginRequest $request)
@@ -343,6 +354,4 @@ class AuthController extends Controller
             ], 500);
         }
     }
-
-
 }
