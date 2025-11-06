@@ -2,54 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use GuzzleHttp\Client;
-use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
+use App\Services\WhatsAppService;
+use Illuminate\Http\JsonResponse; // Tambahkan use statement yang benar
 
 class WhatsAppController extends Controller
 {
-    private $apiUrl;
-    private $apiToken;
+    protected WhatsAppService $whatsAppService;
 
-    public function __construct()
+    public function __construct(WhatsAppService $whatsAppService)
     {
-        $this->apiUrl = 'https://api.1msg.io/434886/sendMessage';
-        $this->apiToken = env('TOKEN_WA');
+        $this->whatsAppService = $whatsAppService;
     }
 
-    public function sendWhatsAppMessage(string $phone, string $messageBody)
+    /**
+     * Method ini menjaga interface (tanda tangan) yang sama agar tidak merusak kode lain.
+     * Sekarang, method ini hanya bertindak sebagai perantara.
+     *
+     * @param string $phone
+     * @param string $messageBody
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendWhatsAppMessage(string $phone, string $messageBody): JsonResponse
     {
-        $data = [
-            "token" => $this->apiToken,
-            "namespace" => "f5d85327_a726_4871_9de1_3bdb33fd47d2",
-            "template" => "default_reply_incoming_message",
-            "language" => [
-                "policy" => "deterministic",
-                "code" => "id"
-            ],
-            "params" => [
-                [
-                    "type" => "body",
-                    "parameters" => [
-                        [
-                            "type" => "text",
-                            "text" => $messageBody,
-                        ]
-                    ]
-                ]
-            ],
-            "phone" => $phone
-        ];
+        $apiResponse = $this->whatsAppService->send($phone, $messageBody);
 
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json',
-        ])->post($this->apiUrl, $data);
-        
-        $this->respon = $response->json();
+        if ($apiResponse->successful() && $apiResponse->json('sent') === true) {
+            return response()->json(['message' => 'Message sent successfully'], 200);
+        }
 
-        return $this->respon['sent'] === true
-        ? response()->json(['message' => 'Message sent successfully'], 200) 
-        : response()->json(['error' => 'Pesan gagal terkirim!'], 422);
+        $errorMessage = $apiResponse->json('error_message', 'Pesan gagal terkirim!');
+        return response()->json(['error' => $errorMessage], 422);
     }
 }
