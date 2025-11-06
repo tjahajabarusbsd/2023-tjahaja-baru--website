@@ -65,9 +65,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/account/profile', [UserController::class, 'getAccount']);
         Route::post('/profile/edit', [UserController::class, 'editProfile']);
         Route::post('/profile/ganti-password', [UserController::class, 'changePassword']);
-        Route::post('/account/request-ganti-nomor-hp', [UserController::class, 'requestChangeNomorHp']);
+        Route::post('/account/request-ganti-nomor-hp', [UserController::class, 'requestChangeNomorHp'])->middleware('throttle:3,1');
         Route::post('/account/verify-ganti-nomor-hp', [UserController::class, 'verifyChangeNomorHp']);
-        Route::post('/account/otp-resend-ganti-nomor-hp', [UserController::class, 'otpResendChangeNumber']);
+        Route::post('/account/otp-resend-ganti-nomor-hp', [UserController::class, 'otpResendChangeNumber'])->middleware('throttle:3,1');
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/motor-registration', [MyMotorController::class, 'register']);
         Route::get('/user-motor', [MyMotorController::class, 'list']);
@@ -82,7 +82,6 @@ Route::prefix('v1')->group(function () {
         Route::post('/booking-servis', [BookingServiceController::class, 'store']);
         Route::get('/booking-servis/status', [BookingServiceController::class, 'index']);
         Route::post('/booking-servis/batal', [BookingServiceController::class, 'batal']);
-        // Route::post('/qr/redeem', [QrScanController::class, 'store']);
         Route::post('/qr/scan', [QrScanController::class, 'scan']);
         Route::post('/qr/redeem', [QrScanController::class, 'manualInput']);
         Route::post('/qr/scanByKasir', [QrScanController::class, 'scanByKasir']);
