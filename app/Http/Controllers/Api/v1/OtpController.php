@@ -2,46 +2,52 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Services\PhoneNumberService;
-use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VerifyOtpRequest;
 use App\Http\Requests\SendOtpRequest;
-use App\Helpers\ApiResponse;
-use App\Models\UserPublic;
-use Illuminate\Support\Facades\DB;
+use App\Services\PhoneNumberService;
 use App\Services\OtpService;
+use App\Models\UserPublic;
+use App\Helpers\ApiResponse;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\WhatsAppController;
 
 class OtpController extends Controller
 {
     public function verifyOtp(VerifyOtpRequest $request)
     {
-        $user = UserPublic::where('phone_number', $request->phone_number)->first();
+        $phone = PhoneNumberService::normalize($request->phone_number);
+        $user = UserPublic::where('phone_number', $phone)->first();
 
+        // Cek apakah user ada
         if (!$user) {
+            Log::warning('Percobaan verifikasi OTP untuk nomor tidak dikenal: ' . $phone);
             return ApiResponse::error('Nomor Handphone tidak ditemukan', 404);
         }
 
-        if ($user->otp !== $request->otp) {
-            return ApiResponse::error('Kode OTP salah', 401, [
-                'id' => (string) $user->id,
-                'name' => (string) $user->name,
-                'phone_number' => (string) $user->phone_number,
+        // Cek apakah OTP sudah kadaluarsa
+        if ($user->otp_expires_at->isPast()) {
+            // Hapus OTP yang sudah kadaluarsa untuk keamanan
+            $user->update([
+                'otp' => null,
+                'otp_expires_at' => null,
             ]);
+            return ApiResponse::error('Kode OTP sudah kedaluwarsa. Silakan minta kode baru.', 401);
         }
 
-        if ($user->otp_expires_at < Carbon::now()) {
-            return ApiResponse::error('Kode OTP sudah kedaluwarsa', 401, [
-                'id' => (string) $user->id,
-                'name' => (string) $user->name,
-                'phone_number' => (string) $user->phone_number,
-            ]);
+        // Verifikasi OTP 
+        if (!Hash::check($request->otp, $user->otp)) {
+            Log::warning('Percobaan verifikasi OTP gagal untuk user ' . $user->id . ' (Phone: ' . $phone . ')');
+            return ApiResponse::error('Kode OTP salah.', 401);
         }
 
-        DB::beginTransaction();
-
+        // Proses verifikasi berdasarkan tipe
         try {
+            $response = []; // Inisialisasi response untuk mencegah undefined variable
+
             if ($request->type === 'register') {
                 $user->update([
                     'status_akun' => 'aktif',
@@ -51,17 +57,17 @@ class OtpController extends Controller
 
                 if (!$user->profile) {
                     $user->profile()->create([
-                        'tgl_lahir' => now(),
-                        'alamat' => '',
-                        'jenis_kelamin' => 'L',
+                        'tgl_lahir' => null,
+                        'alamat' => null,
+                        'jenis_kelamin' => null,
                         'total_points' => 0,
                     ]);
                 }
 
                 $response = [
-                    'id' => (string) $user->id,
-                    'name' => (string) $user->name,
-                    'phone_number' => (string) $user->phone_number,
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'phone_number' => $user->phone_number,
                     'status' => 'otp_register_verified',
                 ];
             } elseif ($request->type === 'lupa_password') {
@@ -71,20 +77,24 @@ class OtpController extends Controller
                 ]);
 
                 $response = [
-                    'id' => (string) $user->id,
-                    'name' => (string) $user->name,
-                    'phone_number' => (string) $user->phone_number,
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'phone_number' => $user->phone_number,
                     'status' => 'otp_forgot_password_verified',
                 ];
+            } else {
+                Log::error('Verifikasi OTP dengan type tidak valid untuk user ' . $user->id . ': ' . $request->type);
+                return ApiResponse::error('Tipe verifikasi tidak valid.', 400);
             }
 
-            DB::commit();
-
-            return ApiResponse::success('OTP berhasil diverifikasi', $response);
         } catch (\Throwable $e) {
-            DB::rollBack();
+            Log::error('Gagal proses verifikasi OTP untuk user ' . $user->id . ': ' . $e->getMessage());
             return ApiResponse::error('Terjadi kesalahan saat verifikasi OTP', 500);
         }
+
+        $user->refresh();
+
+        return ApiResponse::success('OTP berhasil diverifikasi', $response);
     }
 
     public function sendOtp(SendOtpRequest $request, WhatsAppController $whatsAppController, OtpService $otpService)
