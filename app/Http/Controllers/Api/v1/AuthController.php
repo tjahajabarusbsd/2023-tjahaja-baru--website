@@ -94,9 +94,9 @@ class AuthController extends Controller
         $user->refresh();
 
         return ApiResponse::success('Pendaftaran berhasil. Silakan verifikasi kode OTP yang telah dikirim ke WhatsApp Anda.', [
-            'id' => $user->id,
-            'name' => $user->name,
-            'phone_number' => $user->phone_number,
+            'id' => (string) $user->id,
+            'name' => (string) $user->name,
+            'phone_number' => (string) $user->phone_number,
             'status_akun' => $user->status_akun,
             'created_at' => $user->created_at->toISOString(),
             'updated_at' => $user->updated_at->toISOString(),
