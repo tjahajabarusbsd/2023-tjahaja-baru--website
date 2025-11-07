@@ -26,7 +26,6 @@ class SendOtpRequest extends BaseRequest
                 'required',
                 'string',
                 'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
-                'exists:user_publics,phone_number',
             ],
             'type' => ['required', 'in:register,lupa_password'],
         ];
@@ -38,7 +37,6 @@ class SendOtpRequest extends BaseRequest
             'phone_number.required' => 'Nomor handphone wajib diisi',
             'phone_number.string' => 'Nomor handphone harus berupa teks',
             'phone_number.regex' => 'Format nomor handphone tidak valid',
-            'phone_number.exists' => 'Nomor handphone belum terdaftar',
             'type.required' => 'Tipe permintaan OTP wajib diisi',
             'type.in' => 'Tipe permintaan OTP tidak valid',
         ];
