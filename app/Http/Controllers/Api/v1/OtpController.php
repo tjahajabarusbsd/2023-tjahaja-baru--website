@@ -54,6 +54,7 @@ class OtpController extends Controller
                     'status_akun' => 'aktif',
                     'otp' => null,
                     'otp_expires_at' => null,
+                    'last_otp_sent_at' => null,
                 ]);
 
                 if (!$user->profile) {
@@ -75,6 +76,7 @@ class OtpController extends Controller
                 $user->update([
                     'otp' => null,
                     'otp_expires_at' => null,
+                    'last_otp_sent_at' => null,
                 ]);
 
                 $response = [
