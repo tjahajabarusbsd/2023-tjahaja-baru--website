@@ -132,8 +132,16 @@ class AuthController extends Controller
     public function resetPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'phone_number' => [
+                'required',
+                'string',
+                'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
+            ],
             'new_password' => 'required|min:8|confirmed',
         ], [
+            'phone_number.required' => 'Nomor handphone wajib diisi',
+            'phone_number.string' => 'Nomor handphone harus berupa teks',
+            'phone_number.regex' => 'Format nomor handphone tidak valid',
             'new_password.required' => 'Password baru wajib diisi',
             'new_password.min' => 'Password minimal 8 karakter',
             'new_password.confirmed' => 'Konfirmasi password tidak cocok.',
@@ -143,16 +151,11 @@ class AuthController extends Controller
             return ApiResponse::error($validator->errors()->first(), 422);
         }
 
-        $userId = session()->get('password_reset_user_id');
-
-        if (!$userId) {
-            return ApiResponse::error('Sesi reset password tidak valid atau telah kedaluwarsa.', 403);
-        }
-
-        $user = UserPublic::find($userId);
+        $phone = PhoneNumberService::normalize($request->phone_number);
+        $user = UserPublic::where('phone_number', $phone)->first();
 
         if (!$user) {
-            return ApiResponse::error('User tidak ditemukan.', 404);
+            return ApiResponse::error('Nomor Handphone belum terdaftar', 404);
         }
 
         if ($user->otp !== null || $user->otp_expires_at !== null) {
@@ -166,8 +169,6 @@ class AuthController extends Controller
         $user->update([
             'password' => Hash::make($request->new_password),
         ]);
-
-        session()->forget('password_reset_user_id');
 
         return ApiResponse::success('Password berhasil diubah.', [
             'id' => (string) $user->id,
