@@ -79,6 +79,8 @@ class OtpController extends Controller
                     'last_otp_sent_at' => null,
                 ]);
 
+                session()->put('password_reset_user_id', $user->id);
+
                 $response = [
                     'id' => (string) $user->id,
                     'name' => (string) $user->name,
