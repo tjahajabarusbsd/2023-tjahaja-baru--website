@@ -65,9 +65,9 @@ class OtpController extends Controller
                 }
 
                 $response = [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'phone_number' => $user->phone_number,
+                    'id' => (string) $user->id,
+                    'name' => (string) $user->name,
+                    'phone_number' => (string) $user->phone_number,
                     'status' => 'otp_register_verified',
                 ];
             } elseif ($request->type === 'lupa_password') {
@@ -77,9 +77,9 @@ class OtpController extends Controller
                 ]);
 
                 $response = [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'phone_number' => $user->phone_number,
+                    'id' => (string) $user->id,
+                    'name' => (string) $user->name,
+                    'phone_number' => (string) $user->phone_number,
                     'status' => 'otp_forgot_password_verified',
                 ];
             } else {
