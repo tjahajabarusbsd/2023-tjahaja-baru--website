@@ -17,6 +17,7 @@ use App\Models\UserPublic;
 use App\Services\PhoneNumberService;
 use App\Services\OtpService;
 use App\Services\WhatsAppService;
+use Exception;
 
 class AuthController extends Controller
 {
@@ -41,6 +42,7 @@ class AuthController extends Controller
                 $existingUser->update([
                     'otp' => $otpHash,
                     'otp_expires_at' => $expiry,
+                    'last_otp_sent_at' => now(),
                     'password' => Hash::make($request->password),
                     'status_akun' => 'pending',
                 ]);
@@ -55,29 +57,34 @@ class AuthController extends Controller
                     'login_method' => 'manual',
                     'otp' => $otpHash,
                     'otp_expires_at' => $expiry,
+                    'last_otp_sent_at' => now(),
                 ]);
             }
 
-            // Kirim OTP via WhatsApp SETELAH Data Tersimpan
             $messageBody = $otpService->buildMessage($otpPlain);
             $apiResponse = $whatsAppService->send($phone, $messageBody);
 
-            // Cek response dari WhatsApp API
             if ($apiResponse->failed()) {
-                // Jika gagal kirim, batalkan semua perubahan di database
-                DB::rollBack();
-
                 Log::error('WhatsApp API Failed during phone change for user ' . $user->id, [
                     'phone' => $phone,
                     'response_body' => $apiResponse->body(),
                     'status' => $apiResponse->status(),
                 ]);
 
-                return ApiResponse::error('Gagal mengirim kode verifikasi. Silakan periksa nomor Anda dan coba lagi.', 500);
+                throw new Exception('WhatsApp API call failed.');
             }
 
             DB::commit();
-        } catch (\Throwable $e) {
+
+            return ApiResponse::success('Pendaftaran berhasil. Silakan verifikasi kode OTP yang telah dikirim ke WhatsApp Anda.', [
+                'id' => (string) $user->id,
+                'name' => (string) $user->name,
+                'phone_number' => (string) $user->phone_number,
+                'status_akun' => $user->status_akun,
+                'created_at' => $user->created_at->toISOString(),
+                'updated_at' => $user->updated_at->toISOString(),
+            ]);
+        } catch (Exception $e) {
             DB::rollBack();
 
             Log::error('User registration failed', [
@@ -86,28 +93,17 @@ class AuthController extends Controller
                 'trace' => $e->getTraceAsString(),
             ]);
 
+            if ($e->getMessage() === 'WhatsApp API call failed.') {
+                return ApiResponse::error('Gagal mengirim kode verifikasi. Silakan periksa nomor Anda dan coba lagi.', 500);
+            }
+
             return ApiResponse::error('Terjadi kesalahan saat proses pendaftaran. Silakan coba lagi.', 500);
         }
-
-        // Return Response Sukses
-        // Refresh model untuk mendapatkan data terbaru setelah commit
-        $user->refresh();
-
-        return ApiResponse::success('Pendaftaran berhasil. Silakan verifikasi kode OTP yang telah dikirim ke WhatsApp Anda.', [
-            'id' => (string) $user->id,
-            'name' => (string) $user->name,
-            'phone_number' => (string) $user->phone_number,
-            'status_akun' => $user->status_akun,
-            'created_at' => $user->created_at->toISOString(),
-            'updated_at' => $user->updated_at->toISOString(),
-        ]);
     }
 
     public function login(LoginRequest $request)
     {
-        // Normalisasi nomor agar sama dengan format di database
         $phone = PhoneNumberService::normalize($request->phone_number);
-
         $user = UserPublic::where('phone_number', $phone)->first();
 
         if (!$user) {
@@ -136,16 +132,8 @@ class AuthController extends Controller
     public function resetPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone_number' => [
-                'required',
-                'string',
-                'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
-            ],
             'new_password' => 'required|min:8|confirmed',
         ], [
-            'phone_number.required' => 'Nomor handphone wajib diisi',
-            'phone_number.string' => 'Nomor handphone harus berupa teks',
-            'phone_number.regex' => 'Format nomor handphone tidak valid',
             'new_password.required' => 'Password baru wajib diisi',
             'new_password.min' => 'Password minimal 8 karakter',
             'new_password.confirmed' => 'Konfirmasi password tidak cocok.',
@@ -155,21 +143,31 @@ class AuthController extends Controller
             return ApiResponse::error($validator->errors()->first(), 422);
         }
 
-        $phone = PhoneNumberService::normalize($request->phone_number);
-        $user = UserPublic::where('phone_number', $phone)->first();
+        $userId = session()->get('password_reset_user_id');
 
-        if (!$user) {
-            return ApiResponse::error('Nomor Handphone belum terdaftar', 404);
+        if (!$userId) {
+            return ApiResponse::error('Sesi reset password tidak valid atau telah kedaluwarsa.', 403);
         }
 
-        // (Opsional) cek kalau otp dan otp_expires_at memang sudah null
-        if ($user->otp || $user->otp_expires_at) {
-            return ApiResponse::error('OTP belum diverifikasi.', 403);
+        $user = UserPublic::find($userId);
+
+        if (!$user) {
+            return ApiResponse::error('User tidak ditemukan.', 404);
+        }
+
+        if ($user->otp !== null || $user->otp_expires_at !== null) {
+            return ApiResponse::error('Sesi reset password tidak valid. Silakan verifikasi OTP terlebih dahulu.', 403);
+        }
+
+        if ($user->status_akun !== 'aktif') {
+            return ApiResponse::error('Akun Anda tidak aktif.', 403);
         }
 
         $user->update([
             'password' => Hash::make($request->new_password),
         ]);
+
+        session()->forget('password_reset_user_id');
 
         return ApiResponse::success('Password berhasil diubah.', [
             'id' => (string) $user->id,
