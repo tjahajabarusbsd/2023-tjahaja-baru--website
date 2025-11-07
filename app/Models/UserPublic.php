@@ -22,6 +22,7 @@ class UserPublic extends Authenticatable
         'login_method',
         'otp',
         'otp_expires_at',
+        'last_otp_sent_at',
         'email_verified_at',
         'temp_new_phone_number',
     ];
