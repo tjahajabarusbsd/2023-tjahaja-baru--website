@@ -144,7 +144,7 @@ class UserController extends Controller
             $user = Auth::user();
 
             if (!$user || !Hash::check($request->old_password, $user->password)) {
-                return ApiResponse::error('Password tidak valid. Silakan coba lagi.', 401);
+                return ApiResponse::error('Password lama yang Anda masukkan tidak cocok. Silakan periksa kembali.', 401);
             }
 
             $user->password = Hash::make($request->new_password);
