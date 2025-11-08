@@ -153,7 +153,7 @@ class UserController extends Controller
             Log::info('User dengan ID ' . $user->id . ' berhasil mengganti password.');
 
             return ApiResponse::success('Password berhasil diperbarui', [
-                'id' => $user->id,
+                'id' => (string) $user->id,
                 'updated_at' => $user->updated_at->toISOString(),
             ]);
 
