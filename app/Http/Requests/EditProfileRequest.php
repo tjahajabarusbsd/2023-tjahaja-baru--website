@@ -11,7 +11,8 @@ class EditProfileRequest extends BaseRequest
      */
     public function authorize()
     {
-        return true;
+        // Hanya user yang login yang bisa mengakses ini
+        return auth()->check();
     }
 
     /**
@@ -21,10 +22,8 @@ class EditProfileRequest extends BaseRequest
      */
     public function rules()
     {
-        $userId = auth()->user()->id;
-
         return [
-            'full_name' => ['required', 'max:50', 'regex:/^[a-zA-Z\s\'.-]+$/'],
+            'full_name' => ['required', 'max:50', 'regex:/^[\p{L}\s\'\-]+$/u'],
             'gender' => ['nullable', 'in:L,P'],
             'birth_date' => ['nullable', 'date_format:d/m/Y', 'before_or_equal:today'],
             'photo_filename' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
@@ -38,13 +37,13 @@ class EditProfileRequest extends BaseRequest
         return [
             'full_name.required' => 'Nama wajib diisi.',
             'full_name.max' => 'Nama maksimal :max karakter.',
-            'full_name.regex' => 'Nama hanya boleh berisi huruf, spasi, titik, tanda petik, atau tanda hubung.',
+            'full_name.regex' => 'Nama hanya boleh berisi huruf, spasi, tanda petik, dan tanda hubung.',
             'gender.in' => 'Jenis kelamin harus L (Laki-laki) atau P (Perempuan).',
             'birth_date.date' => 'Tanggal lahir harus berupa tanggal yang valid.',
             'birth_date.before' => 'Tanggal lahir harus sebelum hari ini.',
-            'photo_filename.image' => 'Foto profil harus berupa gambar.',
-            'photo_filename.mimes' => 'Foto profil harus berformat jpg, jpeg, atau png.',
-            'photo_filename.max' => 'Ukuran foto maksimal 2MB.',
+            'photo_filename.image' => 'File yang diupload harus berupa gambar.',
+            'photo_filename.mimes' => 'Format gambar yang diizinkan adalah jpg, jpeg, atau png.',
+            'photo_filename.max' => 'Ukuran gambar maksimal adalah 2MB.',
             // 'email.required' => 'Email wajib diisi.',
             // 'email.email' => 'Format email tidak valid.',
             // 'email.unique' => 'Email sudah digunakan.',
