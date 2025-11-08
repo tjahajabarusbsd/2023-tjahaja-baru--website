@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -122,38 +123,41 @@ class UserController extends Controller
 
     public function changePassword(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|string',
+            'new_password' => ['required', 'string', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
+        ], [
+            'old_password.required' => 'Password saat ini wajib diisi.',
+            'new_password.required' => 'Password baru wajib diisi.',
+            'new_password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'new_password.min' => 'Password minimal 8 karakter.',
+            'new_password.mixed_case' => 'Password harus mengandung huruf besar dan kecil.',
+            'new_password.numbers' => 'Password harus mengandung setidaknya satu angka.',
+            'new_password.symbols' => 'Password harus mengandung setidaknya satu simbol.',
+        ]);
+
+        if ($validator->fails()) {
+            return ApiResponse::error($validator->errors()->first(), 400);
+        }
+
         try {
-            $validator = Validator::make($request->all(), [
-                'old_password' => 'required|string',
-                'new_password' => 'required|string|min:8|confirmed',
-            ], [
-                'old_password.required' => 'Password saat ini wajib diisi',
-                'old_password.string' => 'Password saat ini harus berupa teks',
-                'new_password.required' => 'Password baru wajib diisi',
-                'new_password.string' => 'Password baru harus berupa teks',
-                'new_password.min' => 'Password minimal 8 karakter',
-                'new_password.confirmed' => 'Konfirmasi password tidak cocok.',
-            ]);
-
-            if ($validator->fails()) {
-                return ApiResponse::error($validator->errors()->first(), 400);
-            }
-
             $user = Auth::user();
-            if (!$user) {
-                return ApiResponse::error('User tidak ditemukan atau belum login', 401);
-            }
 
-            if (!Hash::check($request->old_password, $user->password)) {
-                return ApiResponse::error('Password lama tidak sesuai', 400);
+            if (!$user || !Hash::check($request->old_password, $user->password)) {
+                return ApiResponse::error('Password tidak valid. Silakan coba lagi.', 401);
             }
 
             $user->password = Hash::make($request->new_password);
             $user->save();
 
+            Log::info('User dengan ID ' . $user->id . ' berhasil mengganti password.');
+
             return ApiResponse::success('Password berhasil diperbarui');
         } catch (\Throwable $e) {
-            return ApiResponse::error('Terjadi kesalahan server: ' . $e->getMessage(), 500);
+            Log::error('Gagal mengganti password untuk user ID: ' . ($user->id ?? 'unknown'));
+            Log::error($e);
+
+            return ApiResponse::error('Terjadi kesalahan pada server. Silakan coba lagi nanti.', 500);
         }
     }
 
