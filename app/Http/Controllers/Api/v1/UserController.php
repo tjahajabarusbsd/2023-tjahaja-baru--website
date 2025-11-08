@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Validation\Rules\Password;
 
@@ -74,18 +75,18 @@ class UserController extends Controller
 
         DB::beginTransaction();
         try {
-            // Update tabel user_publics
             $user->update([
                 'name' => $request->full_name,
-                'phone_number' => $request->phone ?? $user->phone_number,
-                'email' => $request->email ?? $user->email,
             ]);
 
             // Ambil profile relasi
             $profile = $user->profile;
 
             // Update field profile
-            $profile->jenis_kelamin = $request->gender ?? $profile->jenis_kelamin;
+            if ($request->filled('gender')) {
+                $profile->jenis_kelamin = $request->gender;
+            }
+
             if ($request->filled('birth_date')) {
                 $profile->tgl_lahir = Carbon::createFromFormat('d/m/Y', $request->birth_date)
                     ->format('Y-m-d');
@@ -100,24 +101,46 @@ class UserController extends Controller
                 $profile->foto_profil = $fotoProfil64;
             }
 
+            // if ($request->hasFile('photo_filename')) {
+            //     $file = $request->file('photo_filename');
+            //     if ($file->isValid()) {
+            //         // Buat nama file unik
+            //         $fileName = 'profile_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+
+            //         // Simpan file ke storage disk 'public'
+            //         $path = $file->storeAs('profile_photos', $fileName, 'public');
+
+            //         // Hapus foto lama jika ada
+            //         if ($profile->foto_profil) {
+            //             Storage::disk('public')->delete($profile->foto_profil);
+            //         }
+
+            //         // Simpan path file ke database
+            //         $profile->foto_profil = $path;
+            //     }
+            // }
+
             $profile->save();
 
             DB::commit();
 
             return ApiResponse::success('Profil berhasil diperbarui', [
                 'full_name' => (string) $user->name,
-                'phone' => (string) $user->phone_number,
-                'email' => (string) $user->email,
+                // 'phone' => (string) $user->phone_number,
+                // 'email' => (string) $user->email,
                 'gender' => (string) $profile->jenis_kelamin,
                 'birth_date' => $profile->tgl_lahir
                     ? Carbon::parse($profile->tgl_lahir)->format('d/m/Y')
                     : null, // balikin ke format Flutter
                 'photo_filename' => (string) $profile->foto_profil,
+                // 'photo_filename' => $profile->foto_profil ? asset('storage/' . $profile->foto_profil) : null,
             ]);
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollBack();
-            return ApiResponse::error('Gagal memperbarui profil: ' . $e->getMessage(), 500);
+            Log::error('Gagal memperbarui profil untuk user ID: ' . $user->id);
+            Log::error($e);
+            return ApiResponse::error('Terjadi kesalahan pada server. Gagal memperbarui profil.', 500);
         }
     }
 
