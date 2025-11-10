@@ -345,7 +345,7 @@ class AuthController extends Controller
                 'success' => true,
                 'message' => 'FCM token berhasil diperbarui',
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             \Log::error('Gagal update FCM token: ' . $e->getMessage());
             return response()->json([
                 'success' => false,

@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Log;
 // use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Validation\Rules\Password;
+use Exception;
 
 class UserController extends Controller
 {
@@ -248,7 +249,7 @@ class UserController extends Controller
             }
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Jika terjadi error tak terduga (misal: database down), rollback transaksi
             DB::rollBack();
             Log::error('Error during phone change request for user ' . $user->id . ': ' . $e->getMessage());
@@ -308,21 +309,21 @@ class UserController extends Controller
             ]);
 
             if (!$updated) {
-                throw new \Exception('Gagal mengupdate data user.');
+                throw new Exception('Gagal mengupdate data user.');
             }
 
-        } catch (\Exception $e) {
+            $user->refresh();
+
+            return ApiResponse::success('Nomor HP Anda berhasil diganti', [
+                'id' => (string) $user->id,
+                'name' => (string) $user->name,
+                'phone_number' => (string) $user->phone_number,
+            ]);
+
+        } catch (Exception $e) {
             Log::error('Gagal update nomor HP untuk user ' . $user->id . ': ' . $e->getMessage());
             return ApiResponse::error('Gagal menyimpan perubahan. Silakan coba lagi.', 500);
         }
-
-        $user->refresh();
-
-        return ApiResponse::success('Nomor HP Anda berhasil diganti', [
-            'id' => (string) $user->id,
-            'name' => (string) $user->name,
-            'phone_number' => (string) $user->phone_number,
-        ]);
     }
 
     public function otpResendChangeNumber(Request $request, OtpService $otpService, WhatsAppService $whatsAppService)
@@ -362,26 +363,32 @@ class UserController extends Controller
             $apiResponse = $whatsAppService->send($temporaryPhone, $messageBody);
 
             if ($apiResponse->failed()) {
-                DB::rollBack();
-                Log::error('WhatsApp API Failed during phone change for user ' . $user->id, [
+                Log::error('WhatsApp API Failed during otp resend phone change for user ' . $user->id, [
                     'phone' => $temporaryPhone,
                     'response_body' => $apiResponse->body(),
                     'status' => $apiResponse->status(),
                 ]);
-                return ApiResponse::error('Gagal mengirim kode verifikasi. Silakan periksa nomor Anda dan coba lagi.', 500);
+
+                throw new Exception('WhatsApp API call failed.');
             }
+
+            Log::info('OTP sent successfully', [
+                'user_id' => $user->id,
+                'phone' => $request->new_phone_number,
+                'type' => $request->type,
+            ]);
 
             DB::commit();
 
-        } catch (\Exception $e) {
+            return ApiResponse::success('Kode OTP telah dikirim ulang ke WhatsApp Anda.', [
+                'expired_in' => $otpService->getExpirySeconds(),
+            ]);
+
+        } catch (Exception $e) {
             DB::rollBack();
             Log::error('Error during phone change request for user ' . $user->id . ': ' . $e->getMessage());
-            return ApiResponse::error('Terjadi kesalahan internal pada server. Silakan coba lagi.', 500);
+            return ApiResponse::error('Gagal mengirim kode verifikasi. Silakan periksa nomor Anda dan coba lagi.', 500);
         }
-
-        return ApiResponse::success('Kode OTP telah dikirim ulang ke WhatsApp Anda.', [
-            'expired_in' => $otpService->getExpirySeconds(),
-        ]);
     }
 
     private function getMembershipTier(int $lifetimePoints): array
