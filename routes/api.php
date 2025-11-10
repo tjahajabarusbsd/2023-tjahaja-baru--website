@@ -59,31 +59,42 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:user_public')->group(function () {
         Route::post('/update-fcm-token', [AuthController::class, 'updateFcmToken']);
-        Route::post('/reward/{id}/claim', [RewardController::class, 'store']);
-        Route::get('/reward-claims', [RewardClaimController::class, 'index']);
+
+        // Profile & Account Management
         Route::get('/user', [UserController::class, 'getUser']);
         Route::get('/account/profile', [UserController::class, 'getAccount']);
-        Route::post('/profile/edit', [UserController::class, 'editProfile']);
-        Route::post('/profile/ganti-password', [UserController::class, 'changePassword']);
+        Route::post('/account/profile/edit', [UserController::class, 'editProfile']);
+        Route::post('/account/profile/ganti-password', [UserController::class, 'changePassword']);
         Route::post('/account/request-ganti-nomor-hp', [UserController::class, 'requestChangeNomorHp'])->middleware('throttle:3,1');
         Route::post('/account/verify-ganti-nomor-hp', [UserController::class, 'verifyChangeNomorHp']);
         Route::post('/account/otp-resend-ganti-nomor-hp', [UserController::class, 'otpResendChangeNumber'])->middleware('throttle:3,1');
         Route::post('/logout', [AuthController::class, 'logout']);
-        Route::post('/motor-registration', [MyMotorController::class, 'register']);
+
+        // My Motor
         Route::get('/user-motor', [MyMotorController::class, 'list']);
         Route::get('/services/{nomorRangka}/{svsId}', [MyMotorController::class, 'getRiwayatServis']);
+        Route::post('/motor-registration', [MyMotorController::class, 'register']);
         Route::post('/products/order', [ProductController::class, 'order']);
+
+        // Booking Servis
+        Route::get('/booking-servis/status', [BookingServiceController::class, 'index']);
+        Route::post('/booking-servis', [BookingServiceController::class, 'store']);
+        Route::post('/booking-servis/batal', [BookingServiceController::class, 'batal']);
+
+        // QR Scan
+        Route::post('/qr/scan', [QrScanController::class, 'scan']);
+        Route::post('/qr/redeem', [QrScanController::class, 'manualInput']);
+        Route::post('/qr/scanByKasir', [QrScanController::class, 'scanByKasir']);
+
+        // Rewards
+        Route::get('/reward-claims', [RewardClaimController::class, 'index']);
+        Route::post('/reward/{id}/claim', [RewardController::class, 'store']);
+
         Route::get('/notifications', [NotificationController::class, 'index']);
         Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount']);
         Route::get('/activity', [ActivityController::class, 'index']);
         Route::get('/vouchers', [VoucherController::class, 'index']);
         Route::get('/voucher/{id}', [RewardClaimController::class, 'show']);
         Route::get('/loyalty-tiers', [LoyaltyTierController::class, 'index']);
-        Route::post('/booking-servis', [BookingServiceController::class, 'store']);
-        Route::get('/booking-servis/status', [BookingServiceController::class, 'index']);
-        Route::post('/booking-servis/batal', [BookingServiceController::class, 'batal']);
-        Route::post('/qr/scan', [QrScanController::class, 'scan']);
-        Route::post('/qr/redeem', [QrScanController::class, 'manualInput']);
-        Route::post('/qr/scanByKasir', [QrScanController::class, 'scanByKasir']);
     });
 });
