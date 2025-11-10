@@ -319,9 +319,9 @@ class UserController extends Controller
         $user->refresh();
 
         return ApiResponse::success('Nomor HP Anda berhasil diganti', [
-            'id' => $user->id,
-            'name' => $user->name,
-            'phone_number' => $user->phone_number,
+            'id' => (string) $user->id,
+            'name' => (string) $user->name,
+            'phone_number' => (string) $user->phone_number,
         ]);
     }
 
