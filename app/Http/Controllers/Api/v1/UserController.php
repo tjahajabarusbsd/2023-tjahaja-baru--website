@@ -284,6 +284,11 @@ class UserController extends Controller
             return ApiResponse::error('Tidak ada proses perubahan nomor HP yang sedang berjalan. Silakan minta kode OTP baru.', 400);
         }
 
+        // Cek apakah OTP sudah tidak ada (null)
+        if (empty($user->otp) || empty($user->otp_expires_at)) {
+            return ApiResponse::error('Kode OTP sudah tidak berlaku. Silakan minta kode baru.', 400);
+        }
+
         if ($user->otp_expires_at->isPast()) {
             // Hapus OTP yang sudah kadaluarsa untuk keamanan
             $user->update([
