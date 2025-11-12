@@ -29,6 +29,11 @@ class OtpController extends Controller
             return ApiResponse::error('Nomor Handphone tidak ditemukan', 404);
         }
 
+        // Cek apakah OTP sudah tidak ada (null)
+        if (empty($user->otp) || empty($user->otp_expires_at)) {
+            return ApiResponse::error('Kode OTP sudah tidak berlaku. Silakan minta kode baru.', 400);
+        }
+
         // Cek apakah OTP sudah kadaluarsa
         if ($user->otp_expires_at->isPast()) {
             // Hapus OTP yang sudah kadaluarsa untuk keamanan
