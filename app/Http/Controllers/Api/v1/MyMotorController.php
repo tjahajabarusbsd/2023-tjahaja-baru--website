@@ -31,7 +31,7 @@ class MyMotorController extends Controller
         $kkBase64 = 'data:' . $request->file('kk')->getMimeType() . ';base64,' . base64_encode(file_get_contents($request->file('kk')));
 
         $nomorRangka = NomorRangka::create([
-            'nomor_rangka' => $request->nomor_rangka,
+            'nomor_rangka' => strtoupper(preg_replace('/\s+/', '', $request->nomor_rangka)),
             'phone_number' => $request->phone_number,
             'user_public_id' => $user->id,
             'ktp' => $ktpBase64,
