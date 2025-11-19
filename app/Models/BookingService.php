@@ -19,6 +19,7 @@ class BookingService extends Model
         'tanggal',
         'jam',
         'status',
+        'points_awarded_at',
     ];
 
     public function dealer()
