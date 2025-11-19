@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 use App\Http\Requests\BookingServiceCRUDRequest;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use App\Models\ActivityLog;
 use App\Models\BookingService;
 use App\Models\NomorRangka;
 use App\Models\UserPublicProfile;
 use App\Models\Notification;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use Illuminate\Support\Facades\Http;
+use App\Models\UserPublic;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class BookingServiceCrudController
@@ -244,90 +248,192 @@ class BookingServiceCrudController extends CrudController
 
     public function update()
     {
+        // Ambil booking sebelum update untuk tahu old status
+        $bookingId = $this->crud->getCurrentEntryId();
+        $bookingBefore = $this->crud->model->find($bookingId);
+        $oldStatus = $bookingBefore ? $bookingBefore->status : null;
+
+        // Ambil status baru dari request admin
+        $newStatus = request()->input('status');
+
+        $allowedTransitions = [
+            'pending' => ['confirmed', 'cancelled'],
+            'confirmed' => ['completed', 'cancelled'],
+            'completed' => [],
+            'cancelled' => [],
+        ];
+
+        if ($oldStatus !== null) {
+            $allowed = $allowedTransitions[$oldStatus] ?? null;
+            dd($allowed);
+            if (!in_array($newStatus, $allowed)) {
+
+                \Alert::error("Transisi dari <b>{$oldStatus}</b> ke <b>{$newStatus}</b> tidak diizinkan.")
+                    ->flash();
+
+                throw ValidationException::withMessages([
+                    'status' => "Transisi tidak diizinkan."
+                ]);
+
+            }
+        }
+
+        // Lakukan update default Backpack (ini akan mengubah $this->crud->entry)
         $response = $this->traitUpdate();
 
+        // Ambil booking setelah update
         $booking = $this->crud->entry;
+        $newStatus = $booking ? $booking->status : null;
 
-        // ambil user publik dari booking
-        $user = \App\Models\UserPublic::find($booking->user_id);
+        // Ambil user & motor (safe guard kalau null)
+        $user = ($booking && $booking->user_id)
+            ? UserPublic::find($booking->user_id)
+            : null;
 
-        // ambil motor yang sesuai dengan booking
-        $motor = NomorRangka::where('id', $booking->motor_id)
-            ->where('user_public_id', $user->id)
-            ->first();
+        $motor = ($booking && $user)
+            ? NomorRangka::where('id', $booking->motor_id)
+                ->where('user_public_id', $user->id)
+                ->first()
+            : null;
 
-        if ($booking->status === 'cancelled') {
-            // kirim push notifikasi ke user
-            $this->sendFcmNotification(
-                $user->fcm_token,
-                'Booking Servis Dibatalkan ❌',
-                'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dibatalkan.'
-            );
-
-            Notification::create([
-                'user_public_id' => $user->id,
-                'source_type' => BookingService::class,
-                'source_id' => $booking->id,
-                'title' => 'Booking Servis Dibatalkan.',
-                'description' => 'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dibatalkan.',
-                'is_read' => false,
-            ]);
+        if ($oldStatus === $newStatus) {
+            return $response;
         }
 
-        if ($booking->status === 'confirmed') {
-            // kirim push notifikasi ke user
-            $this->sendFcmNotification(
-                $user->fcm_token,
-                'Booking Servis Dikonfirmasi ✅',
-                'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dikonfirmasi. Sampai jumpa di dealer!'
-            );
+        // Persiapkan payload notifikasi untuk dikirim setelah commit
+        $afterCommitJobs = [];
 
-            Notification::create([
-                'user_public_id' => $user->id,
-                'source_type' => BookingService::class,
-                'source_id' => $booking->id,
-                'title' => 'Booking Servis Dikonfirmasi.',
-                'description' => 'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dikonfirmasi. Sampai jumpa di dealer!',
-                'is_read' => false,
-            ]);
-        }
+        try {
+            if ($newStatus === 'cancelled') {
+                DB::transaction(function () use ($user, $booking, $motor) {
+                    if ($user) {
+                        Notification::create([
+                            'user_public_id' => $user->id,
+                            'source_type' => BookingService::class,
+                            'source_id' => $booking->id,
+                            'title' => 'Booking Servis Dibatalkan.',
+                            'description' => 'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dibatalkan.',
+                            'is_read' => false,
+                        ]);
+                    }
+                });
 
-        if ($booking->status === 'completed') {
-            $points = 100;
-
-            // buat activity log baru
-            ActivityLog::create([
-                'user_public_id' => $user->id,
-                'source_type' => BookingService::class,
-                'source_id' => $booking->id,
-                'type' => 'services',
-                'title' => 'Servis selesai',
-                'description' => 'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-'),
-                'points' => $points,
-                'activity_date' => now(),
-            ]);
-
-            // update points di profile
-            $profile = UserPublicProfile::where('user_public_id', $user->id)->first();
-            if ($profile) {
-                $profile->increment('total_points', $points);
-                $profile->increment('lifetime_points', $points);
+                if ($user && $user->fcm_token) {
+                    $afterCommitJobs[] = function () use ($user, $motor) {
+                        $this->sendFcmNotification(
+                            $user->fcm_token,
+                            'Booking Servis Dibatalkan ❌',
+                            'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dibatalkan.'
+                        );
+                    };
+                }
             }
 
-            // kirim push notifikasi ke user
-            $this->sendFcmNotification(
-                $user->fcm_token,
-                'Servis Selesai ✅',
-                'Servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah selesai. Anda mendapatkan +' . $points . ' poin.'
-            );
+            if ($newStatus === 'confirmed') {
+                DB::transaction(function () use ($user, $booking, $motor) {
+                    if ($user) {
+                        Notification::create([
+                            'user_public_id' => $user->id,
+                            'source_type' => BookingService::class,
+                            'source_id' => $booking->id,
+                            'title' => 'Booking Servis Dikonfirmasi.',
+                            'description' => 'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dikonfirmasi. Sampai jumpa di dealer!',
+                            'is_read' => false,
+                        ]);
+                    }
+                });
 
-            Notification::create([
-                'user_public_id' => $user->id,
-                'source_type' => BookingService::class,
-                'source_id' => $booking->id,
-                'title' => 'Servis Selesai.',
-                'description' => 'Servis motor Anda telah selesai.',
-                'is_read' => false,
+                if ($user && $user->fcm_token) {
+                    $afterCommitJobs[] = function () use ($user, $motor) {
+                        $this->sendFcmNotification(
+                            $user->fcm_token,
+                            'Booking Servis Dikonfirmasi ✅',
+                            'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dikonfirmasi. Sampai jumpa di dealer!'
+                        );
+                    };
+                }
+            }
+
+            if ($newStatus === 'completed') {
+                $points = 100;
+
+                DB::transaction(function () use ($user, $booking, $motor, $points) {
+                    if (!$user) {
+                        return;
+                    }
+
+                    if (!is_null($booking->points_awarded_at)) {
+                        Log::info("Poin sudah pernah diberikan untuk booking_id={$booking->id}");
+                        return;
+                    }
+
+                    ActivityLog::create([
+                        'user_public_id' => $user->id,
+                        'source_type' => BookingService::class,
+                        'source_id' => $booking->id,
+                        'type' => 'services',
+                        'title' => 'Servis selesai',
+                        'description' => 'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-'),
+                        'points' => $points,
+                        'activity_date' => now(),
+                    ]);
+
+                    // Ambil profile + lock for update untuk mencegah race condition
+                    $profile = UserPublicProfile::where('user_public_id', $user->id)
+                        ->lockForUpdate()
+                        ->first();
+
+                    if ($profile) {
+                        $profile->increment('total_points', $points);
+                        $profile->increment('lifetime_points', $points);
+                    } else {
+                        Log::warning("UserPublicProfile not found for user_public_id={$user->id} when awarding points for booking {$booking->id}");
+                    }
+
+                    Notification::create([
+                        'user_public_id' => $user->id,
+                        'source_type' => BookingService::class,
+                        'source_id' => $booking->id,
+                        'title' => 'Servis Selesai.',
+                        'description' => 'Servis motor Anda telah selesai. Anda mendapatkan +' . $points . ' poin.',
+                        'is_read' => false,
+                    ]);
+
+                    $booking->update([
+                        'points_awarded_at' => now(),
+                    ]);
+                });
+
+                if ($user && $user->fcm_token) {
+                    $afterCommitJobs[] = function () use ($user, $motor, $points) {
+                        $this->sendFcmNotification(
+                            $user->fcm_token,
+                            'Servis Selesai ✅',
+                            'Servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah selesai. Anda mendapatkan +' . $points . ' poin.'
+                        );
+                    };
+                }
+            }
+
+            // Jalankan semua afterCommit jobs hanya setelah DB commit
+            if (!empty($afterCommitJobs)) {
+                DB::afterCommit(function () use ($afterCommitJobs) {
+                    foreach ($afterCommitJobs as $job) {
+                        try {
+                            // job adalah closure yang memanggil sendFcmNotification
+                            $job();
+                        } catch (\Throwable $e) {
+                            // Jangan crash request kalau FCM gagal; log saja
+                            Log::error('FCM after commit failed: ' . $e->getMessage(), [
+                                'exception' => $e,
+                            ]);
+                        }
+                    }
+                });
+            }
+        } catch (\Throwable $ex) {
+            Log::error("Error processing booking side-effects for booking_id={$bookingId}: " . $ex->getMessage(), [
+                'exception' => $ex,
             ]);
         }
 
