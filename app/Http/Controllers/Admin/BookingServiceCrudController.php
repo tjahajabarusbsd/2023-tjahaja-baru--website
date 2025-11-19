@@ -265,7 +265,7 @@ class BookingServiceCrudController extends CrudController
 
         if ($oldStatus !== null) {
             $allowed = $allowedTransitions[$oldStatus] ?? null;
-            dd($allowed);
+
             if (!in_array($newStatus, $allowed)) {
 
                 \Alert::error("Transisi dari <b>{$oldStatus}</b> ke <b>{$newStatus}</b> tidak diizinkan.")
