@@ -122,9 +122,8 @@ class OtpController extends Controller
             return ApiResponse::error('Akun belum aktif. Tidak bisa reset password.', 400);
         }
 
-        $remaining = $user->last_otp_sent_at->addMinute()->diffInSeconds(now());
-
         if ($user->last_otp_sent_at && $user->last_otp_sent_at > now()->subMinute()) {
+            $remaining = $user->last_otp_sent_at->addMinute()->diffInSeconds(now());
             return ApiResponse::error(
                 "Kode OTP telah dikirim. Silakan tunggu dalam {$remaining} detik lagi.",
                 429
