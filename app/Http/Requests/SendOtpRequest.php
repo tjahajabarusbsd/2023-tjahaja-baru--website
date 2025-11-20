@@ -27,7 +27,7 @@ class SendOtpRequest extends BaseRequest
                 'string',
                 'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
             ],
-            'type' => ['required', 'in:register,lupa_password,resend_otp_change_phone_number'],
+            'type' => ['required', 'in:register,resend_otp_register,lupa_password,resend_otp_change_phone_number'],
         ];
     }
 
