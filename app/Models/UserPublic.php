@@ -35,6 +35,7 @@ class UserPublic extends Authenticatable
     protected $casts = [
         'otp_expires_at' => 'datetime',
         'updated_at' => 'datetime',
+        'last_otp_sent_at' => 'datetime',
     ];
 
     public function profile()
