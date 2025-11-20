@@ -125,10 +125,10 @@ class OtpController extends Controller
         if ($user->last_otp_sent_at && $user->last_otp_sent_at > now()->subMinute()) {
             return ApiResponse::error(
                 'Kode OTP telah dikirim. Silakan tunggu sebentar.',
-                429,
-                [
-                    'retry_after' => (string) $user->last_otp_sent_at->addMinute()->diffInSeconds(now())
-                ]
+                429
+                // [
+                //     'retry_after' => (string) $user->last_otp_sent_at->addMinute()->diffInSeconds(now())
+                // ]
             );
         }
 
