@@ -229,6 +229,7 @@ class UserController extends Controller
             $user->update([
                 'otp' => $otpHash,
                 'otp_expires_at' => $expiry,
+                'last_otp_sent_at' => now(),
                 'temp_new_phone_number' => $normalizedPhone,
             ]);
 
@@ -295,6 +296,7 @@ class UserController extends Controller
                 'otp' => null,
                 'otp_expires_at' => null,
                 'temp_new_phone_number' => null,
+                'last_otp_sent_at' => null,
             ]);
             return ApiResponse::error('Kode OTP telah kadaluarsa. Silakan minta kode OTP baru.', 400);
         }
@@ -311,6 +313,7 @@ class UserController extends Controller
                 'temp_new_phone_number' => null,
                 'otp' => null,
                 'otp_expires_at' => null,
+                'last_otp_sent_at' => null,
             ]);
 
             if (!$updated) {
@@ -342,14 +345,25 @@ class UserController extends Controller
         }
 
         // Cek apakah OTP sebelumnya masih valid
-        if ($user->otp_expires_at && $user->otp_expires_at->isFuture()) {
-            $remainingSeconds = $user->otp_expires_at->diffInSeconds(now());
+        // if ($user->otp_expires_at && $user->otp_expires_at->isFuture()) {
+        //     $remainingSeconds = $user->otp_expires_at->diffInSeconds(now());
+        //     return ApiResponse::error(
+        //         'Kode OTP Anda masih valid. Silakan periksa WhatsApp Anda.',
+        //         429,
+        //         [
+        //             'retry_after' => $remainingSeconds
+        //         ]
+        //     );
+        // }
+
+        if ($user->last_otp_sent_at && $user->last_otp_sent_at > now()->subMinute()) {
+            $remaining = $user->last_otp_sent_at->addMinute()->diffInSeconds(now());
             return ApiResponse::error(
-                'Kode OTP Anda masih valid. Silakan periksa WhatsApp Anda.',
-                429,
-                [
-                    'retry_after' => $remainingSeconds
-                ]
+                "Kode OTP telah dikirim. Silakan tunggu dalam {$remaining} detik lagi.",
+                429
+                // [
+                //     'retry_after' => (string) $user->last_otp_sent_at->addMinute()->diffInSeconds(now())
+                // ]
             );
         }
 
@@ -362,6 +376,7 @@ class UserController extends Controller
             $user->update([
                 'otp' => $otpHash,
                 'otp_expires_at' => $expiry,
+                'last_otp_sent_at' => now(),
             ]);
 
             $messageBody = $otpService->buildMessage($otpPlain);
