@@ -223,6 +223,7 @@ class ProductController extends Controller
         $orderMotor = OrderMotor::create([
             'order_id' => $orderId,
             'user_public_id' => $user->id,
+            'variant_id' => $request->variant_id,
             'model' => $request->model,
             'warna' => $request->warna,
             'tipe_pembayaran' => $request->tipe_pembayaran,
