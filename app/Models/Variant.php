@@ -61,6 +61,11 @@ class Variant extends Model
         return $this->hasMany(PostView::class);
     }
 
+    public function orderMotors()
+    {
+        return $this->hasMany(OrderMotor::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -131,7 +136,7 @@ class Variant extends Model
             // is the public URL (everything that comes after the domain name)
             $public_destination_path = Str::replaceFirst('public/', '', $destination_path);
 
-            $this->attributes[$attribute_name] =  $disk . '/' . $public_destination_path . '/' . $filename;
+            $this->attributes[$attribute_name] = $disk . '/' . $public_destination_path . '/' . $filename;
         }
     }
 }
