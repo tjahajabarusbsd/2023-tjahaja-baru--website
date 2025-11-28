@@ -22,8 +22,9 @@ class OrderMotorRequest extends BaseRequest
     public function rules()
     {
         return [
-            'model'           => 'required|string',
-            'warna'           => 'required|string',
+            'variant_id' => 'required|exists:variants,id',
+            'model' => 'required|string',
+            'warna' => 'required|string',
             'tipe_pembayaran' => 'required|in:kredit,cash',
             'setuju_dihubungi' => 'accepted',
         ];
@@ -32,12 +33,14 @@ class OrderMotorRequest extends BaseRequest
     public function messages()
     {
         return [
-            'model.required'           => 'Model wajib diisi',
-            'model.string'             => 'Model harus berupa teks',
-            'warna.required'           => 'Warna wajib diisi',
-            'warna.string'             => 'Warna harus berupa teks',
+            'variant_id.required' => 'Varian motor wajib dipilih',
+            'variant_id.exists' => 'Varian motor tidak ditemukan',
+            'model.required' => 'Model wajib diisi',
+            'model.string' => 'Model harus berupa teks',
+            'warna.required' => 'Warna wajib diisi',
+            'warna.string' => 'Warna harus berupa teks',
             'tipe_pembayaran.required' => 'Tipe pembayaran wajib dipilih',
-            'tipe_pembayaran.in'       => 'Tipe pembayaran harus kredit atau cash',
+            'tipe_pembayaran.in' => 'Tipe pembayaran harus kredit atau cash',
             'setuju_dihubungi.accepted' => 'Anda harus menyetujui untuk dihubungi',
         ];
     }
