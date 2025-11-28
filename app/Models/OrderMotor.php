@@ -14,6 +14,7 @@ class OrderMotor extends Model
     protected $fillable = [
         'order_id',
         'user_public_id',
+        'variant_id',
         'model',
         'warna',
         'tipe_pembayaran',
@@ -26,5 +27,10 @@ class OrderMotor extends Model
     public function user()
     {
         return $this->belongsTo(UserPublic::class, 'user_public_id');
+    }
+
+    public function variant()
+    {
+        return $this->belongsTo(Variant::class);
     }
 }
