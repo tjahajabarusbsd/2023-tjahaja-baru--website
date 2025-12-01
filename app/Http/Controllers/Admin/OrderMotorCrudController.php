@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\OrderMotorCRUDRequest;
-use App\Models\ActivityLog;
 use App\Models\OrderMotor;
-use App\Models\UserPublicProfile;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Prologue\Alerts\Facades\Alert;
+use Illuminate\Validation\ValidationException;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
@@ -139,31 +140,41 @@ class OrderMotorCrudController extends CrudController
 
     public function update()
     {
+        $orderId = $this->crud->getCurrentEntryId();
+        $orderBefore = $this->crud->model->find($orderId);
+        $oldStatus = $orderBefore?->status;
+
+        // Ambil status baru dari admin request (belum di-save)
+        $newStatus = request('status');
+
+        // 1. VALIDATE STATUS TRANSITION
+        $validator = app(\App\Services\OrderMotor\OrderMotorStatusValidator::class);
+
+        if (!$validator->validate($oldStatus, $newStatus)) {
+            Alert::error("Status tidak bisa diubah dari <b>{$oldStatus}</b> ke <b>{$newStatus}</b>.")->flash();
+            throw ValidationException::withMessages([
+                'status' => "Status tidak bisa diubah dari {$oldStatus} ke {$newStatus}."
+            ]);
+        }
+
+        // 2. UPDATE DEFAULT BACKPACK
         $response = $this->traitUpdate();
 
-        $order = $this->crud->entry->fresh();
+        // 3. Ambil data terbaru setelah update
+        $orderAfter = $this->crud->entry->fresh();
 
-        if ($order->status === 'completed') {
-            $points = 1000;
-
-            ActivityLog::create([
-                'user_public_id' => $order->user_public_id,
-                'source_type' => OrderMotor::class,
-                'source_id' => $order->id,
-                'type' => 'Order',
-                'title' => 'Order motor Berhasil',
-                'description' => 'Order motor ' . $order->model . ' selesai.',
-                'points' => $points,
-                'activity_date' => now(),
-            ]);
-
-            // Update poin user
-            $user = UserPublicProfile::where('user_public_id', $order->user_public_id)->first();
-            if ($user) {
-                $user->increment('total_points', $points);
-            }
-        }
+        // 4. Jalankan Workflow Service
+        app(\App\Services\OrderMotor\OrderMotorWorkflowService::class)
+            ->process($orderBefore, $orderAfter, function ($token, $title, $body) {
+                $this->sendFcmNotification($token, $title, $body);
+            });
 
         return $response;
     }
+
+    private function sendFcmNotification($token, $title, $body)
+    {
+        app(\App\Services\Notification\FcmService::class)->send($token, $title, $body);
+    }
+
 }
