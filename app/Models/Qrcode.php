@@ -40,9 +40,7 @@ class Qrcode extends Model
     // Scope untuk QR aktif
     public function scopeAktif($query)
     {
-        return $query->where('aktif', true)
-            ->where('masa_berlaku_mulai', '<=', now())
-            ->where('masa_berlaku_selesai', '>=', now());
+        return $query->where('aktif', true);
     }
 
     public function masihBerlaku()
