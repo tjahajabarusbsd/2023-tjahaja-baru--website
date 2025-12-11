@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Merchant;
 use App\Models\Qrcode;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -28,7 +29,8 @@ class User extends Authenticatable
         'phone_number',
         'password',
         'reset_password_token',
-        'google_id'
+        'google_id',
+        'merchant_id',
     ];
 
     /**
@@ -53,5 +55,10 @@ class User extends Authenticatable
     public function createdQrcodes()
     {
         return $this->hasMany(Qrcode::class, 'created_by');
+    }
+
+    public function merchant()
+    {
+        return $this->belongsTo(Merchant::class, 'merchant_id');
     }
 }
