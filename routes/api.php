@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\v1\ActivityController;
 use App\Http\Controllers\Api\v1\QrScanController;
 use App\Http\Controllers\Api\v1\RewardClaimController;
+use App\Http\Controllers\VoucherScanLogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\ProductController;
@@ -44,6 +45,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/send-otp', [OtpController::class, 'sendOtp']);
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
+    Route::post('/login-merchant', [AuthController::class, 'loginMerchant']);
+
     Route::middleware('throttle:60,1')->group(function () {
         Route::get('/onboarding', [OnboardingController::class, 'index']);
         Route::get('/products', [ProductController::class, 'index']);
@@ -84,7 +87,6 @@ Route::prefix('v1')->group(function () {
         // QR Scan
         Route::post('/qr/scan', [QrScanController::class, 'scan']);
         Route::post('/qr/redeem', [QrScanController::class, 'manualInput']);
-        Route::post('/qr/scanByKasir', [QrScanController::class, 'scanByKasir']);
 
         // Rewards
         Route::get('/reward-claims', [RewardClaimController::class, 'index']);
@@ -96,5 +98,10 @@ Route::prefix('v1')->group(function () {
         Route::get('/vouchers', [VoucherController::class, 'index']);
         Route::get('/voucher/{id}', [RewardClaimController::class, 'show']);
         Route::get('/loyalty-tiers', [LoyaltyTierController::class, 'index']);
+    });
+
+    Route::middleware('auth:user_merchant')->group(function () {
+        Route::get('/voucher-scans', [VoucherScanLogController::class, 'index']);
+        Route::post('/voucher-scans', [VoucherScanLogController::class, 'store']);
     });
 });
