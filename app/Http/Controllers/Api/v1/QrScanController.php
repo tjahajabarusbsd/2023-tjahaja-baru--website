@@ -97,34 +97,4 @@ class QrScanController extends Controller
             return ApiResponse::error('Terjadi kesalahan saat memproses QR code: ' . $e->getMessage(), 500);
         }
     }
-
-    public function scanByKasir(Request $request)
-    {
-        $voucher = RewardClaim::where('kode_voucher', $request->kode_voucher)->first();
-
-        if (!$voucher) {
-            return ApiResponse::error('Voucher tidak ditemukan', 404);
-        }
-
-        if ($voucher->status !== 'aktif') {
-            return ApiResponse::error('Voucher sudah digunakan atau tidak aktif', 400);
-        }
-
-        if (now()->gt($voucher->expires_at)) {
-            return ApiResponse::error('Voucher sudah kadaluarsa', 400);
-        }
-
-        $voucher->update([
-            'status' => 'terpakai',
-            'updated_at' => now(),
-        ]);
-
-        return ApiResponse::success('Voucher valid', [
-            'kode_voucher' => $voucher->kode_voucher,
-            'user_profile_id' => $voucher->user_profile_id,
-            'reward_title' => $voucher->reward ? $voucher->reward->title : null,
-            'status' => $voucher->status,
-        ]);
-
-    }
 }
