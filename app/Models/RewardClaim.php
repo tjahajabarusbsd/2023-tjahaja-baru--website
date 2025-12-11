@@ -43,4 +43,10 @@ class RewardClaim extends Model
     {
         return $this->belongsTo(UserPublicProfile::class);
     }
+
+    public function scanLogs()
+    {
+        return $this->hasMany(VoucherScanLog::class);
+    }
+
 }
