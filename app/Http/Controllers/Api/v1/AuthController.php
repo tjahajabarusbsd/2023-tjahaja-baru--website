@@ -6,6 +6,8 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\User;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -120,6 +122,42 @@ class AuthController extends Controller
         });
 
         $token = $user->createToken('auth_mobile_token')->plainTextToken;
+
+        return ApiResponse::success('Login berhasil', [
+            'id' => (string) $user->id,
+            'name' => (string) $user->name,
+            'phone_number' => (string) $user->phone_number,
+            'token' => (string) $token,
+        ]);
+    }
+
+    public function loginMerchant(LoginRequest $request)
+    {
+        $normalized = PhoneNumberService::normalize($request->phone_number);
+
+        $credentials = [
+            'phone_number' => $normalized,
+            'password' => $request->password,
+        ];
+
+        if (!Auth::attempt($credentials)) {
+            return ApiResponse::error('Nomor HP atau password salah', 401);
+        }
+
+        $user = Auth::user();
+
+        // Cek apakah user punya merchant_id
+        if (!$user->merchant_id) {
+            return ApiResponse::error('User ini bukan merchant', 403);
+        }
+
+        // Batasi maksimal 3 token aktif
+        // $user->tokens()->when($user->tokens()->count() >= 3, function ($query) {
+        //     $query->oldest()->first()?->delete();
+        // });
+
+        $token = $user->createToken('merchant_token')->plainTextToken;
+
 
         return ApiResponse::success('Login berhasil', [
             'id' => (string) $user->id,
