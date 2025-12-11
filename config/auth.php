@@ -54,6 +54,11 @@ return [
             'driver' => 'sanctum',
             'provider' => 'user_publics', // Public user
         ],
+
+        'user_merchant' => [
+            'driver' => 'sanctum',
+            'provider' => 'users', // User merchant
+        ],
     ],
 
     /*
