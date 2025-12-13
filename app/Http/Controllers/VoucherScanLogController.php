@@ -58,67 +58,89 @@ class VoucherScanLogController extends Controller
             'kode_voucher' => 'required',
         ]);
 
-        $merchant = auth()->user();
-        $voucher = RewardClaim::where('kode_voucher', $request->kode_voucher)->first();
+        $merchantUser = auth()->user();
+        $merchant = $merchantUser->merchant;
+        $kodeVoucher = $request->kode_voucher;
 
-        // Case 1 — Voucher tidak ditemukan
+        $voucher = RewardClaim::with(['reward', 'userProfile'])
+            ->where('kode_voucher', $kodeVoucher)
+            ->first();
+
+        /**
+         * Helper untuk response konsisten
+         */
+        $responseData = function (?RewardClaim $voucher, bool $isValid, string $message) use ($merchant, $kodeVoucher) {
+            return ApiResponse::success($message, [
+                'voucher_name' => $voucher?->reward?->title ?? '-',
+                'merchant_name' => $merchant?->title ?? '-',
+                'expired_at' => $voucher?->expires_at
+                    ? $voucher->expires_at->format('d F Y')
+                    : '-',
+                'voucher_code' => $kodeVoucher,
+                'user_name' => $voucher?->userProfile?->userPublic->name ?? '-',
+                'is_valid' => $isValid,
+            ]);
+        };
+
+        /**
+         * Case 1 — Voucher tidak ditemukan
+         */
         if (!$voucher) {
             VoucherScanLog::create([
                 'reward_claim_id' => null,
-                'scanned_by_merchant_id' => $merchant->merchant_id,
+                'scanned_by_merchant_id' => $merchant->id,
                 'result_status' => 'not_found',
                 'scan_time' => now(),
             ]);
 
-            return ApiResponse::error('Voucher tidak ditemukan', 404);
+            return $responseData(null, false, 'Voucher tidak ditemukan');
         }
 
-        // Case 2 — Voucher kadaluarsa
+        /**
+         * Case 2 — Voucher kadaluarsa
+         */
         if (now()->gt($voucher->expires_at)) {
-
             VoucherScanLog::create([
                 'reward_claim_id' => $voucher->id,
-                'scanned_by_merchant_id' => $merchant->merchant_id,
+                'scanned_by_merchant_id' => $merchant->id,
                 'result_status' => 'expired',
                 'scan_time' => now(),
             ]);
 
-            return ApiResponse::error('Voucher sudah kadaluarsa', 400);
+            return $responseData($voucher, false, 'Voucher sudah kadaluarsa');
         }
 
-        // Case 3 — Voucher sudah digunakan
+        /**
+         * Case 3 — Voucher sudah digunakan
+         */
         if ($voucher->status === 'terpakai') {
-
             VoucherScanLog::create([
                 'reward_claim_id' => $voucher->id,
-                'scanned_by_merchant_id' => $merchant->merchant_id,
+                'scanned_by_merchant_id' => $merchant->id,
                 'result_status' => 'used',
                 'scan_time' => now(),
             ]);
 
-            return ApiResponse::error('Voucher sudah digunakan', 400);
+            return $responseData($voucher, false, 'Voucher sudah digunakan');
         }
 
-        // Case 4 — Voucher valid → tandai digunakan
+        /**
+         * Case 4 — Voucher valid
+         */
         $voucher->update([
             'status' => 'terpakai',
             'used_at' => now(),
         ]);
 
-        $log = VoucherScanLog::create([
+        VoucherScanLog::create([
             'reward_claim_id' => $voucher->id,
-            'scanned_by_merchant_id' => $merchant->merchant_id,
+            'scanned_by_merchant_id' => $merchant->id,
             'result_status' => 'valid',
             'scan_time' => now(),
         ]);
 
-        return ApiResponse::success('Voucher valid', [
-            'kode_voucher' => $voucher->kode_voucher,
-            'user_profile_id' => $voucher->user_profile_id,
-            'reward_title' => $voucher->reward?->title,
-            'status' => 'valid',
-            'scan_log_id' => $log->id,
-        ]);
+        return $responseData($voucher, true, 'Voucher valid');
     }
+
 
 }
