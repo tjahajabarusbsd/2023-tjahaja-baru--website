@@ -47,9 +47,10 @@ class VoucherScanLogController extends Controller
             ];
         });
 
-        return ApiResponse::success('Riwayat scan berhasil diambil', [
-            'data' => $data
-        ]);
+        return ApiResponse::success(
+            'Riwayat scan berhasil diambil',
+            $data
+        );
     }
 
     public function store(Request $request)
