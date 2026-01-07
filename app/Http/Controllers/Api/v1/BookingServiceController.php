@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Services\BookingServiceCreator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use App\Models\BookingService;
 use App\Models\NomorRangka;
 use App\Models\Notification;
 use App\Http\Requests\BookingServiceRequest;
+use App\Services\N8nWebhookClient;
 
 class BookingServiceController extends Controller
 {
@@ -41,50 +43,32 @@ class BookingServiceController extends Controller
         return ApiResponse::success('Daftar booking servis berhasil diambil', $formatted);
     }
 
-    public function store(BookingServiceRequest $request)
-    {
+    public function store(
+        BookingServiceRequest $request,
+        BookingServiceCreator $creator,
+        N8nWebhookClient $n8nClient
+    ) {
         $user = Auth::user();
 
-        $motor = NomorRangka::where('id', $request->motor_id)
-            ->where('user_public_id', $user->id)
-            ->where('status_verifikasi', 'verified')
-            ->first();
+        $booking = $creator->handle($request, $user);
 
-        if (!$motor) {
-            return ApiResponse::error('Motor ini tidak terdaftar atas nama Anda.', 403);
+        // optional: bisa dimatikan via env
+        if (config('services.n8n.enabled')) {
+            $n8nClient->sendBooking($booking);
         }
 
-        // Ambil tahun & bulan
-        $year = Carbon::now()->format('y');
-        $month = Carbon::now()->format('m');
-
-        // Hitung order bulan ini
-        $countThisMonth = BookingService::whereYear('created_at', Carbon::now()->year)
-            ->whereMonth('created_at', Carbon::now()->month)
-            ->count() + 1;
-
-        // Contoh: BKG25090001
-        $booking_id = sprintf("BKG%s%s%04d", $year, $month, $countThisMonth);
-
-        $booking = BookingService::create([
-            'user_id' => $user->id,
-            'motor_id' => $request->motor_id,
-            'booking_id' => $booking_id,
-            'dealer_id' => $request->dealer_id,
-            'tanggal' => $request->tanggal,
-            'jam' => $request->jam,
-        ]);
-
-        // Notification::create([
-        //     'user_public_id' => $user->id,
-        //     'source_type' => BookingService::class,
-        //     'source_id' => $booking->id,
-        //     'title' => 'Booking servis berhasil.',
-        //     'description' => "Servis motor Anda telah berhasil dan sedang diproses",
-        //     'is_read' => false,
-        // ]);
-
-        return ApiResponse::success('Booking berhasil diproses. Kami akan segera menghubungi Anda.', $booking);
+        return ApiResponse::success(
+            'Booking servis berhasil dibuat',
+            [
+                'id' => $booking->id,
+                'user_id' => $booking->user_id,
+                'motor_id' => $booking->motor_id,
+                'booking_id' => $booking->booking_id,
+                'dealer_id' => $booking->dealer_id,
+                'tanggal' => $booking->tanggal,
+                'jam' => $booking->jam,
+            ]
+        );
     }
 
     public function batal(Request $request)
