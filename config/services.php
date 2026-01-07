@@ -42,5 +42,10 @@ return [
         ],
     ],
 
+    'n8n' => [
+        'enabled' => env('N8N_ENABLED', false),
+        'webhook' => env('N8N_WEBHOOK'),
+        'token' => env('N8N_TOKEN'),
+    ],
 
 ];

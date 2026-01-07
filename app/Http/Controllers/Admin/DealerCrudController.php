@@ -40,7 +40,7 @@ class DealerCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('id');
-        CRUD::column('kode_sales');
+        CRUD::column('kode_dealer');
         CRUD::column('name_dealer');
         CRUD::column('kecamatan');
         CRUD::column('created_at');
@@ -64,7 +64,12 @@ class DealerCrudController extends CrudController
         CRUD::setValidation(DealerRequest::class);
 
         // CRUD::field('id');
-        CRUD::field('kode_sales');
+        // CRUD::field('kode_dealer');
+        CRUD::addField([
+            'name' => 'kode_dealer',
+            'type' => 'custom_html',
+            'value' => '<p style="margin-bottom:0"><strong>Kode dealer: </strong>' . $this->crud->getCurrentEntry()->kode_dealer . '</p>',
+        ]);
         CRUD::field('name_dealer');
         CRUD::field('kecamatan');
         CRUD::field('nohp');

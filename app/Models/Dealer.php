@@ -13,7 +13,10 @@ class Dealer extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+    protected $fillable = [
+        'nama_dealer',
+        'kode_dealer',
+    ];
     // protected $hidden = [];
     // protected $dates = [];
 
