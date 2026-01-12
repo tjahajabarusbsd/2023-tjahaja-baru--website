@@ -20,7 +20,16 @@ class BookingService extends Model
         'jam',
         'status',
         'points_awarded_at',
+        'service_schedule_id',
+        'serialized_product_id',
+        'external_status',
     ];
+
+    protected $casts = [
+        'service_schedule_id' => 'string',
+        'serialized_product_id' => 'string',
+    ];
+
 
     public function dealer()
     {
