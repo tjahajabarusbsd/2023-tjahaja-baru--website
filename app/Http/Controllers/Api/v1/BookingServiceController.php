@@ -12,7 +12,7 @@ use App\Models\BookingService;
 use App\Models\NomorRangka;
 use App\Models\Notification;
 use App\Http\Requests\BookingServiceRequest;
-use App\Services\N8nWebhookClient;
+use App\Services\N8n\N8nWebhookClient;
 
 class BookingServiceController extends Controller
 {
