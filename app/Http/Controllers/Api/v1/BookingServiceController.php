@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Services\BookingServiceCreator;
+use App\Services\BookingStatusSyncService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -16,10 +17,14 @@ use App\Services\N8n\N8nWebhookClient;
 
 class BookingServiceController extends Controller
 {
-    public function index()
+    public function index(BookingStatusSyncService $syncService)
     {
         $user = Auth::user();
 
+        // 🔁 SYNC STATUS SAAT MENU DIBUKA
+        $syncService->syncLatestForUser($user->id);
+
+        // 🔽 AMBIL DATA TERBARU
         $bookings = BookingService::with('dealer', 'motor')
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
@@ -29,10 +34,10 @@ class BookingServiceController extends Controller
             return [
                 'id' => $booking->id,
                 'booking_id' => $booking->booking_id,
-                'dealer' => $booking->dealer ? $booking->dealer->name_dealer : '',
-                'motor' => $booking->motor ? $booking->motor->nomor_rangka : '',
-                'model' => $booking->motor ? $booking->motor->nama_model : '',
-                'plat' => $booking->motor ? $booking->motor->nomor_plat : '',
+                'dealer' => optional($booking->dealer)->name_dealer,
+                'motor' => optional($booking->motor)->nomor_rangka,
+                'model' => optional($booking->motor)->nama_model,
+                'plat' => optional($booking->motor)->nomor_plat,
                 'tanggal' => $booking->tanggal,
                 'jam' => $booking->jam,
                 'status' => $booking->status,
@@ -40,7 +45,10 @@ class BookingServiceController extends Controller
             ];
         });
 
-        return ApiResponse::success('Daftar booking servis berhasil diambil', $formatted);
+        return ApiResponse::success(
+            'Daftar booking servis berhasil diambil',
+            $formatted
+        );
     }
 
     public function store(
