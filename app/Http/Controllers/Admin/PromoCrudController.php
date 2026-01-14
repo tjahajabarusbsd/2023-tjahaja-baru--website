@@ -62,7 +62,13 @@ class PromoCrudController extends CrudController
 
         CRUD::field('name');
         CRUD::field('image')->type('image')->upload(true);
-        CRUD::field('is_active')->label('show')->type('checkbox');
+        CRUD::field('description')->label('Deskripsi')->type('textarea');
+        CRUD::field('terms_conditions')->label('Syarat dan Ketentuan')->type('ckeditor');
+        CRUD::field('show_on_pc')->label('Muncul di web?')->type('checkbox');
+        CRUD::field('show_on_mobile')->label('Muncul di app?')->type('checkbox');
+        CRUD::field('is_active')->label('Apakah aktif?')->type('checkbox');
+        CRUD::field('start_date')->type('datetime');
+        CRUD::field('end_date')->type('datetime');
         CRUD::field('created_at');
         CRUD::field('updated_at');
 
