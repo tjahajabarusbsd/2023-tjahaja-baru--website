@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PromoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SkyController;
 use App\Http\Controllers\HomeController;
@@ -47,6 +48,10 @@ Route::get('/promo', function () {
     return view('promo');
 });
 // --- End Page Section --- 
+
+// --- Promo Section --- 
+Route::get('/{uri}', [PromoController::class, 'detail'])
+    ->name('promo.detail');
 
 // --- Product Section --- 
 Route::get('/products', [ProductController::class, 'getMaxi']);
