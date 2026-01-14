@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\v1\ActivityController;
+use App\Http\Controllers\Api\v1\PromoController;
 use App\Http\Controllers\Api\v1\QrScanController;
 use App\Http\Controllers\Api\v1\RewardClaimController;
 use App\Http\Controllers\VoucherScanLogController;
@@ -58,6 +59,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/events', [EventController::class, 'index']);
         Route::get('/events/{id}', [EventController::class, 'show']);
         Route::get('/dealers', [DealerController::class, 'index']);
+        Route::get('/promos/banner', [PromoController::class, 'index']);
     });
 
     Route::middleware('auth:user_public')->group(function () {
