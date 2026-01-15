@@ -16,6 +16,8 @@ class BookingService extends Model
         'motor_id',
         'booking_id',
         'dealer_id',
+        'menu_layanan',
+        'permintaan_khusus',
         'tanggal',
         'jam',
         'status',
