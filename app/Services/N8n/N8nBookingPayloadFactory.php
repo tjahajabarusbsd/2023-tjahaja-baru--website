@@ -24,7 +24,7 @@ class N8nBookingPayloadFactory
           'brand' => 'C065YAMAHA',
           'plateNo' => $booking->motor->nomor_plat ?? '',
           'memo' => 'Booking servis dari aplikasi',
-          'serviceContent' => 'KSB',
+          'serviceContent' => $booking->menu_layanan ?? '',
           'serviceScheduleId' => $booking->service_schedule_id ?? null,
           'serializedProductId' => $booking->serialized_product_id ?? null,
         ]

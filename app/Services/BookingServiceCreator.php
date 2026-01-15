@@ -23,6 +23,8 @@ class BookingServiceCreator
       'motor_id' => $request->motor_id,
       'booking_id' => $bookingId,
       'dealer_id' => $request->dealer_id,
+      'menu_layanan' => $request->menu_layanan,
+      'permintaan_khusus' => $request->permintaan_khusus,
       'tanggal' => $request->tanggal,
       'jam' => $request->jam,
     ]);
