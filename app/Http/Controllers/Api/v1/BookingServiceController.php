@@ -74,6 +74,8 @@ class BookingServiceController extends Controller
                 'booking_id' => $booking->booking_id,
                 'dealer_id' => $booking->dealer_id,
                 'tanggal' => $booking->tanggal,
+                'menu_layanan' => $booking->menu_layanan,
+                'permintaan_khusus' => $booking->permintaan_khusus,
                 'jam' => $booking->jam,
             ]
         );
