@@ -30,7 +30,7 @@ class QrScanController extends Controller
             DB::beginTransaction();
 
             $user = Auth::user();
-            $profile = $user->profile;
+            // $profile = $user->profile;
             $qrCodeInput = $request->qr_code;
 
             // Cari QR code yang aktif menggunakan scope dari model
@@ -58,12 +58,12 @@ class QrScanController extends Controller
             }
 
             // Ambil poin dari QR code
-            $points = $qrCode->poin;
+            // $points = $qrCode->poin;
 
             // Tambahkan poin ke user
-            $profile->total_points += $points;
-            $profile->lifetime_points += $points;
-            $profile->save();
+            // $profile->total_points += $points;
+            // $profile->lifetime_points += $points;
+            // $profile->save();
 
             // Update jumlah penggunaan QR code
             $qrCode->increment('jumlah_penggunaan');
@@ -74,9 +74,9 @@ class QrScanController extends Controller
                 'source_type' => Qrcode::class,
                 'source_id' => $qrCode->id,
                 'type' => 'QR Scan',
-                'title' => 'Poin dari QR Code',
-                'description' => 'Berhasil mendapatkan poin dari QR Code: ' . $qrCode->nama_qrcode,
-                'points' => $points,
+                'title' => 'QR Code' . $qrCode->nama_qrcode,
+                'description' => 'Berhasil melakukan scan QR Code: ' . $qrCode->nama_qrcode,
+                'points' => 0,
                 'activity_date' => now(),
                 'metadata' => [
                     'scan_type' => $type,
@@ -86,10 +86,10 @@ class QrScanController extends Controller
 
             DB::commit();
 
-            return ApiResponse::success('QR berhasil divalidasi. Poin telah ditambahkan.', [
-                'points_received' => (int) $points,
-                'total_points' => (int) $profile->total_points,
-                'description' => 'Poin telah ditambahkan ke akunmu! Terus kumpulkan poin untuk mendapatkan hadiah menarik.'
+            return ApiResponse::success('QR berhasil divalidasi.', [
+                'points_received' => 0,
+                'total_points' => 0,
+                'description' => 'Berhasil melakukan scan QR Code: ' . $qrCode->nama_qrcode
             ]);
 
         } catch (\Exception $e) {
