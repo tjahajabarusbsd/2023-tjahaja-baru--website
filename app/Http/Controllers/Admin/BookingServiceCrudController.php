@@ -355,17 +355,17 @@ class BookingServiceCrudController extends CrudController
             }
 
             if ($newStatus === 'completed') {
-                $points = 100;
+                $points = 0; // sudah tidak pakai poin lagi
 
                 DB::transaction(function () use ($user, $booking, $motor, $points) {
                     if (!$user) {
                         return;
                     }
 
-                    if (!is_null($booking->points_awarded_at)) {
-                        Log::info("Poin sudah pernah diberikan untuk booking_id={$booking->id}");
-                        return;
-                    }
+                    // if (!is_null($booking->points_awarded_at)) {
+                    //     Log::info("Poin sudah pernah diberikan untuk booking_id={$booking->id}");
+                    //     return;
+                    // }
 
                     ActivityLog::create([
                         'user_public_id' => $user->id,
@@ -379,37 +379,37 @@ class BookingServiceCrudController extends CrudController
                     ]);
 
                     // Ambil profile + lock for update untuk mencegah race condition
-                    $profile = UserPublicProfile::where('user_public_id', $user->id)
-                        ->lockForUpdate()
-                        ->first();
+                    // $profile = UserPublicProfile::where('user_public_id', $user->id)
+                    //     ->lockForUpdate()
+                    //     ->first();
 
-                    if ($profile) {
-                        $profile->increment('total_points', $points);
-                        $profile->increment('lifetime_points', $points);
-                    } else {
-                        Log::warning("UserPublicProfile not found for user_public_id={$user->id} when awarding points for booking {$booking->id}");
-                    }
+                    // if ($profile) {
+                    //     $profile->increment('total_points', $points);
+                    //     $profile->increment('lifetime_points', $points);
+                    // } else {
+                    //     Log::warning("UserPublicProfile not found for user_public_id={$user->id} when awarding points for booking {$booking->id}");
+                    // }
 
                     Notification::create([
                         'user_public_id' => $user->id,
                         'source_type' => BookingService::class,
                         'source_id' => $booking->id,
                         'title' => 'Servis Selesai.',
-                        'description' => 'Servis motor Anda telah selesai. Anda mendapatkan +' . $points . ' poin.',
+                        'description' => 'Servis motor Anda telah selesai.',
                         'is_read' => false,
                     ]);
 
-                    $booking->update([
-                        'points_awarded_at' => now(),
-                    ]);
+                    // $booking->update([
+                    //     'points_awarded_at' => now(),
+                    // ]);
                 });
 
                 if ($user && $user->fcm_token) {
-                    $afterCommitJobs[] = function () use ($user, $motor, $points) {
+                    $afterCommitJobs[] = function () use ($user, $motor) {
                         $this->sendFcmNotification(
                             $user->fcm_token,
                             'Servis Selesai ✅',
-                            'Servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah selesai. Anda mendapatkan +' . $points . ' poin.'
+                            'Servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah selesai.'
                         );
                     };
                 }

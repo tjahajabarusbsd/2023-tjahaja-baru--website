@@ -106,39 +106,20 @@ class N8nWebhookClient
 
     // ✅ ADA PERUBAHAN → UPDATE
     $booking->update($updates);
+    $booking->refresh();
+
+    app(\App\Services\Booking\BookingStatusNotifier::class)
+      ->notify(
+        $booking,
+        $oldStatus,
+        $booking->status
+      );
 
     Log::info('[N8N] Booking updated from dpack', [
       'booking_id' => $booking->id,
-      'changes' => $updates,
+      'old_status' => $oldStatus,
+      'new_status' => $booking->status,
     ]);
-
-    $this->sendStatusNotification(
-      $booking,
-      $oldStatus,
-      $updates['status']
-    );
-
-  }
-
-  protected function sendStatusNotification(
-    BookingService $booking,
-    string $oldStatus,
-    string $newStatus
-  ) {
-    $user = $booking->user;
-
-    if (!$user || !$user->fcm_token) {
-      return;
-    }
-
-    $title = 'Update Status Booking Servis';
-    $body = "Booking {$booking->booking_id} berubah dari {$oldStatus} ke {$newStatus}";
-
-    app(FcmService::class)->send(
-      $user->fcm_token,
-      $title,
-      $body
-    );
   }
 
   private function mapExternalStatus(?string $status): ?string
