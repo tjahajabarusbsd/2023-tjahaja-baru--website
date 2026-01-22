@@ -15,12 +15,13 @@ class BookingStatusSyncService
       ->latest()
       ->first();
     // dd($booking);
-    // Tidak ada booking aktif → tidak perlu cek
-    if (!$booking) {
-      return;
+    if ($booking) {
+      $this->syncByBooking($booking);
     }
+  }
 
-    // Pastikan data pooling ada
+  public function syncByBooking(BookingService $booking): void
+  {
     if (!$booking->service_schedule_id || !$booking->serialized_product_id) {
       Log::warning('[N8N] Skip cek status, data pooling belum lengkap', [
         'booking_id' => $booking->booking_id,
@@ -29,6 +30,5 @@ class BookingStatusSyncService
     }
 
     app(N8nWebhookClient::class)->cekStatus($booking);
-
   }
 }

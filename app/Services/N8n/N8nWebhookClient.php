@@ -6,7 +6,7 @@ use App\Models\BookingService;
 use App\Services\N8n\N8nBookingPayloadFactory;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-
+use App\Services\Notification\FcmService;
 
 class N8nWebhookClient
 {
@@ -72,6 +72,7 @@ class N8nWebhookClient
 
     // 🔍 Bandingkan data lama vs baru
     $updates = [];
+    $oldStatus = $booking->status;
 
     if (
       isset($body['serviceScheduleId']) &&
@@ -111,23 +112,34 @@ class N8nWebhookClient
       'changes' => $updates,
     ]);
 
+    $this->sendStatusNotification(
+      $booking,
+      $oldStatus,
+      $updates['status']
+    );
+
   }
 
-  // public function cekStatus(BookingService $booking): array
-  // {
-  //   $payload = N8nBookingPayloadFactory::cekStatus($booking);
+  protected function sendStatusNotification(
+    BookingService $booking,
+    string $oldStatus,
+    string $newStatus
+  ) {
+    $user = $booking->user;
 
-  //   $response = Http::timeout(5)
-  //     ->acceptJson()
-  //     ->withToken(config('services.n8n.token'))
-  //     ->post(config('services.n8n.webhook'), $payload);
+    if (!$user || !$user->fcm_token) {
+      return;
+    }
 
-  //   return [
-  //     'status' => $response->status(),
-  //     'body' => $response->json(),
-  //   ];
-  // }
+    $title = 'Update Status Booking Servis';
+    $body = "Booking {$booking->booking_id} berubah dari {$oldStatus} ke {$newStatus}";
 
+    app(FcmService::class)->send(
+      $user->fcm_token,
+      $title,
+      $body
+    );
+  }
 
   private function mapExternalStatus(?string $status): ?string
   {
