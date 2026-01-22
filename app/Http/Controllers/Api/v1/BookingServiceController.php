@@ -22,7 +22,9 @@ class BookingServiceController extends Controller
         $user = Auth::user();
 
         // 🔁 SYNC STATUS SAAT MENU DIBUKA
-        $syncService->syncLatestForUser($user->id);
+        if (config('services.n8n.enabled')) {
+            $syncService->syncLatestForUser($user->id);
+        }
 
         // 🔽 AMBIL DATA TERBARU
         $bookings = BookingService::with('dealer', 'motor')

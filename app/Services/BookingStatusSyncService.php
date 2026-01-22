@@ -11,7 +11,7 @@ class BookingStatusSyncService
   public function syncLatestForUser(int $userId): void
   {
     $booking = BookingService::where('user_id', $userId)
-      ->whereIn('status', ['pending', 'booking'])
+      ->whereIn('status', ['pending', 'booking', 'confirmed'])
       ->latest()
       ->first();
     // dd($booking);
