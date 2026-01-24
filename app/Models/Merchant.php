@@ -30,6 +30,11 @@ class Merchant extends Model
         return $this->hasMany(Reward::class);
     }
 
+    public function qrcodes()
+    {
+        return $this->hasMany(Qrcode::class);
+    }
+
     public static function boot()
     {
         parent::boot();
