@@ -44,6 +44,13 @@ class QrcodeCrudController extends CrudController
     {
         $this->crud->addColumn(['name' => 'nama_qrcode', 'type' => 'text', 'label' => 'Nama']);
         $this->crud->addColumn(['name' => 'kode', 'type' => 'text', 'label' => 'Kode']);
+        $this->crud->addColumn([
+            'name' => 'merchant_id',
+            'type' => 'select',
+            'label' => 'Merchant',
+            'entity' => 'merchant',
+            'attribute' => 'title',
+        ]);
         // $this->crud->addColumn(['name' => 'poin', 'type' => 'number', 'label' => 'Poin']);
         $this->crud->addColumn(['name' => 'masa_berlaku_mulai', 'type' => 'datetime', 'label' => 'Mulai']);
         $this->crud->addColumn(['name' => 'masa_berlaku_selesai', 'type' => 'datetime', 'label' => 'Selesai']);
@@ -73,6 +80,7 @@ class QrcodeCrudController extends CrudController
                 Rule::unique('qrcodes', 'kode')
                     ->ignore($this->crud->getCurrentEntryId()), // abaikan ID saat edit
             ],
+            'merchant_id' => 'nullable|exists:merchants,id',
             // 'poin' => 'required|integer|min:1',
             'masa_berlaku_mulai' => 'required|date',
             'masa_berlaku_selesai' => 'required|date|after:masa_berlaku_mulai',
@@ -80,6 +88,7 @@ class QrcodeCrudController extends CrudController
         ]);
 
         $this->crud->addField(['name' => 'nama_qrcode', 'type' => 'text', 'label' => 'Nama QR']);
+        $this->crud->addField(['name' => 'merchant_id', 'type' => 'select2', 'label' => 'Merchant', 'entity' => 'merchant', 'attribute' => 'title']);
         $this->crud->addField(['name' => 'kode', 'type' => 'text', 'label' => 'Kode Unik', 'hint' => 'Akan digenerate otomatis jika kosong']);
         // $this->crud->addField(['name' => 'poin', 'type' => 'number', 'label' => 'Jumlah Poin']);
         $this->crud->addField(['name' => 'masa_berlaku_mulai', 'type' => 'datetime_picker', 'label' => 'Masa Berlaku Mulai']);
