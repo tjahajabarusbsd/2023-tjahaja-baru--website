@@ -14,6 +14,7 @@ class Qrcode extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'merchant_id',
         'nama_qrcode',
         'kode',
         'poin',
@@ -35,6 +36,11 @@ class Qrcode extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function merchant()
+    {
+        return $this->belongsTo(Merchant::class);
     }
 
     // Scope untuk QR aktif

@@ -84,9 +84,10 @@ class QrScanController extends Controller
             DB::commit();
 
             return ApiResponse::success('QR berhasil divalidasi.', [
-                'points_received' => 0,
-                'total_points' => 0,
-                'description' => $qrCode->nama_qrcode
+                'qr_code_id' => $qrCode->id,
+                'nama_qrcode' => $qrCode->nama_qrcode,
+                'merchant_id' => $qrCode->merchant_id,
+                'merchant_name' => $qrCode->merchant->name,
             ]);
 
         } catch (\Exception $e) {
