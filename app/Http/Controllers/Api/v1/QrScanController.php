@@ -87,7 +87,7 @@ class QrScanController extends Controller
                 'qr_code_id' => $qrCode->id,
                 'nama_qrcode' => $qrCode->nama_qrcode,
                 'merchant_id' => $qrCode->merchant_id,
-                'merchant_name' => $qrCode->merchant->name,
+                'merchant_name' => $qrCode->merchant->title,
             ]);
 
         } catch (\Exception $e) {
