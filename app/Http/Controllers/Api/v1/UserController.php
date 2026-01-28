@@ -44,13 +44,13 @@ class UserController extends Controller
         $membership = LoyaltyService::getTierByPoints($lifetimePoints);
 
         // Pastikan reward tier hanya diberikan sekali
-        $alreadyGranted = \App\Models\RewardClaim::where('user_profile_id', $profile->id)
-            ->where('source', 'loyalty_' . strtolower($membership['tier']))
-            ->exists();
+        // $alreadyGranted = \App\Models\RewardClaim::where('user_profile_id', $profile->id)
+        //     ->where('source', 'loyalty_' . strtolower($membership['tier']))
+        //     ->exists();
 
-        if (!$alreadyGranted) {
-            LoyaltyService::grantTierBenefits($profile, $membership['tier']);
-        }
+        // if (!$alreadyGranted) {
+        //     LoyaltyService::grantTierBenefits($profile, $membership['tier']);
+        // }
 
         $phoneNumber = $user->phone_number;
         // change phone number format from 62 to 0
