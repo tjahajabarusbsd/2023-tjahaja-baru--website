@@ -25,7 +25,9 @@ class RewardClaimController extends Controller
                 'promo' => $claim->reward->title,
                 'status' => $claim->status_label,
                 'expiredAt' => $claim->expires_at,
-                'logoUrl' => '',
+                'logoUrl' => $claim->reward->merchant && $claim->reward->merchant->image
+                    ? asset($claim->reward->merchant->image)
+                    : null,
             ];
         });
 
