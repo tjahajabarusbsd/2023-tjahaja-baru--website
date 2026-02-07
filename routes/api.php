@@ -70,9 +70,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/account/profile', [UserController::class, 'getAccount']);
         Route::post('/account/profile/edit', [UserController::class, 'editProfile']);
         Route::post('/account/profile/ganti-password', [UserController::class, 'changePassword']);
-        Route::post('/account/request-ganti-nomor-hp', [UserController::class, 'requestChangeNomorHp'])->middleware('throttle:3,1');
+        Route::post('/account/request-ganti-nomor-hp', [UserController::class, 'requestChangeNomorHp'])->middleware('throttle:10,1');
         Route::post('/account/verify-ganti-nomor-hp', [UserController::class, 'verifyChangeNomorHp']);
-        Route::post('/account/otp-resend-ganti-nomor-hp', [UserController::class, 'otpResendChangeNumber'])->middleware('throttle:3,1');
+        Route::post('/account/otp-resend-ganti-nomor-hp', [UserController::class, 'otpResendChangeNumber'])->middleware('throttle:10,1');
         Route::post('/logout', [AuthController::class, 'logout']);
 
         // My Motor
