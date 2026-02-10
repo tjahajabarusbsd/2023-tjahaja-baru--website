@@ -49,10 +49,6 @@ Route::get('/promo', function () {
 });
 // --- End Page Section --- 
 
-// --- Promo Section --- 
-Route::get('/{uri}', [PromoController::class, 'detail'])
-    ->name('promo.detail');
-
 // --- Product Section --- 
 Route::get('/products', [ProductController::class, 'getMaxi']);
 
@@ -133,3 +129,7 @@ if (env('APP_ENV') == 'local') {
 
     Route::get('/auth/callback', [LoginController::class, 'handleGoogleCallback']);
 }
+
+// --- Promo Section --- 
+Route::get('/promo/{uri}', [PromoController::class, 'detail'])
+    ->name('promo.detail');
