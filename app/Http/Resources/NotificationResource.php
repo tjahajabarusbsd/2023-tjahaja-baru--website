@@ -19,7 +19,7 @@ class NotificationResource extends JsonResource
             'title' => $this->title,
             'message' => $this->description, // mapping ke field message di Flutter
             'time' => $this->created_at->toIso8601String(),
-            'relative_time' => $this->created_at->diffForHumans(),
+            'relative_time' => date('d-m-Y H:i', strtotime($this->created_at)),
             'isRead' => (bool) $this->is_read,
         ];
     }
