@@ -14,18 +14,48 @@ class NotificationController extends Controller
      */
     public function index(Request $request)
     {
-        $user = $request->user(); // user_public yang login via guard
+        $user = $request->user();
 
-        $notifications = Notification::where('user_public_id', $user->id)
+        $query = Notification::where('user_public_id', $user->id);
+
+        /**
+         * =========================
+         * FILTER CATEGORY
+         * =========================
+         */
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        /**
+         * =========================
+         * FILTER MONTH (format: YYYY-MM)
+         * =========================
+         */
+        if ($request->filled('month')) {
+            try {
+                $date = \Carbon\Carbon::createFromFormat('Y-m', $request->month);
+
+                $query->whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month);
+
+            } catch (\Exception $e) {
+                return response()->json([
+                    'status' => 'error',
+                    'code' => 422,
+                    'message' => 'Format month harus YYYY-MM',
+                ], 422);
+            }
+        }
+
+        /**
+         * =========================
+         * PAGINATION
+         * =========================
+         */
+        $notifications = $query
             ->latest()
             ->paginate(10);
-
-        Notification::where('user_public_id', $user->id)
-            ->where('is_read', 0)
-            ->update([
-                'is_read' => 1,
-                'read_at' => now(),
-            ]);
 
         return NotificationResource::collection($notifications)
             ->additional([
@@ -35,16 +65,16 @@ class NotificationController extends Controller
             ]);
     }
 
-    public function unreadCount(Request $request)
-    {
-        $user = $request->user();
+    // public function unreadCount(Request $request)
+    // {
+    //     $user = $request->user();
 
-        $count = Notification::where('user_public_id', $user->id)
-            ->where('is_read', 0)
-            ->count();
+    //     $count = Notification::where('user_public_id', $user->id)
+    //         ->where('is_read', 0)
+    //         ->count();
 
-        return response()->json([
-            'unread_count' => $count,
-        ]);
-    }
+    //     return response()->json([
+    //         'unread_count' => $count,
+    //     ]);
+    // }
 }
