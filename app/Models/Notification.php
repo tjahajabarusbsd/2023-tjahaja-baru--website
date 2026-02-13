@@ -13,6 +13,7 @@ class Notification extends Model
         'user_public_id',
         'source_type',
         'source_id',
+        'category',
         'title',
         'description',
         'is_read',
