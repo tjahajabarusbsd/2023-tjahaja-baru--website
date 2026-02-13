@@ -74,6 +74,7 @@ class QrScanController extends Controller
                 'user_public_id' => $user->id,
                 'source_type' => Qrcode::class,
                 'source_id' => $qrCode->id,
+                'category' => 'QR Scan',
                 'title' => 'Scan QR Berhasil',
                 'description' => 'Promo ' . $qrCode->nama_qrcode . ' di ' . $qrCode->merchant->title . ' berhasil digunakan.',
                 'is_read' => false,

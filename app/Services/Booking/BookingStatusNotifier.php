@@ -79,6 +79,7 @@ class BookingStatusNotifier
       'user_public_id' => $userId,
       'source_type' => BookingService::class,
       'source_id' => $bookingId,
+      'category' => 'Booking Service',
       'title' => $title,
       'description' => $description,
       'is_read' => false,

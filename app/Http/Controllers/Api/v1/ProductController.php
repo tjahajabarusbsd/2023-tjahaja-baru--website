@@ -236,6 +236,7 @@ class ProductController extends Controller
             'user_public_id' => $user->id,
             'source_type' => OrderMotor::class,
             'source_id' => $orderMotor->id,
+            'category' => 'Order Motor',
             'title' => 'Pemesanan motor berhasil.',
             'description' => "Pemesanan motor {$orderMotor->model} telah berhasil dan sedang diproses",
             'is_read' => false,
