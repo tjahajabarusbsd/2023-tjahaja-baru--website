@@ -194,6 +194,7 @@ class NomorRangkaCrudController extends CrudController
                 'user_public_id' => $entry->user_public_id,
                 'source_type' => NomorRangka::class,
                 'source_id' => $entry->id,
+                'category' => 'Nomor Rangka',
                 'title' => 'Verifikasi Nomor Rangka Berhasil',
                 'description' => 'Nomor rangka Anda telah berhasil diverifikasi.',
                 'is_read' => false,
