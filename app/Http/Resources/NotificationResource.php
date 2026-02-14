@@ -21,6 +21,7 @@ class NotificationResource extends JsonResource
             'time' => $this->created_at->toIso8601String(),
             'relative_time' => date('d-m-Y H:i', strtotime($this->created_at)),
             'isRead' => (bool) $this->is_read,
+            'category' => $this->category,
         ];
     }
 }
