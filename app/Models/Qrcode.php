@@ -16,7 +16,9 @@ class Qrcode extends Model
     protected $fillable = [
         'merchant_id',
         'nama_qrcode',
+        'promo_id',
         'kode',
+        'benefit',
         'poin',
         'masa_berlaku_mulai',
         'masa_berlaku_selesai',
@@ -42,6 +44,12 @@ class Qrcode extends Model
     {
         return $this->belongsTo(Merchant::class);
     }
+
+    public function promo()
+    {
+        return $this->belongsTo(Promo::class);
+    }
+
 
     // Scope untuk QR aktif
     public function scopeAktif($query)
