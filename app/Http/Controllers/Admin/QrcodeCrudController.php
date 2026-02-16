@@ -42,8 +42,8 @@ class QrcodeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        $this->crud->addColumn(['name' => 'nama_qrcode', 'type' => 'text', 'label' => 'Nama']);
-        $this->crud->addColumn(['name' => 'kode', 'type' => 'text', 'label' => 'Kode']);
+        $this->crud->addColumn(['name' => 'nama_qrcode', 'type' => 'text', 'label' => 'Nama QR']);
+        // $this->crud->addColumn(['name' => 'kode', 'type' => 'text', 'label' => 'Kode']);
         $this->crud->addColumn([
             'name' => 'merchant_id',
             'type' => 'select',
@@ -51,7 +51,13 @@ class QrcodeCrudController extends CrudController
             'entity' => 'merchant',
             'attribute' => 'title',
         ]);
-        // $this->crud->addColumn(['name' => 'poin', 'type' => 'number', 'label' => 'Poin']);
+        $this->crud->addColumn([
+            'name' => 'promo_id',
+            'type' => 'select',
+            'label' => 'Dari Promo',
+            'entity' => 'promo',
+            'attribute' => 'name',
+        ]);
         $this->crud->addColumn(['name' => 'masa_berlaku_mulai', 'type' => 'datetime', 'label' => 'Mulai']);
         $this->crud->addColumn(['name' => 'masa_berlaku_selesai', 'type' => 'datetime', 'label' => 'Selesai']);
         $this->crud->addColumn(['name' => 'aktif', 'type' => 'check', 'label' => 'Aktif']);
@@ -89,7 +95,9 @@ class QrcodeCrudController extends CrudController
 
         $this->crud->addField(['name' => 'nama_qrcode', 'type' => 'text', 'label' => 'Nama QR']);
         $this->crud->addField(['name' => 'merchant_id', 'type' => 'select2', 'label' => 'Merchant', 'entity' => 'merchant', 'attribute' => 'title']);
+        $this->crud->addField(['name' => 'promo_id', 'type' => 'select2', 'label' => 'Dari Promo', 'entity' => 'promo', 'attribute' => 'name']);
         $this->crud->addField(['name' => 'kode', 'type' => 'text', 'label' => 'Kode Unik', 'hint' => 'Akan digenerate otomatis jika kosong']);
+        $this->crud->addField(['name' => 'benefit', 'type' => 'text', 'label' => 'Benefit']);
         // $this->crud->addField(['name' => 'poin', 'type' => 'number', 'label' => 'Jumlah Poin']);
         $this->crud->addField(['name' => 'masa_berlaku_mulai', 'type' => 'datetime_picker', 'label' => 'Masa Berlaku Mulai']);
         $this->crud->addField(['name' => 'masa_berlaku_selesai', 'type' => 'datetime_picker', 'label' => 'Masa Berlaku Selesai']);

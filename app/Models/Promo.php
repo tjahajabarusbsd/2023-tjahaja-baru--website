@@ -51,6 +51,12 @@ class Promo extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function qrcodes()
+    {
+        return $this->hasMany(Qrcode::class);
+    }
+
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -93,7 +99,7 @@ class Promo extends Model
         if ($value == null) {
             // delete the image from disk
             $previousImagePath = Str::replaceFirst('uploads/', '', $this->{$attribute_name});
-    
+
             if ($previousImagePath && Storage::disk($disk)->exists($previousImagePath)) {
                 Storage::disk($disk)->delete($previousImagePath);
             }
@@ -116,7 +122,7 @@ class Promo extends Model
 
             // 3. Delete the previous image, if there was one.
             $previousImagePath = Str::replaceFirst('uploads/', '', $this->{$attribute_name});
-    
+
             if ($previousImagePath && Storage::disk($disk)->exists($previousImagePath)) {
                 Storage::disk($disk)->delete($previousImagePath);
             }
@@ -127,7 +133,7 @@ class Promo extends Model
             // is the public URL (everything that comes after the domain name)
             $public_destination_path = Str::replaceFirst('public/', '', $destination_path);
 
-            $this->attributes[$attribute_name] =  $disk . '/' . $public_destination_path . '/' . $filename;
+            $this->attributes[$attribute_name] = $disk . '/' . $public_destination_path . '/' . $filename;
         }
     }
 }
