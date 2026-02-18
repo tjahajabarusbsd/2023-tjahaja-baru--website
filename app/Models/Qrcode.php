@@ -42,14 +42,18 @@ class Qrcode extends Model
 
     public function merchant()
     {
-        return $this->belongsTo(Merchant::class);
+        return $this->belongsTo(Merchant::class, 'merchant_id');
+    }
+
+    public function activityLogs()
+    {
+        return $this->morphMany(ActivityLog::class, 'source');
     }
 
     public function promo()
     {
         return $this->belongsTo(Promo::class);
     }
-
 
     // Scope untuk QR aktif
     public function scopeAktif($query)

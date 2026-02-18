@@ -43,4 +43,5 @@ Route::group([
         Route::crud('reward', 'RewardCrudController');
         Route::crud('qrcode', 'QrcodeCrudController');
     });
+    Route::crud('activity-scan', 'ActivityScanCrudController');
 }); // this should be the absolute last line of this file
