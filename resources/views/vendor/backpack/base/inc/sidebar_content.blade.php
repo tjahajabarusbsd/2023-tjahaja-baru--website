@@ -60,5 +60,7 @@
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('event') }}"><i class="nav-icon la la-calendar-alt"></i>
                         Events</a></li>
         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('qrcode') }}"><i class="nav-icon la la-qrcode"></i>
-                        Qrcodes</a></li>
+                        QR Codes</a></li>
 @endcan
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('activity-scan') }}"><i
+                        class="nav-icon la la-qrcode"></i> QR Code scans</a></li>
