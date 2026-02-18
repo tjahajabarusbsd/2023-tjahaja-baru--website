@@ -32,7 +32,7 @@ class ActivityScanCrudController extends CrudController
         CRUD::setEntityNameStrings('QR Scan', 'QR Scans');
 
         // FILTER HANYA SCAN QR
-        $this->crud->addClause('where', 'type', 'QR Scan');
+        $this->crud->addClause('where', 'type', 'QR_Scan');
         $this->crud->addClause('where', 'source_type', QrCode::class);
 
         $this->crud->query->with([
