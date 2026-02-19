@@ -74,8 +74,8 @@ class QrScanController extends Controller
 
             ActivityLog::create([
                 'user_public_id' => $user->id,
-                'source_type' => Qrcode::class,
-                'source_id' => $qrCode->id,
+                'source_type' => QrScanLog::class,
+                'source_id' => $qrScanLog->id,
                 'type' => 'QR_SCAN',
                 'title' => 'Scan QR ' . $qrCode->nama_qrcode,
                 'description' => 'Scan berhasil',
@@ -85,8 +85,8 @@ class QrScanController extends Controller
 
             Notification::create([
                 'user_public_id' => $user->id,
-                'source_type' => Qrcode::class,
-                'source_id' => $qrCode->id,
+                'source_type' => QrScanLog::class,
+                'source_id' => $qrScanLog->id,
                 'category' => 'QR Scan',
                 'title' => 'Scan QR Berhasil',
                 'description' => 'Promo ' . $qrCode->nama_qrcode . ' di ' . $qrCode->merchant->title . ' berhasil digunakan.',
