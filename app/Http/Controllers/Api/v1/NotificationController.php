@@ -65,16 +65,61 @@ class NotificationController extends Controller
             ]);
     }
 
-    // public function unreadCount(Request $request)
-    // {
-    //     $user = $request->user();
+    public function unreadCount(Request $request)
+    {
+        $user = $request->user();
 
-    //     $count = Notification::where('user_public_id', $user->id)
-    //         ->where('is_read', 0)
-    //         ->count();
+        $count = Notification::where('user_public_id', $user->id)
+            ->where('is_read', 0)
+            ->count();
 
-    //     return response()->json([
-    //         'unread_count' => $count,
-    //     ]);
-    // }
+        return response()->json([
+            'unread_count' => $count,
+        ]);
+    }
+
+    public function markAsRead(Request $request, $id)
+    {
+        $user = $request->user();
+
+        $notification = Notification::where('user_public_id', $user->id)
+            ->where('id', $id)
+            ->first();
+
+        if (!$notification) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 404,
+                'message' => 'Notifikasi tidak ditemukan',
+            ], 404);
+        }
+
+        $notification->update([
+            'is_read' => 1,
+            'read_at' => now(),
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Notifikasi berhasil ditandai sebagai dibaca',
+        ]);
+    }
+    public function markAllAsRead(Request $request)
+    {
+        $user = $request->user();
+
+        Notification::where('user_public_id', $user->id)
+            ->where('is_read', 0)
+            ->update([
+                'is_read' => 1,
+            ]);
+
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Semua notifikasi ditandai sebagai dibaca',
+        ]);
+    }
+
 }
