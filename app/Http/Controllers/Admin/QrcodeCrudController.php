@@ -6,6 +6,7 @@ use App\Http\Requests\QrcodeRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Validation\Rule;
+use Str;
 
 /**
  * Class QrcodeCrudController
@@ -129,7 +130,9 @@ class QrcodeCrudController extends CrudController
 
         // Auto-generate kode jika kosong
         if (empty($request->kode)) {
-            $request->merge(['kode' => 'QR-' . strtoupper(uniqid())]);
+            $request->merge([
+                'kode' => 'QR-' . strtoupper(Str::uuid())
+            ]);
         }
 
         $request->merge(['created_by' => backpack_user()->id]);
