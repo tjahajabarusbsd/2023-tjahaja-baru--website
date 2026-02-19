@@ -22,6 +22,8 @@ class QrScanLog extends Model
 
     protected $casts = [
         'scanned_at' => 'datetime',
+        'usage_count' => 'integer',
+        'max_usage' => 'integer',
     ];
 
     public function user()
