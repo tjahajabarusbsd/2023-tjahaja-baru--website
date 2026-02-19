@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\v1\ActivityController;
 use App\Http\Controllers\Api\v1\PromoController;
 use App\Http\Controllers\Api\v1\QrScanController;
+use App\Http\Controllers\Api\v1\QrScanLogController;
 use App\Http\Controllers\Api\v1\RewardClaimController;
 use App\Http\Controllers\VoucherScanLogController;
 use Illuminate\Http\Request;
@@ -102,6 +103,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/vouchers', [VoucherController::class, 'index']);
         Route::get('/voucher/{id}', [RewardClaimController::class, 'show']);
         Route::get('/loyalty-tiers', [LoyaltyTierController::class, 'index']);
+
+        Route::get('/qr-scan-logs/{id}', [QrScanLogController::class, 'show']);
     });
 
     Route::middleware('auth:user_merchant')->group(function () {
