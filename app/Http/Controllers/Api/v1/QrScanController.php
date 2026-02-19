@@ -8,6 +8,7 @@ use App\Http\Requests\QrScanRequest;
 use App\Models\ActivityLog;
 use App\Models\Notification;
 use App\Models\Qrcode;
+use App\Models\QrScanLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -57,7 +58,19 @@ class QrScanController extends Controller
                 throw new \Exception('Anda sudah menggunakan kode ini', 400);
             }
 
+            $nextUsage = $qrCode->jumlah_penggunaan + 1;
+            $scanCode = 'TRX-' . strtoupper(uniqid());
+
             $qrCode->increment('jumlah_penggunaan');
+
+            $qrScanLog = QrScanLog::create([
+                'scan_code' => $scanCode,
+                'user_public_id' => $user->id,
+                'qrcode_id' => $qrCode->id,
+                'usage_count' => $nextUsage,
+                'max_usage' => $qrCode->max_penggunaan,
+                'scanned_at' => now(),
+            ]);
 
             ActivityLog::create([
                 'user_public_id' => $user->id,
@@ -83,10 +96,13 @@ class QrScanController extends Controller
             DB::commit();
 
             return ApiResponse::success('QR berhasil divalidasi.', [
-                'qr_code_id' => $qrCode->id,
+                'scan_id' => $qrScanLog->scan_code,
                 'nama_qrcode' => $qrCode->nama_qrcode,
-                'merchant_id' => $qrCode->merchant_id,
                 'merchant_name' => $qrCode->merchant->title,
+                'user_name' => $user->name,
+                'usage_count' => $nextUsage,
+                'max_usage' => $qrCode->max_penggunaan,
+                'waktu_scan' => $qrScanLog->scanned_at->format('d/m/Y H:i'),
             ]);
 
         } catch (\Exception $e) {
