@@ -32,6 +32,8 @@ class Qrcode extends Model
         'masa_berlaku_mulai' => 'datetime',
         'masa_berlaku_selesai' => 'datetime',
         'aktif' => 'boolean',
+        'max_penggunaan' => 'integer',
+        'jumlah_penggunaan' => 'integer',
     ];
 
     // Relasi ke user yang membuat
