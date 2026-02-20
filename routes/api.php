@@ -99,6 +99,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount']);
         Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
         Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+        Route::get('/notifications/{id}', [NotificationController::class, 'show']);
         Route::get('/activity', [ActivityController::class, 'index']);
         Route::get('/vouchers', [VoucherController::class, 'index']);
         Route::get('/voucher/{id}', [RewardClaimController::class, 'show']);
