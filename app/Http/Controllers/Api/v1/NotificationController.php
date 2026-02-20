@@ -152,11 +152,12 @@ class NotificationController extends Controller
                 $order = OrderMotor::findOrFail($notification->source_id);
 
                 $detail = [
-                    'order_code' => $order->order_code,
-                    'motor_name' => $order->motor_name,
+                    'order_code' => $order->order_id,
+                    'motor_name' => $order->model,
+                    'warna' => $order->warna,
+                    'tipe_pembayaran' => $order->tipe_pembayaran,
                     'status' => $order->status,
-                    'total' => $order->total,
-                    'ordered_at' => $order->created_at,
+                    'ordered_at' => $order->created_at->format('d M Y H:i'),
                 ];
                 break;
 
