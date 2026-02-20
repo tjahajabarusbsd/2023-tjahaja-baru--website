@@ -15,20 +15,13 @@ class QrScanLogDetailResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'scan_code' => $this->scan_code,
-            'scanned_at' => $this->scanned_at,
+            'scan_id' => $this->scan_code,
+            'nama_qrcode' => $this->qrcode->nama_qrcode,
+            'merchant_name' => $this->qrcode->merchant->title,
+            'user_name' => $this->user->name,
             'usage_count' => $this->usage_count,
             'max_usage' => $this->max_usage,
-
-            'qrcode' => [
-                'id' => $this->qrcode->id,
-                'nama' => $this->qrcode->nama_qrcode,
-                'benefit' => $this->qrcode->benefit,
-                'max_penggunaan' => $this->qrcode->max_penggunaan,
-                'jumlah_penggunaan' => $this->qrcode->jumlah_penggunaan,
-                'aktif' => $this->qrcode->aktif,
-            ]
+            'scanned_at' => $this->scanned_at->format('d/m/Y H:i'),
         ];
     }
 }
