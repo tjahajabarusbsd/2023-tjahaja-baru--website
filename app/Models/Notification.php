@@ -20,6 +20,10 @@ class Notification extends Model
         'read_at',
     ];
 
+    protected $casts = [
+        'is_read' => 'boolean',
+    ];
+
     /**
      * Relasi ke UserPublic
      */

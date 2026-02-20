@@ -141,6 +141,7 @@ class NotificationController extends Controller
                     'merchant_name' => $qr->qrcode->merchant->title,
                     'nama_qrcode' => $qr->qrcode->nama_qrcode,
                     'benefit' => $qr->qrcode->benefit,
+                    'user_name' => $qr->user->name,
                     'usage_count' => $qr->usage_count,
                     'max_usage' => $qr->max_usage,
                     'scanned_at' => $qr->scanned_at->format('d M Y H:i'),
