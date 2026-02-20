@@ -13,7 +13,7 @@ class MerchantController extends Controller
     {
         $merchants = Merchant::where('aktif', true)
             ->where('is_internal', false)
-            ->whereHas('rewards', function ($query) {
+            ->whereHas('qrcodes', function ($query) {
                 $query->where('aktif', true)
                     ->where('masa_berlaku_selesai', '>=', now());
             })
@@ -54,7 +54,7 @@ class MerchantController extends Controller
         ])
             ->where('aktif', true)
             ->where('is_internal', false)
-            ->whereHas('rewards', function ($q) {
+            ->whereHas('qrcodes', function ($q) {
                 $q->where('aktif', true)
                     ->where('masa_berlaku_selesai', '>=', now());
             })
@@ -72,11 +72,11 @@ class MerchantController extends Controller
                 : '',
             'info' => $merchant->deskripsi ?? '',
             'location' => $merchant->lokasi ?? '',
-            'promos' => $merchant->rewards->map(function ($reward) {
+            'promos' => $merchant->qrcodes->map(function ($qrcode) {
                 return [
-                    'id' => $reward->id,
-                    'title' => $reward->title,
-                    'valid_until' => $reward->masa_berlaku_selesai->format('d-m-Y'),
+                    'id' => $qrcode->id,
+                    'title' => $qrcode->nama_qrcode,
+                    'valid_until' => $qrcode->masa_berlaku_selesai->format('d-m-Y'),
                 ];
             })->values(),
         ];
