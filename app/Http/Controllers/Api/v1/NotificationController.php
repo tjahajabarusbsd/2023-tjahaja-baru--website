@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NotificationResource;
+use App\Models\BookingService;
 use App\Models\Notification;
+use App\Models\OrderMotor;
+use App\Models\QrScanLog;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -119,6 +122,74 @@ class NotificationController extends Controller
             'status' => 'success',
             'code' => 200,
             'message' => 'Semua notifikasi ditandai sebagai dibaca',
+        ]);
+    }
+
+    public function show($id)
+    {
+        $notification = Notification::findOrFail($id);
+
+        $detail = null;
+
+        switch ($notification->category) {
+
+            case 'QR Scan':
+                $qr = QrScanLog::findOrFail($notification->source_id);
+
+                $detail = [
+                    'scan_id' => $qr->scan_code,
+                    'merchant_name' => $qr->qrcode->merchant->title,
+                    'nama_qrcode' => $qr->qrcode->nama_qrcode,
+                    'benefit' => $qr->qrcode->benefit,
+                    'usage_count' => $qr->usage_count,
+                    'max_usage' => $qr->max_usage,
+                    'scanned_at' => $qr->scanned_at->format('d M Y H:i'),
+                ];
+                break;
+
+            case 'Order Motor':
+                $order = OrderMotor::findOrFail($notification->source_id);
+
+                $detail = [
+                    'order_code' => $order->order_code,
+                    'motor_name' => $order->motor_name,
+                    'status' => $order->status,
+                    'total' => $order->total,
+                    'ordered_at' => $order->created_at,
+                ];
+                break;
+
+            case 'Booking Service':
+                $booking = BookingService::findOrFail($notification->source_id);
+
+                $detail = [
+                    'booking_code' => $booking->booking_code,
+                    'service_date' => $booking->service_date,
+                    'points' => $booking->points,
+                    'status' => $booking->status,
+                ];
+                break;
+
+            default:
+                return response()->json([
+                    'status' => 'error',
+                    'code' => 400,
+                    'message' => 'Kategori tidak dikenali'
+                ], 400);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Detail notifikasi berhasil dimuat',
+            'data' => [
+                'notification_id' => $notification->id,
+                'title' => $notification->title,
+                'category' => $notification->category,
+                'time' => $notification->created_at->format('d M Y H:i'),
+                'is_read' => $notification->is_read,
+                'detail' => $detail
+            ]
         ]);
     }
 
