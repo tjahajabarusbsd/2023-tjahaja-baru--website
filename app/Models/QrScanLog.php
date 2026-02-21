@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
 class QrScanLog extends Model
 {
+    use CrudTrait;
     use HasFactory;
 
     protected $table = 'qr_scan_logs';
@@ -34,5 +36,10 @@ class QrScanLog extends Model
     public function qrcode()
     {
         return $this->belongsTo(Qrcode::class, 'qrcode_id');
+    }
+
+    public function getMerchantTitleAttribute()
+    {
+        return $this->qrcode && $this->qrcode->merchant ? $this->qrcode->merchant->title : 'N/A';
     }
 }

@@ -42,16 +42,4 @@ class ActivityLog extends Model
         return $this->morphTo();
     }
 
-    public function getMerchantTitleAttribute()
-    {
-        if (!$this->source)
-            return null;
-
-        if (method_exists($this->source, 'merchant')) {
-            return $this->source->merchant->title ?? null;
-        }
-
-        return null;
-    }
-
 }

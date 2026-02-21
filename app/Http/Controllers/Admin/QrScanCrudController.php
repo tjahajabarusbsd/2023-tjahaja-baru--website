@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
-use App\Models\ActivityLog;
+use App\Models\QrScanLog;
 use App\Models\QrCode;
 
 /**
@@ -12,7 +12,7 @@ use App\Models\QrCode;
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class ActivityScanCrudController extends CrudController
+class QrScanCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     // use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -27,18 +27,9 @@ class ActivityScanCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(ActivityLog::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/activity-scan');
-        CRUD::setEntityNameStrings('QR Scan', 'QR Scans');
-
-        // FILTER HANYA SCAN QR
-        $this->crud->addClause('where', 'type', 'QR_Scan');
-        $this->crud->addClause('where', 'source_type', QrCode::class);
-
-        $this->crud->query->with([
-            'user',
-            'source.merchant'
-        ]);
+        CRUD::setModel(QrScanLog::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/qr-scan-log');
+        CRUD::setEntityNameStrings('QR Scan Log', 'QR Scan Logs');
     }
 
     /**
@@ -69,12 +60,20 @@ class ActivityScanCrudController extends CrudController
             'label' => 'Promo',
             'type' => 'closure',
             'function' => function ($entry) {
-                return optional(optional($entry->source)->promo)->name ?? '-';
+                return $entry->qrcode ? $entry->qrcode->promo->name ?? 'N/A' : 'N/A';
             }
         ]);
 
         $this->crud->addColumn([
-            'name' => 'activity_date',
+            'label' => 'Nama QR Code',
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->qrcode ? $entry->qrcode->nama_qrcode ?? 'N/A' : 'N/A';
+            }
+        ]);
+
+        $this->crud->addColumn([
+            'name' => 'scanned_at',
             'type' => 'datetime',
             'label' => 'Tanggal Scan'
         ]);
