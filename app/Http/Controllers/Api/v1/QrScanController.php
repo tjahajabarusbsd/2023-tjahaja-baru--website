@@ -49,9 +49,8 @@ class QrScanController extends Controller
                 throw new \Exception('Penggunaan sudah mencapai batas', 400);
             }
 
-            $alreadyScanned = ActivityLog::where('user_public_id', $user->id)
-                ->where('source_type', Qrcode::class)
-                ->where('source_id', $qrCode->id)
+            $alreadyScanned = QrScanLog::where('user_public_id', $user->id)
+                ->where('qrcode_id', $qrCode->id)
                 ->exists();
 
             if ($alreadyScanned) {
