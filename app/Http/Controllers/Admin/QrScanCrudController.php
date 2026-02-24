@@ -41,9 +41,15 @@ class QrScanCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->addColumn([
+            'name' => 'scan_code',
+            'label' => 'ID Scan',
+            'type' => 'text',
+        ]);
+
+        $this->crud->addColumn([
             'name' => 'user_public_id',
             'type' => 'relationship',
-            'label' => 'Username',
+            'label' => 'Nama Konsumen',
             'entity' => 'user',
             'attribute' => 'name'
         ]);
