@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use Illuminate\Support\Str;
 
 class Qrcode extends Model
 {
@@ -14,17 +15,19 @@ class Qrcode extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'merchant_id',
         'nama_qrcode',
+        'merchant_id',
         'promo_id',
-        'kode',
         'benefit',
-        'poin',
         'masa_berlaku_mulai',
         'masa_berlaku_selesai',
-        'aktif',
+        'jam_mulai',
+        'jam_selesai',
+        'hari_aktif',
         'max_penggunaan',
         'jumlah_penggunaan',
+        'aktif',
+        'kode',
         'created_by'
     ];
 
@@ -34,6 +37,7 @@ class Qrcode extends Model
         'aktif' => 'boolean',
         'max_penggunaan' => 'integer',
         'jumlah_penggunaan' => 'integer',
+        'hari_aktif' => 'array',
     ];
 
     // Relasi ke user yang membuat
@@ -71,6 +75,45 @@ class Qrcode extends Model
         return true;
     }
 
+    // Cek jam aktif
+    public function jamAktif()
+    {
+        if ($this->jam_mulai && $this->jam_selesai) {
+            $currentTime = now()->format('H:i:s');
+            if ($currentTime < $this->jam_mulai || $currentTime > $this->jam_selesai) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Cek hari aktif
+    public function hariAktif()
+    {
+        if ($this->hari_aktif && is_array($this->hari_aktif)) {
+            $today = strtolower(now()->format('D'));
+
+            $map = [
+                'mon' => 'mon',
+                'tue' => 'tue',
+                'wed' => 'wed',
+                'thu' => 'thu',
+                'fri' => 'fri',
+                'sat' => 'sat',
+                'sun' => 'sun',
+            ];
+
+            $todayKey = strtolower(substr($today, 0, 3));
+
+            if (!in_array($todayKey, $this->hari_aktif)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     // cek max penggunaan
     public function maxPenggunaan()
     {
@@ -84,10 +127,16 @@ class Qrcode extends Model
     {
         parent::boot();
 
-        static::creating(function ($qrcode) {
-            if (empty($qrcode->created_by)) {
-                $qrcode->created_by = auth()->id();
+        static::creating(function ($qr) {
+
+            if (empty($qr->created_by)) {
+                $qr->created_by = auth()->id();
             }
+
+            if (empty($qr->kode)) {
+                $qr->kode = 'QR-' . strtoupper((Str::uuid())->toString());
+            }
+
         });
     }
 }

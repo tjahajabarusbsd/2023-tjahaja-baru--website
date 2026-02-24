@@ -79,31 +79,131 @@ class QrcodeCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        // CRUD::setValidation(QrcodeRequest::class);
-        $this->crud->setValidation([
-            'nama_qrcode' => 'required|min:3',
-            'kode' => [
-                'nullable',
-                Rule::unique('qrcodes', 'kode')
-                    ->ignore($this->crud->getCurrentEntryId()), // abaikan ID saat edit
-            ],
-            'merchant_id' => 'nullable|exists:merchants,id',
-            // 'poin' => 'required|integer|min:1',
-            'masa_berlaku_mulai' => 'required|date',
-            'masa_berlaku_selesai' => 'required|date|after:masa_berlaku_mulai',
-            'max_penggunaan' => 'nullable|integer|min:1'
+        CRUD::setValidation(QrcodeRequest::class);
+
+        /*
+        |--------------------------------------------------------------------------
+        | TAB 1 - Informasi QR
+        |--------------------------------------------------------------------------
+        */
+
+        CRUD::addField([
+            'name' => 'nama_qrcode',
+            'type' => 'text',
+            'label' => 'Nama QR',
+            'tab' => 'Informasi'
         ]);
 
-        $this->crud->addField(['name' => 'nama_qrcode', 'type' => 'text', 'label' => 'Nama QR']);
-        $this->crud->addField(['name' => 'merchant_id', 'type' => 'select2', 'label' => 'Merchant', 'entity' => 'merchant', 'attribute' => 'title']);
-        $this->crud->addField(['name' => 'promo_id', 'type' => 'select2', 'label' => 'Dari Promo', 'entity' => 'promo', 'attribute' => 'name']);
-        $this->crud->addField(['name' => 'kode', 'type' => 'text', 'label' => 'Kode Unik', 'hint' => 'Akan digenerate otomatis jika kosong']);
-        $this->crud->addField(['name' => 'benefit', 'type' => 'text', 'label' => 'Benefit']);
-        // $this->crud->addField(['name' => 'poin', 'type' => 'number', 'label' => 'Jumlah Poin']);
-        $this->crud->addField(['name' => 'masa_berlaku_mulai', 'type' => 'datetime_picker', 'label' => 'Masa Berlaku Mulai']);
-        $this->crud->addField(['name' => 'masa_berlaku_selesai', 'type' => 'datetime_picker', 'label' => 'Masa Berlaku Selesai']);
-        $this->crud->addField(['name' => 'aktif', 'type' => 'checkbox', 'label' => 'Status Aktif']);
-        $this->crud->addField(['name' => 'max_penggunaan', 'type' => 'number', 'label' => 'Maksimal Penggunaan (kosongkan jika tak terbatas)']);
+        CRUD::addField([
+            'name' => 'merchant_id',
+            'type' => 'select2',
+            'label' => 'Merchant',
+            'entity' => 'merchant',
+            'attribute' => 'title',
+            'tab' => 'Informasi'
+        ]);
+
+        CRUD::addField([
+            'name' => 'promo_id',
+            'type' => 'select2',
+            'label' => 'Dari Promo',
+            'entity' => 'promo',
+            'attribute' => 'name',
+            'tab' => 'Informasi'
+        ]);
+
+        if ($this->crud->getCurrentOperation() === 'update') {
+            CRUD::addField([
+                'name' => 'kode',
+                'type' => 'text',
+                'label' => 'Kode QR (Generated)',
+                'attributes' => [
+                    'readonly' => 'readonly',
+                ],
+                'tab' => 'Informasi'
+            ]);
+        }
+
+        CRUD::addField([
+            'name' => 'benefit',
+            'type' => 'text',
+            'label' => 'Benefit',
+            'tab' => 'Informasi'
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | TAB 2 - Pengaturan Waktu
+        |--------------------------------------------------------------------------
+        */
+
+        CRUD::addField([
+            'name' => 'masa_berlaku_mulai',
+            'type' => 'datetime_picker',
+            'label' => 'Tanggal Mulai',
+            'tab' => 'Waktu Aktif'
+        ]);
+
+        CRUD::addField([
+            'name' => 'masa_berlaku_selesai',
+            'type' => 'datetime_picker',
+            'label' => 'Tanggal Selesai',
+            'tab' => 'Waktu Aktif'
+        ]);
+
+        CRUD::addField([
+            'name' => 'jam_mulai',
+            'type' => 'time',
+            'label' => 'Jam Mulai (Opsional)',
+            'hint' => 'Kosongkan jika aktif 24 jam',
+            'tab' => 'Waktu Aktif'
+        ]);
+
+        CRUD::addField([
+            'name' => 'jam_selesai',
+            'type' => 'time',
+            'label' => 'Jam Selesai (Opsional)',
+            'tab' => 'Waktu Aktif'
+        ]);
+
+        CRUD::addField([
+            'name' => 'hari_aktif',
+            'type' => 'select2_from_array',
+            'label' => 'Hari Aktif (Opsional)',
+            'options' => [
+                'mon' => 'Senin',
+                'tue' => 'Selasa',
+                'wed' => 'Rabu',
+                'thu' => 'Kamis',
+                'fri' => 'Jumat',
+                'sat' => 'Sabtu',
+                'sun' => 'Minggu',
+            ],
+            'allows_multiple' => true,
+            'hint' => 'Kosongkan jika aktif setiap hari',
+            'tab' => 'Waktu Aktif'
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | TAB 3 - Penggunaan
+        |--------------------------------------------------------------------------
+        */
+
+        CRUD::addField([
+            'name' => 'max_penggunaan',
+            'type' => 'number',
+            'label' => 'Maksimal Penggunaan',
+            'hint' => 'Kosongkan jika tidak terbatas',
+            'tab' => 'Penggunaan'
+        ]);
+
+        CRUD::addField([
+            'name' => 'aktif',
+            'type' => 'checkbox',
+            'label' => 'Status Aktif',
+            'tab' => 'Penggunaan'
+        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -123,20 +223,4 @@ class QrcodeCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
-    // Override untuk auto-generate kode
-    public function store()
-    {
-        $request = $this->crud->validateRequest();
-
-        // Auto-generate kode jika kosong
-        if (empty($request->kode)) {
-            $request->merge([
-                'kode' => 'QR-' . strtoupper(Str::uuid())
-            ]);
-        }
-
-        $request->merge(['created_by' => backpack_user()->id]);
-
-        return $this->traitStore();
-    }
 }

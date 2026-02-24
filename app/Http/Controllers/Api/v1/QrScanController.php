@@ -42,7 +42,15 @@ class QrScanController extends Controller
             }
 
             if (!$qrCode->masihBerlaku()) {
-                throw new \Exception('QR code sudah tidak berlaku', 400);
+                throw new \Exception('QR belum atau sudah tidak aktif', 400);
+            }
+
+            if (!$qrCode->jamAktif()) {
+                throw new \Exception('QR tidak aktif di jam ini', 400);
+            }
+
+            if (!$qrCode->hariAktif()) {
+                throw new \Exception('QR tidak aktif di hari ini', 400);
             }
 
             if (!$qrCode->maxPenggunaan()) {
