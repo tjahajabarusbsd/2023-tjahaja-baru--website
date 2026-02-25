@@ -53,6 +53,33 @@ class QrScanController extends Controller
                 throw new \Exception('QR tidak aktif di hari ini', 400);
             }
 
+            /*
+            |--------------------------------------------------------------------------
+            | TIPE LINK → HANYA REDIRECT
+            |--------------------------------------------------------------------------
+            */
+            if ($qrCode->tipe_qr === Qrcode::TIPE_LINK) {
+
+                if (!$qrCode->redirect_url) {
+                    throw new \Exception('Redirect URL tidak ditemukan', 500);
+                }
+
+                DB::commit();
+
+                return ApiResponse::success('QR redirect.', [
+                    'type' => 'link',
+                    'redirect_url' => $qrCode->redirect_url,
+                    'nama_qrcode' => $qrCode->nama_qrcode,
+                    'merchant_name' => $qrCode->merchant->title,
+                ]);
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | TIPE KODE → PROSES SEPERTI BIASA
+            |--------------------------------------------------------------------------
+            */
+
             if (!$qrCode->maxPenggunaan()) {
                 throw new \Exception('Penggunaan sudah mencapai batas', 400);
             }
@@ -79,17 +106,6 @@ class QrScanController extends Controller
                 'scanned_at' => now(),
             ]);
 
-            ActivityLog::create([
-                'user_public_id' => $user->id,
-                'source_type' => QrScanLog::class,
-                'source_id' => $qrScanLog->id,
-                'type' => 'QR_SCAN',
-                'title' => 'Scan QR ' . $qrCode->nama_qrcode,
-                'description' => 'Scan berhasil',
-                'points' => 0,
-                'activity_date' => now(),
-            ]);
-
             Notification::create([
                 'user_public_id' => $user->id,
                 'source_type' => QrScanLog::class,
@@ -103,6 +119,7 @@ class QrScanController extends Controller
             DB::commit();
 
             return ApiResponse::success('QR berhasil divalidasi.', [
+                'type' => 'kode',
                 'scan_id' => $qrScanLog->scan_code,
                 'nama_qrcode' => $qrCode->nama_qrcode,
                 'merchant_name' => $qrCode->merchant->title,

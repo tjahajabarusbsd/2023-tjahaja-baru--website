@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\QrcodeRequest;
+use App\Models\Qrcode;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Validation\Rule;
@@ -30,7 +31,7 @@ class QrcodeCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Qrcode::class);
+        CRUD::setModel(Qrcode::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/qrcode');
         CRUD::setEntityNameStrings('qrcode', 'qrcodes');
     }
@@ -112,6 +113,25 @@ class QrcodeCrudController extends CrudController
             'tab' => 'Informasi'
         ]);
 
+        CRUD::addField([
+            'name' => 'tipe_qr',
+            'type' => 'select_from_array',
+            'label' => 'Tipe QR Code',
+            'options' => [
+                Qrcode::TIPE_KODE => 'Kode (Generate Otomatis)',
+                Qrcode::TIPE_LINK => 'Link (Redirect URL)',
+            ],
+            'allows_null' => false,
+            'tab' => 'Informasi'
+        ]);
+
+        CRUD::addField([
+            'name' => 'redirect_url',
+            'type' => 'url',
+            'label' => 'Redirect URL',
+            'tab' => 'Informasi'
+        ]);
+
         if ($this->crud->getCurrentOperation() === 'update') {
             CRUD::addField([
                 'name' => 'kode',
@@ -125,9 +145,70 @@ class QrcodeCrudController extends CrudController
         }
 
         CRUD::addField([
+            'name' => 'jenis_kerjasama',
+            'type' => 'select_from_array',
+            'label' => 'Jenis Kerjasama',
+            'options' => [
+                Qrcode::KERJASAMA_MERCHANT => '100% Merchant',
+                Qrcode::KERJASAMA_TB => '100% TB',
+                Qrcode::KERJASAMA_COST_SHARING => 'Cost Sharing',
+            ],
+            'allows_null' => false,
+            'tab' => 'Informasi'
+        ]);
+
+        CRUD::addField([
+            'name' => 'tb_percentage',
+            'type' => 'number',
+            'label' => 'TB Percentage (%)',
+            'attributes' => [
+                'step' => '0.01',
+                'min' => 0,
+                'max' => 100
+            ],
+            'tab' => 'Informasi'
+        ]);
+
+        CRUD::addField([
+            'name' => 'merchant_percentage',
+            'type' => 'number',
+            'label' => 'Merchant Percentage (%)',
+            'attributes' => [
+                'step' => '0.01',
+                'min' => 0,
+                'max' => 100
+            ],
+            'tab' => 'Informasi'
+        ]);
+
+        CRUD::addField([
+            'name' => 'tipe_hadiah',
+            'type' => 'select_from_array',
+            'label' => 'Tipe Hadiah',
+            'options' => [
+                Qrcode::HADIAH_DIRECT => 'Direct Gift',
+                Qrcode::HADIAH_UNDIAN => 'Undian',
+            ],
+            'allows_null' => false,
+            'tab' => 'Informasi'
+        ]);
+
+        CRUD::addField([
             'name' => 'benefit',
             'type' => 'text',
-            'label' => 'Benefit',
+            'label' => 'Hadiah/Benefit',
+            'tab' => 'Informasi'
+        ]);
+
+        CRUD::addField([
+            'name' => 'nominal',
+            'type' => 'number',
+            'label' => 'Nominal Hadiah',
+            'prefix' => 'Rp',
+            'attributes' => [
+                'step' => '0.01',
+                'min' => 0
+            ],
             'tab' => 'Informasi'
         ]);
 
