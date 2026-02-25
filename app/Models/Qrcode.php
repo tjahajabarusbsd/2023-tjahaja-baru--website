@@ -28,7 +28,14 @@ class Qrcode extends Model
         'jumlah_penggunaan',
         'aktif',
         'kode',
-        'created_by'
+        'created_by',
+        'jenis_kerjasama',
+        'tb_percentage',
+        'merchant_percentage',
+        'nominal',
+        'tipe_hadiah',
+        'tipe_qr',
+        'redirect_url',
     ];
 
     protected $casts = [
@@ -39,6 +46,16 @@ class Qrcode extends Model
         'jumlah_penggunaan' => 'integer',
         'hari_aktif' => 'array',
     ];
+
+    const KERJASAMA_MERCHANT = 'merchant';
+    const KERJASAMA_TB = 'tb';
+    const KERJASAMA_COST_SHARING = 'cost_sharing';
+
+    const HADIAH_DIRECT = 'direct_gift';
+    const HADIAH_UNDIAN = 'undian';
+
+    const TIPE_KODE = 'kode';
+    const TIPE_LINK = 'link';
 
     // Relasi ke user yang membuat
     public function creator()
