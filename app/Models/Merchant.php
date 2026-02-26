@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +34,11 @@ class Merchant extends Model
     public function qrcodes()
     {
         return $this->hasMany(Qrcode::class);
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 
     public static function boot()
