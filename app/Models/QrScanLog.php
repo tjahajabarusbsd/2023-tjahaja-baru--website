@@ -42,4 +42,24 @@ class QrScanLog extends Model
     {
         return $this->qrcode && $this->qrcode->merchant ? $this->qrcode->merchant->title : 'N/A';
     }
+
+    protected static function booted()
+    {
+        static::addGlobalScope('merchant', function ($builder) {
+
+            if (backpack_auth()->check()) {
+
+                $user = backpack_user();
+
+                if ($user->hasRole('merchant_admin')) {
+
+                    $builder->whereHas('qrcode', function ($q) use ($user) {
+                        $q->where('merchant_id', $user->merchant_id);
+                    });
+
+                }
+            }
+
+        });
+    }
 }
