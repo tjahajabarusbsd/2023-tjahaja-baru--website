@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\Log;
 
 class NotificationService
 {
-  public function createDB($user, $source, string $title, string $description)
+  public function createDB($user, $source, string $title, string $category, string $description)
   {
     Notification::create([
       'user_public_id' => $user->id,
       'source_type' => get_class($source),
       'source_id' => $source->id,
+      'category' => $category,
       'title' => $title,
       'description' => $description,
       'is_read' => false,
