@@ -33,6 +33,7 @@ class OrderMotorNotificationService
     $this->notificationService->createDB(
       user: $user,
       source: $order,
+      category: 'Order Motor',
       title: $title,
       description: $message
     );
