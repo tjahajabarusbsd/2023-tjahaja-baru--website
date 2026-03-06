@@ -55,16 +55,16 @@ class OrderMotorNotificationService
   {
     return match ($status) {
       'confirmed' => [
-        'Order Motor Dikonfirmasi',
-        "Order motor {$order->model} Anda telah dikonfirmasi.",
+        'Pemesanan Motor Dikonfirmasi',
+        "Pemesanan motor {$order->model} Anda telah dikonfirmasi.",
       ],
       'cancelled' => [
-        'Order Motor Dibatalkan',
-        "Order motor {$order->model} Anda telah dibatalkan.",
+        'Pemesanan Motor Dibatalkan',
+        "Pemesanan motor {$order->model} Anda telah dibatalkan.",
       ],
       'completed' => [
-        'Order Motor Selesai',
-        "Order motor {$order->model} telah selesai diproses.",
+        'Pemesanan Motor Selesai',
+        "Pemesanan motor {$order->model} telah selesai diproses.",
       ],
       default => [null, null],
     };

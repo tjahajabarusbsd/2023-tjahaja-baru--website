@@ -311,7 +311,8 @@ class BookingServiceCrudController extends CrudController
                             'user_public_id' => $user->id,
                             'source_type' => BookingService::class,
                             'source_id' => $booking->id,
-                            'title' => 'Booking Servis Dibatalkan.',
+                            'category' => 'Booking Service',
+                            'title' => 'Booking Servis Dibatalkan',
                             'description' => 'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dibatalkan.',
                             'is_read' => false,
                         ]);
@@ -336,7 +337,8 @@ class BookingServiceCrudController extends CrudController
                             'user_public_id' => $user->id,
                             'source_type' => BookingService::class,
                             'source_id' => $booking->id,
-                            'title' => 'Booking Servis Dikonfirmasi.',
+                            'category' => 'Booking Service',
+                            'title' => 'Booking Servis Dikonfirmasi',
                             'description' => 'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-') . ' telah dikonfirmasi. Sampai jumpa di dealer!',
                             'is_read' => false,
                         ]);
@@ -394,7 +396,8 @@ class BookingServiceCrudController extends CrudController
                         'user_public_id' => $user->id,
                         'source_type' => BookingService::class,
                         'source_id' => $booking->id,
-                        'title' => 'Servis Selesai.',
+                        'category' => 'Booking Service',
+                        'title' => 'Servis Selesai',
                         'description' => 'Servis motor Anda telah selesai.',
                         'is_read' => false,
                     ]);
