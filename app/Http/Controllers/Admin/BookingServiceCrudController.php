@@ -369,16 +369,16 @@ class BookingServiceCrudController extends CrudController
                     //     return;
                     // }
 
-                    ActivityLog::create([
-                        'user_public_id' => $user->id,
-                        'source_type' => BookingService::class,
-                        'source_id' => $booking->id,
-                        'type' => 'services',
-                        'title' => 'Servis selesai',
-                        'description' => 'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-'),
-                        'points' => $points,
-                        'activity_date' => now(),
-                    ]);
+                    // ActivityLog::create([
+                    //     'user_public_id' => $user->id,
+                    //     'source_type' => BookingService::class,
+                    //     'source_id' => $booking->id,
+                    //     'type' => 'services',
+                    //     'title' => 'Servis selesai',
+                    //     'description' => 'Booking servis untuk motor ' . ($motor ? $motor->nama_model : '-'),
+                    //     'points' => $points,
+                    //     'activity_date' => now(),
+                    // ]);
 
                     // Ambil profile + lock for update untuk mencegah race condition
                     // $profile = UserPublicProfile::where('user_public_id', $user->id)
