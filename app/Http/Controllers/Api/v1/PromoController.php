@@ -12,7 +12,7 @@ class PromoController extends Controller
   {
     $promos = Promo::where('is_active', true)
       ->where('show_on_mobile', true)
-      ->orderBy('id', 'desc')
+      ->orderBy('created_at', 'desc')
       ->get();
 
     $formattedPromos = $promos->map(function ($promo) {
