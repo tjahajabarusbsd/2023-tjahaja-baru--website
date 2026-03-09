@@ -18,9 +18,11 @@ class HomeController extends Controller
             ->get();
 
         // Fetch data variant(unit) per category from the latest
-        $categories = Category::with(['groups.variants' => function ($query) {
-            $query->latest();
-        }])->get();
+        $categories = Category::with([
+            'groups.variants' => function ($query) {
+                $query->latest();
+            }
+        ])->get();
 
         $latestVariants = collect();
 
@@ -38,7 +40,7 @@ class HomeController extends Controller
             // foreach ($category->groups as $group) {
             //     if ($group->variants->isNotEmpty()) {
             //         $groupLatestVariant = $group->variants->sortByDesc('created_at')->first();
-                    
+
             //         if (!$latestVariant || $groupLatestVariant->created_at > $latestVariant->created_at) {
             //             $latestVariant = $groupLatestVariant;
             //         }
@@ -56,7 +58,7 @@ class HomeController extends Controller
         $banners = Banner::where('is_active', 1)->orderBy('created_at', 'desc')->get();
 
         // Fetch data promos
-        $promos = Promo::where('is_active', 1)->get();
+        $promos = Promo::where('is_active', 1)->where('show_on_pc', true)->get();
 
         return view('home', compact('articles', 'latestVariants', 'banners', 'promos'));
     }
