@@ -26,6 +26,11 @@ class Merchant extends Model
         'is_internal',
     ];
 
+    public function promos()
+    {
+        return $this->hasMany(Promo::class);
+    }
+
     public function rewards()
     {
         return $this->hasMany(Reward::class);
