@@ -11,19 +11,7 @@ class MerchantController extends Controller
 {
     public function index(): JsonResponse
     {
-        $merchants = Merchant::where('aktif', true)
-            ->where('is_internal', false)
-            ->whereHas('qrcodes', function ($query) {
-                $query->where('aktif', true)
-                    ->where('masa_berlaku_selesai', '>=', now());
-            })
-            ->with([
-                'rewards' => function ($query) {
-                    $query->where('aktif', true)
-                        ->where('masa_berlaku_selesai', '>=', now());
-                }
-            ])
-            ->get();
+        $merchants = Merchant::where('aktif', true)->get();
 
         $formatted = $merchants->map(function ($merchant) {
             return [
@@ -47,16 +35,16 @@ class MerchantController extends Controller
     public function show($id): JsonResponse
     {
         $merchant = Merchant::with([
-            'rewards' => function ($q) {
-                $q->where('aktif', true)
-                    ->where('masa_berlaku_selesai', '>=', now());
+            'qrcodes.promo' => function ($q) {
+                $q->where('is_active', true)
+                    ->where('end_date', '>=', now());
             }
         ])
             ->where('aktif', true)
             ->where('is_internal', false)
-            ->whereHas('qrcodes', function ($q) {
+            ->whereHas('qrcodes.promo', function ($q) {
                 $q->where('aktif', true)
-                    ->where('masa_berlaku_selesai', '>=', now());
+                    ->where('end_date', '>=', now());
             })
             ->find($id);
 
@@ -67,18 +55,27 @@ class MerchantController extends Controller
         $merchantDetails = [
             'id' => $merchant->id,
             'name' => $merchant->title ?? '',
-            'logo' => $merchant->image
-                ? asset($merchant->image)
-                : '',
+            'logo' => $merchant->image ? asset($merchant->image) : '',
             'info' => $merchant->deskripsi ?? '',
             'location' => $merchant->lokasi ?? '',
-            'promos' => $merchant->qrcodes->map(function ($qrcode) {
-                return [
-                    'id' => $qrcode->id,
-                    'title' => $qrcode->nama_qrcode,
-                    'valid_until' => $qrcode->masa_berlaku_selesai->format('d-m-Y'),
-                ];
-            })->values(),
+            'promos' => $merchant->qrcodes
+                ->filter(fn($qrcode) => $qrcode->promo)
+                ->map(function ($qrcode) {
+                    $promo = $qrcode->promo;
+
+                    return [
+                        'id' => $promo->id,
+                        'title' => $promo->name ?? '',
+                        'uri' => $promo->uri ?? '',
+                        'start_date' => $promo->start_date
+                            ? $promo->start_date->format('d-m-Y')
+                            : null,
+                        'end_date' => $promo->end_date
+                            ? $promo->end_date->format('d-m-Y')
+                            : null
+                    ];
+                })
+                ->values(),
         ];
 
         return ApiResponse::success('Detail merchant berhasil dimuat', $merchantDetails);
