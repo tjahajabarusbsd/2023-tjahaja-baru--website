@@ -64,6 +64,8 @@ class MerchantCrudController extends CrudController
         CRUD::field('image')->type('image')->upload(true)->label('Gambar');
         CRUD::field('deskripsi')->type('textarea');
         CRUD::field('lokasi')->type('textarea');
+        CRUD::field('merchant_phone')->type('text')->label('Nomor Telepon');
+        CRUD::field('bank_accounts')->type('textarea')->label('Rekening Bank (format: Nama Bank - No. Rekening)');
         CRUD::field('aktif')->type('checkbox')->label('Apakah ini Aktif?');
         CRUD::field('is_internal')->type('checkbox')->label('Apakah ini dari Internal?');
 
