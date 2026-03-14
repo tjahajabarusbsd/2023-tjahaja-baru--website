@@ -110,7 +110,11 @@ class QrcodeCrudController extends CrudController
             'label' => 'Dari Promo',
             'entity' => 'promo',
             'attribute' => 'name',
-            'tab' => 'Informasi'
+            'tab' => 'Informasi',
+            'model' => 'App\Models\Promo',
+            'options' => (function ($query) {
+                return $query->where('show_on_mobile', true)->get();
+            }),
         ]);
 
         CRUD::addField([
