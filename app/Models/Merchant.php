@@ -22,6 +22,8 @@ class Merchant extends Model
         'image',
         'deskripsi',
         'lokasi',
+        'merchant_phone',
+        'bank_accounts',
         'aktif',
         'is_internal',
     ];
