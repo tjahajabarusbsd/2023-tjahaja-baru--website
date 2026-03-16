@@ -34,18 +34,9 @@ class MerchantController extends Controller
 
     public function show($id): JsonResponse
     {
-        $merchant = Merchant::with([
-            'qrcodes.promo' => function ($q) {
-                $q->where('is_active', true)
-                    ->where('end_date', '>=', now());
-            }
-        ])
+        $merchant = Merchant::with('qrcodes.promo')
             ->where('aktif', true)
             ->where('is_internal', false)
-            ->whereHas('qrcodes.promo', function ($q) {
-                $q->where('aktif', true)
-                    ->where('end_date', '>=', now());
-            })
             ->find($id);
 
         if (!$merchant) {
@@ -61,18 +52,31 @@ class MerchantController extends Controller
             'promos' => $merchant->qrcodes
                 ->filter(fn($qrcode) => $qrcode->promo)
                 ->map(function ($qrcode) {
+
                     $promo = $qrcode->promo;
+
+                    if (!$promo->is_active) {
+                        $status = 'nonaktif';
+                    } elseif (now()->lt($promo->start_date)) {
+                        $status = 'belum_aktif';
+                    } elseif (now()->gt($promo->end_date)) {
+                        $status = 'sudah_berakhir';
+                    } else {
+                        $status = 'aktif';
+                    }
 
                     return [
                         'id' => $promo->id,
                         'title' => $promo->name ?? '',
+                        'image' => $promo->image ? asset($promo->image) : '',
                         'uri' => $promo->uri ?? '',
                         'start_date' => $promo->start_date
                             ? $promo->start_date->format('d-m-Y')
                             : null,
                         'end_date' => $promo->end_date
                             ? $promo->end_date->format('d-m-Y')
-                            : null
+                            : null,
+                        'status' => $status
                     ];
                 })
                 ->values(),
