@@ -80,6 +80,21 @@ class QrScanController extends Controller
             |--------------------------------------------------------------------------
             */
 
+            if ($qrCode->category_id) {
+
+                $userModel = optional($user->nomorRangkas->first())->nama_model;
+
+                if (!$userModel) {
+                    throw new \Exception('Data motor tidak ditemukan', 400);
+                }
+
+                $matchedCategory = \App\Models\Category::matchCategoryByModelName($userModel);
+
+                if (!$matchedCategory || $matchedCategory->id != $qrCode->category_id) {
+                    throw new \Exception('QR ini tidak berlaku untuk tipe motor Anda', 403);
+                }
+            }
+
             if (!$qrCode->maxPenggunaan()) {
                 throw new \Exception('Penggunaan sudah mencapai batas', 400);
             }

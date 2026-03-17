@@ -45,6 +45,22 @@ class Category extends Model
         ];
     }
 
+    public static function matchCategoryByModelName($namaModel)
+    {
+        $namaModel = strtolower($namaModel);
+        $mapping = config('motor_category');
+
+        foreach ($mapping as $categoryKey => $keywords) {
+            foreach ($keywords as $keyword) {
+                if (str_contains($namaModel, $keyword)) {
+                    return self::where('name', ucfirst($categoryKey))->first();
+                }
+            }
+        }
+
+        return null;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
@@ -54,6 +70,11 @@ class Category extends Model
     public function groups()
     {
         return $this->hasMany(Group::class);
+    }
+
+    public function qrcodes()
+    {
+        return $this->hasMany(Qrcode::class);
     }
 
     /*
@@ -124,7 +145,7 @@ class Category extends Model
             // is the public URL (everything that comes after the domain name)
             $public_destination_path = Str::replaceFirst('public/', '', $destination_path);
 
-            $this->attributes[$attribute_name] =  $disk . '/' . $public_destination_path . '/' . $filename;
+            $this->attributes[$attribute_name] = $disk . '/' . $public_destination_path . '/' . $filename;
         }
     }
 }

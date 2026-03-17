@@ -117,6 +117,17 @@ class QrcodeCrudController extends CrudController
             }),
         ]);
 
+        $this->crud->addField([
+            'name' => 'category_id',
+            'label' => 'Model Motor',
+            'type' => 'select2',
+            'entity' => 'category',
+            'model' => \App\Models\Category::class,
+            'attribute' => 'name',
+            'allows_null' => true,
+            'tab' => 'Informasi',
+        ]);
+
         CRUD::addField([
             'name' => 'tipe_qr',
             'type' => 'select_from_array',
@@ -308,4 +319,43 @@ class QrcodeCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
+    protected function setupShowOperation()
+    {
+        CRUD::set('show.setFromDb', false);
+
+        CRUD::addColumn(['name' => 'nama_qrcode', 'type' => 'text', 'label' => 'Nama QR']);
+        CRUD::addColumn(['name' => 'merchant_id', 'type' => 'select', 'label' => 'Merchant', 'entity' => 'merchant', 'attribute' => 'title']);
+        CRUD::addColumn(['name' => 'promo_id', 'type' => 'select', 'label' => 'Dari Promo', 'entity' => 'promo', 'attribute' => 'name']);
+        CRUD::addColumn(['name' => 'category_id', 'type' => 'select', 'label' => 'Model Motor', 'entity' => 'category', 'attribute' => 'name']);
+        CRUD::addColumn(['name' => 'tipe_qr', 'type' => 'select_from_array', 'label' => 'Tipe QR Code', 'options' => [Qrcode::TIPE_KODE => 'Kode (Generate Otomatis)', Qrcode::TIPE_LINK => 'Link (Redirect URL)']]);
+        CRUD::addColumn(['name' => 'redirect_url', 'type' => 'url', 'label' => 'Redirect URL']);
+        CRUD::addColumn([
+            'name' => 'kode',
+            'label' => 'Kode',
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return '
+            <span>' . $entry->kode . '</span><br>
+            <button onclick="navigator.clipboard.writeText(\'' . $entry->kode . '\')">
+                Copy
+            </button>
+        ';
+            },
+            'escaped' => false,
+        ]);
+        CRUD::addColumn(['name' => 'jenis_kerjasama', 'type' => 'select_from_array', 'label' => 'Jenis Kerjasama', 'options' => [Qrcode::KERJASAMA_MERCHANT => '100% Merchant', Qrcode::KERJASAMA_TB => '100% TB', Qrcode::KERJASAMA_COST_SHARING => 'Cost Sharing']]);
+        CRUD::addColumn(['name' => 'tb_percentage', 'type' => 'number', 'label' => 'TB Percentage (%)']);
+        CRUD::addColumn(['name' => 'merchant_percentage', 'type' => 'number', 'label' => 'Merchant Percentage (%)']);
+        CRUD::addColumn(['name' => 'tipe_hadiah', 'type' => 'select_from_array', 'label' => 'Tipe Hadiah', 'options' => [Qrcode::HADIAH_DIRECT => 'Direct Gift', Qrcode::HADIAH_UNDIAN => 'Undian']]);
+        CRUD::addColumn(['name' => 'benefit', 'type' => 'text', 'label' => 'Hadiah/Benefit']);
+        CRUD::addColumn(['name' => 'nominal', 'type' => 'number', 'label' => 'Nominal Hadiah', 'prefix' => 'Rp']);
+        CRUD::addColumn(['name' => 'masa_berlaku_mulai', 'type' => 'datetime', 'label' => 'Tanggal Mulai']);
+        CRUD::addColumn(['name' => 'masa_berlaku_selesai', 'type' => 'datetime', 'label' => 'Tanggal Selesai']);
+        CRUD::addColumn(['name' => 'jam_mulai', 'type' => 'time', 'label' => 'Jam Mulai']);
+        CRUD::addColumn(['name' => 'jam_selesai', 'type' => 'time', 'label' => 'Jam Selesai']);
+        CRUD::addColumn(['name' => 'hari_aktif', 'type' => 'select_from_array', 'label' => 'Hari Aktif', 'options' => ['mon' => 'Senin', 'tue' => 'Selasa', 'wed' => 'Rabu', 'thu' => 'Kamis', 'fri' => 'Jumat', 'sat' => 'Sabtu', 'sun' => 'Minggu']]);
+        CRUD::addColumn(['name' => 'max_penggunaan', 'type' => 'number', 'label' => 'Maksimal Penggunaan']);
+        CRUD::addColumn(['name' => 'jumlah_penggunaan', 'type' => 'number', 'label' => 'Jumlah Penggunaan']);
+        CRUD::addColumn(['name' => 'aktif', 'type' => 'check', 'label' => 'Status Aktif']);
+    }
 }

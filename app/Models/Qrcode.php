@@ -18,6 +18,7 @@ class Qrcode extends Model
         'nama_qrcode',
         'merchant_id',
         'promo_id',
+        'category_id',
         'benefit',
         'masa_berlaku_mulai',
         'masa_berlaku_selesai',
@@ -66,6 +67,11 @@ class Qrcode extends Model
     public function merchant()
     {
         return $this->belongsTo(Merchant::class, 'merchant_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function activityLogs()
