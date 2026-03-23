@@ -34,10 +34,11 @@ class MerchantController extends Controller
 
     public function show($id): JsonResponse
     {
-        $merchant = Merchant::with('qrcodes.promo')
-            ->where('aktif', true)
-            ->where('is_internal', false)
-            ->find($id);
+        $merchant = Merchant::with([
+            'qrcodes.promo' => function ($q) {
+                $q->orderBy('start_date', 'asc');
+            }
+        ])->findOrFail($id);
 
         if (!$merchant) {
             return ApiResponse::error('Merchant tidak ditemukan', 404);
