@@ -7,13 +7,18 @@ use App\Models\Review;
 use App\Models\GroupProductSpec;
 use App\Models\Variant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class VariantController extends Controller
 {
     public function getDataVariant($uri, Request $request)
     {
         $cookieSales = $request->cookie('sales');
-        $group = Group::where('uri', $uri)->where('is_active', true)->first();
+        $group = Cache::remember("group_uri_$uri", 300, function () use ($uri) {
+            return Group::where('uri', $uri)
+                ->where('is_active', 1)
+                ->first();
+        });
 
         if (!$group) {
             return view('errors/404');
