@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\PromoCreated;
 use App\Http\Requests\PromoRequest;
+use App\Models\Notification;
+use App\Models\Promo;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class PromoCrudController
@@ -88,5 +92,16 @@ class PromoCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function store()
+    {
+        $response = $this->traitStore();
+
+        $entry = $this->crud->entry;
+
+        event(new PromoCreated($entry));
+
+        return $response;
     }
 }

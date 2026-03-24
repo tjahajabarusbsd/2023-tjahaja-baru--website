@@ -41,4 +41,34 @@ class FcmService
       Log::error('Gagal mengirim FCM notifikasi: ' . $e->getMessage());
     }
   }
+
+  public function sendToTopic($topic, $title, $body)
+  {
+    try {
+      $factory = (new Factory)
+        ->withServiceAccount(config('services.firebase.credentials.file'));
+
+      $messaging = $factory->createMessaging();
+
+      $message = [
+        'topic' => $topic, // 🔥 ini bedanya (bukan token)
+        'notification' => [
+          'title' => $title,
+          'body' => $body,
+        ],
+        'android' => [
+          'priority' => 'high',
+          'notification' => [
+            'sound' => 'default',
+          ],
+        ],
+      ];
+
+      $messaging->send($message);
+
+      Log::info("FCM notification sent to topic: {$topic}");
+    } catch (\Exception $e) {
+      Log::error('Gagal mengirim FCM topic: ' . $e->getMessage());
+    }
+  }
 }
