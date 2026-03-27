@@ -10,17 +10,33 @@ class PromoController extends Controller
 {
   public function index()
   {
-    $promos = Promo::where('is_active', true)
-      ->where('show_on_mobile', true)
+    $promos = Promo::where('show_on_mobile', true)
       ->orderBy('created_at', 'desc')
       ->get();
 
     $formattedPromos = $promos->map(function ($promo) {
+      if (!$promo->is_active) {
+        $status = 'nonaktif';
+      } elseif (now()->lt($promo->start_date)) {
+        $status = 'belum_aktif';
+      } elseif (now()->gt($promo->end_date->endOfDay())) {
+        $status = 'sudah_berakhir';
+      } else {
+        $status = 'aktif';
+      }
+
       return [
         'id' => (string) $promo->id,
         'name' => $promo->name,
         'image' => $promo->image ? asset($promo->image) : null,
         'uri' => $promo->uri,
+        'start_date' => $promo->start_date
+          ? $promo->start_date->format('d-m-Y')
+          : null,
+        'end_date' => $promo->end_date
+          ? $promo->end_date->format('d-m-Y')
+          : null,
+        'status' => $status,
       ];
     });
 
