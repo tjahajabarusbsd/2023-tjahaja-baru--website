@@ -99,7 +99,7 @@ class VariantController extends Controller
 
     public function getData(Request $request, $variant)
     {
-        $variantUnits = Variant::where('name', $variant)->get();
+        $variantUnits = Variant::where('name', $variant)->where('is_active', true)->get();
 
         return response()->json($variantUnits);
     }

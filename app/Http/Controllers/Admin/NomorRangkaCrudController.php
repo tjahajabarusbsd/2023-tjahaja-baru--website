@@ -146,6 +146,17 @@ class NomorRangkaCrudController extends CrudController
         $oldStatus = $entry->status_verifikasi;
         $newStatus = $request->input('status_verifikasi');
 
+        $allowedTransitions = [
+            'pending' => ['verified', 'rejected'],
+            'verified' => ['verified'], // tidak boleh berubah
+            'rejected' => ['rejected'], // tidak boleh berubah
+        ];
+
+        if (!in_array($newStatus, $allowedTransitions[$oldStatus] ?? [])) {
+            \Alert::error('Perubahan status tidak diizinkan.')->flash();
+            return redirect()->back();
+        }
+
         // Jika status berubah dari pending → verified
         if ($oldStatus === 'pending' && $newStatus === 'verified') {
             // dapatkan nomor rangka 
@@ -162,27 +173,15 @@ class NomorRangkaCrudController extends CrudController
             ])->get($apiUrl);
             $data = $response->json();
 
-            // Jika data tidak ditemukan, kembalikan error
-            if (!$data) {
-                \Alert::error('Nomor Rangka tidak ditemukan.')->flash();
+            // cek kalau response gagal
+            if (!$response->successful() || isset($data['error'])) {
+                \Alert::error($data['error'] ?? 'Terjadi kesalahan.')->flash();
                 return redirect()->back();
             }
 
-            if ($data && isset($data[0]['plat'])) {
-                $entry->nomor_plat = $data[0]['plat'];
-                $entry->save();
-            } else {
-                $entry->nomor_plat = null;
-                $entry->save();
-            }
-
-            if ($data && isset($data[0]['prod_nm'])) {
-                $entry->nama_model = $data[0]['prod_nm'];
-                $entry->save();
-            } else {
-                $entry->nama_model = null;
-                $entry->save();
-            }
+            $entry->nomor_plat = $data[0]['plat'] ?? null;
+            $entry->nama_model = $data[0]['prod_nm'] ?? null;
+            $entry->save();
 
             $this->sendFcmNotification(
                 $entry->user->fcm_token,
