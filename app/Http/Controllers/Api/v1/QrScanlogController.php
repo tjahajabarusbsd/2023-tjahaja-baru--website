@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\QrScanLogDetailResource;
 use App\Models\QrScanLog;
 use Illuminate\Http\Request;
-use Spatie\FlareClient\Api;
 
 class QrScanLogController extends Controller
 {

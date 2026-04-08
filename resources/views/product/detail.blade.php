@@ -23,6 +23,18 @@
 @endsection
 
 @section('content')
+    <style>
+        .disclaimer {
+            font-size: 12px;
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 576px) {
+            .disclaimer {
+                font-size: 10px;
+            }
+        }
+    </style>
     <section class="first-section">
         <div class="container-fluid icon-container">
             <div class="row icon-row pc">
@@ -156,6 +168,9 @@
                     <p class="price">{{ $data[0]->price }}</p>
                     <p class="price">{{ $data[0]->name }}</p>
                     <p class="area-price">Harga OTR Sumatera Barat</p>
+                    <p class="text-muted disclaimer text-center">
+                        *Harga dapat berubah sewaktu-waktu
+                    </p>
                     <div class="button-compare">
                         <a href="/compare_product" class="btn btn-primary">Compare Product</a>
                     </div>
@@ -282,8 +297,7 @@
                 <div class="col-md-4 mb-4">
                     <!-- Embed YouTube Video -->
                     <div class="embed-responsive embed-responsive-16by9">
-                        <iframe width="100%" height="315" src="{{ $review->uri }}" title="YouTube video player"
-                            frameborder="0"
+                        <iframe width="100%" height="315" src="{{ $review->uri }}" title="YouTube video player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
@@ -305,16 +319,16 @@
             <div class="form-group row">
                 <label for="name" class="col-md-4">Nama</label>
                 <div class="col-md-8">
-                    <input name="name" class="form-control" id="name" type="text"
-                        value="{{ old('name') }}" placeholder="Nama Lengkap" maxlength="50" required>
+                    <input name="name" class="form-control" id="name" type="text" value="{{ old('name') }}"
+                        placeholder="Nama Lengkap" maxlength="50" required>
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="nohp" class="col-md-4">No Handphone</label>
                 <div class="col-md-8">
-                    <input name="nohp" id="nohp" class="form-control" type="tel"
-                        value="{{ old('nohp') }}" placeholder="08123456789" maxlength="15" required>
+                    <input name="nohp" id="nohp" class="form-control" type="tel" value="{{ old('nohp') }}"
+                        placeholder="08123456789" maxlength="15" required>
                 </div>
             </div>
 
@@ -369,8 +383,7 @@
 
             <div class="form-group" style="margin-top: 20px;">
                 <label id="label-checkbox" class="d-flex align-items-start">
-                    <input type="checkbox" name="terms" id="termsCheckbox"
-                        style="margin-top: 5px; margin-right: 10px;">
+                    <input type="checkbox" name="terms" id="termsCheckbox" style="margin-top: 5px; margin-right: 10px;">
                     <span>Saya setuju bahwa informasi diatas mengizinkan TJAHAJA BARU untuk menghubungi Saya melalui
                         telepon/WhatsApp.</span>
                 </label>
@@ -417,10 +430,10 @@
     <script src="{{ asset('js/product.js') }}"></script>
     <script src="{{ asset('js/contact.js') }}"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.variant-unit').first().addClass('active');
 
-            $('.variant-unit').click(function() {
+            $('.variant-unit').click(function () {
                 var variant = $(this).attr('data-variant');
                 var url = "/get-data/" + variant;
 
@@ -430,7 +443,7 @@
                 $.ajax({
                     url: url,
                     method: 'GET',
-                    success: function(response) {
+                    success: function (response) {
                         var productCard = $('.product-card');
                         productCard.empty();
 
@@ -442,7 +455,7 @@
                             .addClass('swiper-wrapper');
                         swiperDiv.append(swiperWrapper);
 
-                        response.forEach(function(item, index) {
+                        response.forEach(function (item, index) {
                             var swiperSlide = $('<div>')
                                 .addClass('swiper-slide');
 
@@ -465,6 +478,9 @@
                         captionBox.append('<p class="price">' + response[0].name + '</p>');
                         captionBox.append('<p class="area-price">Harga OTR Sumatera Barat</p>');
                         captionBox.append(
+                            '<p class="text-muted disclaimer text-center">*Harga dapat berubah sewaktu-waktu</p>'
+                        );
+                        captionBox.append(
                             '<div class="button-compare"><a href="/compare_product" class="btn btn-primary">Compare Product</a></div>'
                         );
 
@@ -474,15 +490,15 @@
                             pagination: {
                                 el: '.color-wrapper',
                                 clickable: true,
-                                renderBullet: function(index, className) {
+                                renderBullet: function (index, className) {
                                     return '<span class="' + className +
                                         '" style="background: ' + response[index]
-                                        .color + '"></span>';
+                                            .color + '"></span>';
                                 }
                             },
                         });
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         console.error("Terjadi kesalahan:", error);
                     }
                 });
@@ -497,7 +513,7 @@
                 pagination: {
                     el: '.color-wrapper',
                     clickable: true,
-                    renderBullet: function(index, className) {
+                    renderBullet: function (index, className) {
                         var colors = @json($data);
 
                         if (index >= 0 && index < colors.length) {
