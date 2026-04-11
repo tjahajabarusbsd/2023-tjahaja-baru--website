@@ -40,7 +40,7 @@ Route::group([
         Route::crud('event', 'EventCrudController');
         Route::crud('order-motor', 'OrderMotorCrudController');
         Route::crud('merchant', 'MerchantCrudController');
-        Route::crud('reward', 'RewardCrudController');
+        // Route::crud('reward', 'RewardCrudController');
         Route::crud('qrcode', 'QrcodeCrudController');
     });
     Route::crud('qr-scan-log', 'QrScanCrudController');
