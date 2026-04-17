@@ -3,167 +3,103 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\VerifyOtpRequest;
-use App\Http\Requests\SendOtpRequest;
 use App\Services\PhoneNumberService;
 use App\Services\OtpService;
-use App\Services\WhatsAppService;
 use App\Models\UserPublic;
 use App\Helpers\ApiResponse;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Exception;
 
 class OtpController extends Controller
 {
-    public function verifyOtp(VerifyOtpRequest $request)
+    public function resendOtpRegister(Request $request, OtpService $otpService)
     {
         $phone = PhoneNumberService::normalize($request->phone_number);
+
         $user = UserPublic::where('phone_number', $phone)->first();
 
-        // Cek apakah user ada
         if (!$user) {
-            Log::warning('Percobaan verifikasi OTP untuk nomor tidak dikenal: ' . $phone);
-            return ApiResponse::error('Nomor Handphone tidak ditemukan', 404);
+            return ApiResponse::error('Akun tidak ditemukan', 404);
         }
 
-        // Cek apakah OTP sudah tidak ada (null)
-        if (empty($user->otp) || empty($user->otp_expires_at)) {
-            return ApiResponse::error('Kode OTP sudah tidak berlaku. Silakan minta kode baru.', 400);
+        if ($user->status_akun === 'aktif') {
+            return ApiResponse::error('Akun sudah aktif', 400);
         }
 
-        // Cek apakah OTP sudah kadaluarsa
-        if ($user->otp_expires_at->isPast()) {
-            // Hapus OTP yang sudah kadaluarsa untuk keamanan
-            $user->update([
-                'otp' => null,
-                'otp_expires_at' => null,
-            ]);
-            return ApiResponse::error('Kode OTP sudah kedaluwarsa. Silakan minta kode baru.', 401);
+        if ($user->last_otp_sent_at && $user->last_otp_sent_at > now()->subMinute()) {
+            $remaining = now()->diffInSeconds(
+                $user->last_otp_sent_at->copy()->addMinute()
+            );
+            return ApiResponse::error(
+                "Kode OTP telah dikirim. Silakan tunggu dalam {$remaining} detik lagi.",
+                429
+            );
         }
 
-        // Verifikasi OTP 
-        if (!Hash::check($request->otp, $user->otp)) {
-            Log::warning('Percobaan verifikasi OTP gagal untuk user ' . $user->id . ' (Phone: ' . $phone . ')');
-            return ApiResponse::error('Kode OTP salah.', 401);
-        }
-
-        // Proses verifikasi berdasarkan tipe
         try {
-            $response = []; // Inisialisasi response untuk mencegah undefined variable
+            $otpService->sendOtp($user, 'register', $phone);
 
-            if ($request->type === 'register') {
-                $user->update([
-                    'status_akun' => 'aktif',
-                    'otp' => null,
-                    'otp_expires_at' => null,
-                    'last_otp_sent_at' => null,
-                ]);
+            Log::info('Resend OTP register sent successfully', [
+                'user_id' => $user->id,
+                'phone' => $phone,
+            ]);
 
-                if (!$user->profile) {
-                    $user->profile()->create([
-                        'tgl_lahir' => null,
-                        'alamat' => null,
-                        'jenis_kelamin' => null,
-                        'total_points' => 0,
-                    ]);
-                }
-
-                $response = [
-                    'id' => (string) $user->id,
-                    'name' => (string) $user->name,
-                    'phone_number' => (string) $user->phone_number,
-                    'status' => 'otp_register_verified',
-                ];
-            } elseif ($request->type === 'lupa_password') {
-                $user->update([
-                    'otp' => null,
-                    'otp_expires_at' => null,
-                    'last_otp_sent_at' => null,
-                ]);
-
-                $response = [
-                    'id' => (string) $user->id,
-                    'name' => (string) $user->name,
-                    'phone_number' => (string) $user->phone_number,
-                    'status' => 'otp_forgot_password_verified',
-                ];
-            } else {
-                Log::error('Verifikasi OTP dengan type tidak valid untuk user ' . $user->id . ': ' . $request->type);
-                return ApiResponse::error('Tipe verifikasi tidak valid.', 400);
-            }
-
-        } catch (\Throwable $e) {
-            Log::error('Gagal proses verifikasi OTP untuk user ' . $user->id . ': ' . $e->getMessage());
-            return ApiResponse::error('Terjadi kesalahan saat verifikasi OTP', 500);
+        } catch (Exception $e) {
+            Log::error('Resend OTP register process failed', [
+                'user_id' => $user->id ?? null,
+                'error' => $e->getMessage(),
+                'trace' => app()->environment('local') ? $e->getTraceAsString() : null,
+            ]);
+            return ApiResponse::error('Gagal mengirim OTP', 500);
         }
 
-        $user->refresh();
-
-        return ApiResponse::success('OTP berhasil diverifikasi', $response);
+        return ApiResponse::success('Kode OTP telah dikirim', [
+            'expired_in' => $otpService->getExpirySeconds(),
+        ]);
     }
 
-    public function sendOtp(SendOtpRequest $request, WhatsAppService $whatsAppService, OtpService $otpService)
+    public function resendOtpForgotPassword(Request $request, OtpService $otpService)
     {
         $phone = PhoneNumberService::normalize($request->phone_number);
+
         $user = UserPublic::where('phone_number', $phone)->first();
 
         if (!$user) {
-            return ApiResponse::error('Nomor Handphone belum terdaftar.', 404);
+            Log::warning('Resend OTP forgot password failed - user not found', [
+                'phone' => $phone,
+            ]);
+            return ApiResponse::error('Akun tidak ditemukan', 404);
         }
 
-        if ($request->type === 'register' && $user->status_akun === 'aktif') {
-            return ApiResponse::error('Akun sudah aktif. Tidak perlu verifikasi ulang.', 400);
-        }
-
-        if ($request->type === 'lupa_password' && $user->status_akun !== 'aktif') {
+        if ($user->status_akun !== 'aktif') {
+            Log::warning('Resend OTP forgot password failed - account not active', [
+                'user_id' => $user->id,
+                'phone' => $phone,
+                'status_akun' => $user->status_akun,
+            ]);
             return ApiResponse::error('Akun belum aktif. Tidak bisa reset password.', 400);
         }
 
         if ($user->last_otp_sent_at && $user->last_otp_sent_at > now()->subMinute()) {
-            $remaining = $user->last_otp_sent_at->addMinute()->diffInSeconds(now());
+            $remaining = now()->diffInSeconds(
+                $user->last_otp_sent_at->copy()->addMinute()
+            );
+
             return ApiResponse::error(
                 "Kode OTP telah dikirim. Silakan tunggu dalam {$remaining} detik lagi.",
                 429
-                // [
-                //     'retry_after' => (string) $user->last_otp_sent_at->addMinute()->diffInSeconds(now())
-                // ]
             );
         }
 
-        DB::beginTransaction();
         try {
-            $otpPlain = $otpService->generateOtpWithoutFour();
-            $otpHash = $otpService->hashOtp($otpPlain);
-            $expiry = $otpService->expiryTime();
+            $otpService->sendOtp($user, 'forgot_password', $phone);
 
-            $messageBody = $otpService->buildMessage($otpPlain);
-            $apiResponse = $whatsAppService->send($phone, $messageBody);
-
-            if ($apiResponse->failed()) {
-                Log::error('WhatsApp API Failed during OTP send for user ' . $user->id, [
-                    'phone' => $phone,
-                    'response_body' => $apiResponse->body(),
-                    'status' => $apiResponse->status(),
-                ]);
-
-                throw new Exception('WhatsApp API call failed.');
-            }
-
-            $user->update([
-                'otp' => $otpHash,
-                'otp_expires_at' => $expiry,
-                'last_otp_sent_at' => now(),
-            ]);
-
-            DB::commit();
-
-            Log::info('OTP sent successfully', [
+            Log::info('Resend OTP forgot password sent successfully', [
                 'user_id' => $user->id,
                 'phone' => $phone,
-                'type' => $request->type,
             ]);
 
             return ApiResponse::success('Kode OTP telah dikirim', [
@@ -171,15 +107,79 @@ class OtpController extends Controller
             ]);
 
         } catch (Exception $e) {
-            DB::rollBack();
-
-            Log::error('OTP sending process failed for user ' . ($user->id ?? 'unknown'), [
-                'phone' => $phone,
+            Log::error('Resend OTP forgot password process failed', [
+                'user_id' => $user->id ?? null,
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
+                'trace' => app()->environment('local') ? $e->getTraceAsString() : null,
+            ]);
+            return ApiResponse::error('Gagal mengirim OTP', 500);
+        }
+    }
+
+    public function resendOtpChangeNumber(Request $request, OtpService $otpService)
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return ApiResponse::error('Unauthorized', 401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'new_phone_number' => [
+                'required',
+                'string',
+                'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
+            ],
+        ], [
+            'new_phone_number.required' => 'Nomor HP baru wajib diisi',
+            'new_phone_number.string' => 'Nomor HP baru harus berupa teks',
+            'new_phone_number.regex' => 'Format nomor HP tidak valid',
+        ]);
+
+        if ($validator->fails()) {
+            return ApiResponse::error($validator->errors()->first(), 422);
+        }
+
+        $phone = PhoneNumberService::normalize($request->new_phone_number);
+        if ($phone === $user->phone_number) {
+            return ApiResponse::error('Nomor HP baru sama dengan nomor saat ini', 400);
+        }
+
+        $phoneExists = UserPublic::where('phone_number', $phone)->where('id', '!=', $user->id)->exists();
+        if ($phoneExists) {
+            return ApiResponse::error('Nomor HP baru sudah digunakan.', 400);
+        }
+
+        $existingRequest = $user->phoneChangeRequest;
+        if ($existingRequest && $existingRequest->last_otp_sent_at > now()->subMinute()) {
+            $remaining = now()->diffInSeconds(
+                $existingRequest->last_otp_sent_at->copy()->addMinute()
+            );
+            return ApiResponse::error(
+                "Kode OTP telah dikirim. Silakan tunggu dalam {$remaining} detik lagi.",
+                429
+            );
+        }
+
+        try {
+            $otpService->sendOtp($user, 'change_phone', $phone);
+
+            Log::info('Resend OTP change phone sent successfully', [
+                'user_id' => $user->id,
+                'phone' => $phone,
             ]);
 
-            return ApiResponse::error('Gagal mengirim kode verifikasi. Silakan coba lagi.', 500);
+        } catch (Exception $e) {
+            Log::error('Resend OTP change phone process failed', [
+                'user_id' => $user->id ?? null,
+                'error' => $e->getMessage(),
+                'trace' => app()->environment('local') ? $e->getTraceAsString() : null,
+            ]);
+            return ApiResponse::error('Gagal mengirim OTP', 500);
         }
+
+        return ApiResponse::success('Kode OTP telah dikirim', [
+            'expired_in' => $otpService->getExpirySeconds(),
+        ]);
     }
 }

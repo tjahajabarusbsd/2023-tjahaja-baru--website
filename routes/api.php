@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\v1\ActivityController;
+use App\Http\Controllers\Api\v1\PasswordController;
 use App\Http\Controllers\Api\v1\PromoController;
 use App\Http\Controllers\Api\v1\QrScanController;
 use App\Http\Controllers\Api\v1\QrScanLogController;
@@ -40,14 +41,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
     Route::middleware('throttle:10,1')->group(function () {
-        Route::post('/register', [AuthController::class, 'register']);
-        Route::post('/login', [AuthController::class, 'login']);
-        Route::post('/login/google', [AuthController::class, 'loginGoogle']);
-        Route::post('/login/facebook', [AuthController::class, 'loginFacebook']);
-        Route::post('/verify-otp', [OtpController::class, 'verifyOtp']);
-        Route::post('/send-otp', [OtpController::class, 'sendOtp']);
-        Route::post('/reset-password', [AuthController::class, 'resetPassword']);
-        Route::post('/login-merchant', [AuthController::class, 'loginMerchant']);
+        Route::post('/auth/register', [AuthController::class, 'register']);
+        Route::post('/auth/login', [AuthController::class, 'login']);
+        Route::post('/auth/verify-otp-register', [AuthController::class, 'verifyOtpRegister']);
+        Route::post('/auth/forgot-password', [PasswordController::class, 'forgotPassword']);
+        Route::post('/auth/verify-otp-forgot-password', [PasswordController::class, 'verifyOtpForgotPassword']);
+        Route::post('/auth/reset-password', [PasswordController::class, 'resetPassword']);
+        Route::post('/resend-otp-register', [OtpController::class, 'resendOtpRegister']);
+        Route::post('/resend-otp-forgot-password', [OtpController::class, 'resendOtpForgotPassword']);
     });
 
     Route::middleware('throttle:60,1')->group(function () {
@@ -74,7 +75,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/account/profile/ganti-password', [UserController::class, 'changePassword']);
         Route::post('/account/request-ganti-nomor-hp', [UserController::class, 'requestChangeNomorHp'])->middleware('throttle:10,1');
         Route::post('/account/verify-ganti-nomor-hp', [UserController::class, 'verifyChangeNomorHp']);
-        Route::post('/account/otp-resend-ganti-nomor-hp', [UserController::class, 'otpResendChangeNumber'])->middleware('throttle:10,1');
+        Route::post('/account/resend-otp-change-number', [OtpController::class, 'resendOtpChangeNumber'])->middleware('throttle:10,1');
         Route::post('/logout', [AuthController::class, 'logout']);
 
         // My Motor
