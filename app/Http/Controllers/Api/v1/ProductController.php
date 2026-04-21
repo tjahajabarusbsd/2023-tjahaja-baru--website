@@ -175,32 +175,6 @@ class ProductController extends Controller
             ]
         ]);
 
-        // Contoh hardcode promo / special offer
-        // $specialOffers = [
-        //     [
-        //         'image' => 'https://duckdumber.com/bannerMotor.png',
-        //         'title' => 'Gratis Service',
-        //         'description' => 'Service gratis hingga 12 bulan'
-        //     ]
-        // ];
-
-        // return response()->json([
-        //     'status' => 'success',
-        //     'code' => 200,
-        //     'message' => 'Produk berhasil diambil',
-        //     'data' => [
-        //         [
-        //             'id' => $group->id,
-        //             'category' => $group->category ?? 'Kategori Default',
-        //             'variant' => $variantNames[0],
-        //             'produk' => $variantData,
-        //             'special_offers' => $specialOffers,
-        //             'features' => $features,
-        //             'specification' => $specifications,
-        //             // 'ulasan' => $reviews
-        //         ]
-        //     ]
-        // ], 200);
     }
 
     public function order(OrderMotorRequest $request)
