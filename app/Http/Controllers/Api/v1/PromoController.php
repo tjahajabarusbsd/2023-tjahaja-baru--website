@@ -12,12 +12,11 @@ class PromoController extends Controller
   {
     $promos = Promo::where('show_on_mobile', true)
       ->orderBy('created_at', 'desc')
+      ->where('is_active', true)
       ->get();
 
     $formattedPromos = $promos->map(function ($promo) {
-      if (!$promo->is_active) {
-        $status = 'nonaktif';
-      } elseif (now()->lt($promo->start_date)) {
+      if (now()->lt($promo->start_date)) {
         $status = 'belum_aktif';
       } elseif (now()->gt($promo->end_date->endOfDay())) {
         $status = 'sudah_berakhir';

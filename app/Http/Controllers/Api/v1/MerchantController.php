@@ -36,9 +36,10 @@ class MerchantController extends Controller
     {
         $merchant = Merchant::with([
             'qrcodes.promo' => function ($q) {
-                $q->orderBy('start_date', 'asc');
+                $q->where('is_active', true)
+                    ->orderBy('start_date', 'asc');
             }
-        ])->findOrFail($id);
+        ])->find($id);
 
         if (!$merchant) {
             return ApiResponse::error('Merchant tidak ditemukan', 404);
@@ -51,14 +52,12 @@ class MerchantController extends Controller
             'info' => $merchant->deskripsi ?? '',
             'location' => $merchant->lokasi ?? '',
             'promos' => $merchant->qrcodes
-                ->filter(fn($qrcode) => $qrcode->promo)
+                ->filter(fn($qrcode) => $qrcode->promo && $qrcode->promo->is_active)
                 ->map(function ($qrcode) {
 
                     $promo = $qrcode->promo;
 
-                    if (!$promo->is_active) {
-                        $status = 'nonaktif';
-                    } elseif (now()->lt($promo->start_date)) {
+                    if (now()->lt($promo->start_date)) {
                         $status = 'belum_aktif';
                     } elseif (now()->gt($promo->end_date)) {
                         $status = 'sudah_berakhir';
