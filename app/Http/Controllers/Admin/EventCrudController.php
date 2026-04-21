@@ -27,7 +27,7 @@ class EventCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Event::class);
+        CRUD::setModel(Event::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/event');
         CRUD::setEntityNameStrings('event', 'events');
     }
@@ -41,14 +41,47 @@ class EventCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name');
-        // CRUD::column('description');
-        // CRUD::column('image');
-        CRUD::column('start_date');
-        CRUD::column('end_date');
         CRUD::column('type');
         CRUD::column('is_active');
+        CRUD::column('start_date');
+        CRUD::column('end_date');
         CRUD::column('created_at');
-        // CRUD::column('updated_at');
+
+        // Filter by event type
+        CRUD::addFilter([
+            'name' => 'type',
+            'type' => 'dropdown',
+            'label' => 'Jenis Event'
+        ], Event::TYPES, function ($value) {
+            CRUD::addClause('where', 'type', $value);
+        });
+
+        // Filter by active status
+        CRUD::addFilter([
+            'name' => 'is_active',
+            'type' => 'dropdown',
+            'label' => 'Status Aktif'
+        ], [
+            1 => 'Aktif',
+            0 => 'Tidak Aktif'
+        ], function ($value) {
+            CRUD::addClause('where', 'is_active', $value);
+        });
+
+        // Filter by date range
+        CRUD::addFilter([
+            'type' => 'date_range',
+            'name' => 'date_range',
+            'label' => 'Tanggal Event'
+        ], false, function ($value) {
+            $dates = json_decode($value);
+            if ($dates->from) {
+                CRUD::addClause('where', 'start_date', '>=', $dates->from);
+            }
+            if ($dates->to) {
+                CRUD::addClause('where', 'end_date', '<=', $dates->to);
+            }
+        });
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

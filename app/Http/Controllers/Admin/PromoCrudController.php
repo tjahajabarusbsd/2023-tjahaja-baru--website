@@ -33,7 +33,7 @@ class PromoCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Promo::class);
+        CRUD::setModel(Promo::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/promo');
         CRUD::setEntityNameStrings('promo', 'promo');
     }
@@ -47,8 +47,47 @@ class PromoCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
+        CRUD::column('show_on_pc')->type('boolean')->label('Muncul di web?');
+        CRUD::column('show_on_mobile')->type('boolean')->label('Muncul di app?');
+        CRUD::column('is_active')->type('boolean')->label('Aktif?');
+        CRUD::column('start_date')->type('date')->label('Tanggal Mulai');
+        CRUD::column('end_date')->type('date')->label('Tanggal Berakhir');
+
+        // filter by active status
+        CRUD::addFilter([
+            'name' => 'is_active',
+            'type' => 'dropdown',
+            'label' => 'Status Aktif'
+        ], [
+            1 => 'Aktif',
+            0 => 'Tidak Aktif'
+        ], function ($value) {
+            $this->crud->addClause('where', 'is_active', $value);
+        });
+
+        // filter by show_on_pc
+        CRUD::addFilter([
+            'name' => 'show_on_pc',
+            'type' => 'dropdown',
+            'label' => 'Muncul di web?'
+        ], [
+            1 => 'Ya',
+            0 => 'Tidak'
+        ], function ($value) {
+            $this->crud->addClause('where', 'show_on_pc', $value);
+        });
+
+        // filter by show_on_mobile
+        CRUD::addFilter([
+            'name' => 'show_on_mobile',
+            'type' => 'dropdown',
+            'label' => 'Muncul di app?'
+        ], [
+            1 => 'Ya',
+            0 => 'Tidak'
+        ], function ($value) {
+            $this->crud->addClause('where', 'show_on_mobile', $value);
+        });
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
