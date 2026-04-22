@@ -17,19 +17,19 @@ class OnboardingController extends Controller
             "data" => [
                 [
                     "id" => 1,
-                    "title" => "Gabung dan Nikmati Berbagai Keuntungan"
+                    "title" => "Kelola Kebutuhan Motor dalam Satu Aplikasi"
                 ],
                 [
                     "id" => 2,
-                    "title" => "Dapatkan Reward dari Setiap Aktivitas"
+                    "title" => "Booking Servis Tanpa Perlu Antre"
                 ],
                 [
                     "id" => 3,
-                    "title" => "Tukarkan Reward dengan Hadiah Menarik"
+                    "title" => "Pantau Riwayat Servis dengan Mudah"
                 ],
                 [
                     "id" => 4,
-                    "title" => "Semakin Aktif, Semakin Banyak Manfaat"
+                    "title" => "Scan QR & Nikmati Promo Merchant"
                 ]
             ]
         ]);
