@@ -139,11 +139,9 @@ class AuthController extends Controller
     {
         $user = $request->user();
 
-        if (!$user) {
-            return ApiResponse::error('User tidak ditemukan', 404);
-        }
-
-        $this->authService->logout($user);
+        $user->tokens()
+            ->where('id', optional($user->currentAccessToken())->id)
+            ->delete();
 
         return ApiResponse::success('Logout berhasil');
     }
