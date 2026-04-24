@@ -47,6 +47,13 @@ class PromoCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name');
+        $this->crud->addColumn([
+            'name' => 'merchant_id',
+            'type' => 'select',
+            'label' => 'Merchant',
+            'entity' => 'merchant',
+            'attribute' => 'title',
+        ]);
         CRUD::column('show_on_pc')->type('boolean')->label('Muncul di web?');
         CRUD::column('show_on_mobile')->type('boolean')->label('Muncul di app?');
         CRUD::column('is_active')->type('boolean')->label('Aktif?');
@@ -107,6 +114,14 @@ class PromoCrudController extends CrudController
         CRUD::setValidation(PromoRequest::class);
 
         CRUD::field('name');
+        CRUD::addField([
+            'name' => 'merchant_id',
+            'type' => 'select2',
+            'label' => 'Merchant',
+            'entity' => 'merchant',
+            'attribute' => 'title',
+            'placeholder' => 'Pilih merchant',
+        ]);
         CRUD::field('image')->type('image')->upload(true);
         CRUD::field('description')->label('Deskripsi')->type('textarea');
         CRUD::field('terms_conditions')->label('Syarat dan Ketentuan')->type('ckeditor');
