@@ -28,7 +28,6 @@ class QrcodeRequest extends FormRequest
     {
         return [
             'nama_qrcode' => 'required|min:3',
-            'merchant_id' => 'required|exists:merchants,id',
             'promo_id' => 'required|exists:promos,id',
             'jenis_kerjasama' => [
                 'required',
@@ -88,8 +87,6 @@ class QrcodeRequest extends FormRequest
         return [
             'nama_qrcode.required' => 'Nama QR code wajib diisi',
             'nama_qrcode.min' => 'Nama QR code minimal 3 karakter',
-            'merchant_id.required' => 'Merchant wajib dipilih',
-            'merchant_id.exists' => 'Merchant tidak valid',
             'promo_id.required' => 'Promo wajib dipilih',
             'promo_id.exists' => 'Promo tidak valid',
             'jenis_kerjasama.required' => 'Jenis kerjasama wajib diisi',
