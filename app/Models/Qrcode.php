@@ -64,11 +64,6 @@ class Qrcode extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function merchant()
-    {
-        return $this->belongsTo(Merchant::class, 'merchant_id');
-    }
-
     public function category()
     {
         return $this->belongsTo(Category::class);

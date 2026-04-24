@@ -45,14 +45,6 @@ class QrcodeCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->addColumn(['name' => 'nama_qrcode', 'type' => 'text', 'label' => 'Nama QR']);
-        // $this->crud->addColumn(['name' => 'kode', 'type' => 'text', 'label' => 'Kode']);
-        $this->crud->addColumn([
-            'name' => 'merchant_id',
-            'type' => 'select',
-            'label' => 'Merchant',
-            'entity' => 'merchant',
-            'attribute' => 'title',
-        ]);
         $this->crud->addColumn([
             'name' => 'promo_id',
             'type' => 'select',
@@ -60,10 +52,10 @@ class QrcodeCrudController extends CrudController
             'entity' => 'promo',
             'attribute' => 'name',
         ]);
-        $this->crud->addColumn(['name' => 'masa_berlaku_mulai', 'type' => 'datetime', 'label' => 'Mulai']);
-        $this->crud->addColumn(['name' => 'masa_berlaku_selesai', 'type' => 'datetime', 'label' => 'Selesai']);
-        $this->crud->addColumn(['name' => 'aktif', 'type' => 'check', 'label' => 'Aktif']);
-        $this->crud->addColumn(['name' => 'jumlah_penggunaan', 'type' => 'number', 'label' => 'Digunakan']);
+        $this->crud->addColumn(['name' => 'aktif', 'type' => 'check', 'label' => 'Status Aktif']);
+        $this->crud->addColumn(['name' => 'masa_berlaku_mulai', 'type' => 'datetime', 'label' => 'Tanggal Mulai']);
+        $this->crud->addColumn(['name' => 'masa_berlaku_selesai', 'type' => 'datetime', 'label' => 'Tanggal Selesai']);
+        // $this->crud->addColumn(['name' => 'jumlah_penggunaan', 'type' => 'number', 'label' => 'Digunakan']);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -92,15 +84,6 @@ class QrcodeCrudController extends CrudController
             'name' => 'nama_qrcode',
             'type' => 'text',
             'label' => 'Nama QR',
-            'tab' => 'Informasi'
-        ]);
-
-        CRUD::addField([
-            'name' => 'merchant_id',
-            'type' => 'select2',
-            'label' => 'Merchant',
-            'entity' => 'merchant',
-            'attribute' => 'title',
             'tab' => 'Informasi'
         ]);
 
@@ -324,7 +307,6 @@ class QrcodeCrudController extends CrudController
         CRUD::set('show.setFromDb', false);
 
         CRUD::addColumn(['name' => 'nama_qrcode', 'type' => 'text', 'label' => 'Nama QR']);
-        CRUD::addColumn(['name' => 'merchant_id', 'type' => 'select', 'label' => 'Merchant', 'entity' => 'merchant', 'attribute' => 'title']);
         CRUD::addColumn(['name' => 'promo_id', 'type' => 'select', 'label' => 'Dari Promo', 'entity' => 'promo', 'attribute' => 'name']);
         CRUD::addColumn(['name' => 'category_id', 'type' => 'select', 'label' => 'Model Motor', 'entity' => 'category', 'attribute' => 'name']);
         CRUD::addColumn(['name' => 'tipe_qr', 'type' => 'select_from_array', 'label' => 'Tipe QR Code', 'options' => [Qrcode::TIPE_KODE => 'Kode (Generate Otomatis)', Qrcode::TIPE_LINK => 'Link (Redirect URL)']]);
