@@ -35,9 +35,8 @@ class MerchantController extends Controller
     public function show($id): JsonResponse
     {
         $merchant = Merchant::with([
-            'qrcodes.promo' => function ($q) {
-                $q->where('is_active', true)
-                    ->orderBy('start_date', 'asc');
+            'promos' => function ($q) {
+                $q->active()->orderBy('start_date', 'asc');
             }
         ])->find($id);
 
@@ -51,11 +50,9 @@ class MerchantController extends Controller
             'logo' => $merchant->image ? asset($merchant->image) : '',
             'info' => $merchant->deskripsi ?? '',
             'location' => $merchant->lokasi ?? '',
-            'promos' => $merchant->qrcodes
-                ->filter(fn($qrcode) => $qrcode->promo && $qrcode->promo->is_active)
-                ->map(function ($qrcode) {
-
-                    $promo = $qrcode->promo;
+            'promos' => $merchant->promos
+                ->filter(fn($promo) => $promo && $promo->is_active)
+                ->map(function ($promo) {
 
                     if (now()->lt($promo->start_date)) {
                         $status = 'belum_aktif';

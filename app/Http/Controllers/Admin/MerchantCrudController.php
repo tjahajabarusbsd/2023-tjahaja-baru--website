@@ -41,7 +41,7 @@ class MerchantCrudController extends CrudController
     {
         CRUD::column('title')->label('Nama');
         CRUD::column('aktif')->type('boolean')->label('Aktif?');
-        CRUD::column('is_internal')->type('boolean')->label('Dari Internal?');
+        // CRUD::column('is_internal')->type('boolean')->label('Dari Internal?');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -67,7 +67,7 @@ class MerchantCrudController extends CrudController
         CRUD::field('merchant_phone')->type('text')->label('Nomor Telepon');
         CRUD::field('bank_accounts')->type('textarea')->label('Rekening Bank (format: Nama Bank - No. Rekening)');
         CRUD::field('aktif')->type('checkbox')->label('Apakah ini Aktif?');
-        CRUD::field('is_internal')->type('checkbox')->label('Apakah ini dari Internal?');
+        // CRUD::field('is_internal')->type('checkbox')->label('Apakah ini dari Internal?');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

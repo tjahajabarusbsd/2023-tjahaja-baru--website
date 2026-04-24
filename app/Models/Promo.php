@@ -56,17 +56,26 @@ class Promo extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function merchant()
+    {
+        return $this->belongsTo(Merchant::class);
+    }
+
     public function qrcodes()
     {
         return $this->hasMany(Qrcode::class);
     }
-
 
     /*
     |--------------------------------------------------------------------------
     | SCOPES
     |--------------------------------------------------------------------------
     */
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 
     /*
     |--------------------------------------------------------------------------
