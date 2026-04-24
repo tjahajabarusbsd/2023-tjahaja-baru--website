@@ -91,7 +91,7 @@ class QrScanController extends Controller
             'type' => 'link',
             'redirect_url' => $qrCode->redirect_url,
             'nama_qrcode' => $qrCode->nama_qrcode,
-            'merchant_name' => $qrCode->merchant->title,
+            'merchant_name' => $qrCode->promo->merchant->title,
 
             'scan_id' => null,
             'user_name' => null,
@@ -126,7 +126,7 @@ class QrScanController extends Controller
             'source_id' => $log->id,
             'category' => 'QR Scan',
             'title' => 'Scan QR Berhasil',
-            'description' => 'Promo ' . $qrCode->nama_qrcode . ' di ' . $qrCode->merchant->title . ' berhasil digunakan.',
+            'description' => 'Promo ' . $qrCode->nama_qrcode . ' di ' . $qrCode->promo->merchant->title . ' berhasil digunakan.',
             'is_read' => false,
         ]);
 
@@ -137,7 +137,7 @@ class QrScanController extends Controller
             'redirect_url' => null,
             'scan_id' => $scanCode,
             'nama_qrcode' => $qrCode->nama_qrcode,
-            'merchant_name' => $qrCode->merchant->title,
+            'merchant_name' => $qrCode->promo->merchant->title,
             'user_name' => $user->name,
             'usage_count' => $nextUsage,
             'max_usage' => $qrCode->max_penggunaan,

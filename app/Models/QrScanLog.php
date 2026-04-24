@@ -39,12 +39,12 @@ class QrScanLog extends Model
 
     public function qrcode()
     {
-        return $this->belongsTo(Qrcode::class, 'qrcode_id');
+        return $this->belongsTo(Qrcode::class);
     }
 
     public function getMerchantTitleAttribute()
     {
-        return $this->qrcode && $this->qrcode->merchant ? $this->qrcode->merchant->title : 'N/A';
+        return $this->qrcode?->promo?->merchant?->title ?? 'N/A';
     }
 
     protected static function booted()
@@ -58,7 +58,9 @@ class QrScanLog extends Model
                 if ($user->hasRole('merchant_admin')) {
 
                     $builder->whereHas('qrcode', function ($q) use ($user) {
-                        $q->where('merchant_id', $user->merchant_id);
+                        $q->whereHas('promo', function ($promoQuery) use ($user) {
+                            $promoQuery->where('merchant_id', $user->merchant_id);
+                        });
                     });
 
                 }
