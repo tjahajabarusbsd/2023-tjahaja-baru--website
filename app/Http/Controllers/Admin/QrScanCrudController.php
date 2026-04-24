@@ -29,7 +29,9 @@ class QrScanCrudController extends CrudController
         CRUD::setModel(QrScanLog::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/qr-scan-log');
         CRUD::setEntityNameStrings('QR Scan Log', 'QR Scan Logs');
-        $this->crud->addClause('with', ['user', 'qrcode.promo']);
+
+        $this->crud->denyAccess(['create', 'delete', 'show']);
+        $this->crud->addClause('with', ['user', 'qrcode.promo.merchant']);
     }
 
     /**
@@ -40,6 +42,22 @@ class QrScanCrudController extends CrudController
      */
     protected function setupListOperation(): void
     {
+        $this->crud->addFilter([
+            'type' => 'date_range',
+            'name' => 'scanned_at_range',
+            'label' => 'Tanggal Scan'
+        ], false, function ($value) {
+            $dates = json_decode($value);
+
+            if (!empty($dates->from)) {
+                $this->crud->addClause('where', 'scanned_at', '>=', $dates->from);
+            }
+
+            if (!empty($dates->to)) {
+                $this->crud->addClause('where', 'scanned_at', '<=', $dates->to . ' 23:59:59');
+            }
+        });
+
         $this->crud->addColumn([
             'name' => 'scan_code',
             'label' => 'ID Scan',
@@ -54,28 +72,37 @@ class QrScanCrudController extends CrudController
             'attribute' => 'name'
         ]);
 
-        // Merchant dari QR Code
         $this->crud->addColumn([
-            'name' => 'merchant_title',
+            'name' => 'merchant',
             'label' => 'Merchant',
-            'type' => 'text'
+            'type' => 'closure',
+            'function' => function ($entry) {
+                return $entry->qrcode?->promo?->merchant?->title ?? '-';
+            },
+            'orderable' => false,
+            'searchLogic' => false,
         ]);
 
-        // promo
         $this->crud->addColumn([
+            'name' => 'promo_name',
             'label' => 'Promo',
             'type' => 'closure',
             'function' => function ($entry) {
                 return $entry->qrcode?->promo?->name ?? 'N/A';
-            }
+            },
+            'orderable' => false,
+            'searchLogic' => false,
         ]);
 
         $this->crud->addColumn([
+            'name' => 'qrcode_name',
             'label' => 'Nama QR Code',
             'type' => 'closure',
             'function' => function ($entry) {
                 return $entry->qrcode?->nama_qrcode ?? 'N/A';
-            }
+            },
+            'orderable' => false,
+            'searchLogic' => false,
         ]);
 
         $this->crud->addColumn([
@@ -109,37 +136,51 @@ class QrScanCrudController extends CrudController
      */
     protected function setupCreateOperation(): void
     {
-        // CRUD::setValidation(ActivityScanRequest::class);
         $entry = $this->crud->getCurrentEntry();
         $scanCode = e($entry->scan_code ?? '-');
         $userName = e(optional($entry->user)->name ?? '-');
+        $merchantName = e($entry->qrcode?->promo?->merchant?->title ?? '-');
+        $promoName = e($entry->qrcode?->promo?->name ?? '-');
+        $qrCodeName = e($entry->qrcode?->nama_qrcode ?? '-');
         $scannedAt = e(optional($entry->scanned_at)->format('d-m-Y H:i:s') ?? '-');
 
         CRUD::addField([
-            'name' => 'scan_code',
+            'name' => 'scan_code_info',
             'type' => 'custom_html',
             'value' => '<p style="margin-bottom:0"><strong>ID Scan: </strong>' . $scanCode . '</p>',
         ]);
 
         CRUD::addField([
-            'name' => 'user_public_id',
+            'name' => 'user_public_id_info',
             'type' => 'custom_html',
             'value' => '<p style="margin-bottom:0"><strong>Nama: </strong>' . $userName . '</p>',
         ]);
 
         CRUD::addField([
-            'name' => 'scanned_at',
+            'name' => 'merchant_info',
+            'type' => 'custom_html',
+            'value' => '<p style="margin-bottom:0"><strong>Merchant: </strong>' . $merchantName . '</p>',
+        ]);
+
+        CRUD::addField([
+            'name' => 'promo_info',
+            'type' => 'custom_html',
+            'value' => '<p style="margin-bottom:0"><strong>Promo: </strong>' . $promoName . '</p>',
+        ]);
+
+        CRUD::addField([
+            'name' => 'qrcode_info',
+            'type' => 'custom_html',
+            'value' => '<p style="margin-bottom:0"><strong>Nama QR Code: </strong>' . $qrCodeName . '</p>',
+        ]);
+
+        CRUD::addField([
+            'name' => 'scanned_at_info',
             'type' => 'custom_html',
             'value' => '<p style="margin-bottom:0"><strong>Tanggal Scan: </strong>' . $scannedAt . '</p>',
         ]);
 
         CRUD::field('image')->type('image')->label('Upload Bukti Scan')->upload(true);
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
-         */
     }
 
     /**
@@ -151,20 +192,5 @@ class QrScanCrudController extends CrudController
     protected function setupUpdateOperation(): void
     {
         $this->setupCreateOperation();
-
-        // kalau mode upload saja
-        if (request()->boolean('upload')) {
-
-            foreach ($this->crud->fields() as $field) {
-                $this->crud->modifyField($field['name'], [
-                    'attributes' => ['disabled' => true]
-                ]);
-            }
-
-            // aktifkan kembali field image
-            $this->crud->modifyField('image', [
-                'attributes' => []
-            ]);
-        }
     }
 }
