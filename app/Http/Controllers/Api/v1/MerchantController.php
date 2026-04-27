@@ -20,6 +20,9 @@ class MerchantController extends Controller
                 'image' => $merchant->image
                     ? asset($merchant->image)
                     : '',
+                'thumbnail' => $merchant->thumbnail
+                    ? asset($merchant->thumbnail)
+                    : '',
                 'isPromo' => (bool) $merchant->aktif,
             ];
         });
@@ -48,6 +51,7 @@ class MerchantController extends Controller
             'id' => $merchant->id,
             'name' => $merchant->title ?? '',
             'logo' => $merchant->image ? asset($merchant->image) : '',
+            'thumbnail' => $merchant->thumbnail ? asset($merchant->thumbnail) : '',
             'info' => $merchant->deskripsi ?? '',
             'location' => $merchant->lokasi ?? '',
             'promos' => $merchant->promos

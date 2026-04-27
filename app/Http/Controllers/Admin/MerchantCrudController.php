@@ -40,6 +40,7 @@ class MerchantCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('title')->label('Nama');
+        // CRUD::column('thumbnail')->type('image')->label('Thumbnail');
         CRUD::column('aktif')->type('boolean')->label('Aktif?');
         // CRUD::column('is_internal')->type('boolean')->label('Dari Internal?');
 
@@ -62,6 +63,7 @@ class MerchantCrudController extends CrudController
 
         CRUD::field('title')->type('text')->label('Nama');
         CRUD::field('image')->type('image')->upload(true)->label('Gambar');
+        CRUD::field('thumbnail')->type('image')->upload(true)->label('Thumbnail');
         CRUD::field('deskripsi')->type('textarea');
         CRUD::field('lokasi')->type('textarea');
         CRUD::field('merchant_phone')->type('text')->label('Nomor Telepon');

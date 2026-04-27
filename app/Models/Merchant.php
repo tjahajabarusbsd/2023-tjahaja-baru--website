@@ -20,6 +20,7 @@ class Merchant extends Model
     protected $fillable = [
         'title',
         'image',
+        'thumbnail',
         'deskripsi',
         'lokasi',
         'merchant_phone',
@@ -49,12 +50,22 @@ class Merchant extends Model
 
         static::deleting(function ($obj) {
             Storage::disk('uploads')->delete(Str::replaceFirst('uploads/', '', $obj->image));
+            Storage::disk('uploads')->delete(Str::replaceFirst('uploads/', '', $obj->thumbnail));
         });
     }
 
     public function setImageAttribute($value)
     {
         $attribute_name = "image";
+        $disk = "uploads";
+        $destination_path = "merchants/thumbnail";
+
+        $this->storeImage($value, $attribute_name, $disk, $destination_path, $fileName = null);
+    }
+
+    public function setThumbnailAttribute($value)
+    {
+        $attribute_name = "thumbnail";
         $disk = "uploads";
         $destination_path = "merchants/thumbnail";
 
