@@ -135,11 +135,11 @@ class NotificationController extends Controller
 
             case 'QR Scan':
                 $qr = QrScanLog::findOrFail($notification->source_id);
-
+                // dd($qr->scan_code);
                 $detail = [
                     'scan_id' => $qr->scan_code,
-                    'merchant_name' => $qr->qrcode->merchant->title,
-                    'nama_qrcode' => $qr->qrcode->nama_qrcode,
+                    'merchant_name' => $qr->merchant_title,
+                    'nama_qrcode' => $qr->qrcode?->promo?->name,
                     'benefit' => $qr->qrcode->benefit,
                     'user_name' => $qr->user->name,
                     'usage_count' => $qr->usage_count,
