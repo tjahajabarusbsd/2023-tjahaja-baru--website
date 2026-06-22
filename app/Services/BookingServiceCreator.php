@@ -34,13 +34,18 @@ class BookingServiceCreator
 
   protected function generateBookingId(): string
   {
-    $year = Carbon::now()->format('y');
-    $month = Carbon::now()->format('m');
+    $prefix = 'BKG' . now()->format('ym');
 
-    $count = BookingService::whereYear('created_at', now()->year)
-      ->whereMonth('created_at', now()->month)
-      ->count() + 1;
+    $lastBooking = BookingService::where('booking_id', 'like', $prefix . '%')
+        ->latest('id')
+        ->first();
 
-    return sprintf("BKG%s%s%04d", $year, $month, $count);
+    $nextNumber = 1;
+
+    if ($lastBooking) {
+        $nextNumber = ((int) substr($lastBooking->booking_id, -4)) + 1;
+    }
+
+    return $prefix . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
   }
 }
