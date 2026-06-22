@@ -22,7 +22,7 @@ class BookingStatusSyncService
 
   public function syncByBooking(BookingService $booking): void
   {
-    if (!$booking->service_schedule_id || !$booking->serialized_product_id) {
+    if (!$booking->motor->nomor_plat || !$booking->motor->nomor_rangka) {
       Log::warning('[N8N] Skip cek status, data pooling belum lengkap', [
         'booking_id' => $booking->booking_id,
       ]);

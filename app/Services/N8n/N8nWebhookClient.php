@@ -47,7 +47,7 @@ class N8nWebhookClient
   public function cekStatus(BookingService $booking)
   {
     $payload = N8nBookingPayloadFactory::cekStatus($booking);
-
+    // dd($payload);
     Log::info('[N8N] Cek status payload', $payload);
 
     $response = Http::timeout(10)
@@ -63,9 +63,9 @@ class N8nWebhookClient
     if (!$response->successful()) {
       return;
     }
-
+    // dd($response->json());
     $body = $response->json();
-
+    // dd($body['status']);
     if (($body['success'] ?? null) !== 'true') {
       return;
     }
@@ -74,19 +74,19 @@ class N8nWebhookClient
     $updates = [];
     $oldStatus = $booking->status;
 
-    if (
-      isset($body['serviceScheduleId']) &&
-      $body['serviceScheduleId'] !== $booking->service_schedule_id
-    ) {
-      $updates['service_schedule_id'] = $body['serviceScheduleId'];
-    }
+    // if (
+    //   isset($body['serviceScheduleId']) &&
+    //   $body['serviceScheduleId'] !== $booking->service_schedule_id
+    // ) {
+    //   $updates['service_schedule_id'] = $body['serviceScheduleId'];
+    // }
 
-    if (
-      isset($body['serializedProductId']) &&
-      $body['serializedProductId'] !== $booking->serialized_product_id
-    ) {
-      $updates['serialized_product_id'] = $body['serializedProductId'];
-    }
+    // if (
+    //   isset($body['serializedProductId']) &&
+    //   $body['serializedProductId'] !== $booking->serialized_product_id
+    // ) {
+    //   $updates['serialized_product_id'] = $body['serializedProductId'];
+    // }
 
     if (
       isset($body['status']) &&
@@ -94,6 +94,8 @@ class N8nWebhookClient
     ) {
       $updates['external_status'] = $body['status'];
       $updates['status'] = $this->mapExternalStatus($body['status']);
+      $updates['service_schedule_id'] = $body['serviceScheduleId'];
+      $updates['serialized_product_id'] = $body['productId'];
     }
 
     // ⛔ TIDAK ADA PERUBAHAN → STOP
@@ -129,11 +131,11 @@ class N8nWebhookClient
     }
 
     return match (strtolower($status)) {
-      'booking' => 'pending',
-      'approved' => 'confirmed',
-      'progress' => 'in_progress',
+      'Waiting' => 'pending',
+      'Approved' => 'confirmed',
+      'progress' => 'progress',
       'done' => 'done',
-      'cancelled' => 'cancelled',
+      'Cancelled' => 'cancelled',
       default => null,
     };
   }
