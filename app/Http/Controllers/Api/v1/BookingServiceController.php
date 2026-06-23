@@ -112,60 +112,51 @@ class BookingServiceController extends Controller
             ])->get(
                     'https://www.yamaha-motor.co.id/ajax/com/csrf-token'
                 );
-
-            // $csrfToken = $csrfResponse->json('token');
-            // dd(
-            //     $csrfResponse->body(),
-            //     $csrfResponse->headers()
-            // );
+            
             if (!$csrfResponse->successful()) {
-                Log::error('Failed to get CSRF token', ['status' => $csrfResponse->status(), 'body' => $csrfResponse->body()]);
-                return ApiResponse::error('Gagal mendapatkan CSRF token dari Yamaha Motor', 500);
+                Log::error('Failed to get CSRF token', [
+                    'status' => $csrfResponse->status(),
+                    'user_id' => $user->id,
+                ]);
+                return ApiResponse::error('Kesalahan pada server', 500);
             }
-
-            // DEBUG: Lihat struktur response CSRF
-            // $csrfBody = $csrfResponse->json();
-            // Log::info('CSRF Response structure', [
-            //     'status' => $csrfResponse->status(),
-            //     'headers' => $csrfResponse->headers(),
-            //     'body' => $csrfBody,
-            //     'raw_body' => $csrfResponse->body(),
-            // ]);
 
             $csrfToken = $csrfResponse->json('token');
 
             Log::info('CSRF Token obtained', [
                 'token_length' => strlen($csrfToken),
                 'token_preview' => substr($csrfToken, 0, 30) . '...',
+                'user_id' => $user->id,
             ]);
 
-            // 📝 SIMPAN KE DATABASE TERLEBIH DAHULU
-            $booking = $creator->handle($request, $user);
-            // DEBUG: Uncomment untuk melihat booking object
-            // dd('Booking created:', $booking->toArray());
-            Log::info('Booking saved to database', ['booking_id' => $booking->id, 'user_id' => $booking->user_id]);
-
-            // 📤 SIAPKAN DATA UNTUK DIKIRIM KE YAMAHA
+            // 📤 SIAPKAN DATA UNTUK DIKIRIM KE YAMAHA (BELUM SIMPAN KE DB)
+            // Buat booking object sementara untuk mempersiapkan payload
+            $bookingData = $request->all();
+            $bookingData['user_id'] = $user->id;
+            
             $yamahaPayload = [
-                'dealerCode' => optional($booking->dealer)->dealer_code ?? '9FP002',
-                'targetDate' => Carbon::parse($booking->tanggal)->format('Ymd'),
-                'targetTime' => str_replace(':', '', $booking->jam),
+                'dealerCode' => $bookingData['dealer_code'] ?? '9FP002',
+                'targetDate' => Carbon::parse($bookingData['tanggal'])->format('Ymd'),
+                'targetTime' => str_replace(':', '', $bookingData['jam']),
                 'customerName' => $user->name,
                 'mobilePhone' => $user->phone_number ?? '',
-                'modelName' => optional($booking->motor)->nama_model ?? '',
-                'plateNo' => optional($booking->motor)->nomor_plat ?? '',
-                'serviceType' => $booking->menu_layanan ?? 'KSB',
-                'memo' => $booking->permintaan_khusus ?? '',
+                'modelName' => $bookingData['nama_model'] ?? '',
+                'plateNo' => $bookingData['nomor_plat'] ?? '',
+                'serviceType' => $bookingData['menu_layanan'] ?? 'KSB',
+                'memo' => $bookingData['permintaan_khusus'] ?? '',
             ];
-            // DEBUG: Uncomment untuk melihat payload yang akan dikirim
-            // dd('Yamaha Payload:', $yamahaPayload);
-            Log::info('Yamaha payload prepared', $yamahaPayload);
 
-            // 🚀 KIRIM KE API YAMAHA DEPACK
+            Log::info('Yamaha payload prepared', [
+                'payload' => $yamahaPayload,
+                'user_id' => $user->id,
+            ]);
+
+            // 🚀 KIRIM KE API YAMAHA DEPACK TERLEBIH DAHULU
             Log::info('Attempting to send booking to Yamaha', [
                 'url' => 'https://www.yamaha-motor.co.id/ajax/com/dpack/send-booking',
                 'csrf_token_length' => strlen($csrfToken),
                 'payload' => $yamahaPayload,
+                'user_id' => $user->id,
             ]);
 
             $dpackResponse = Http::withOptions([
@@ -178,25 +169,31 @@ class BookingServiceController extends Controller
                     $yamahaPayload
                 );
 
-            // DEBUG: Uncomment untuk melihat response dari Yamaha
-            // dd('Yamaha Response Debug', [
-            //     'status' => $dpackResponse->status(),
-            //     'headers' => $dpackResponse->headers(),
-            //     'body' => $dpackResponse->json(),
-            //     'raw_body' => $dpackResponse->body(),
-            // ]);
+            $responseStatus = $dpackResponse->status();
+            $isSuccessful = $dpackResponse->successful();
+            $responseBody = $dpackResponse->json();
 
             Log::info('Yamaha API response', [
-                'status' => $dpackResponse->status(),
-                'successful' => $dpackResponse->successful(),
-                'response_body' => $dpackResponse->json(),
+                'status' => $responseStatus,
+                'successful' => $isSuccessful,
+                'response_body' => $responseBody,
+                'raw_body' => $dpackResponse->body(),
+                'user_id' => $user->id,
             ]);
 
-            // 💾 UPDATE STATUS BOOKING BERDASARKAN RESPONSE DARI YAMAHA
-            if ($dpackResponse->successful()) {
+            // ✅ KONDISI SUKSES: Status 2xx (200-299)
+            // BARU SIMPAN KE DATABASE JIKA YAMAHA API BERHASIL
+            if ($isSuccessful && $responseStatus >= 200 && $responseStatus < 300) {
+                $booking = $creator->handle($request, $user);
+                
                 $booking->update([
                     'status' => 'pending',
-                    'external_status' => $dpackResponse->json('status') ?? 'sent_to_yamaha',
+                    'external_status' => $responseBody['status'] ?? 'sent_to_yamaha',
+                ]);
+
+                Log::info('Booking saved to database after successful Yamaha API response', [
+                    'booking_id' => $booking->id,
+                    'user_id' => $booking->user_id,
                 ]);
 
                 return ApiResponse::success(
@@ -212,62 +209,67 @@ class BookingServiceController extends Controller
                         'permintaan_khusus' => $booking->permintaan_khusus,
                         'jam' => $booking->jam,
                         'status' => $booking->status,
-                        'yamaha_response' => $dpackResponse->json(),
-                    ]
-                );
-            } else {
-                // ⚠️ JIKA GAGAL DIKIRIM KE YAMAHA, UPDATE STATUS MENJADI PENDING
-                $errorMessage = $dpackResponse->json('error') ?? $dpackResponse->json('message') ?? 'Unknown error';
-
-                Log::error('Yamaha API request failed', [
-                    'status' => $dpackResponse->status(),
-                    'error_message' => $errorMessage,
-                    'full_response' => $dpackResponse->json(),
-                    'raw_body' => $dpackResponse->body(),
-                ]);
-
-                $booking->update([
-                    'status' => 'pending',
-                    'external_status' => 'failed_to_send',
-                ]);
-
-                return ApiResponse::error(
-                    'Booking dibuat tetapi gagal dikirim ke Yamaha Motor. Error: ' . $errorMessage,
-                    $dpackResponse->status(),
-                    [
-                        'booking' => [
-                            'id' => $booking->id,
-                            'booking_id' => $booking->booking_id,
-                            'status' => $booking->status,
-                        ],
-                        'yamaha_error' => $dpackResponse->json(),
-                        'debug_info' => [
-                            'csrf_token_length' => strlen($csrfToken),
-                            'api_url' => 'https://www.yamaha-motor.co.id/ajax/com/dpack/send-booking',
-                        ],
+                        'yamaha_response' => $responseBody,
                     ]
                 );
             }
 
+            // ❌ KONDISI GAGAL: Status 4xx atau 5xx
+            // JANGAN SIMPAN KE DATABASE, HANYA LOG DETAIL ERROR
+            if (!$isSuccessful || $responseStatus >= 400) {
+                // Ekstrak error message dari berbagai format respons
+                $errorMessage = null;
+                
+                if (is_array($responseBody)) {
+                    $errorMessage = $responseBody['error'] ?? $responseBody['message'] ?? $responseBody['msg'] ?? null;
+                } elseif (is_string($responseBody)) {
+                    $errorMessage = $responseBody;
+                }
+                
+                $errorMessage = $errorMessage ?? 'Unknown error from Yamaha API';
+
+                Log::error('Yamaha API request failed - booking NOT saved to database', [
+                    'status' => $responseStatus,
+                    'error_message' => $errorMessage,
+                    'full_response' => $responseBody,
+                    'raw_body' => $dpackResponse->body(),
+                    'user_id' => $user->id,
+                    'payload_sent' => $yamahaPayload,
+                ]);
+
+                return ApiResponse::error(
+                    'Kesalahan pada server',
+                    500
+                );
+            }
+
+            // ⚠️ KONDISI TIDAK TERDUGA (Fallback)
+            Log::warning('Yamaha API response in undefined state - booking NOT saved', [
+                'status' => $responseStatus,
+                'successful' => $isSuccessful,
+                'response_body' => $responseBody,
+                'user_id' => $user->id,
+            ]);
+
+            return ApiResponse::error(
+                'Kesalahan pada server',
+                500
+            );
+
         } catch (\Exception $e) {
-            Log::error('Exception in booking store function', [
+            Log::error('Exception in booking store function - booking NOT saved', [
                 'error_message' => $e->getMessage(),
                 'error_code' => $e->getCode(),
                 'error_file' => $e->getFile(),
                 'error_line' => $e->getLine(),
                 'trace' => $e->getTraceAsString(),
+                'user_id' => Auth::id(),
+                'request_data' => $request->all(),
             ]);
 
             return ApiResponse::error(
-                'Terjadi kesalahan saat membuat booking: ' . $e->getMessage(),
-                500,
-                [
-                    'error_details' => [
-                        'message' => $e->getMessage(),
-                        'file' => $e->getFile(),
-                        'line' => $e->getLine(),
-                    ],
-                ]
+                'Kesalahan pada server',
+                500
             );
         }
     }
