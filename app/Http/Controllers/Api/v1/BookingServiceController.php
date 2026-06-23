@@ -176,8 +176,6 @@ class BookingServiceController extends Controller
             Log::info('Yamaha API response', [
                 'status' => $responseStatus,
                 'successful' => $isSuccessful,
-                'response_body' => $responseBody,
-                'raw_body' => $dpackResponse->body(),
                 'user_id' => $user->id,
             ]);
 
@@ -188,7 +186,7 @@ class BookingServiceController extends Controller
                 
                 $booking->update([
                     'status' => 'pending',
-                    'external_status' => $responseBody['status'] ?? 'sent_to_yamaha',
+                    'external_status' => $responseBody['status'] ?? 'Waiting',
                 ]);
 
                 Log::info('Booking saved to database after successful Yamaha API response', [
@@ -232,7 +230,6 @@ class BookingServiceController extends Controller
                     'status' => $responseStatus,
                     'error_message' => $errorMessage,
                     'full_response' => $responseBody,
-                    'raw_body' => $dpackResponse->body(),
                     'user_id' => $user->id,
                     'payload_sent' => $yamahaPayload,
                 ]);
@@ -259,12 +256,9 @@ class BookingServiceController extends Controller
         } catch (\Exception $e) {
             Log::error('Exception in booking store function - booking NOT saved', [
                 'error_message' => $e->getMessage(),
-                'error_code' => $e->getCode(),
                 'error_file' => $e->getFile(),
                 'error_line' => $e->getLine(),
-                'trace' => $e->getTraceAsString(),
                 'user_id' => Auth::id(),
-                'request_data' => $request->all(),
             ]);
 
             return ApiResponse::error(
