@@ -14,8 +14,14 @@ class Dealer extends Model
     // public $timestamps = false;
     protected $guarded = ['id'];
     protected $fillable = [
-        'nama_dealer',
         'kode_dealer',
+        'name_dealer',
+        'kecamatan',
+        'kota',
+        'address',
+        'nohp',
+        'latitude',
+        'longitude',
     ];
     // protected $hidden = [];
     // protected $dates = [];

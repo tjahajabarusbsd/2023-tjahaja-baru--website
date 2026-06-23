@@ -10,7 +10,7 @@ class ImportDealer implements ToModel
     public function model(array $row)
     {
         return new Dealer([
-            'kode_sales'    => $row[0],
+            'kode_dealer'    => $row[0],
             'name_dealer'   => $row[1],
             'kecamatan'     => $row[2],
             'kota'          => $row[3],
