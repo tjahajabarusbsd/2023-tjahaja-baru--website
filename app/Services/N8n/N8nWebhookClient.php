@@ -123,11 +123,11 @@ class N8nWebhookClient
     }
 
     return match (strtolower($status)) {
-      'Waiting' => 'pending',
-      'Approved' => 'confirmed',
+      'waiting' => 'pending',
+      'approved' => 'confirmed',
       'progress' => 'progress',
       'done' => 'done',
-      'Cancelled' => 'cancelled',
+      'cancelled' => 'cancelled',
       default => null,
     };
   }
