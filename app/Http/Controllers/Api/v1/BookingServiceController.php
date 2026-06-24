@@ -176,6 +176,7 @@ class BookingServiceController extends Controller
             Log::info('Yamaha API response', [
                 'status' => $responseStatus,
                 'successful' => $isSuccessful,
+                'response_body' => $responseBody,
                 'user_id' => $user->id,
             ]);
 
