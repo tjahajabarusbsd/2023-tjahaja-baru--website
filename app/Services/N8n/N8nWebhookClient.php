@@ -116,6 +116,38 @@ class N8nWebhookClient
     ]);
   }
 
+  public function cancel(BookingService $booking): void
+  {
+    $payload = N8nBookingPayloadFactory::cancel($booking);
+    Log::info('[N8N] Cancel booking payload', $payload);
+
+    $response = Http::timeout(10)
+      ->acceptJson()
+      ->withToken(config('services.n8n.token'))
+      ->post(config('services.n8n.webhook'), $payload);
+
+    Log::info('[N8N] Cancel booking response', [
+      'status' => $response->status(),
+      'body' => $response->json(),
+    ]);
+
+    if (!$response->successful()) {
+      return;
+    }
+
+    $body = $response->json();
+
+    if (($body['success'] ?? null) !== 'true') {
+      return;
+    }
+
+    // ✅ UPDATE BOOKING YANG SAMA
+    $booking->update([
+      'external_status' => 'cancelled',
+      'status' => 'cancelled',
+    ]);
+  }
+
   private function mapExternalStatus(?string $status): ?string
   {
     if (!$status) {

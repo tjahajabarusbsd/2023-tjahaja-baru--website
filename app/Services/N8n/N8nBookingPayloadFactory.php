@@ -58,5 +58,31 @@ class N8nBookingPayloadFactory
     ];
   }
 
+  public static function cancel(BookingService $booking): array
+  {
+    $booking->load(['user', 'motor', 'dealer']);
+
+    return [
+      'type' => 'bookingServisSet',
+      'pointInduk' => $booking->dealer->kode_dealer,
+      'action' => 'Cancelled',
+      'data' => [
+        [
+          'reservationDate' => now()->parse($booking->tanggal)->format('Ymd'),
+          'reservationTime' => $booking->jam,
+          'customerName' => $booking->user->name ?? '',
+          'frameNo' => $booking->motor->nomor_rangka ?? '',
+          'mobilePhone' => $booking->user->phone_number ?? '',
+          'brand' => 'C065YAMAHA',
+          'plateNo' => $booking->motor->nomor_plat ?? '',
+          'memo' => $booking->permintaan_khusus ?? 'Cek status booking servis',
+          'serviceContent' => $booking->menu_layanan ?? '',
+          'serviceScheduleId' => $booking->service_schedule_id,
+          'serializedProductId' => $booking->serialized_product_id,
+        ]
+      ]
+    ];
+  }
+
 
 }

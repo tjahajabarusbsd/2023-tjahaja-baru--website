@@ -15,6 +15,7 @@ use App\Models\BookingService;
 use App\Models\NomorRangka;
 use App\Models\Notification;
 use App\Http\Requests\BookingServiceRequest;
+use App\Models\Dealer;
 use App\Services\N8n\N8nWebhookClient;
 use GuzzleHttp\Cookie\CookieJar;
 
@@ -110,9 +111,9 @@ class BookingServiceController extends Controller
             $csrfResponse = Http::withOptions([
                 'cookies' => $cookieJar,
             ])->get(
-                    'https://www.yamaha-motor.co.id/ajax/com/csrf-token'
-                );
-            
+                'https://www.yamaha-motor.co.id/ajax/com/csrf-token'
+            );
+
             if (!$csrfResponse->successful()) {
                 Log::error('Failed to get CSRF token', [
                     'status' => $csrfResponse->status(),
@@ -133,15 +134,17 @@ class BookingServiceController extends Controller
             // Buat booking object sementara untuk mempersiapkan payload
             $bookingData = $request->all();
             $bookingData['user_id'] = $user->id;
-            
+            $motor = NomorRangka::find($bookingData['motor_id']);
+            $dealer = Dealer::find($bookingData['dealer_id']);
+
             $yamahaPayload = [
-                'dealerCode' => $bookingData['dealer_code'] ?? '9FP002',
+                'dealerCode' => $dealer->dealer_code ?? '9FP002',
                 'targetDate' => Carbon::parse($bookingData['tanggal'])->format('Ymd'),
                 'targetTime' => str_replace(':', '', $bookingData['jam']),
                 'customerName' => $user->name,
                 'mobilePhone' => $user->phone_number ?? '',
-                'modelName' => $bookingData['nama_model'] ?? '',
-                'plateNo' => $bookingData['nomor_plat'] ?? '',
+                'modelName' => $motor->nama_model ?? '',
+                'plateNo' => $motor->nomor_plat ?? '',
                 'serviceType' => $bookingData['menu_layanan'] ?? 'KSB',
                 'memo' => $bookingData['permintaan_khusus'] ?? '',
             ];
@@ -162,12 +165,12 @@ class BookingServiceController extends Controller
             $dpackResponse = Http::withOptions([
                 'cookies' => $cookieJar,
             ])->withHeaders([
-                        'Accept' => 'application/json, text/javascript, */*; q=0.01',
-                        'x-csrf-token' => $csrfToken,
-                    ])->post(
-                    'https://www.yamaha-motor.co.id/ajax/com/dpack/send-booking',
-                    $yamahaPayload
-                );
+                'Accept' => 'application/json, text/javascript, */*; q=0.01',
+                'x-csrf-token' => $csrfToken,
+            ])->post(
+                'https://www.yamaha-motor.co.id/ajax/com/dpack/send-booking',
+                $yamahaPayload
+            );
 
             $responseStatus = $dpackResponse->status();
             $isSuccessful = $dpackResponse->successful();
@@ -184,7 +187,7 @@ class BookingServiceController extends Controller
             // BARU SIMPAN KE DATABASE JIKA YAMAHA API BERHASIL
             if ($isSuccessful && $responseStatus >= 200 && $responseStatus < 300) {
                 $booking = $creator->handle($request, $user);
-                
+
                 $booking->update([
                     'status' => 'pending',
                     'external_status' => $responseBody['status'] ?? 'Waiting',
@@ -218,13 +221,13 @@ class BookingServiceController extends Controller
             if (!$isSuccessful || $responseStatus >= 400) {
                 // Ekstrak error message dari berbagai format respons
                 $errorMessage = null;
-                
+
                 if (is_array($responseBody)) {
                     $errorMessage = $responseBody['error'] ?? $responseBody['message'] ?? $responseBody['msg'] ?? null;
                 } elseif (is_string($responseBody)) {
                     $errorMessage = $responseBody;
                 }
-                
+
                 $errorMessage = $errorMessage ?? 'Unknown error from Yamaha API';
 
                 Log::error('Yamaha API request failed - booking NOT saved to database', [
@@ -253,7 +256,6 @@ class BookingServiceController extends Controller
                 'Kesalahan pada server',
                 500
             );
-
         } catch (\Exception $e) {
             Log::error('Exception in booking store function - booking NOT saved', [
                 'error_message' => $e->getMessage(),
@@ -284,6 +286,8 @@ class BookingServiceController extends Controller
         if (!$booking) {
             return ApiResponse::error('Booking tidak ditemukan atau tidak dapat dibatalkan.', 404);
         }
+
+        app(N8nWebhookClient::class)->cancel($booking);
 
         $booking->status = 'cancelled';
         $booking->save();
