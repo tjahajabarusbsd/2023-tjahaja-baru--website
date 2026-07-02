@@ -138,7 +138,7 @@ class BookingServiceController extends Controller
             $dealer = Dealer::find($bookingData['dealer_id']);
 
             $yamahaPayload = [
-                'dealerCode' => $dealer->dealer_code ?? '9FP002',
+                'dealerCode' => $dealer->kode_dealer ?? '9FP002',
                 'targetDate' => Carbon::parse($bookingData['tanggal'])->format('Ymd'),
                 'targetTime' => str_replace(':', '', $bookingData['jam']),
                 'customerName' => $user->name,
@@ -274,7 +274,7 @@ class BookingServiceController extends Controller
     public function batal(Request $request)
     {
         $request->validate([
-            'booking_id' => 'required|exists:booking_services,id',
+            'booking_id' => 'required|integer',
         ]);
 
         $user = Auth::user();
@@ -287,11 +287,18 @@ class BookingServiceController extends Controller
             return ApiResponse::error('Booking tidak ditemukan atau tidak dapat dibatalkan.', 404);
         }
 
-        app(N8nWebhookClient::class)->cancel($booking);
+        $cancelled = app(N8nWebhookClient::class)->cancel($booking);
 
-        $booking->status = 'cancelled';
-        $booking->save();
+        if (!$cancelled) {
+            return ApiResponse::error('Kesalahan pada server', 500);
+        }
 
-        return ApiResponse::success('Booking berhasil dibatalkan', $booking);
+        $booking->refresh();
+
+        return ApiResponse::success('Booking berhasil dibatalkan', [
+            'id' => $booking->id,
+            'booking_id' => $booking->booking_id,
+            'status' => $booking->status,
+        ]);
     }
 }

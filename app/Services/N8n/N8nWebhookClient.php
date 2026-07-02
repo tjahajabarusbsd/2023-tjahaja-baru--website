@@ -6,7 +6,7 @@ use App\Models\BookingService;
 use App\Services\N8n\N8nBookingPayloadFactory;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use App\Services\Notification\FcmService;
+use Throwable;
 
 class N8nWebhookClient
 {
@@ -116,36 +116,56 @@ class N8nWebhookClient
     ]);
   }
 
-  public function cancel(BookingService $booking): void
+  public function cancel(BookingService $booking): bool
   {
-    $payload = N8nBookingPayloadFactory::cancel($booking);
-    Log::info('[N8N] Cancel booking payload', $payload);
+    try {
+      $payload = N8nBookingPayloadFactory::cancel($booking);
+      Log::info('[N8N] Cancel booking request', [
+        'booking_id' => $booking->id,
+        'user_id' => $booking->user_id,
+        'action' => $payload['action'] ?? null,
+      ]);
 
-    $response = Http::timeout(10)
-      ->acceptJson()
-      ->withToken(config('services.n8n.token'))
-      ->post(config('services.n8n.webhook'), $payload);
+      $response = Http::timeout(10)
+        ->acceptJson()
+        ->withToken(config('services.n8n.token'))
+        ->post(config('services.n8n.webhook'), $payload);
 
-    Log::info('[N8N] Cancel booking response', [
-      'status' => $response->status(),
-      'body' => $response->json(),
-    ]);
+      $body = $response->json();
 
-    if (!$response->successful()) {
-      return;
+      if (!is_array($body)) {
+        $body = [];
+      }
+
+      Log::info('[N8N] Cancel booking response', [
+        'booking_id' => $booking->id,
+        'status' => $response->status(),
+        'success' => $body['success'] ?? null,
+      ]);
+
+      if (!$response->successful()) {
+        return false;
+      }
+
+      if (!in_array($body['success'] ?? null, [true, 'true', 1, '1'], true)) {
+        return false;
+      }
+
+      $booking->update([
+        'external_status' => 'cancelled',
+        'status' => 'cancelled',
+      ]);
+
+      return true;
+    } catch (Throwable $e) {
+      Log::error('[N8N] Cancel booking failed', [
+        'booking_id' => $booking->id,
+        'user_id' => $booking->user_id,
+        'error_message' => $e->getMessage(),
+      ]);
+
+      return false;
     }
-
-    $body = $response->json();
-
-    if (($body['success'] ?? null) !== 'true') {
-      return;
-    }
-
-    // ✅ UPDATE BOOKING YANG SAMA
-    $booking->update([
-      'external_status' => 'cancelled',
-      'status' => 'cancelled',
-    ]);
   }
 
   private function mapExternalStatus(?string $status): ?string
