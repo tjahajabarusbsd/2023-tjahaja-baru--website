@@ -105,6 +105,28 @@ class BookingServiceController extends Controller
         try {
             $user = Auth::user();
 
+            // 🚫 CEK STATUS BOOKING TERAKHIR USER
+            // User tidak boleh booking baru jika booking terakhirnya
+            // masih berstatus pending, confirmed, atau progress
+            $blockedStatuses = ['pending', 'confirmed', 'progress'];
+
+            $lastBooking = BookingService::where('user_id', $user->id)
+                ->latest('id') // pastikan urut berdasarkan yang paling baru, sesuaikan kolom jika perlu (created_at/id)
+                ->first();
+
+            if ($lastBooking && in_array($lastBooking->status, $blockedStatuses)) {
+                Log::info('Booking rejected - user still has active booking', [
+                    'user_id' => $user->id,
+                    'last_booking_id' => $lastBooking->id,
+                    'last_booking_status' => $lastBooking->status,
+                ]);
+
+                return ApiResponse::error(
+                    'Anda masih memiliki booking servis yang belum selesai (status: ' . $lastBooking->status . '). Selesaikan atau batalkan booking tersebut terlebih dahulu sebelum membuat booking baru.',
+                    422
+                );
+            }
+
             $cookieJar = new CookieJar();
 
             // 🔑 AMBIL CSRF TOKEN DARI API YAMAHA
@@ -186,6 +208,40 @@ class BookingServiceController extends Controller
             // ✅ KONDISI SUKSES: Status 2xx (200-299)
             // BARU SIMPAN KE DATABASE JIKA YAMAHA API BERHASIL
             if ($isSuccessful && $responseStatus >= 200 && $responseStatus < 300) {
+                // 🔍 Decode nested data (Yamaha mengirim data sebagai JSON string di dalam JSON)
+                $innerData = null;
+                if (isset($responseBody['data']) && is_string($responseBody['data'])) {
+                    $innerData = json_decode($responseBody['data'], true);
+                }
+
+                // Tentukan business-level success. Sesuaikan kondisi ini dengan
+                // dokumentasi resmi Yamaha kalau ada (misal code === 0 / code === 200 dianggap sukses)
+                $innerCode = $innerData['code'] ?? null;
+                $innerMsg  = $innerData['msg'] ?? ($responseBody['message'] ?? null);
+
+                // Kalau ada innerCode dan bukan kode sukses, treat sebagai gagal
+                $isBusinessSuccess = is_null($innerCode); // null = tidak ada nested error, anggap sukses
+                // contoh eksplisit kalau kamu sudah tahu kode sukses resminya:
+                // $isBusinessSuccess = ($innerCode === 0 || $innerCode === 200);
+
+                if (!$isBusinessSuccess) {
+                    Log::error('Yamaha booking rejected at business level - booking NOT saved', [
+                        'inner_code' => $innerCode,
+                        'inner_message' => $innerMsg,
+                        'full_response' => $responseBody,
+                        'user_id' => $user->id,
+                        'payload_sent' => $yamahaPayload,
+                    ]);
+
+                    // Mapping pesan error spesifik biar user paham, bukan cuma "Kesalahan pada server"
+                    $userMessage = match ($innerCode) {
+                        2924 => 'Kuota reservasi untuk jadwal ini sudah penuh, silakan pilih tanggal/jam lain',
+                        default => $innerMsg ?? 'Booking gagal diproses oleh Yamaha',
+                    };
+
+                    return ApiResponse::error($userMessage, 422);
+                }
+
                 $booking = $creator->handle($request, $user);
 
                 $booking->update([
