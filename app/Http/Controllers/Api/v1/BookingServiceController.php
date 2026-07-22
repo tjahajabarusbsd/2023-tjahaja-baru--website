@@ -218,11 +218,18 @@ class BookingServiceController extends Controller
                 // dokumentasi resmi Yamaha kalau ada (misal code === 0 / code === 200 dianggap sukses)
                 $innerCode = $innerData['code'] ?? null;
                 $innerMsg  = $innerData['msg'] ?? ($responseBody['message'] ?? null);
+                $successCodes = [200];
+                $knownErrorCodes = [2924, 2915];
 
-                // Kalau ada innerCode dan bukan kode sukses, treat sebagai gagal
-                $isBusinessSuccess = is_null($innerCode); // null = tidak ada nested error, anggap sukses
-                // contoh eksplisit kalau kamu sudah tahu kode sukses resminya:
-                // $isBusinessSuccess = ($innerCode === 0 || $innerCode === 200);
+                $isBusinessSuccess = is_null($innerCode) || in_array($innerCode, $successCodes, true);
+
+                if (!is_null($innerCode) && !in_array($innerCode, $successCodes, true) && !in_array($innerCode, $knownErrorCodes, true)) {
+                    Log::warning('Unrecognized Yamaha inner_code encountered', [
+                        'inner_code' => $innerCode,
+                        'inner_message' => $innerMsg,
+                        'user_id' => $user->id,
+                    ]);
+                }
 
                 if (!$isBusinessSuccess) {
                     Log::error('Yamaha booking rejected at business level - booking NOT saved', [
@@ -236,6 +243,7 @@ class BookingServiceController extends Controller
                     // Mapping pesan error spesifik biar user paham, bukan cuma "Kesalahan pada server"
                     $userMessage = match ($innerCode) {
                         2924 => 'Kuota reservasi untuk jadwal ini sudah penuh, silakan pilih tanggal/jam lain',
+                        2915 => 'Data booking Anda sudah terdaftar sebelumnya di sistem Yamaha',
                         default => $innerMsg ?? 'Booking gagal diproses oleh Yamaha',
                     };
 
