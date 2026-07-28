@@ -81,7 +81,7 @@ class MyMotorController extends Controller
             // Ambil data dari respons API dan format ulang
             $riwayatServis = [];
 
-            if (is_array($data)) {
+            if ($response->successful() && is_array($data) && array_is_list($data)) {
                 foreach ($data as $d) {
                     $riwayatServis[] = [
                         'service_id' => $d['id'] ?? '',
