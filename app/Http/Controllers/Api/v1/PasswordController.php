@@ -155,6 +155,7 @@ class PasswordController extends Controller
                 'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
             ],
             'new_password' => 'required|min:8|confirmed',
+            'reset_token' => 'required|string',
         ], [
             'phone_number.required' => 'Nomor handphone wajib diisi',
             'phone_number.string' => 'Nomor handphone harus berupa teks',
@@ -162,6 +163,8 @@ class PasswordController extends Controller
             'new_password.required' => 'Password baru wajib diisi',
             'new_password.min' => 'Password minimal 8 karakter',
             'new_password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'reset_token.required' => 'Token reset wajib diisi',
+            'reset_token.string' => 'Token reset harus berupa teks',
         ]);
 
         if ($validator->fails()) {
@@ -177,7 +180,7 @@ class PasswordController extends Controller
             ->first();
 
         if (!$user) {
-            Log::warning('Percobaan reset password gagal karena token tidak valid untuk user ' . $user->id . ' (Phone: ' . $phone . ')');
+            Log::warning("Percobaan reset password gagal: token tidak valid (Phone: $phone)");
             return ApiResponse::error('Token tidak valid', 401);
         }
 
@@ -198,6 +201,7 @@ class PasswordController extends Controller
                 'password_reset_expires_at' => null,
             ]);
 
+            $user->tokens()->delete();
             Log::info('Password berhasil diubah untuk user ' . $user->id);
         } catch (Exception $e) {
             Log::error('Gagal mengubah password untuk user ' . $user->id . ': ' . $e->getMessage());
