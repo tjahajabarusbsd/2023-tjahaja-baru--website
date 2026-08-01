@@ -46,7 +46,6 @@ class OtpController extends Controller
                 'user_id' => $user->id,
                 'phone' => $phone,
             ]);
-
         } catch (Exception $e) {
             Log::error('Resend OTP register process failed', [
                 'user_id' => $user->id ?? null,
@@ -63,6 +62,22 @@ class OtpController extends Controller
 
     public function resendOtpForgotPassword(Request $request, OtpService $otpService)
     {
+        $validator = Validator::make($request->all(), [
+            'phone_number' => [
+                'required',
+                'string',
+                'regex:/^(\+62|62|0)8[1-9][0-9]{7,10}$/',
+            ],
+        ], [
+            'phone_number.required' => 'Nomor handphone wajib diisi',
+            'phone_number.string' => 'Nomor handphone harus berupa teks',
+            'phone_number.regex' => 'Format nomor handphone tidak valid',
+        ]);
+
+        if ($validator->fails()) {
+            return ApiResponse::error($validator->errors()->first(), 422);
+        }
+
         $phone = PhoneNumberService::normalize($request->phone_number);
 
         $user = UserPublic::where('phone_number', $phone)->first();
@@ -105,7 +120,6 @@ class OtpController extends Controller
             return ApiResponse::success('Kode OTP telah dikirim', [
                 'expired_in' => $otpService->getExpirySeconds(),
             ]);
-
         } catch (Exception $e) {
             Log::error('Resend OTP forgot password process failed', [
                 'user_id' => $user->id ?? null,
@@ -168,7 +182,6 @@ class OtpController extends Controller
                 'user_id' => $user->id,
                 'phone' => $phone,
             ]);
-
         } catch (Exception $e) {
             Log::error('Resend OTP change phone process failed', [
                 'user_id' => $user->id ?? null,

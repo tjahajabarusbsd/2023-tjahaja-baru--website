@@ -41,6 +41,15 @@ class PasswordController extends Controller
             return ApiResponse::error('Nomor belum terdaftar, silakan daftar terlebih dahulu', 404);
         }
 
+        if ($existingUser->status_akun !== 'aktif') {
+            Log::warning('Resend OTP forgot password failed - account not active', [
+                'user_id' => $existingUser->id,
+                'phone' => $phone,
+                'status_akun' => $existingUser->status_akun,
+            ]);
+            return ApiResponse::error('Akun belum aktif. Tidak bisa reset password.', 400);
+        }
+
         if (
             $existingUser->last_otp_sent_at &&
             $existingUser->last_otp_sent_at > now()->subMinute()
