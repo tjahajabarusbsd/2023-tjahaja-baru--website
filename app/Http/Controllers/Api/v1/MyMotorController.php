@@ -172,21 +172,23 @@ class MyMotorController extends Controller
         }
 
         $registeredMotors = $getAllNomorRangka->map(function ($item) {
-            $dataMentah = $this->_fetchRiwayatServisMentah($item->nomor_rangka);
-
-            // Gagal mengambil riwayat servis (API down/timeout/berubah)
-            // TIDAK menggagalkan seluruh response -- motor tetap
-            // ditampilkan, riwayat servisnya saja yang kosong untuk saat
-            // ini. Ini beda kondisi dengan "memang belum pernah servis",
-            // tapi dari sisi Flutter keduanya aman ditampilkan sebagai
-            // "Belum ada riwayat servis" tanpa app perlu tahu bedanya.
             $riwayatServis = [];
-            if ($dataMentah !== null) {
-                foreach ($dataMentah as $d) {
-                    $riwayatServis[] = [
-                        'service_id' => $d['id'] ?? '',
-                        'tanggal_servis' => $d['event_walkin'] ?? '',
-                    ];
+
+            // Motor berstatus 'reject' ditolak manual dari dashboard admin --
+            // nomor rangkanya tidak akan pernah tercatat di database
+            // penjualan, jadi tidak perlu (dan tidak akan pernah berhasil)
+            // dicek ke API eksternal. Skip supaya tidak boros API call dan
+            // tidak menghasilkan warning log palsu di production.
+            if ($item->status_verifikasi !== 'rejected') {
+                $dataMentah = $this->_fetchRiwayatServisMentah($item->nomor_rangka);
+
+                if ($dataMentah !== null) {
+                    foreach ($dataMentah as $d) {
+                        $riwayatServis[] = [
+                            'service_id' => $d['id'] ?? '',
+                            'tanggal_servis' => $d['event_walkin'] ?? '',
+                        ];
+                    }
                 }
             }
 
