@@ -20,17 +20,13 @@ class MerchantController extends Controller
                 'image' => $merchant->image
                     ? asset($merchant->image)
                     : '',
-                'thumbnail' => $merchant->thumbnail
-                    ? asset($merchant->thumbnail)
-                    : '',
-                'isPromo' => (bool) $merchant->aktif,
             ];
         });
 
         return ApiResponse::success(
             $merchants->isNotEmpty()
-            ? 'Daftar merchant berhasil diambil'
-            : 'Tidak ada merchant tersedia',
+                ? 'Daftar merchant berhasil diambil'
+                : 'Tidak ada merchant tersedia',
             $formatted
         );
     }
