@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QrScanRequest;
+use Illuminate\Database\QueryException;
 use App\Models\Notification;
 use App\Models\Qrcode;
 use App\Models\QrScanLog;
@@ -35,10 +36,10 @@ class QrScanController extends Controller
             throw new Exception('QR code tidak valid', 404);
         if (!$qrCode->masihBerlaku())
             throw new Exception('QR tidak aktif', 400);
-        if (!$qrCode->jamAktif())
-            throw new Exception('QR tidak aktif di jam ini', 400);
         if (!$qrCode->hariAktif())
             throw new Exception('QR tidak aktif hari ini', 400);
+        if (!$qrCode->jamAktif())
+            throw new Exception('QR tidak aktif di jam ini', 400);
 
         return $qrCode;
     }
@@ -103,22 +104,29 @@ class QrScanController extends Controller
 
     private function handleKode($qrCode, $user)
     {
-        $this->validateKategori($qrCode, $user);
         $this->validateLimit($qrCode, $user);
+        $this->validateKategori($qrCode, $user);
 
         $nextUsage = $qrCode->jumlah_penggunaan + 1;
         $scanCode = 'TRX-' . strtoupper(uniqid());
 
         $qrCode->increment('jumlah_penggunaan');
 
-        $log = QrScanLog::create([
-            'scan_code' => $scanCode,
-            'user_public_id' => $user->id,
-            'qrcode_id' => $qrCode->id,
-            'usage_count' => $nextUsage,
-            'max_usage' => $qrCode->max_penggunaan,
-            'scanned_at' => now(),
-        ]);
+        try {
+            $log = QrScanLog::create([
+                'scan_code' => $scanCode,
+                'user_public_id' => $user->id,
+                'qrcode_id' => $qrCode->id,
+                'usage_count' => $nextUsage,
+                'max_usage' => $qrCode->max_penggunaan,
+                'scanned_at' => now(),
+            ]);
+        } catch (QueryException $e) {
+            if ($e->getCode() === '23000') {
+                throw new Exception('Anda sudah menggunakan kode ini', 400);
+            }
+            throw $e;
+        }
 
         Notification::create([
             'user_public_id' => $user->id,
@@ -158,7 +166,6 @@ class QrScanController extends Controller
             }
 
             return $this->handleKode($qrCode, $user);
-
         } catch (Exception $e) {
             DB::rollBack();
             return ApiResponse::error(
