@@ -35,11 +35,11 @@ class QrScanController extends Controller
         if (!$qrCode)
             throw new Exception('QR code tidak valid', 404);
         if (!$qrCode->masihBerlaku())
-            throw new Exception('QR tidak aktif', 400);
+            throw new Exception('QR code tidak berlaku', 400);
         if (!$qrCode->hariAktif())
-            throw new Exception('QR tidak aktif hari ini', 400);
+            throw new Exception('QR code tidak aktif hari ini', 400);
         if (!$qrCode->jamAktif())
-            throw new Exception('QR tidak aktif di jam ini', 400);
+            throw new Exception('QR code tidak aktif di jam ini', 400);
 
         return $qrCode;
     }
@@ -80,6 +80,21 @@ class QrScanController extends Controller
         }
     }
 
+    private function validateLimitHarian($qrCode)
+    {
+        if (!$qrCode->max_penggunaan_harian) {
+            return; // tidak ada batasan harian
+        }
+
+        $usageToday = QrScanLog::where('qrcode_id', $qrCode->id)
+            ->whereDate('scanned_at', now()->toDateString())
+            ->count();
+
+        if ($usageToday >= $qrCode->max_penggunaan_harian) {
+            throw new Exception('Kuota harian untuk promo ini sudah habis, coba lagi besok', 400);
+        }
+    }
+
     private function handleLink($qrCode, $user)
     {
         if (!$qrCode->redirect_url) {
@@ -105,6 +120,7 @@ class QrScanController extends Controller
     private function handleKode($qrCode, $user)
     {
         $this->validateLimit($qrCode, $user);
+        $this->validateLimitHarian($qrCode);
         $this->validateKategori($qrCode, $user);
 
         $nextUsage = $qrCode->jumlah_penggunaan + 1;

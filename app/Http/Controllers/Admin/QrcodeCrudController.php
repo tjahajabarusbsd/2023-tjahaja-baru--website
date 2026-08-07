@@ -278,6 +278,14 @@ class QrcodeCrudController extends CrudController
         ]);
 
         CRUD::addField([
+            'name' => 'max_penggunaan_harian',
+            'type' => 'number',
+            'label' => 'Maksimal Penggunaan Harian',
+            'hint' => 'Kosongkan jika tidak terbatas',
+            'tab' => 'Penggunaan'
+        ]);
+
+        CRUD::addField([
             'name' => 'aktif',
             'type' => 'checkbox',
             'label' => 'Status Aktif',

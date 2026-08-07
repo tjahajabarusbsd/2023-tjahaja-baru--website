@@ -16,7 +16,6 @@ class Qrcode extends Model
 
     protected $fillable = [
         'nama_qrcode',
-        'merchant_id',
         'promo_id',
         'category_id',
         'benefit',
@@ -26,6 +25,7 @@ class Qrcode extends Model
         'jam_selesai',
         'hari_aktif',
         'max_penggunaan',
+        'max_penggunaan_harian',
         'jumlah_penggunaan',
         'aktif',
         'kode',
@@ -44,6 +44,7 @@ class Qrcode extends Model
         'masa_berlaku_selesai' => 'datetime',
         'aktif' => 'boolean',
         'max_penggunaan' => 'integer',
+        'max_penggunaan_harian' => 'integer',
         'jumlah_penggunaan' => 'integer',
         'hari_aktif' => 'array',
     ];
@@ -110,19 +111,7 @@ class Qrcode extends Model
     public function hariAktif()
     {
         if ($this->hari_aktif && is_array($this->hari_aktif)) {
-            $today = strtolower(now()->format('D'));
-
-            $map = [
-                'mon' => 'mon',
-                'tue' => 'tue',
-                'wed' => 'wed',
-                'thu' => 'thu',
-                'fri' => 'fri',
-                'sat' => 'sat',
-                'sun' => 'sun',
-            ];
-
-            $todayKey = strtolower(substr($today, 0, 3));
+            $todayKey = strtolower(now()->format('D'));
 
             if (!in_array($todayKey, $this->hari_aktif)) {
                 return false;
@@ -154,7 +143,6 @@ class Qrcode extends Model
             if (empty($qr->kode)) {
                 $qr->kode = 'QR-' . strtoupper((Str::uuid())->toString());
             }
-
         });
     }
 }
