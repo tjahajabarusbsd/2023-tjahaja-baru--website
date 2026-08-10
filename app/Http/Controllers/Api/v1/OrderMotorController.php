@@ -20,7 +20,7 @@ class OrderMotorController extends Controller
         ->orderByDesc('created_at')
         ->get();
 
-      return ApiResponse::success($pesanan, 'Riwayat pemesanan berhasil diambil');
+      return ApiResponse::success('Riwayat pemesanan berhasil diambil', $pesanan);
     } catch (\Throwable $e) {
       return ApiResponse::error('Gagal mengambil riwayat pemesanan: ' . $e->getMessage());
     }
@@ -40,7 +40,7 @@ class OrderMotorController extends Controller
         return ApiResponse::error('Pesanan tidak ditemukan', 404);
       }
 
-      return ApiResponse::success($pesanan, 'Detail pesanan berhasil diambil');
+      return ApiResponse::success('Detail pesanan berhasil diambil', $pesanan);
     } catch (\Throwable $e) {
       return ApiResponse::error('Gagal mengambil detail pesanan: ' . $e->getMessage());
     }
