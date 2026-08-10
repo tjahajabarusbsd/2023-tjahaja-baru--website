@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\v1\OrderMotorController;
 use App\Http\Controllers\Api\v1\ActivityController;
 use App\Http\Controllers\Api\v1\PasswordController;
 use App\Http\Controllers\Api\v1\PromoController;
@@ -83,6 +84,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/services/{nomorRangka}/{svsId}', [MyMotorController::class, 'getRiwayatServis']);
         Route::post('/motor-registration', [MyMotorController::class, 'register']);
         Route::post('/products/order', [ProductController::class, 'order']);
+        Route::get('/order-motor', [OrderMotorController::class, 'index']);
+        Route::get('/order-motor/{orderId}', [OrderMotorController::class, 'show']);
 
         // Booking Servis
         Route::get('/booking-servis/status', [BookingServiceController::class, 'index']);
@@ -90,7 +93,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/booking-servis/batal', [BookingServiceController::class, 'batal']);
 
         // QR Scan
-        Route::post('/qr/scan', [QrScanController::class, 'scan']);
+        Route::post('/qr/scan', [QrScanController::class, 'scan'])->middleware('throttle:10,1');
         Route::post('/qr/redeem', [QrScanController::class, 'manualInput']);
 
         // Rewards
