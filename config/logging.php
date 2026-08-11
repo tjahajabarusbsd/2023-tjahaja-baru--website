@@ -105,6 +105,13 @@ return [
             'path' => storage_path('logs/whatsapp.log'),
             'level' => 'info',
         ],
+
+        'order_motor' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/order_motor.log'),
+            'level' => 'info',
+            'days' => 14,
+        ],
     ],
 
 ];
