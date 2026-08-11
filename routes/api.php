@@ -86,6 +86,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/products/order', [ProductController::class, 'order']);
         Route::get('/order-motor', [OrderMotorController::class, 'index']);
         Route::get('/order-motor/{orderId}', [OrderMotorController::class, 'show']);
+        Route::post('/order-motor/{orderId}/cancel', [OrderMotorController::class, 'cancel']);
 
         // Booking Servis
         Route::get('/booking-servis/status', [BookingServiceController::class, 'index']);
