@@ -6,6 +6,7 @@ use App\Models\Promo;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\Notification;
+use App\Models\UserPublic;
 use App\Services\Notification\FcmService;
 
 class SendPromoNotification
@@ -29,22 +30,33 @@ class SendPromoNotification
     public function handle($event)
     {
         $promo = $event->promo;
+        $now = now();
 
-        Notification::create([
-            'user_public_id' => null,
+        $rows = UserPublic::pluck('id')->map(fn($id) => [
+            'user_public_id' => $id,
             'source_type' => Promo::class,
             'source_id' => $promo->id,
             'category' => 'Promo',
             'title' => $promo->name,
             'description' => 'Promo baru tersedia',
             'is_read' => false,
-        ]);
+            'created_at' => $now,
+            'updated_at' => $now,
+        ])->toArray();
 
-        // ✅ Kirim ke FCM Topic
+        // insert per-chunk biar query tidak terlalu besar sekali jalan
+        foreach (array_chunk($rows, 500) as $chunk) {
+            Notification::insert($chunk);
+        }
+
         app(FcmService::class)->sendToTopic(
-            'promo', // nama topic
+            'promo',
             'Promo Baru!',
-            $promo->name
+            "{$promo->merchant->title}: {$promo->name}",
+            [
+                'type' => 'promo',
+                'promo_id' => (string) $promo->id,
+            ]
         );
     }
 }

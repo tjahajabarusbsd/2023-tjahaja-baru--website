@@ -42,7 +42,7 @@ class FcmService
     }
   }
 
-  public function sendToTopic($topic, $title, $body)
+  public function sendToTopic($topic, $title, $body, array $data = [])
   {
     try {
       $factory = (new Factory)
@@ -51,7 +51,7 @@ class FcmService
       $messaging = $factory->createMessaging();
 
       $message = [
-        'topic' => $topic, // 🔥 ini bedanya (bukan token)
+        'topic' => $topic,
         'notification' => [
           'title' => $title,
           'body' => $body,
@@ -63,6 +63,11 @@ class FcmService
           ],
         ],
       ];
+
+      if (!empty($data)) {
+        // FCM data payload wajib semua value berupa string
+        $message['data'] = array_map('strval', $data);
+      }
 
       $messaging->send($message);
 

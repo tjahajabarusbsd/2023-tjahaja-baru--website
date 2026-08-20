@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\DB;
 class PromoCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
@@ -157,7 +156,9 @@ class PromoCrudController extends CrudController
 
         $entry = $this->crud->entry;
 
-        event(new PromoCreated($entry));
+        if ($entry->is_active) {
+            event(new PromoCreated($entry));
+        }
 
         return $response;
     }
