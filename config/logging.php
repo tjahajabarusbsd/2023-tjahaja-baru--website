@@ -112,6 +112,13 @@ return [
             'level' => 'info',
             'days' => 14,
         ],
+
+        'otp_ratelimit' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/otp-ratelimit.log'),
+            'level' => 'warning',
+            'days' => 14,
+        ],
     ],
 
 ];

@@ -74,9 +74,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/account/profile', [UserController::class, 'getAccount']);
         Route::post('/account/profile/edit', [UserController::class, 'editProfile']);
         Route::post('/account/profile/ganti-password', [UserController::class, 'changePassword']);
-        Route::post('/account/request-ganti-nomor-hp', [UserController::class, 'requestChangeNomorHp'])->middleware('throttle:10,1');
+        Route::post('/account/request-ganti-nomor-hp', [UserController::class, 'requestChangeNomorHp'])->middleware('throttle:otp-send');
         Route::post('/account/verify-ganti-nomor-hp', [UserController::class, 'verifyChangeNomorHp']);
-        Route::post('/account/resend-otp-change-number', [OtpController::class, 'resendOtpChangeNumber'])->middleware('throttle:10,1');
+        Route::post('/account/resend-otp-change-number', [OtpController::class, 'resendOtpChangeNumber'])->middleware('throttle:otp-send');
         Route::post('/logout', [AuthController::class, 'logout']);
 
         // My Motor
