@@ -85,13 +85,17 @@ class RouteServiceProvider extends ServiceProvider
     protected function configureRateLimiting()
     {
         RateLimiter::for('otp-send', function (Request $request) {
-            $phone = $request->input('nomor_hp') ?? $request->input('email') ?? $request->ip();
+            $key = optional($request->user())->id
+                ?? $request->input('new_phone_number')
+                ?? $request->input('phone_number')
+                ?? $request->input('email')
+                ?? $request->ip();
 
             return [
-                Limit::perMinute(1)->by('otp-cooldown:' . $phone)
-                    ->response(function (Request $request, array $headers) use ($phone) {
+                Limit::perMinute(1)->by('otp-cooldown:' . $key)
+                    ->response(function (Request $request, array $headers) use ($key) {
                         Log::channel('otp_ratelimit')->warning('OTP rate limit: cooldown terkena', [
-                            'phone' => $phone,
+                            'key' => $key,
                             'ip' => $request->ip(),
                             'route' => $request->path(),
                         ]);
@@ -101,10 +105,10 @@ class RouteServiceProvider extends ServiceProvider
                         ], 429, $headers);
                     }),
 
-                Limit::perDay(5)->by('otp-daily:' . $phone)
-                    ->response(function (Request $request, array $headers) use ($phone) {
+                Limit::perDay(5)->by('otp-daily:' . $key)
+                    ->response(function (Request $request, array $headers) use ($key) {
                         Log::channel('otp_ratelimit')->warning('OTP rate limit: kuota harian tercapai', [
-                            'phone' => $phone,
+                            'key' => $key,
                             'ip' => $request->ip(),
                             'route' => $request->path(),
                         ]);
@@ -115,9 +119,9 @@ class RouteServiceProvider extends ServiceProvider
                     }),
 
                 Limit::perMinute(10)->by('otp-ip:' . $request->ip())
-                    ->response(function (Request $request, array $headers) use ($phone) {
+                    ->response(function (Request $request, array $headers) use ($key) {
                         Log::channel('otp_ratelimit')->warning('OTP rate limit: limit per-IP terkena', [
-                            'phone' => $phone,
+                            'key' => $key,
                             'ip' => $request->ip(),
                             'route' => $request->path(),
                         ]);

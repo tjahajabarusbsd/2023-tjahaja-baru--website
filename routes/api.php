@@ -41,16 +41,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::middleware('throttle:10,1')->group(function () {
-        Route::post('/auth/register', [AuthController::class, 'register']);
-        Route::post('/auth/login', [AuthController::class, 'login']);
-        Route::post('/auth/verify-otp-register', [AuthController::class, 'verifyOtpRegister']);
-        Route::post('/auth/forgot-password', [PasswordController::class, 'forgotPassword']);
-        Route::post('/auth/verify-otp-forgot-password', [PasswordController::class, 'verifyOtpForgotPassword']);
-        Route::post('/auth/reset-password', [PasswordController::class, 'resetPassword']);
-        Route::post('/resend-otp-register', [OtpController::class, 'resendOtpRegister']);
-        Route::post('/resend-otp-forgot-password', [OtpController::class, 'resendOtpForgotPassword']);
-    });
+    Route::post('/auth/register', [AuthController::class, 'register'])->middleware('throttle:otp-send');
+    Route::post('/auth/login', [AuthController::class, 'login'])->middleware('throttle:10,1,login');
+    Route::post('/auth/verify-otp-register', [AuthController::class, 'verifyOtpRegister'])->middleware('throttle:10,1,verify-otp-register');
+    Route::post('/auth/forgot-password', [PasswordController::class, 'forgotPassword'])->middleware('throttle:otp-send');
+    Route::post('/auth/verify-otp-forgot-password', [PasswordController::class, 'verifyOtpForgotPassword'])->middleware('throttle:10,1,verify-otp-forgot-password');
+    Route::post('/auth/reset-password', [PasswordController::class, 'resetPassword'])->middleware('throttle:10,1,reset-password');
+    Route::post('/resend-otp-register', [OtpController::class, 'resendOtpRegister'])->middleware('throttle:otp-send');
+    Route::post('/resend-otp-forgot-password', [OtpController::class, 'resendOtpForgotPassword'])->middleware('throttle:otp-send');
 
     Route::middleware('throttle:60,1')->group(function () {
         Route::get('/onboarding', [OnboardingController::class, 'index']);
