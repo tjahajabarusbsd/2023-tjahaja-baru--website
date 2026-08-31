@@ -98,9 +98,22 @@ class RouteServiceProvider extends ServiceProvider
                 ?? $request->input('email')
                 ?? $request->ip();
 
+            $formatRetryAfter = function (int $seconds) {
+                if ($seconds >= 3600) {
+                    $hours = ceil($seconds / 3600);
+                    return $hours . ' jam';
+                } elseif ($seconds >= 60) {
+                    $minutes = ceil($seconds / 60);
+                    return $minutes . ' menit';
+                }
+                return $seconds . ' detik';
+            };
+
             return [
                 Limit::perMinute(1)->by('otp-cooldown:' . $key)
-                    ->response(function (Request $request, array $headers) use ($key) {
+                    ->response(function (Request $request, array $headers) use ($key, $formatRetryAfter) {
+                        $retryAfter = (int) ($headers['Retry-After'] ?? 60);
+
                         Log::channel('otp_ratelimit')->warning('OTP rate limit: cooldown terkena', [
                             'key' => $key,
                             'ip' => $request->ip(),
@@ -109,15 +122,17 @@ class RouteServiceProvider extends ServiceProvider
 
                         return response()->json([
                             'success' => false,
-                            'message' => 'Tunggu sebentar sebelum meminta kode OTP lagi.',
+                            'message' => 'Tunggu ' . $formatRetryAfter($retryAfter) . ' lagi sebelum meminta kode OTP.',
                             'data' => [
-                                'retry_after' => (int) ($headers['Retry-After'] ?? 60),
+                                'retry_after' => $retryAfter,
                             ],
                         ], 429, $headers);
                     }),
 
-                Limit::perDay(5)->by('otp-daily:' . $key)
-                    ->response(function (Request $request, array $headers) use ($key) {
+                Limit::perDay(10)->by('otp-daily:' . $key)
+                    ->response(function (Request $request, array $headers) use ($key, $formatRetryAfter) {
+                        $retryAfter = (int) ($headers['Retry-After'] ?? 86400);
+
                         Log::channel('otp_ratelimit')->warning('OTP rate limit: kuota harian tercapai', [
                             'key' => $key,
                             'ip' => $request->ip(),
@@ -126,15 +141,17 @@ class RouteServiceProvider extends ServiceProvider
 
                         return response()->json([
                             'success' => false,
-                            'message' => 'Batas permintaan OTP hari ini sudah tercapai. Coba lagi besok.',
+                            'message' => 'Batas permintaan OTP hari ini sudah tercapai. Coba lagi dalam ' . $formatRetryAfter($retryAfter) . '.',
                             'data' => [
-                                'retry_after' => (int) ($headers['Retry-After'] ?? 86400),
+                                'retry_after' => $retryAfter,
                             ],
                         ], 429, $headers);
                     }),
 
                 Limit::perMinute(10)->by('otp-ip:' . $request->ip())
-                    ->response(function (Request $request, array $headers) use ($key) {
+                    ->response(function (Request $request, array $headers) use ($key, $formatRetryAfter) {
+                        $retryAfter = (int) ($headers['Retry-After'] ?? 60);
+
                         Log::channel('otp_ratelimit')->warning('OTP rate limit: limit per-IP terkena', [
                             'key' => $key,
                             'ip' => $request->ip(),
@@ -143,9 +160,9 @@ class RouteServiceProvider extends ServiceProvider
 
                         return response()->json([
                             'success' => false,
-                            'message' => 'Terlalu banyak permintaan. Coba lagi sebentar lagi.',
+                            'message' => 'Terlalu banyak permintaan. Coba lagi dalam ' . $formatRetryAfter($retryAfter) . '.',
                             'data' => [
-                                'retry_after' => (int) ($headers['Retry-After'] ?? 60),
+                                'retry_after' => $retryAfter,
                             ],
                         ], 429, $headers);
                     }),
