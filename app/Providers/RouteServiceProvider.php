@@ -92,7 +92,8 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('otp-send', function (Request $request) {
-            $key = $request->input('new_phone_number')
+            $key = optional($request->user())->id
+                ?? $request->input('new_phone_number')
                 ?? $request->input('phone_number')
                 ?? $request->input('email')
                 ?? $request->ip();
