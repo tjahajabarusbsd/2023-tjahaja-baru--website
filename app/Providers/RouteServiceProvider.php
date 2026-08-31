@@ -35,6 +35,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        $this->configureRateLimiting();
 
         parent::boot();
     }
@@ -84,9 +85,14 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function configureRateLimiting()
     {
+        RateLimiter::for('global-api', function (Request $request) {
+            $maxAttempts = app()->environment('local') ? 1000 : 60;
+
+            return Limit::perMinute($maxAttempts)->by($request->ip());
+        });
+
         RateLimiter::for('otp-send', function (Request $request) {
-            $key = optional($request->user())->id
-                ?? $request->input('new_phone_number')
+            $key = $request->input('new_phone_number')
                 ?? $request->input('phone_number')
                 ?? $request->input('email')
                 ?? $request->ip();
@@ -101,7 +107,11 @@ class RouteServiceProvider extends ServiceProvider
                         ]);
 
                         return response()->json([
+                            'success' => false,
                             'message' => 'Tunggu sebentar sebelum meminta kode OTP lagi.',
+                            'data' => [
+                                'retry_after' => (int) ($headers['Retry-After'] ?? 60),
+                            ],
                         ], 429, $headers);
                     }),
 
@@ -114,7 +124,11 @@ class RouteServiceProvider extends ServiceProvider
                         ]);
 
                         return response()->json([
+                            'success' => false,
                             'message' => 'Batas permintaan OTP hari ini sudah tercapai. Coba lagi besok.',
+                            'data' => [
+                                'retry_after' => (int) ($headers['Retry-After'] ?? 86400),
+                            ],
                         ], 429, $headers);
                     }),
 
@@ -127,7 +141,11 @@ class RouteServiceProvider extends ServiceProvider
                         ]);
 
                         return response()->json([
+                            'success' => false,
                             'message' => 'Terlalu banyak permintaan. Coba lagi sebentar lagi.',
+                            'data' => [
+                                'retry_after' => (int) ($headers['Retry-After'] ?? 60),
+                            ],
                         ], 429, $headers);
                     }),
             ];
