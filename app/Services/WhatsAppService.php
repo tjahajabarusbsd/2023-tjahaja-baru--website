@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Log;
+use App\Exceptions\WhatsAppSendException;
 
 class WhatsAppService
 {
@@ -14,13 +15,8 @@ class WhatsAppService
 
     public function __construct()
     {
-        // Opsi 1: Hardcode (masih ok untuk sementara)
-        $this->apiUrl = 'https://api.1msg.io/434886/sendMessage';
-        $this->apiToken = env('TOKEN_WA');
-
-        // Opsi 2: Lebih baik, gunakan config file (rekomendasi)
-        // $this->apiUrl = config('services.whatsapp.url');
-        // $this->apiToken = config('services.whatsapp.token');
+        $this->apiUrl = config('services.whatsapp.url');
+        $this->apiToken = config('services.whatsapp.token');
     }
 
     /**
@@ -60,21 +56,29 @@ class WhatsAppService
             'Content-Type' => 'application/json',
         ])->post($this->apiUrl, $data);
 
-        // Logging untuk debugging sangat penting!
-        if ($response->failed()) {
+        $body = $response->json();
+        // Provider ini bisa balas HTTP 200 tapi tetap gagal kirim,
+        // jadi cek eksplisit field "sent" di body, jangan andalkan status code saja.
+        $sentSuccessfully = $response->successful() && ($body['sent'] ?? false) === true;
+
+        if (!$sentSuccessfully) {
             Log::channel('whatsapp')->error('WhatsApp API Failed', [
                 'phone' => $phone,
                 'status' => $response->status(),
                 'body' => $response->body(),
             ]);
-        } else {
-            Log::channel('whatsapp')->info('WhatsApp API Success', [
-                'phone' => $phone,
-                'body' => $response->body(),
-            ]);
+
+            throw new WhatsAppSendException(
+                $body['error'] ?? 'Gagal mengirim pesan WhatsApp',
+                $response->status()
+            );
         }
 
-        // KEMBALIKAN RESPONSE MENTAH. Jangan diubah-ubah lagi di sini.
+        Log::channel('whatsapp')->info('WhatsApp API Success', [
+            'phone' => $phone,
+            'body' => $response->body(),
+        ]);
+
         return $response;
     }
 }

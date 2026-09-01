@@ -7,6 +7,7 @@ use App\Models\PhoneChangeRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use App\Exceptions\WhatsAppSendException;
 use Exception;
 
 class OtpService
@@ -59,6 +60,13 @@ class OtpService
         $otpPlain = $this->generateOtpWithoutFour();
         $otpHash = $this->hashOtp($otpPlain);
         $expiry = $this->expiryTime();
+        $message = $this->buildMessage($otpPlain);
+
+        // Kirim WA DULU. Kalau gagal, WhatsAppSendException dilempar
+        // dan kita tidak akan pernah sampai ke DB::transaction di bawah.
+        // last_otp_sent_at pun tidak ter-update kalau gagal, jadi user bisa
+        // langsung coba lagi tanpa kena rate limit palsu.
+        $this->whatsAppService->send($phone, $message);
 
         DB::transaction(function () use ($user, $type, $phone, $otpHash, $expiry) {
 
@@ -83,18 +91,5 @@ class OtpService
                 );
             }
         });
-
-        $message = $this->buildMessage($otpPlain);
-        $apiResponse = $this->whatsAppService->send($phone, $message);
-
-        if ($apiResponse->failed()) {
-            Log::error('WhatsApp API gagal', [
-                'user_id' => $user->id,
-                'phone' => $phone,
-                'type' => $type,
-            ]);
-
-            throw new Exception('WhatsApp API call failed.');
-        }
     }
 }

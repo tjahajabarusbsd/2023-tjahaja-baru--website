@@ -48,4 +48,9 @@ return [
         'token' => env('N8N_TOKEN'),
     ],
 
+    'whatsapp' => [
+        'token' => env('TOKEN_WA'),
+        'url' => env('WA_API_URL'),
+    ],
+
 ];
