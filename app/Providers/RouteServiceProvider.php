@@ -110,25 +110,6 @@ class RouteServiceProvider extends ServiceProvider
             };
 
             return [
-                Limit::perMinute(1)->by('otp-cooldown:' . $key)
-                    ->response(function (Request $request, array $headers) use ($key, $formatRetryAfter) {
-                        $retryAfter = (int) ($headers['Retry-After'] ?? 60);
-
-                        Log::channel('otp_ratelimit')->warning('OTP rate limit: cooldown terkena', [
-                            'key' => $key,
-                            'ip' => $request->ip(),
-                            'route' => $request->path(),
-                        ]);
-
-                        return response()->json([
-                            'success' => false,
-                            'message' => 'Tunggu ' . $formatRetryAfter($retryAfter) . ' lagi sebelum meminta kode OTP.',
-                            'data' => [
-                                'retry_after' => $retryAfter,
-                            ],
-                        ], 429, $headers);
-                    }),
-
                 Limit::perDay(10)->by('otp-daily:' . $key)
                     ->response(function (Request $request, array $headers) use ($key, $formatRetryAfter) {
                         $retryAfter = (int) ($headers['Retry-After'] ?? 86400);
@@ -142,6 +123,25 @@ class RouteServiceProvider extends ServiceProvider
                         return response()->json([
                             'success' => false,
                             'message' => 'Batas permintaan OTP hari ini sudah tercapai. Coba lagi dalam ' . $formatRetryAfter($retryAfter) . '.',
+                            'data' => [
+                                'retry_after' => $retryAfter,
+                            ],
+                        ], 429, $headers);
+                    }),
+
+                Limit::perMinute(1)->by('otp-cooldown:' . $key)
+                    ->response(function (Request $request, array $headers) use ($key, $formatRetryAfter) {
+                        $retryAfter = (int) ($headers['Retry-After'] ?? 60);
+
+                        Log::channel('otp_ratelimit')->warning('OTP rate limit: cooldown terkena', [
+                            'key' => $key,
+                            'ip' => $request->ip(),
+                            'route' => $request->path(),
+                        ]);
+
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Tunggu ' . $formatRetryAfter($retryAfter) . ' lagi sebelum meminta kode OTP.',
                             'data' => [
                                 'retry_after' => $retryAfter,
                             ],
