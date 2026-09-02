@@ -154,7 +154,20 @@ class QrScanController extends Controller
             'is_read' => false,
         ]);
 
+        $quotaJustReachedToday = false;
+        if ($qrCode->max_penggunaan_harian) {
+            $usageTodayAfter = QrScanLog::where('qrcode_id', $qrCode->id)
+                ->whereDate('scanned_at', now()->toDateString())
+                ->count();
+
+            $quotaJustReachedToday = $usageTodayAfter === (int) $qrCode->max_penggunaan_harian;
+        }
+
         DB::commit();
+
+        if ($quotaJustReachedToday) {
+            event(new \App\Events\DailyQuotaReached($qrCode));
+        }
 
         return ApiResponse::success('QR berhasil divalidasi.', [
             'type' => 'kode',

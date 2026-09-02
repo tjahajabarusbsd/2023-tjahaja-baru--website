@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\PromoCreated::class => [
             \App\Listeners\SendPromoNotification::class,
         ],
+        \App\Events\DailyQuotaReached::class => [
+            \App\Listeners\SendDailyQuotaReachedNotification::class,
+        ],
     ];
 
     /**
