@@ -51,12 +51,8 @@ class SendPromoNotification
 
         app(FcmService::class)->sendToTopic(
             'promo',
-            'Promo Baru!',
-            "{$promo->merchant->title}: {$promo->name}",
-            [
-                'type' => 'promo',
-                'promo_id' => (string) $promo->id,
-            ]
+            "Promo Baru dari {$promo->merchant->title}",
+            $promo->name
         );
     }
 }
