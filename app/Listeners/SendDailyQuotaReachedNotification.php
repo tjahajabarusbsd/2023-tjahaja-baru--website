@@ -12,7 +12,7 @@ class SendDailyQuotaReachedNotification
     $qrCode = $event->qrCode;
 
     app(FcmService::class)->sendToTopic(
-      'kuota-harian-penuh',
+      'promo',
       'Kuota Harian Penuh',
       "Kode {$qrCode->nama_qrcode} sudah mencapai batas penggunaan hari ini. Coba lagi besok."
     );
