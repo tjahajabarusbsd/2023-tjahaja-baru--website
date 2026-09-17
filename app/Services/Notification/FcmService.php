@@ -71,9 +71,9 @@ class FcmService
 
       $messaging->send($message);
 
-      Log::info("FCM notification sent to topic: {$topic}");
+      Log::info("FCM notification sent to topic: {$topic} | title: {$title}");
     } catch (\Exception $e) {
-      Log::error('Gagal mengirim FCM topic: ' . $e->getMessage());
+      Log::error("Gagal mengirim FCM topic: {$topic} | title: {$title} | error: " . $e->getMessage());
     }
   }
 }
