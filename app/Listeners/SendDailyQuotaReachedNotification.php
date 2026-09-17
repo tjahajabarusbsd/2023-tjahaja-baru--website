@@ -24,8 +24,8 @@ class SendDailyQuotaReachedNotification
 
     app(FcmService::class)->sendToTopic(
       'promo',
-      'Kuota Harian Penuh',
-      "Kode QR dari Promo {$qrCode->promo->name} sudah mencapai batas penggunaan hari ini. Coba lagi besok."
+      $qrCode->promo->name,
+      "Kuota harian sudah penuh, coba lagi besok."
     );
   }
 }
