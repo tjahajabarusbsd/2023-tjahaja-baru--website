@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class FcmService
 {
-  public function send($deviceToken, $title, $body)
+  public function send($deviceToken, $title, $body, array $data = [])
   {
     if (!$deviceToken) {
       Log::warning('User tidak punya FCM token, notifikasi tidak dikirim.');
@@ -20,25 +20,24 @@ class FcmService
 
       $messaging = $factory->createMessaging();
 
+      $payload = array_merge($data, [
+        'title' => $title,
+        'body' => $body,
+      ]);
+
       $message = [
         'token' => $deviceToken,
-        'notification' => [
-          'title' => $title,
-          'body' => $body,
-        ],
+        'data' => array_map('strval', $payload),
         'android' => [
           'priority' => 'high',
-          'notification' => [
-            'sound' => 'default',
-          ],
         ],
       ];
 
       $messaging->send($message);
 
-      Log::info("FCM notification sent to token: {$deviceToken}");
+      Log::info("FCM notification sent to token: {$deviceToken} | title: {$title}");
     } catch (\Exception $e) {
-      Log::error('Gagal mengirim FCM notifikasi: ' . $e->getMessage());
+      Log::error("Gagal mengirim FCM notifikasi ke token {$deviceToken} | title: {$title} | error: " . $e->getMessage());
     }
   }
 
@@ -50,24 +49,18 @@ class FcmService
 
       $messaging = $factory->createMessaging();
 
+      $payload = array_merge($data, [
+        'title' => $title,
+        'body' => $body,
+      ]);
+
       $message = [
         'topic' => $topic,
-        'notification' => [
-          'title' => $title,
-          'body' => $body,
-        ],
+        'data' => array_map('strval', $payload),
         'android' => [
           'priority' => 'high',
-          'notification' => [
-            'sound' => 'default',
-          ],
         ],
       ];
-
-      if (!empty($data)) {
-        // FCM data payload wajib semua value berupa string
-        $message['data'] = array_map('strval', $data);
-      }
 
       $messaging->send($message);
 
