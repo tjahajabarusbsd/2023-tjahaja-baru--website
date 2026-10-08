@@ -11,90 +11,61 @@ use Illuminate\Support\Facades\Cache;
 
 class VariantController extends Controller
 {
-    public function getDataVariant($uri, Request $request)
+    public function getDataVariant(string $uri, Request $request)
     {
+
+        $group = Cache::remember(
+            "group_uri_$uri",
+            300,
+            fn() =>
+            Group::where('uri', $uri)->where('is_active', 1)->first()
+        );
+        abort_if(! $group, 404);
+
+        $variantsByName = Variant::where('group_id', $group->id)
+            ->where('is_active', true)
+            ->get()
+            ->groupBy('name');
+        abort_if($variantsByName->isEmpty(), 404);
+
+        $variantNames = $variantsByName->keys();
+
+        $isNmaxTurbo = str_contains($group->uri, 'nmax-turbo');
+        $variantLabels = $variantNames->mapWithKeys(fn($name) => [
+            $name => $isNmaxTurbo ? (explode(' ', $name, 2)[1] ?? '') : $name,
+        ]);
+
+        $data = $variantsByName->first();
+
+        $groupSpec = GroupProductSpec::where('group_id', $group->id)->first();
+        $specifications = $groupSpec
+            ? collect(config('product_specs'))->map(
+                fn($fields) =>
+                collect($fields)->map(fn($label, $column) => [
+                    'label' => $label,
+                    'value' => $groupSpec->{$column},
+                ])->values()->all()
+            )->all()
+            : [];
+
+        $reviews = Review::where('group_id', $group->id)->get();
+
+        $xmlObject = simplexml_load_file(public_path('features.xml'));
+        $features = $xmlObject->xpath("//feature[uri='{$uri}']");
+
         $cookieSales = $request->cookie('sales');
-        $group = Cache::remember("group_uri_$uri", 300, function () use ($uri) {
-            return Group::where('uri', $uri)
-                ->where('is_active', 1)
-                ->first();
-        });
 
-        if (!$group) {
-            return view('errors/404');
-        } else {
-            $groupSpec = GroupProductSpec::where('group_id', $group->id)->first();
-
-            if ($groupSpec) {
-                // Mengelompokkan spesifikasi ke dalam kategori
-                $specifications = [
-                    'mesin' => [
-                        ['label' => 'Tipe Mesin', 'value' => $groupSpec->tipe_mesin],
-                        ['label' => 'Jumlah/Posisi Silinder', 'value' => $groupSpec->jumlah_silinder],
-                        ['label' => 'Volume Silinder', 'value' => $groupSpec->volume_silinder],
-                        ['label' => 'Diameter x Langkah', 'value' => $groupSpec->diameter_x_langkah],
-                        ['label' => 'Perbandingan Kompresi', 'value' => $groupSpec->perbandingan_kompresi],
-                        ['label' => 'Daya Maksimum', 'value' => $groupSpec->daya_maksimum],
-                        ['label' => 'Torsi Maksimum', 'value' => $groupSpec->torsi_maksimum],
-                        ['label' => 'Sistem Starter', 'value' => $groupSpec->sistem_starter],
-                        ['label' => 'Sistem Pelumasan', 'value' => $groupSpec->sistem_pelumasan],
-                        ['label' => 'Kapasitas Oli Mesin', 'value' => $groupSpec->kapasitas_oli],
-                        ['label' => 'Sistem Bahan Bakar', 'value' => $groupSpec->sistem_bahan_bakar],
-                        ['label' => 'Tipe Kopling', 'value' => $groupSpec->tipe_kopling],
-                        ['label' => 'Tipe Transmisi', 'value' => $groupSpec->tipe_transmisi],
-                        ['label' => 'Pola Pengoperasian Transmisi', 'value' => $groupSpec->pola_transmisi],
-                    ],
-                    'rangka' => [
-                        ['label' => 'Tipe Rangka', 'value' => $groupSpec->tipe_rangka],
-                        ['label' => 'Suspensi Depan', 'value' => $groupSpec->suspensi_depan],
-                        ['label' => 'Suspensi Belakang', 'value' => $groupSpec->suspensi_belakang],
-                        ['label' => 'Tipe Ban', 'value' => $groupSpec->tipe_ban],
-                        ['label' => 'Ban Depan', 'value' => $groupSpec->ban_depan],
-                        ['label' => 'Ban Belakang', 'value' => $groupSpec->ban_belakang],
-                        ['label' => 'Rem Depan', 'value' => $groupSpec->rem_depan],
-                        ['label' => 'Rem Belakang', 'value' => $groupSpec->rem_belakang],
-                    ],
-                    'dimensi' => [
-                        ['label' => 'P x L x T', 'value' => $groupSpec->p_l_t],
-                        ['label' => 'Jarak Sumbu Roda', 'value' => $groupSpec->jarak_sumbu],
-                        ['label' => 'Jarak Terendah Ke Tanah', 'value' => $groupSpec->jarak_terendah_ketanah],
-                        ['label' => 'Tinggi Tempat Duduk', 'value' => $groupSpec->tinggi_tempat_duduk],
-                        ['label' => 'Berat Isi', 'value' => $groupSpec->berat_isi],
-                        ['label' => 'Kapasitas Tangki Bensin', 'value' => $groupSpec->kapasitas_tangki],
-                    ],
-                    'kelistrikan' => [
-                        ['label' => 'Sistem pengapian', 'value' => $groupSpec->sistem_pengapian],
-                        ['label' => 'Battery', 'value' => $groupSpec->battery],
-                        ['label' => 'Tipe Busi', 'value' => $groupSpec->tipe_busi],
-                    ],
-                ];
-            } else {
-                // Jika tidak ada spesifikasi ditemukan, buat array kosong
-                $specifications = [];
-            }
-
-            $reviews = Review::where('group_id', $group->id)->get();
-            $xmlObject = simplexml_load_file(public_path('features.xml'));
-            $features = $xmlObject->xpath("//feature[uri='{$uri}']");
-
-            $groupUri = $group->uri;
-
-            $variantNames = Variant::where('group_id', $group->id)
-                ->where('is_active', true)
-                ->distinct('name')
-                ->pluck('name');
-
-            if ($variantNames->isEmpty()) {
-                return view('errors/404');
-            }
-
-            $data = Variant::where('group_id', $group->id)
-                ->where('name', $variantNames[0])
-                ->where('is_active', true)
-                ->get();
-
-            return view('product/detail', compact('group', 'groupUri', 'variantNames', 'data', 'cookieSales', 'features', 'reviews', 'specifications'));
-        }
+        return view('product/detail', compact(
+            'group',
+            'variantNames',
+            'variantLabels',
+            'variantsByName',
+            'data',
+            'cookieSales',
+            'features',
+            'reviews',
+            'specifications'
+        ));
     }
 
     public function getData(Request $request, $variant)
