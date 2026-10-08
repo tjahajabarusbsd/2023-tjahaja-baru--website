@@ -20,9 +20,21 @@
     <link rel="stylesheet" href="{{ asset('css/product-detail.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/main-form.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/modal.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/page-toc.css') }}" />
 @endsection
 
 @section('content')
+    @php
+        $tocItems = [
+            'variant'     => 'Variant & Price',
+            'spesifikasi' => 'Spesifikasi',
+        ];
+        if ($reviews->isNotEmpty()) {
+            $tocItems['video'] = 'Video Review';
+        }
+        $tocItems['konsultasi'] = 'Konsultasi Pembelian';
+    @endphp
+    @include('partials.page-toc', ['items' => $tocItems])
     <style>
         .disclaimer {
             font-size: 12px;
@@ -124,7 +136,7 @@
         @endif
     </section>
 
-    <section class="second-section">
+    <section class="second-section" id="variant" data-toc-section>
         <div class="background-wrapper">
             <div class="background"></div>
         </div>
@@ -204,7 +216,7 @@
         </div>
     </section>
 
-    <section class="navtabs">
+    <section class="navtabs" id="spesifikasi" data-toc-section>
         <h2 class="title blue">spesifikasi</h2>
         <div class="container-fluid">
             <!-- Nav Tabs -->
@@ -290,7 +302,8 @@
     </section>
 
     <!-- Section Video Review -->
-    <section class="container my-5">
+    @if ($reviews->isNotEmpty())
+    <section class="container my-5" id="video" data-toc-section>
         <h2 class="title blue">Video Review Produk</h2>
         <div class="row">
             @foreach ($reviews as $review)
@@ -305,8 +318,9 @@
             @endforeach
         </div>
     </section>
+    @endif
 
-    <section class="main-form consultation-form">
+    <section class="main-form consultation-form" id="konsultasi" data-toc-section>
         <div class="form-container">
             <h2 class="title blue">Konsultasi pembelian</h2>
             <p>Berminat dengan produk ini? Segera konsultasikan langsung dengan dealer kami.</p>
@@ -429,6 +443,7 @@
     </script>
     <script src="{{ asset('js/product.js') }}"></script>
     <script src="{{ asset('js/contact.js') }}"></script>
+    <script src="{{ asset('js/page-toc.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('.variant-unit').first().addClass('active');
