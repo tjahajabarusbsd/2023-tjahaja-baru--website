@@ -1,26 +1,26 @@
 .product-detail .title,
 .product-detail .features-content {
     text-transform: uppercase;
-    font-weight: 700
+    font-weight: 700;
 }
 
 .product-detail .title {
     margin: 35px auto 20px;
     font-size: 20px;
     text-align: center;
-    z-index: 1
+    z-index: 1;
 }
 
 .product-detail .blue {
-    color: #1f3781
+    color: #1f3781;
 }
 
 .product-detail .white {
-    color: #fff
+    color: #fff;
 }
 
 .first-section .icon-container {
-    background: #17285e
+    background: #17285e;
 }
 
 .first-section .icon-row {
@@ -29,7 +29,7 @@
     height: 85px;
     width: 100%;
     max-width: 950px;
-    margin: 0 auto
+    margin: 0 auto;
 }
 
 .first-section .icon-container .compare-menu {
@@ -45,11 +45,11 @@
 }
 
 .first-section .icon-row .icon {
-    margin: 0 auto
+    margin: 0 auto;
 }
 
 .first-section .icon-row.mobile .icon {
-    margin-top: 10px
+    margin-top: 10px;
 }
 
 .first-section .mobile .compare-menu {
@@ -61,7 +61,7 @@
 .first-section .icon-row.pc,
 .second-section .carousel-control-next,
 .second-section .carousel-control-prev {
-    display: none
+    display: none;
 }
 
 .first-section .product-icon-box {
@@ -70,22 +70,22 @@
     align-items: center;
     justify-content: center;
     width: 104px;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .first-section .product-icon-box.active,
 .first-section .product-icon-box:hover {
-    background: linear-gradient(180deg, #100e5a 0, rgba(255, 255, 255, 0) 53%)
+    background: linear-gradient(180deg, #100e5a 0, rgba(255, 255, 255, 0) 53%);
 }
 
 .first-section .product-icon-box .icon {
-    width: 60px
+    width: 60px;
 }
 
 .first-section .product-icon-box a,
 .review-item a,
 .spec-part {
-    text-decoration: none
+    text-decoration: none;
 }
 
 .first-section .product-icon-box .text {
@@ -94,11 +94,11 @@
     text-align: center;
     color: #fff;
     margin-bottom: 0;
-    margin-top: 10px
+    margin-top: 10px;
 }
 
 .first-section .banner {
-    display: block
+    display: block;
 }
 
 /* .first-section .banner-mobile img,
@@ -109,25 +109,25 @@
 .first-section .banner img,
 .review-img {
     width: 100%;
-    height: 100%
+    height: 100%;
 }
 
 .second-section {
     background-color: rgb(247, 247, 245);
-    padding-bottom: 30px
+    padding-bottom: 30px;
 }
 
 .second-section .background-wrapper {
     position: absolute;
     width: 100%;
     height: 390px;
-    z-index: 0
+    z-index: 0;
 }
 
 .second-section .background-wrapper .background {
     width: 100%;
     height: 100%;
-    background: url("/images/bg.png")
+    background: url("/images/bg.png");
 }
 
 .second-section .title {
@@ -135,11 +135,11 @@
     color: #1f3781;
     font-size: 20px;
     text-align: center;
-    z-index: 1
+    z-index: 1;
 }
 
 .second-section .version-row {
-    justify-content: center
+    justify-content: center;
 }
 
 .second-section .variant-wrapper {
@@ -147,7 +147,7 @@
     flex-wrap: wrap;
     justify-content: center;
     text-align: center;
-    z-index: 1
+    z-index: 1;
 }
 
 .second-section .variant-wrapper li {
@@ -169,66 +169,66 @@
 }
 
 .second-section .variant-wrapper li:hover {
-    background: #183f9e
+    background: #183f9e;
 }
 
 .second-section .variant-wrapper .variant-unit.active {
     box-shadow: 0 5px #666;
     transform: translateY(4px);
-    background: #183f9e
+    background: #183f9e;
 }
 
 .second-section .variant-wrapper a {
     position: absolute;
     width: 100%;
-    height: 100%
+    height: 100%;
 }
 
 .second-section .caption-box .price {
     text-align: center;
     font-size: 17px;
     font-weight: 700;
-    margin-bottom: 0
+    margin-bottom: 0;
 }
 
 .second-section .caption-box .area-price {
     text-align: center;
     margin-bottom: 0;
     font-size: 12px;
-    font-weight: 700
+    font-weight: 700;
 }
 
 .second-section .carousel {
     margin: 0 auto 30px;
-    width: 300px
+    width: 300px;
 }
 
 .second-section .carousel-inner {
-    height: 300px
+    height: 300px;
 }
 
 .second-section .carousel-indicators {
-    bottom: -40px
+    bottom: -40px;
 }
 
 .second-section .carousel-indicators [data-bs-target] {
     height: 15px;
     border: 1px solid #6dcbb1;
-    opacity: unset
+    opacity: unset;
 }
 
 .second-section .carousel-indicators .active {
-    border: 1px solid #000
+    border: 1px solid #000;
 }
 
 .second-section .carousel-caption {
     flex-direction: column;
-    bottom: -65px
+    bottom: -65px;
 }
 
 .second-section .button-compare {
     text-align: center;
-    margin-top: 15px
+    margin-top: 15px;
 }
 
 .second-section .product-card {
@@ -275,7 +275,7 @@
 }
 
 .color-wrapper .swiper-pagination-bullet-active {
-    content: '';
+    content: "";
     border-width: 1px;
     border-style: solid;
     box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.51);
@@ -323,7 +323,7 @@
 
 .features-wrapper {
     max-width: 1350px;
-    margin: 0 auto
+    margin: 0 auto;
 }
 
 .features-wrapper .swiper {
@@ -374,11 +374,11 @@
 }
 
 .navtabs .spec-wrapper {
-    padding: 0 10%
+    padding: 0 10%;
 }
 
 .navtabs .carousel-indicators {
-    bottom: -45px
+    bottom: -45px;
 }
 
 .navtabs .tab-content {
@@ -393,28 +393,28 @@
 .spec-part-td1,
 .spec-part-td3 {
     width: auto;
-    font-size: 12px
+    font-size: 12px;
 }
 
 .spec-part-td2 {
     width: 50px;
-    text-align: center
+    text-align: center;
 }
 
 .spec-part-title {
     text-align: center;
     margin-bottom: 20px;
-    margin-top: 20px
+    margin-top: 20px;
 }
 
 .spec-part-title b {
-    border-bottom: 2px solid
+    border-bottom: 2px solid;
 }
 
 .review-wrapper {
     margin-top: 20px;
     margin-bottom: 80px;
-    justify-content: center
+    justify-content: center;
 }
 
 .review-title {
@@ -424,124 +424,134 @@
     font-weight: 700;
     font-size: 15px;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3
+    line-clamp: 3;
 }
 
 .review-item {
     width: 250px;
-    height: 100%
+    height: 100%;
 }
 
 .videos-wrapper {
     position: relative;
     max-width: 650px;
     margin: 0 auto;
-    width: 100%
+    width: 100%;
 }
 
 .video-item {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%
+    height: 100%;
 }
 
-@media only screen and (min-width:545px) {
+@media only screen and (min-width: 545px) {
     .first-section .icon-row.pc {
-        display: flex
+        display: flex;
     }
 
     .first-section .icon-row.mobile {
-        display: none
+        display: none;
     }
 }
 
-@media only screen and (min-width:650px) {
+@media only screen and (min-width: 650px) {
     .spec-part-td1 {
         width: 220px;
-        font-size: 16px
+        font-size: 16px;
     }
 
     .spec-part-td2 {
         width: 50px;
-        text-align: center
+        text-align: center;
     }
 
     .spec-part-td3 {
         width: auto;
-        font-size: 16px
+        font-size: 16px;
     }
 
     .videos-wrapper {
         padding-bottom: 0;
-        height: unset
+        height: unset;
     }
 
     .video-item {
         position: relative;
         width: 100% !important;
-        height: 365px
+        height: 365px;
     }
 }
 
-@media only screen and (min-width:768px) {
+@media only screen and (min-width: 768px) {
     .product-detail .title {
-        font-size: 30px
+        font-size: 30px;
     }
 
     .second-section .background-wrapper {
-        height: 390px
+        height: 390px;
     }
 
     .second-section .version {
         height: 40px;
-        width: 160px
+        width: 160px;
     }
 
     .second-section .version .text {
-        font-size: 16px
+        font-size: 16px;
     }
 
     .second-section .carousel {
-        width: 520px
+        width: 520px;
     }
 
     .second-section .carousel-inner {
-        height: 500px
+        height: 500px;
     }
 
     .second-section .carousel-control-next,
     .second-section .carousel-control-prev {
-        display: block
+        display: block;
     }
 
     .second-section .carousel-control-prev {
-        left: -50px
+        left: -50px;
     }
 
     .second-section .carousel-control-next {
-        right: -50px
+        right: -50px;
     }
 
     .second-section .carousel-caption {
-        bottom: -85px
+        bottom: -85px;
     }
 
     .second-section .caption-box .price {
-        font-size: 25px
+        font-size: 25px;
     }
 
     .second-section .caption-box .area-price {
-        font-size: 15px
+        font-size: 15px;
     }
 }
 
-@media only screen and (min-width:1024px) {
+@media only screen and (min-width: 1024px) {
     .spec-part-td1 {
-        width: 300px
+        width: 300px;
     }
 }
 
+.disclaimer {
+    font-size: 12px;
+    margin-bottom: 0;
+}
+
+@media (max-width: 576px) {
+    .disclaimer {
+        font-size: 10px;
+    }
+}
 
 /* .banner-wrapper-pc {
     box-sizing: border-box;
