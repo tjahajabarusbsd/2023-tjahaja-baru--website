@@ -26,7 +26,8 @@
 @section('content')
     @php
         $tocItems = [
-            'variant'     => 'Variant & Price',
+            'variant' => 'Variant & Price',
+            'features' => 'Features',
             'spesifikasi' => 'Spesifikasi',
         ];
         if ($reviews->isNotEmpty()) {
@@ -35,90 +36,33 @@
         $tocItems['konsultasi'] = 'Konsultasi Pembelian';
     @endphp
     @include('partials.page-toc', ['items' => $tocItems])
-    <style>
-        .disclaimer {
-            font-size: 12px;
-            margin-bottom: 0;
-        }
-
-        @media (max-width: 576px) {
-            .disclaimer {
-                font-size: 10px;
-            }
-        }
-    </style>
     <section class="first-section">
+        @php
+            $categories = [
+                'maxi' => 'MAXi',
+                'classy' => 'Classy',
+                'matic' => 'Matic',
+                'sport' => 'Sport',
+                'moped' => 'Moped',
+            ];
+        @endphp
         <div class="container-fluid icon-container">
-            <div class="row icon-row pc">
-                <div class="product-icon-box">
-                    <a href="/products/category/maxi">
-                        <img src="{{ url('images/products/icons/maxi_i.png') }}" alt="" class="icon">
-                        <p class="text">MAXi</p>
-                    </a>
+            @foreach (['pc', 'mobile'] as $device)
+                <div class="row icon-row {{ $device }}">
+                    @foreach ($categories as $slug => $name)
+                        <div class="product-icon-box">
+                            <a href="/products/category/{{ $slug }}">
+                                <img src="{{ url("images/products/icons/{$slug}_i.png") }}" alt="{{ $name }}"
+                                    class="icon">
+                                <p class="text">{{ $name }}</p>
+                            </a>
+                        </div>
+                    @endforeach
+                    <div class="product-icon-box compare-menu">
+                        <a href="/compare_product">Compare Product</a>
+                    </div>
                 </div>
-                <div class="product-icon-box">
-                    <a href="/products/category/classy">
-                        <img src="{{ url('images/products/icons/classy_i.png') }}" alt="" class="icon">
-                        <p class="text">Classy</p>
-                    </a>
-                </div>
-                <div class="product-icon-box">
-                    <a href="/products/category/matic">
-                        <img src="{{ url('images/products/icons/matic_i.png') }}" alt="" class="icon">
-                        <p class="text">Matic</p>
-                    </a>
-                </div>
-                <div class="product-icon-box">
-                    <a href="/products/category/sport">
-                        <img src="{{ url('images/products/icons/sport_i.png') }}" alt="" class="icon">
-                        <p class="text">Sport</p>
-                    </a>
-                </div>
-                <div class="product-icon-box">
-                    <a href="/products/category/moped">
-                        <img src="{{ url('images/products/icons/moped_i.png') }}" alt="" class="icon">
-                        <p class="text">Moped</p>
-                    </a>
-                </div>
-                <div class="product-icon-box compare-menu">
-                    <a href="/compare_product">Compare Product</a>
-                </div>
-            </div>
-            <div class="row icon-row mobile">
-                <div class="product-icon-box">
-                    <a href="/products/category/maxi">
-                        <img src="{{ url('images/products/icons/maxi_i.png') }}" alt="" class="icon">
-                        <p class="text">MAXi</p>
-                    </a>
-                </div>
-                <div class="product-icon-box">
-                    <a href="/products/category/classy">
-                        <img src="{{ url('images/products/icons/classy_i.png') }}" alt="" class="icon">
-                        <p class="text">Classy</p>
-                    </a>
-                </div>
-                <div class="product-icon-box">
-                    <a href="/products/category/matic">
-                        <img src="{{ url('images/products/icons/matic_i.png') }}" alt="" class="icon">
-                        <p class="text">Matic</p>
-                    </a>
-                </div>
-                <div class="product-icon-box">
-                    <a href="/products/category/sport">
-                        <img src="{{ url('images/products/icons/sport_i.png') }}" alt="" class="icon">
-                        <p class="text">Sport</p>
-                    </a>
-                </div>
-                <div class="product-icon-box">
-                    <a href="/products/category/moped">
-                        <img src="{{ url('images/products/icons/moped_i.png') }}" alt="" class="icon">
-                        <p class="text">Moped</p>
-                    </a>
-                </div>
-                <div class="product-icon-box compare-menu">
-                    <a href="/compare_product">Compare Product</a>
-                </div>
-            </div>
+            @endforeach
         </div>
         @if (!empty($group->banner))
             <div class="banner">
@@ -128,10 +72,7 @@
             </div>
         @else
             <div class="features">
-                <picture>
-                    <img src="" alt="">
-                </picture>
-                <h1>Banner</h2>
+                <h1>Banner</h1>
             </div>
         @endif
     </section>
@@ -147,20 +88,8 @@
             </div>
             <div class="row version-row">
                 <ul class="variant-wrapper">
-                    @php
-                        $currentUrl = url()->current();
-                        $nmaxTurbo = strpos($currentUrl, 'nmax-turbo') !== false;
-                    @endphp
-                    @foreach ($variantNames as $item)
-                        @php
-                            if ($nmaxTurbo) {
-                                $parts = explode(' ', $item, 2);
-                                $result = isset($parts[1]) ? $parts[1] : '';
-                            } else {
-                                $result = $item;
-                            }
-                        @endphp
-                        <li data-variant="{{ $item }}" class="variant-unit">{{ $result }}</li>
+                    @foreach ($variantLabels as $variantName => $label)
+                        <li data-variant="{{ $variantName }}" class="variant-unit">{{ $label }}</li>
                     @endforeach
                 </ul>
             </div>
@@ -191,7 +120,7 @@
         </div>
     </section>
 
-    <section class="third-section">
+    <section class="third-section" id="features" data-toc-section>
         <div class="container-fluid">
             <div class="features row">
                 <div class="features-wrapper">
@@ -219,105 +148,67 @@
     <section class="navtabs" id="spesifikasi" data-toc-section>
         <h2 class="title blue">spesifikasi</h2>
         <div class="container-fluid">
+            @php
+                $specTabs = [
+                    'mesin' => 'Mesin',
+                    'rangka' => 'Rangka',
+                    'dimensi' => 'Dimensi',
+                    'kelistrikan' => 'Kelistrikan',
+                ];
+            @endphp
             <!-- Nav Tabs -->
             <ul class="nav nav-tabs" id="specTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="mesin-tab" data-bs-toggle="tab" href="#mesin" role="tab"
-                        aria-controls="mesin" aria-selected="true">Mesin</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="rangka-tab" data-bs-toggle="tab" href="#rangka" role="tab"
-                        aria-controls="rangka" aria-selected="false">Rangka</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="dimensi-tab" data-bs-toggle="tab" href="#dimensi" role="tab"
-                        aria-controls="dimensi" aria-selected="false">Dimensi</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="kelistrikan-tab" data-bs-toggle="tab" href="#kelistrikan" role="tab"
-                        aria-controls="kelistrikan" aria-selected="false">Kelistrikan</a>
-                </li>
+                @foreach ($specTabs as $key => $label)
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="{{ $key }}-tab"
+                            data-bs-toggle="tab" href="#{{ $key }}" role="tab"
+                            aria-controls="{{ $key }}"
+                            aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $label }}</a>
+                    </li>
+                @endforeach
             </ul>
 
             <!-- Tab Content -->
             <div class="tab-content" id="specTabsContent">
-                <div class="tab-pane fade show active" id="mesin" role="tabpanel" aria-labelledby="mesin-tab">
-                    @if (isset($specifications['mesin']))
-                        <table class="table">
-                            @foreach ($specifications['mesin'] as $spec)
-                                <tr>
-                                    <td><strong>{{ $spec['label'] }}</strong></td>
-                                    <td>{{ $spec['value'] ?? '-' }}</td>
-                                </tr>
-                            @endforeach
-                        </table>
-                    @else
-                        <p>Spesifikasi mesin tidak tersedia.</p>
-                    @endif
-                </div>
-                <div class="tab-pane fade" id="rangka" role="tabpanel" aria-labelledby="rangka-tab">
-                    @if (isset($specifications['rangka']))
-                        <table class="table">
-                            @foreach ($specifications['rangka'] as $spec)
-                                <tr>
-                                    <td><strong>{{ $spec['label'] }}</strong></td>
-                                    <td>{{ $spec['value'] ?? '-' }}</td>
-                                </tr>
-                            @endforeach
-                        </table>
-                    @else
-                        <p>Spesifikasi rangka tidak tersedia.</p>
-                    @endif
-                </div>
-                <div class="tab-pane fade" id="dimensi" role="tabpanel" aria-labelledby="dimensi-tab">
-                    @if (isset($specifications['dimensi']))
-                        <table class="table">
-                            @foreach ($specifications['dimensi'] as $spec)
-                                <tr>
-                                    <td><strong>{{ $spec['label'] }}</strong></td>
-                                    <td>{{ $spec['value'] ?? '-' }}</td>
-                                </tr>
-                            @endforeach
-                        </table>
-                    @else
-                        <p>Spesifikasi dimensi tidak tersedia.</p>
-                    @endif
-                </div>
-                <div class="tab-pane fade" id="kelistrikan" role="tabpanel" aria-labelledby="kelistrikan-tab">
-                    @if (isset($specifications['kelistrikan']))
-                        <table class="table">
-                            @foreach ($specifications['kelistrikan'] as $spec)
-                                <tr>
-                                    <td><strong>{{ $spec['label'] }}</strong></td>
-                                    <td>{{ $spec['value'] ?? '-' }}</td>
-                                </tr>
-                            @endforeach
-                        </table>
-                    @else
-                        <p>Spesifikasi kelistrikan tidak tersedia.</p>
-                    @endif
-                </div>
+                @foreach ($specTabs as $key => $label)
+                    <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="{{ $key }}"
+                        role="tabpanel" aria-labelledby="{{ $key }}-tab">
+                        @if (!empty($specifications[$key]))
+                            <table class="table">
+                                @foreach ($specifications[$key] as $spec)
+                                    <tr>
+                                        <td><strong>{{ $spec['label'] }}</strong></td>
+                                        <td>{{ $spec['value'] ?? '-' }}</td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        @else
+                            <p>Spesifikasi {{ strtolower($label) }} tidak tersedia.</p>
+                        @endif
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
 
     <!-- Section Video Review -->
     @if ($reviews->isNotEmpty())
-    <section class="container my-5" id="video" data-toc-section>
-        <h2 class="title blue">Video Review Produk</h2>
-        <div class="row">
-            @foreach ($reviews as $review)
-                <div class="col-md-4 mb-4">
-                    <!-- Embed YouTube Video -->
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe width="100%" height="315" src="{{ $review->uri }}" title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <section class="container my-5" id="video" data-toc-section>
+            <h2 class="title blue">Video Review Produk</h2>
+            <div class="row">
+                @foreach ($reviews as $review)
+                    <div class="col-md-4 mb-4">
+                        <!-- Embed YouTube Video -->
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe width="100%" height="315" src="{{ $review->uri }}"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
-    </section>
+                @endforeach
+            </div>
+        </section>
     @endif
 
     <section class="main-form consultation-form" id="konsultasi" data-toc-section>
@@ -333,16 +224,16 @@
             <div class="form-group row">
                 <label for="name" class="col-md-4">Nama</label>
                 <div class="col-md-8">
-                    <input name="name" class="form-control" id="name" type="text" value="{{ old('name') }}"
-                        placeholder="Nama Lengkap" maxlength="50" required>
+                    <input name="name" class="form-control" id="name" type="text"
+                        value="{{ old('name') }}" placeholder="Nama Lengkap" maxlength="50" required>
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="nohp" class="col-md-4">No Handphone</label>
                 <div class="col-md-8">
-                    <input name="nohp" id="nohp" class="form-control" type="tel" value="{{ old('nohp') }}"
-                        placeholder="08123456789" maxlength="15" required>
+                    <input name="nohp" id="nohp" class="form-control" type="tel"
+                        value="{{ old('nohp') }}" placeholder="08123456789" maxlength="15" required>
                 </div>
             </div>
 
@@ -397,7 +288,8 @@
 
             <div class="form-group" style="margin-top: 20px;">
                 <label id="label-checkbox" class="d-flex align-items-start">
-                    <input type="checkbox" name="terms" id="termsCheckbox" style="margin-top: 5px; margin-right: 10px;">
+                    <input type="checkbox" name="terms" id="termsCheckbox"
+                        style="margin-top: 5px; margin-right: 10px;">
                     <span>Saya setuju bahwa informasi diatas mengizinkan TJAHAJA BARU untuk menghubungi Saya melalui
                         telepon/WhatsApp.</span>
                 </label>
@@ -445,123 +337,107 @@
     <script src="{{ asset('js/contact.js') }}"></script>
     <script src="{{ asset('js/page-toc.js') }}"></script>
     <script>
-        $(document).ready(function () {
-            $('.variant-unit').first().addClass('active');
+        $(function() {
+            const baseUrl = @json(url('/'));
+            const variants = @json($variantsByName);
+            let productSwiper;
 
-            $('.variant-unit').click(function () {
-                var variant = $(this).attr('data-variant');
-                var url = "/get-data/" + variant;
+            const imgUrl = (path) => `${baseUrl}/${path}`;
+
+            // Preload semua gambar di awal supaya saat klik tidak ada jeda
+            Object.values(variants).flat().forEach(item => {
+                new Image().src = imgUrl(item.image);
+            });
+
+            /* ---------- Product slider ---------- */
+            function initProductSwiper(colors) {
+                productSwiper?.destroy(true, true);
+                productSwiper = new Swiper('.product-slider', {
+                    slidesPerView: 1,
+                    centeredSlides: true,
+                    effect: 'fade',
+                    fadeEffect: {
+                        crossFade: true
+                    },
+                    pagination: {
+                        el: '.color-wrapper',
+                        clickable: true,
+                        renderBullet: (index, className) =>
+                            `<span class="${className}" style="background:${colors[index] ?? 'transparent'}"></span>`,
+                    },
+                });
+            }
+
+            function renderProduct(items) {
+                if (!items?.length) return;
+
+                const first = items[0];
+                const $card = $('.product-card');
+
+                // kunci tinggi kartu supaya halaman tidak melompat saat isi diganti
+                $card.css('min-height', $card.outerHeight());
+
+                const slides = items.map(item =>
+                    `<div class="swiper-slide"><img src="${imgUrl(item.image)}" alt=""></div>`
+                ).join('');
+
+                productSwiper?.destroy(true, true);
+
+                $card.html(`
+                    <div class="swiper product-slider">
+                        <div class="swiper-wrapper">${slides}</div>
+                    </div>
+                    <div class="caption-box">
+                        <div class="color-wrapper text-center"></div>
+                        <p class="price">${first.price}</p>
+                        <p class="price">${first.name}</p>
+                        <p class="area-price">Harga OTR Sumatera Barat</p>
+                        <p class="text-muted disclaimer text-center">*Harga dapat berubah sewaktu-waktu</p>
+                        <div class="button-compare">
+                            <a href="/compare_product" class="btn btn-primary">Compare Product</a>
+                        </div>
+                    </div>
+                `);
+
+                initProductSwiper(items.map(i => i.color));
+            }
+
+            /* ---------- Variant switcher ---------- */
+            $('.variant-unit').first().addClass('active');
+            initProductSwiper(@json($data->pluck('color')));
+
+            $('.variant-unit').on('click', function() {
+                const $el = $(this);
+                if ($el.hasClass('active')) return; // klik varian yang sama: abaikan
 
                 $('.variant-unit').removeClass('active');
-                $(this).addClass('active');
+                $el.addClass('active');
 
-                $.ajax({
-                    url: url,
-                    method: 'GET',
-                    success: function (response) {
-                        var productCard = $('.product-card');
-                        productCard.empty();
-
-                        var swiperDiv = $('<div>')
-                            .addClass('swiper product-slider');
-                        productCard.append(swiperDiv);
-
-                        var swiperWrapper = $('<div>')
-                            .addClass('swiper-wrapper');
-                        swiperDiv.append(swiperWrapper);
-
-                        response.forEach(function (item, index) {
-                            var swiperSlide = $('<div>')
-                                .addClass('swiper-slide');
-
-                            var itemImage = $('<img>')
-                                .attr('src', '{{ url('/') }}' + '/' + item.image)
-                                .attr('alt', '...');
-                            swiperSlide.append(itemImage);
-                            swiperWrapper.append(swiperSlide);
-                        });
-
-                        var captionBox = $('<div>')
-                            .addClass('caption-box');
-                        productCard.append(captionBox);
-
-                        var colorWrapper = $('<div>')
-                            .addClass('color-wrapper text-center');
-                        captionBox.append(colorWrapper);
-
-                        captionBox.append('<p class="price">' + response[0].price + '</p>');
-                        captionBox.append('<p class="price">' + response[0].name + '</p>');
-                        captionBox.append('<p class="area-price">Harga OTR Sumatera Barat</p>');
-                        captionBox.append(
-                            '<p class="text-muted disclaimer text-center">*Harga dapat berubah sewaktu-waktu</p>'
-                        );
-                        captionBox.append(
-                            '<div class="button-compare"><a href="/compare_product" class="btn btn-primary">Compare Product</a></div>'
-                        );
-
-                        const swiper = new Swiper('.product-slider', {
-                            slidesPerView: 1,
-                            centeredSlides: true,
-                            pagination: {
-                                el: '.color-wrapper',
-                                clickable: true,
-                                renderBullet: function (index, className) {
-                                    return '<span class="' + className +
-                                        '" style="background: ' + response[index]
-                                            .color + '"></span>';
-                                }
-                            },
-                        });
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Terjadi kesalahan:", error);
-                    }
-                });
+                renderProduct(variants[$el.attr('data-variant')]);
             });
-            const swiper = new Swiper(".product-slider", {
+
+            /* ---------- Features slider ---------- */
+            new Swiper('.features-slider', {
                 slidesPerView: 1,
-                centeredSlides: true,
-                effect: 'fade',
-                fadeEffect: {
-                    crossFade: true
-                },
+                spaceBetween: 10,
                 pagination: {
-                    el: '.color-wrapper',
+                    el: '.swiper-pagination',
                     clickable: true,
-                    renderBullet: function (index, className) {
-                        var colors = @json($data);
-
-                        if (index >= 0 && index < colors.length) {
-                            return '<span class="' + className + '" style="background: ' + colors[index]
-                                .color + '"></span>';
-                        }
-
-                        return '';
+                    dynamicBullets: true,
+                    dynamicMainBullets: 1
+                },
+                breakpoints: {
+                    600: {
+                        slidesPerView: 1.2,
+                        spaceBetween: 20
                     },
+                    1024: {
+                        slidesPerView: 2.3,
+                        spaceBetween: 30
+                    }
                 },
+                grabCursor: true
             });
-        });
-
-        var swiper = new Swiper(".features-slider", {
-            slidesPerView: 1,
-            spaceBetween: 10,
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-                dynamicBullets: true,
-                dynamicMainBullets: 1
-            },
-            breakpoints: {
-                600: {
-                    slidesPerView: 1.2,
-                    spaceBetween: 20
-                },
-                1024: {
-                    slidesPerView: 2.3,
-                    spaceBetween: 30
-                }
-            },
-            grabCursor: true
         });
     </script>
 @endsection
