@@ -1,0 +1,96 @@
+html {
+    scroll-behavior: smooth;
+}
+
+/* offset supaya judul section tidak tertutup navbar fixed (sesuaikan tingginya) */
+[data-toc-section] {
+    scroll-margin-top: 110px;
+}
+
+.page-toc {
+    display: none; /* disembunyikan di layar kecil */
+    position: fixed;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+}
+
+@media (min-width: 1200px) {
+    .page-toc {
+        display: block;
+    }
+}
+
+/* rail */
+.page-toc__rail {
+    list-style: none;
+    margin: 0;
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.page-toc__rail li {
+    width: 14px;
+    height: 2px;
+    background: #c4c9d4;
+    border-radius: 2px;
+    transition: background 0.2s, width 0.2s;
+}
+
+.page-toc__rail li.active {
+    width: 20px;
+    background: #1a3a8f; /* samakan dengan warna biru brand */
+}
+
+/* panel */
+.page-toc__panel {
+    position: absolute;
+    left: 100%; /* tanpa gap, supaya hover tidak putus */
+    top: 50%;
+    transform: translateY(-50%);
+    min-width: 220px;
+    padding: 16px 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+}
+
+.page-toc:hover .page-toc__panel,
+.page-toc:focus-within .page-toc__panel {
+    opacity: 1;
+    visibility: visible;
+}
+
+.page-toc__title {
+    margin: 0 0 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.page-toc__panel ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.page-toc__link {
+    display: block;
+    padding: 6px 0;
+    color: #8a8fa0;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.page-toc__link:hover,
+.page-toc__link.active {
+    color: #111;
+    font-weight: 600;
+}
