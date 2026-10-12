@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\v1\OrderMotorController;
 use App\Http\Controllers\Api\v1\ActivityController;
+use App\Http\Controllers\Api\v1\AppConfigController;
 use App\Http\Controllers\Api\v1\PasswordController;
 use App\Http\Controllers\Api\v1\PromoController;
 use App\Http\Controllers\Api\v1\QrScanController;
@@ -41,6 +42,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
+    Route::get('/app-config', [AppConfigController::class, 'index'])->middleware('throttle:60,1');
     Route::post('/auth/register', [AuthController::class, 'register'])->middleware('throttle:otp-send');
     Route::post('/auth/login', [AuthController::class, 'login'])->middleware('throttle:10,1,login');
     Route::post('/auth/verify-otp-register', [AuthController::class, 'verifyOtpRegister'])->middleware('throttle:10,1,verify-otp-register');
@@ -92,7 +94,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/booking-servis/batal', [BookingServiceController::class, 'batal']);
 
         // QR Scan
-        Route::post('/qr/scan', [QrScanController::class, 'scan'])->middleware('throttle:10,1');
+        Route::post('/qr/scan', [QrScanController::class, 'scan'])->middleware(['feature:qr_scan', 'throttle:10,1']);
         Route::post('/qr/redeem', [QrScanController::class, 'manualInput']);
 
         // Rewards

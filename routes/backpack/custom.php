@@ -44,4 +44,5 @@ Route::group([
         Route::crud('qrcode', 'QrcodeCrudController');
     });
     Route::crud('qr-scan-log', 'QrScanCrudController');
+    Route::crud('feature-status', 'FeatureStatusCrudController');
 }); // this should be the absolute last line of this file
