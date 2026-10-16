@@ -77,6 +77,13 @@ class VariantCrudController extends CrudController
             ->function(function ($entry) {
                 return $entry->is_active ? 'Show' : 'Hide';
             });
+        CRUD::column('is_recommended')->type('check')->label('Rekomendasi');
+        CRUD::column('recommended_order')->label('Urutan');
+
+        CRUD::filter('is_recommended')
+            ->type('simple')
+            ->label('Rekomendasi saja')
+            ->whenActive(fn() => CRUD::addClause('where', 'is_recommended', true));
         CRUD::column('updated_at');
         CRUD::column('created_at');
 
@@ -104,6 +111,14 @@ class VariantCrudController extends CrudController
         CRUD::field('color_name');
         CRUD::field('price');
         CRUD::field('is_active');
+        CRUD::field('is_recommended')
+            ->type('switch')   // kalau versi Backpack kamu belum punya 'switch', pakai 'checkbox'
+            ->label('Tampilkan sebagai Produk Rekomendasi');
+
+        CRUD::field('recommended_order')
+            ->type('number')
+            ->label('Urutan Rekomendasi')
+            ->hint('Angka kecil tampil lebih dulu');
         CRUD::field('created_at');
         CRUD::field('updated_at');
 

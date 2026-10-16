@@ -30,6 +30,10 @@ class Variant extends Model
     // protected $hidden = [];
     // protected $dates = [];
 
+    protected $casts = [
+        'is_recommended' => 'boolean',
+    ];
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -43,6 +47,13 @@ class Variant extends Model
                 'source' => ['name'],
             ],
         ];
+    }
+
+    public function scopeRecommended($query)
+    {
+        return $query->where('is_recommended', true)
+            ->orderBy('recommended_order')
+            ->orderBy('id', 'desc');
     }
 
     /*

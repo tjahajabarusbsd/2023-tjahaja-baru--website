@@ -1,46 +1,60 @@
 section {
-    margin-bottom: 20px
+    margin-bottom: 20px;
 }
 
 img {
     width: 100%;
-    height: 100%
+    height: 100%;
 }
 
+.main-banner,
 .first-section,
 .second-section {
-    max-width: 2000px
+    max-width: 1440px;
+    margin: 0 auto;
 }
 
 /* First Section */
 
+.product-slider {
+    position: relative;
+}
+
+.product-pagination {
+    position: static; /* matikan absolute bawaan Swiper */
+    margin-top: 16px; /* jarak dari item */
+    text-align: center;
+    width: 100%;
+}
+
 .caption-container {
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
 }
 
 .title {
     font-size: 20px;
     font-weight: 700;
     text-transform: uppercase;
-    color: #183f9d
+    color: #183f9d;
 }
 
 .price-area {
     font-weight: 700;
     color: #fff;
     background-color: #183f9d;
-    padding: 3px 15px
+    padding: 3px 15px;
 }
 
 .grid-content {
     position: relative;
-    width: 250px;
+    width: 100%;
+    max-width: 250px;
     height: 305px;
     margin: 20px auto;
     box-shadow: 5px 7px 15px 0 rgb(0 0 0 / 60%);
     -webkit-box-shadow: 5px 7px 15px 0 rgb(0 0 0 / 60%);
-    -moz-box-shadow: 5px 7px 15px 0 rgb(0 0 0 / 60%)
+    -moz-box-shadow: 5px 7px 15px 0 rgb(0 0 0 / 60%);
 }
 
 .box-text {
@@ -56,13 +70,13 @@ img {
 
 .product-name {
     line-height: 18px;
-    text-transform: uppercase
+    text-transform: uppercase;
 }
 
 .product-price {
     position: relative;
     top: -3px;
-    font-size: 12px
+    font-size: 12px;
 }
 
 .tombol-biru {
@@ -72,7 +86,7 @@ img {
     height: auto;
     bottom: 5px;
     right: 0;
-    scale: 0.67
+    scale: 0.67;
 }
 
 /* Second Section */
@@ -87,7 +101,7 @@ img {
     height: auto;
     background-color: #ebebeb;
     border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px
+    border-bottom-right-radius: 20px;
 }
 
 .promo-title {
@@ -96,11 +110,11 @@ img {
     text-transform: uppercase;
     color: #183f9d;
     margin-bottom: 0;
-    text-indent: 8px
+    text-indent: 8px;
 }
 
 .promo-banner-container {
-    margin: 0 auto
+    margin: 0 auto;
 }
 
 .promo-banner-item img {
@@ -145,7 +159,7 @@ img {
     color: white;
     font-size: 20px;
     text-align: center;
-    background-color: #04AA6D;
+    background-color: #04aa6d;
     padding: 16px 32px;
     opacity: 0;
     transition: opacity 0.3s;
@@ -155,21 +169,21 @@ img {
     opacity: 1;
 }
 
-@media screen and (max-width:425px) {
+@media screen and (max-width: 425px) {
     .title {
-        font-size: 15px
+        font-size: 15px;
     }
 
     .price-area {
-        font-size: 10px
+        font-size: 10px;
     }
 
     .promo-title {
-        font-size: 22px
+        font-size: 22px;
     }
 }
 
-@media screen and (max-width:575px) {
+@media screen and (max-width: 575px) {
     .promo-banner-container {
         display: flex;
         justify-content: space-around;
@@ -180,7 +194,7 @@ img {
     }
 }
 
-@media screen and (min-width:768px) {
+@media screen and (min-width: 768px) {
     .banner-pagination {
         margin-top: 0.5rem;
     }

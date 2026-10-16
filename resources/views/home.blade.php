@@ -3,16 +3,17 @@
 @section('title', 'Yamaha Sumatera Barat | Tjahaja Baru')
 
 @section('meta_og')
-  <meta property="og:title" content="Yamaha Sumatera Barat | Tjahaja Baru">
-  <meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
-  <meta property="og:type" content="website">
+    <meta property="og:title" content="Yamaha Sumatera Barat | Tjahaja Baru">
+    <meta property="og:description"
+        content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
+    <meta property="og:type" content="website">
 @endsection
 
 @section('main_class', 'home')
 
 @section('additional_css')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-<link rel="stylesheet" href="{{ asset('css/home.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}" />
 @endsection
 
 @section('content')
@@ -20,47 +21,47 @@
         <div class="swiper banner-wrapper">
             <div class="swiper-wrapper">
                 @foreach ($banners as $banner)
-                <div class="swiper-slide">
-                    <a href="{{ $banner->link }}" class="banner-link">
-                    <picture>
-                        <img src="{{ url($banner->image) }}" loading="lazy" class="banner-img">
-                    </picture>
-                </a>
-                </div>
-                
+                    <div class="swiper-slide">
+                        <a href="{{ $banner->link }}" class="banner-link">
+                            <picture>
+                                <img src="{{ url($banner->image) }}" loading="lazy" class="banner-img">
+                            </picture>
+                        </a>
+                    </div>
                 @endforeach
             </div>
         </div>
         <div class="banner-pagination text-center"></div>
-    </section>    
+    </section>
 
     <section class="first-section container-fluid">
         <div class="caption-container">
-            <p class="title">Product Category</p>
+            <p class="title">Product Recommendation</p>
             <p class="price-area">Harga Area Sumatera Barat</p>
         </div>
-        
-        <div class="swiper grid-container">
-            <div class="swiper-wrapper">
-                @foreach ($latestVariants as $variant)
-                <div class="swiper-slide">
-                    <div class="grid-content">
-                        <a class="product-link" href="/products/category/{{ $variant->group->category->uri }}">
-                            <div class="box-img">
-                                <img src="{{ url($variant->group->category->image) }}">
+
+        @if ($recommendedVariants->isNotEmpty())
+            <div class="product-slider">
+                <div class="swiper grid-container">
+                    <div class="swiper-wrapper">
+                        @foreach ($recommendedVariants as $variant)
+                            <div class="swiper-slide">
+                                <a class="product-link" href="/product/{{ $variant->group->uri }}">
+                                    <div class="box-img">
+                                        <img src="{{ url($variant->image) }}" alt="{{ $variant->name }}">
+                                    </div>
+                                    <div class="box-text">
+                                        <p class="product-name">{{ $variant->name }}</p>
+                                        <p class="product-price">{{ $variant->price }}</p>
+                                    </div>
+                                </a>
                             </div>
-                            <div class="box-text">
-                                <p class="product-name">{{ $variant->name }}</p>
-                                <p class="product-price">{{ $variant->price }}</p>
-                                <img class="tombol-biru" src="{{ url('/images/tombol.jpg')}}" alt="">
-                            </div>
-                        </a>
+                        @endforeach
                     </div>
                 </div>
-                @endforeach
+                <div class="product-pagination"></div>
             </div>
-        </div>	
-        <div class="swiper-pagination" style="bottom: -23px;"></div>
+        @endif
     </section>
 
     <section class="second-section container-fluid">
@@ -75,24 +76,25 @@
                             <div class="promo-banner-col col-sm-6 mb-3">
                                 <div class="promo-banner-item" data-id={{ $promo->id }}>
                                     <img src="{{ url($promo->image) }}" alt="" data-bs-toggle="modal"
-                                    data-bs-target="#promoModal{{ $promo->id }}">
+                                        data-bs-target="#promoModal{{ $promo->id }}">
                                     <div class="modal fade" id="promoModal{{ $promo->id }}" tabindex="-1"
-                                        aria-labelledby="exampleModalLabel"
-                                        aria-hidden="true" data-id={{ $promo->id }}>
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true" data-id={{ $promo->id }}>
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title w-100" id="exampleModalLabel">
                                                         {{ $promo->name }}
                                                     </h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
                                                 </div>
                                                 <!--Modal body with image-->
                                                 <div class="modal-body">
                                                     <img src="{{ url($promo->image) }}" />
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-danger"
+                                                        data-bs-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -105,26 +107,7 @@
             </div>
             <div class="col-sm-6 mb-3 thumbnail">
                 <a href="https://www.yamaha-motor.co.id/part-accessories/ygp/" target="_blank" class="part-acc">
-                    <img src="{{ url('/images/parts.jpg')}}" alt="">
-                    <div class="middle">
-                        <div class="text">See More</div>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-        <div class="bottom-container row">
-            <div class="col-sm-6 mb-3 thumbnail">
-                <a href="/myyamaha">
-                    <img src="{{ url('/images/my_yamaha.jpg')}}" alt="">
-                    <div class="middle">
-                        <div class="text">See More</div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-sm-6 mb-3 thumbnail">
-                <a href="/dealers">
-                    <img src="{{ url('/images/find_dealer.jpg')}}" alt="">
+                    <img src="{{ url('/images/parts.jpg') }}" alt="">
                     <div class="middle">
                         <div class="text">See More</div>
                     </div>
@@ -134,29 +117,30 @@
     </section>
 
     <!-- Bootstrap Modal -->
-    <div class="modal fade modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="text-align: center">
+    <div class="modal fade modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true" style="text-align: center">
         <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            {{-- <div class="modal-header">
+            <div class="modal-content">
+                {{-- <div class="modal-header">
                 <h5 class="modal-title w-100" id="exampleModalLabel">
                     Kuis Minat Motor Yamaha
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div> --}}
-            <div class="modal-body">
-                <a href="/kuis" class="link-banner-quiz">
-                    <img src="{{ url('/images/quiz_banner.jpeg')}}" alt="">
-                </a>
+                <div class="modal-body">
+                    <a href="/kuis" class="link-banner-quiz">
+                        <img src="{{ url('/images/quiz_banner.jpeg') }}" alt="">
+                    </a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
         </div>
     </div>
 @endsection
 
 @section('additional_script')
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="{{ asset('js/home.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="{{ asset('js/home.js') }}"></script>
 @endsection
