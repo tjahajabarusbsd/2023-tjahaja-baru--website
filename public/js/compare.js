@@ -1,62 +1,77 @@
-$(document).ready(function () {
-    function updateTableCell(row, column, data) {
-        $(`tbody tr:nth-child(${row}) td:nth-child(${column})`).text(data);
+$(function () {
+    const $root = $("#specs-list");
+    const endpoint = $root.data("specUrl");
+    const $selects = $root.find("select[data-slot]");
+    const $error = $("#compare-error");
+
+    const cache = new Map(); // id -> jqXHR promise
+    const latest = {}; // slot -> id terakhir yang dipilih
+
+    function fetchSpec(id) {
+        if (!cache.has(id)) {
+            const req = $.getJSON(`${endpoint}/${id}`);
+            req.fail(() => cache.delete(id)); // jangan cache kegagalan
+            cache.set(id, req);
+        }
+        return cache.get(id);
     }
 
-    function updateImageSrc(column, src) {
-        $(`#thumbnailImage${column}`).attr('src', src);
+    function render(slot, data) {
+        const specs = data ? data.specs : {};
+
+        $root.find(`td[data-spec][data-slot="${slot}"]`).each(function () {
+            $(this).text(specs[this.dataset.spec] ?? "-");
+        });
+
+        const $img = $(`#thumbnail${slot}`);
+        if (data && data.thumbnail) {
+            $img.attr({ src: data.thumbnail, alt: data.name }).removeClass(
+                "d-none"
+            );
+        } else {
+            $img.addClass("d-none").removeAttr("src").attr("alt", "");
+        }
     }
 
-    function updateData(selectedValue, targetColumn) {
-        $.ajax({
-            url: `/get_spec_details/${selectedValue}`,
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                updateTableCell(2, targetColumn, data.p_l_t);
-                updateTableCell(3, targetColumn, data.jarak_sumbu_roda);
-                updateTableCell(4, targetColumn, data.ground_clearence);
-                updateTableCell(5, targetColumn, data.tinggi_tempat_duduk);
-                updateTableCell(6, targetColumn, data.berat_isi);
-                updateTableCell(7, targetColumn, data.volume_tangki);
-                updateTableCell(8, targetColumn, data.volume_bagasi);
-                updateTableCell(9, targetColumn, data.tipe_rangka);
-                updateTableCell(10, targetColumn, data.suspensi_depan);
-                updateTableCell(11, targetColumn, data.suspensi_belakang);
-                updateTableCell(12, targetColumn, data.tipe_ban);
-                updateTableCell(13, targetColumn, data.ban_depan);
-                updateTableCell(14, targetColumn, data.ban_belakang);
-                updateTableCell(15, targetColumn, data.rem_depan);
-                updateTableCell(16, targetColumn, data.rem_belakang);
-                updateTableCell(17, targetColumn, data.rem_abs);
-                updateTableCell(18, targetColumn, data.kapasitas);
-                updateTableCell(19, targetColumn, data.pendingin);
-                updateTableCell(20, targetColumn, data.d_x_l);
-                updateTableCell(21, targetColumn, data.rasio_kompresi);
-                updateTableCell(22, targetColumn, data.daya_maksimum);
-                updateTableCell(23, targetColumn, data.torsi_maksimum);
-                updateTableCell(24, targetColumn, data.sistem_starter);
-                updateTableCell(25, targetColumn, data.kapasitas_oli_mesin);
-                updateTableCell(26, targetColumn, data.sistem_bbm);
-                updateTableCell(27, targetColumn, data.tipe_kopling);
-                updateTableCell(28, targetColumn, data.tipe_transmisi);
-                updateTableCell(29, targetColumn, data.sistem_pengapian);
-                updateTableCell(30, targetColumn, data.baterai);
-                updateTableCell(31, targetColumn, data.busi);
-                updateTableCell(32, targetColumn, data.price);
-                updateImageSrc(targetColumn, data.thumbnail);
-            },
-            error: function (error) {
-                console.error('Error:', error);
-            }
+    function setLoading(slot, isLoading) {
+        $root
+            .find(`td[data-slot="${slot}"]`)
+            .toggleClass("opacity-50", isLoading);
+    }
+
+    // Produk yang sudah dipilih di satu kolom tidak bisa dipilih di kolom lain
+    function syncOptions() {
+        $selects.each(function () {
+            const otherValue = $selects.not(this).val();
+            $(this)
+                .find("option")
+                .each(function () {
+                    if (this.value) this.disabled = this.value === otherValue;
+                });
         });
     }
 
-    $('#produk1').change(function () {
-        updateData($(this).val(), 2);
-    });
+    function load(slot, id) {
+        latest[slot] = id;
+        $error.addClass("d-none");
+        setLoading(slot, true);
 
-    $('#produk2').change(function () {
-        updateData($(this).val(), 3);
+        fetchSpec(id)
+            .done((data) => {
+                if (latest[slot] === id) render(slot, data);
+            })
+            .fail(() => {
+                if (latest[slot] !== id) return;
+                render(slot, null);
+                $error.removeClass("d-none");
+            })
+            .always(() => {
+                if (latest[slot] === id) setLoading(slot, false);
+            });
+    }
+
+    $selects.on("change", function () {
+        syncOptions();
+        load(this.dataset.slot, this.value);
     });
 });

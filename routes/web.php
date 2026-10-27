@@ -73,10 +73,15 @@ Route::post('/submit-pesan-form', [ContactController::class, 'submitPesanForm'])
 Route::post('/submit-consultation-form', [ConsultationController::class, 'submitConsultationForm']);
 // --- End Consultation Section --- 
 
-// --- Comparison Section --- 
-Route::get('/compare_product', [ComparisonController::class, 'specComparison']);
-Route::get('/get_spec_details/{id}', [ComparisonController::class, 'getSpecDetails']);
-// --- End Comparison Section --- 
+// --- Comparison Section ---
+Route::controller(ComparisonController::class)->group(function () {
+    Route::get('/compare_product', 'specComparison')->name('compare.index');
+    Route::get('/get_spec_details/{spec}', 'getSpecDetails')
+        ->whereNumber('spec')
+        ->middleware('throttle:60,1')
+        ->name('compare.spec');
+});
+// --- End Comparison Section ---
 
 // --- Personality Quiz Section
 Route::get('/kuis', function () {

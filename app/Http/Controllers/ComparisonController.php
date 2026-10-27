@@ -2,26 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Spec;
 use App\Models\Group;
+use App\Models\Spec;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 
 class ComparisonController extends Controller
 {
-    public function specComparison(Request $request)
+    public function specComparison()
     {
-        $specList = Spec::orderBy('name')->distinct('name')->get();
-        $products = Group::inRandomOrder()->limit(3)->get();
-
-        return view('compare', compact('specList', 'products'));
+        return view('compare', [
+            'specList' => Spec::select('id', 'name')->orderBy('name')->get(),
+            'products' => Group::inRandomOrder()->limit(3)->get(),
+            'specRows' => config('compare.specs'),
+        ]);
     }
 
-    public function getSpecDetails($id)
+    public function getSpecDetails(Spec $spec): JsonResponse
     {
-        $spec = Spec::find($id);
-
-        return $spec
-            ? response()->json($spec)
-            : response()->json(['error' => 'Spec not found'], 404);
+        $test = array_keys(config('compare.specs'));
+        dd($spec->toArray(), $test, Arr::only($spec->toArray(), $test));
+        return response()->json([
+            'name'      => $spec->name,
+            'thumbnail' => $spec->thumbnail ? url($spec->thumbnail) : null,
+            'specs'     => Arr::only($spec->toArray(), array_keys(config('compare.specs'))),
+        ]);
     }
 }

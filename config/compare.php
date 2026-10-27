@@ -1,0 +1,37 @@
+<?php
+
+return [
+  'specs' => [
+    'p_l_t'               => 'P x L x T',
+    'jarak_sumbu_roda'    => 'Jarak Sumbu Roda',
+    'ground_clearence'    => 'Ground Clearance',
+    'tinggi_tempat_duduk' => 'Tinggi Tempat Duduk',
+    'berat_isi'           => 'Berat Isi',
+    'volume_tangki'       => 'Volume Tangki BBM',
+    'volume_bagasi'       => 'Volume Bagasi',
+    'tipe_rangka'         => 'Tipe Rangka',
+    'suspensi_depan'      => 'Suspensi Depan',
+    'suspensi_belakang'   => 'Suspensi Belakang',
+    'tipe_ban'            => 'Tipe Ban',
+    'ban_depan'           => 'Ban Depan',
+    'ban_belakang'        => 'Ban Belakang',
+    'rem_depan'           => 'Rem Depan',
+    'rem_belakang'        => 'Rem Belakang',
+    'rem_abs'             => 'Rem ABS',
+    'kapasitas'           => 'Kapasitas',
+    'pendingin'           => 'Pendingin',
+    'd_x_l'               => 'Diameter x Langkah',
+    'rasio_kompresi'      => 'Rasio Kompresi',
+    'daya_maksimum'       => 'Daya Maksimum',
+    'torsi_maksimum'      => 'Torsi Maksimum',
+    'sistem_starter'      => 'Sistem Starter',
+    'kapasitas_oli_mesin' => 'Kapasitas Oli Mesin',
+    'sistem_bbm'          => 'Sistem BBM',
+    'tipe_kopling'        => 'Tipe Kopling',
+    'tipe_transmisi'      => 'Tipe Transmisi',
+    'sistem_pengapian'    => 'Sistem Pengapian',
+    'baterai'             => 'Baterai',
+    'busi'                => 'Busi',
+    // 'price'            => 'Harga (OTR)', // aktifkan kalau baris harga mau ditampilkan lagi
+  ],
+];
