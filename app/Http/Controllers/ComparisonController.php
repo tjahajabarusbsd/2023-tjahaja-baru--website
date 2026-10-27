@@ -20,8 +20,6 @@ class ComparisonController extends Controller
 
     public function getSpecDetails(Spec $spec): JsonResponse
     {
-        $test = array_keys(config('compare.specs'));
-        dd($spec->toArray(), $test, Arr::only($spec->toArray(), $test));
         return response()->json([
             'name'      => $spec->name,
             'thumbnail' => $spec->thumbnail ? url($spec->thumbnail) : null,
