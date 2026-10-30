@@ -12,7 +12,7 @@
 @section('main_class', 'compare')
 
 @section('additional_css')
-    <link rel="stylesheet" href="{{ asset('css/compare.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/compare.css') }}?v={{ filemtime(public_path('css/compare.css')) }}" />
 @endsection
 
 @section('content')
@@ -97,5 +97,5 @@
 @endsection
 
 @section('additional_script')
-    <script src="{{ asset('js/compare.js') }}"></script>
+    <script src="{{ asset('js/compare.js') }}?v={{ filemtime(public_path('js/compare.js')) }}"></script>
 @endsection
