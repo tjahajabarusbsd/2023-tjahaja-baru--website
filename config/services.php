@@ -51,6 +51,7 @@ return [
     'whatsapp' => [
         'token' => env('TOKEN_WA'),
         'url' => env('WA_API_URL'),
+        'cro_numbers' => env('NO_CRO'),
     ],
 
 ];

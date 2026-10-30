@@ -403,7 +403,7 @@
         const siteKey = '{{ config('app.recaptcha_sitekey') }}';
     </script>
     <script src="{{ asset('js/contact.js') }}?v={{ filemtime(public_path('js/contact.js')) }}"></script>
-    <script src="{{ asset('js/simulasi.js') }}"></script>
+    <script src="{{ asset('js/simulasi.js') }}?v={{ filemtime(public_path('js/simulasi.js')) }}"></script>
     <script>
         $(document).ready(function() {
             $('input[name="option"]').change(function() {
