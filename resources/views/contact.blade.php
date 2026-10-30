@@ -152,8 +152,7 @@
                                         <textarea id="tulis-pesan" name="message" class="form-control" placeholder="Tulis pesan Anda disini">{{ old('message') }}</textarea>
                                     </div>
                                     <div class="form-group">
-                                        <button id="submit-pesan" class="btn btn-primary"
-                                            onclick="disableButton()">Submit</button>
+                                        <button id="submit-pesan" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>
 
@@ -365,13 +364,6 @@
                                 </div>
                             @endif
 
-                            <div class="form-group">
-                                {!! RecaptchaV3::field('contact') !!}
-                                @error('g-recaptcha-response')
-                                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                                @enderror
-                            </div>
-
                             <div class="error-msg-wrapper" style="display: none">
                                 <div class="validation-error">
                                     <div class="side-bg-error"></div>
@@ -407,16 +399,12 @@
 @endsection
 
 @section('additional_script')
-    <script src="{{ asset('js/contact.js') }}"></script>
-    <script src="{{ asset('js/simulasi.js') }}"></script>
     <script>
         const siteKey = '{{ config('app.recaptcha_sitekey') }}';
     </script>
+    <script src="{{ asset('js/contact.js') }}?v={{ filemtime(public_path('js/contact.js')) }}"></script>
+    <script src="{{ asset('js/simulasi.js') }}"></script>
     <script>
-        function disableButton() {
-            $(".btn-primary").prop('disabled', true);
-        }
-
         $(document).ready(function() {
             $('input[name="option"]').change(function() {
                 var selectedOption = $(this).val();
@@ -451,3 +439,6 @@
         });
     </script>
 @endsection
+@push('recaptcha')
+    {!! RecaptchaV3::initJs() !!}
+@endpush

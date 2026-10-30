@@ -1,342 +1,420 @@
-$(document).ready(function () {
-    $('#myModal').iziModal({
+/*
+ * Form kontak: pesan, konsultasi motor, dan pengajuan dana.
+ * Dipakai di contact.blade.php dan product/detail.blade.php.
+ *
+ * Kebutuhan di halaman:
+ *  - const siteKey (script inline sebelum file ini)
+ *  - RecaptchaV3::initJs() lewat @push('recaptcha')
+ *  - jQuery, iziModal, dan meta csrf-token
+ */
+$(function () {
+    "use strict";
+
+    // Aturan input. Kalau mau dilonggarkan, samakan dulu dengan validasi di server.
+    const NAME_PATTERN = /^[A-Za-z\s]+$/;
+    const PHONE_PATTERN = /^\d+$/;
+    const RECAPTCHA_TIMEOUT_MS = 10000;
+
+    $("#myModal").iziModal({
         width: 325,
         onClosed: function () {
             if (window.shouldReload) {
                 location.reload();
             }
-        }
+        },
     });
 
-    var name;
-    var phoneNumber;
+    /* ====================================================================
+       reCAPTCHA
+       ==================================================================== */
 
-    function handleInput() {
-        name = $("#name").val().trim();
-        phoneNumber = $("#nohp").val().trim();
+    function getRecaptchaToken(action) {
+        return new Promise(function (resolve, reject) {
+            if (
+                typeof grecaptcha === "undefined" ||
+                typeof siteKey === "undefined"
+            ) {
+                reject(new Error("reCAPTCHA tidak termuat"));
+                return;
+            }
 
-        if (!name) {
-            setErrorFor($("#name"), "Nama belum diisi");
-            enableButton();
-            return;
-        } else if (!/^[A-Za-z\s]+$/.test(name)) {
-            setErrorFor($("#name"), "Gunakan huruf");
-            enableButton();
-            return;
-        } else {
-            setSuccessFor($("#name"));
-        }
+            const timer = setTimeout(function () {
+                reject(new Error("reCAPTCHA timeout"));
+            }, RECAPTCHA_TIMEOUT_MS);
 
-        if (!phoneNumber) {
-            setErrorFor($("#nohp"), "No. Handphone belum diisi");
-            enableButton();
-            return;
-        } else if (!/^\d+$/.test(phoneNumber)) {
-            setErrorFor($("#nohp"), "Gunakan angka");
-            enableButton();
-            return;
-        } else {
-            setSuccessFor($("#nohp"));
-        }
+            grecaptcha.ready(function () {
+                grecaptcha
+                    .execute(siteKey, { action: action || "contact" })
+                    .then(
+                        function (token) {
+                            clearTimeout(timer);
+                            resolve(token);
+                        },
+                        function (error) {
+                            clearTimeout(timer);
+                            reject(error);
+                        }
+                    );
+            });
+        });
     }
 
-    $("#submit-pesan").click(function (e) {
-        e.preventDefault();
-        clearErrors();
-        handleInput();
+    /* ====================================================================
+       Overlay, tombol, dan modal
+       ==================================================================== */
 
-        var message = $('#tulis-pesan').val();
+    function showOverlay(show) {
+        $("#overlay").toggle(show);
+    }
 
-        if (!message) {
-            setErrorFor($("#tulis-pesan"), "Tulis pesan Anda.");
-            enableButton();
-            return;
-        } else {
-            setSuccessFor($("#tulis-pesan"));
-        }
-
-        $('#myModal .icon-box').removeClass('error');
-        $('#overlay').show();
-        $('#myModal .modal-body').html('');
-
-        grecaptcha.execute(siteKey, { action: 'contact' }).then(function (token) {
-            var data = {
-                name: name,
-                nohp: phoneNumber,
-                message: message,
-                'g-recaptcha-response': token
-            }
-
-            $.ajax({
-                url: "/submit-pesan-form",
-                type: 'POST',
-                data: data,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    $('#overlay').hide();
-                    $('#myModal .material-icons').text('check');
-                    $('#myModal .modal-title').text('Sukses!');
-                    $('#myModal .modal-body').append('<p>' + response.successMessage + '</p>');
-                    window.shouldReload = true;
-                    $("#myModal").iziModal('open');
-                },
-                error: function (response) {
-                    $('#overlay').hide();
-                    if (response.responseJSON.errorMessage) {
-                        $('#myModal .icon-box').addClass('error');
-                        $('#myModal .material-icons').text('close');
-                        $('#myModal .modal-title').text('Error!');
-                        $('#myModal .modal-body').append('<p>' + response.responseJSON.errorMessage + '</p>');
-                        window.shouldReload = true;
-                        $("#myModal").iziModal('open');
-                        enableButton();
-                    } else {
-                        let errors = response.responseJSON.errors;
-                        $('#myModal .icon-box').addClass('error');
-                        $('#myModal .material-icons').text('close');
-                        $('#myModal .modal-title').text('Error!');
-                        $.each(errors, function (key, messages) {
-                            $.each(messages, function (index, message) {
-                                $('#myModal .modal-body').append('<li>' + message + '</li>');
-                            });
-                        });
-                        window.shouldReload = false;
-                        $("#myModal").iziModal('open');
-                        enableButton();
-                    }
-                }
-            });
-
-            return false;
-        });
-    });
-
-    $("#submit-motor").click(function (e) {
-        e.preventDefault();
-        clearErrors();
-        handleInput();
-
-        var produkValue = $("#pilih-produk").val();
-        var termsChecked = $('#termsCheckbox').is(':checked');
-        var urlValue = $('input[name="url"]').val().trim();
-        var payment_method = $("#payment-method").val();
-        var down_payment = $("#down-payment").val();
-        var tenor_pembelian = $("#tenor-pembelian").val();
-
-        if (!produkValue) {
-            setErrorFor($("#pilih-produk"), "Silakan pilih produk yang diminati.");
-            enableButton();
-            return;
-        } else {
-            setSuccessFor($("#pilih-produk"));
-        }
-
-        if (!payment_method) {
-            setErrorFor($("#payment-method"), "Silakan pilih cara bayar.");
-            enableButton();
-            return;
-        } else {
-            setSuccessFor($("#payment-method"));
-        }
-
-        if (payment_method === 'kredit') {
-            if (!down_payment) {
-                setErrorFor($("#down-payment"), "Silakan pilih down payment.");
-                enableButton();
-                return;
-            } else {
-                setSuccessFor($("#down-payment"));
-            }
-
-            if (!tenor_pembelian) {
-                setErrorFor($("#tenor-pembelian"), "Silakan pilih jumlah tenor.");
-                enableButton();
-                return;
-            } else {
-                setSuccessFor($("#tenor-pembelian"));
-            }
-        }
-
-        if (!termsChecked) {
-            setErrorFor($("#label-checkbox"), "Kolom wajib dicentang.");
-            enableButton();
-            return;
-        } else {
-            setSuccessFor($("#label-checkbox"));
-        }
-
-        $('#myModal .icon-box').removeClass('error');
-        $('#overlay').show();
-        $('#myModal .modal-body').html('');
-
-        grecaptcha.execute(siteKey, { action: 'contact' }).then(function (token) {
-            var data = {
-                name: name,
-                nohp: phoneNumber,
-                produk: produkValue,
-                terms: termsChecked,
-                cara_bayar: payment_method,
-                dp: down_payment,
-                tenor: tenor_pembelian,
-                url: urlValue,
-                'g-recaptcha-response': token
-            }
-
-            $.ajax({
-                url: "/submit-consultation-form",
-                type: 'POST',
-                data: data,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    $('#overlay').hide();
-                    $('#myModal .material-icons').text('check');
-                    $('#myModal .modal-title').text('Sukses!');
-                    $('#myModal .modal-body').append('<p>' + response.successMessage + '</p>');
-                    var url = new URL(window.location.href);
-                    url.search = "";
-                    window.history.replaceState({}, document.title, url.toString());
-                    window.shouldReload = true;
-                    $("#myModal").iziModal('open');
-                },
-                error: function (response) {
-                    $('#overlay').hide();
-                    if (response.responseJSON.errorMessage) {
-                        $('#myModal .icon-box').addClass('error');
-                        $('#myModal .material-icons').text('close');
-                        $('#myModal .modal-title').text('Error!');
-                        $('#myModal .modal-body').append('<p>' + response.responseJSON.errorMessage + '</p>');
-                        window.shouldReload = true;
-                        $("#myModal").iziModal('open');
-                        enableButton();
-                    } else {
-                        let errors = response.responseJSON.errors;
-                        $('#myModal .icon-box').addClass('error');
-                        $('#myModal .material-icons').text('close');
-                        $('#myModal .modal-title').text('Error!');
-                        $.each(errors, function (key, messages) {
-                            $.each(messages, function (index, message) {
-                                $('#myModal .modal-body').append('<li>' + message + '</li>');
-                            });
-                        });
-                        window.shouldReload = false;
-                        $("#myModal").iziModal('open');
-                        enableButton();
-                    }
-                }
-            });
-
-            return false;
-        });
-    });
-
-    $('#submit-dana').click(function (e) {
-        e.preventDefault();
-        clearErrors();
-        handleInput();
-
-        var tipe = $('#tipe').val();
-        var tipeLain = $('#tipe-lain').val();
-        var unitTahun = $('#unit_tahun').val();
-        var hargaMotor = $('#harga_motor').val();
-        hargaMotor = hargaMotor.replace(/\./g, '');
-        var danaDicairkan = $('#dana_dicairkan').val();
-        var tenor = $('#tenor').val();
-        var angsuranMonthly = $('#angsuran-monthly').val();
-        var urlValue = $('input[name="url"]').val().trim();
-
-        $('#myModal .icon-box').removeClass('error');
-        $('#overlay').show();
-        $('#myModal .modal-body').html('');
-
-        grecaptcha.execute(siteKey, { action: 'contact' }).then(function (token) {
-            var data = {
-                name: name,
-                nohp: phoneNumber,
-                tipe: tipe,
-                tipeLain: tipeLain,
-                unit_tahun: unitTahun,
-                harga_motor: hargaMotor,
-                dana_dicairkan: danaDicairkan,
-                tenor: tenor,
-                angsuranMonthly: angsuranMonthly,
-                url: urlValue,
-                'g-recaptcha-response': token
-            };
-
-            $.ajax({
-                url: "/ajukan-angsuran",
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: data,
-                success: function (response) {
-                    $('#overlay').hide();
-                    $('#myModal .material-icons').text('check');
-                    $('#myModal .modal-title').text('Sukses!');
-                    $('#myModal .modal-body').append('<p>' + response.successMessage + '</p>');
-                    window.shouldReload = true;
-                    $("#myModal").iziModal('open');
-                },
-                error: function (response) {
-                    $('#overlay').hide();
-                    if (response.responseJSON.errorMessage) {
-                        $('#myModal .icon-box').addClass('error');
-                        $('#myModal .material-icons').text('close');
-                        $('#myModal .modal-title').text('Error!');
-                        $('#myModal .modal-body').append('<p>' + response.responseJSON.errorMessage + '</p>');
-                        window.shouldReload = true;
-                        $("#myModal").iziModal('open');
-                        enableButton();
-                    } else {
-                        let errors = response.responseJSON.errors;
-                        $('#myModal .icon-box').addClass('error');
-                        $('#myModal .material-icons').text('close');
-                        $('#myModal .modal-title').text('Error!');
-                        $.each(errors, function (key, messages) {
-                            $.each(messages, function (index, message) {
-                                $('#myModal .modal-body').append('<li>' + message + '</li>');
-                            });
-                        });
-                        window.shouldReload = false;
-                        $("#myModal").iziModal('open');
-                        enableButton();
-                    }
-                }
-            });
-        });
-    });
+    function lockButtons(lock) {
+        $("button.btn-primary").prop("disabled", lock);
+    }
 
     function enableButton() {
-        $(".btn-primary").removeAttr("disabled");
+        lockButtons(false);
     }
 
+    /*
+     * nodes: array elemen jQuery yang dimasukkan ke body modal.
+     * reload: true = halaman dimuat ulang saat modal ditutup.
+     */
+    function showModal(type, title, nodes, reload) {
+        const isError = type === "error";
+        const $modal = $("#myModal");
+        const $body = $modal.find(".modal-body").empty();
+
+        $modal.find(".icon-box").toggleClass("error", isError);
+        $modal.find(".material-icons").text(isError ? "close" : "check");
+        $modal.find(".modal-title").text(title);
+        nodes.forEach(function (node) {
+            $body.append(node);
+        });
+
+        window.shouldReload = reload;
+        $modal.iziModal("open");
+    }
+
+    function showErrorModal(message, reload) {
+        showModal("error", "Error!", [$("<p>").text(message)], reload);
+    }
+
+    /* ====================================================================
+       Validasi
+       ==================================================================== */
+
     function setErrorFor(input, message) {
-        let $formControl = $(input).parent();
+        const $formControl = $(input).parent();
         $formControl.addClass("error").removeClass("success");
 
-        let $errorElement = $formControl.find("small");
+        let $errorElement = $formControl.find("small.field-error");
         if ($errorElement.length === 0) {
-            $errorElement = $("<small></small>").appendTo($formControl);
+            $errorElement = $('<small class="field-error"></small>').appendTo(
+                $formControl
+            );
         }
 
         $errorElement.text(message);
     }
 
     function setSuccessFor(input) {
-        let $formControl = $(input).parent();
-        if ($formControl) {
-            $formControl.removeClass("error");
-        }
+        $(input).parent().removeClass("error");
     }
 
     function clearErrors() {
-        $(".form-group").removeClass("error");
-        $("small").remove();
+        $(".main-form .error").removeClass("error");
+        $(".main-form small.field-error").remove();
     }
 
+    // Isi wajib: tandai error atau sukses, kembalikan true/false
+    function requireValue(input, value, message) {
+        if (!value) {
+            setErrorFor(input, message);
+            return false;
+        }
+
+        setSuccessFor(input);
+        return true;
+    }
+
+    function readContact() {
+        return {
+            name: $.trim($("#name").val()),
+            // spasi dan tanda hubung dibuang: "0812-3456 789" menjadi "08123456789"
+            nohp: $.trim($("#nohp").val()).replace(/[\s-]/g, ""),
+        };
+    }
+
+    function validateContact(contact) {
+        let valid = true;
+
+        if (!contact.name) {
+            setErrorFor("#name", "Nama belum diisi");
+            valid = false;
+        } else if (!NAME_PATTERN.test(contact.name)) {
+            setErrorFor("#name", "Gunakan huruf");
+            valid = false;
+        } else {
+            setSuccessFor("#name");
+        }
+
+        if (!contact.nohp) {
+            setErrorFor("#nohp", "No. Handphone belum diisi");
+            valid = false;
+        } else if (!PHONE_PATTERN.test(contact.nohp)) {
+            setErrorFor("#nohp", "Gunakan angka");
+            valid = false;
+        } else {
+            setSuccessFor("#nohp");
+        }
+
+        return valid;
+    }
+
+    function validateMotor(form) {
+        // Semua dicek (tidak berhenti di yang pertama) supaya semua pesan error tampil sekaligus
+        const checks = [
+            requireValue(
+                "#pilih-produk",
+                form.produk,
+                "Silakan pilih produk yang diminati."
+            ),
+            requireValue(
+                "#payment-method",
+                form.cara_bayar,
+                "Silakan pilih cara bayar."
+            ),
+        ];
+
+        if (form.cara_bayar === "kredit") {
+            checks.push(
+                requireValue(
+                    "#down-payment",
+                    form.dp,
+                    "Silakan pilih down payment."
+                ),
+                requireValue(
+                    "#tenor-pembelian",
+                    form.tenor,
+                    "Silakan pilih jumlah tenor."
+                )
+            );
+        }
+
+        checks.push(
+            requireValue(
+                "#label-checkbox",
+                form.terms,
+                "Kolom wajib dicentang."
+            )
+        );
+
+        return checks.every(Boolean);
+    }
+
+    /* ====================================================================
+       Kirim ke server
+       ==================================================================== */
+
+    function pageUrl() {
+        return $.trim($('input[name="url"]').val() || "");
+    }
+
+    function clearQueryString() {
+        const url = new URL(window.location.href);
+        url.search = "";
+        window.history.replaceState({}, document.title, url.toString());
+    }
+
+    function errorMessageFor(status) {
+        if (status === 0) {
+            return "Tidak dapat terhubung ke server. Periksa koneksi internet Anda lalu coba lagi.";
+        }
+        if (status === 419) {
+            return "Sesi Anda telah berakhir. Halaman akan dimuat ulang, silakan coba lagi.";
+        }
+        if (status === 429) {
+            return "Terlalu banyak percobaan. Silakan coba lagi beberapa saat lagi.";
+        }
+        return "Terjadi kesalahan pada server. Silakan coba lagi nanti.";
+    }
+
+    function handleSuccess(response, onSuccess) {
+        showOverlay(false);
+
+        if (onSuccess) {
+            onSuccess();
+        }
+
+        // successMessage ditulis di backend, boleh memuat markup sederhana (jangan isi dengan input pengguna)
+        showModal(
+            "success",
+            "Sukses!",
+            [$("<p>").html(response.successMessage)],
+            true
+        );
+    }
+
+    function handleError(xhr) {
+        const json = xhr.responseJSON || {};
+
+        showOverlay(false);
+        enableButton();
+
+        if (json.errorMessage) {
+            showModal(
+                "error",
+                "Error!",
+                [$("<p>").html(json.errorMessage)],
+                true
+            );
+            return;
+        }
+
+        if (json.errors) {
+            const items = [];
+            $.each(json.errors, function (key, messages) {
+                $.each(messages, function (index, message) {
+                    items.push($("<li>").text(message));
+                });
+            });
+            showModal("error", "Error!", items, false);
+            return;
+        }
+
+        // 419 (CSRF kedaluwarsa), 429, 500, atau koneksi putus: tidak ada JSON dari server
+        showErrorModal(errorMessageFor(xhr.status), xhr.status === 419);
+    }
+
+    /*
+     * Satu pintu untuk semua form: ambil token reCAPTCHA, kirim, lalu tampilkan hasilnya.
+     * options.onSuccess dijalankan sebelum modal sukses tampil.
+     */
+    function submitForm(url, data, options) {
+        const onSuccess = options && options.onSuccess;
+
+        showOverlay(true);
+        lockButtons(true);
+        $("#myModal .icon-box").removeClass("error");
+        $("#myModal .modal-body").empty();
+
+        getRecaptchaToken("contact").then(
+            function (token) {
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: $.extend({}, data, { "g-recaptcha-response": token }),
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content"
+                        ),
+                    },
+                })
+                    .done(function (response) {
+                        handleSuccess(response, onSuccess);
+                    })
+                    .fail(handleError);
+            },
+            function () {
+                showOverlay(false);
+                enableButton();
+                showErrorModal(
+                    "Verifikasi keamanan gagal dimuat. Matikan pemblokir iklan atau muat ulang halaman, lalu coba lagi.",
+                    false
+                );
+            }
+        );
+    }
+
+    /* ====================================================================
+       Tombol submit
+       ==================================================================== */
+
+    $("#submit-pesan").on("click", function (e) {
+        e.preventDefault();
+        clearErrors();
+
+        const contact = readContact();
+        const message = $.trim($("#tulis-pesan").val());
+
+        const contactOk = validateContact(contact);
+        const messageOk = requireValue(
+            "#tulis-pesan",
+            message,
+            "Tulis pesan Anda."
+        );
+
+        if (!contactOk || !messageOk) {
+            enableButton(); // tombol sudah dinonaktifkan oleh onclick="disableButton()" di Blade
+            return;
+        }
+
+        submitForm("/submit-pesan-form", {
+            name: contact.name,
+            nohp: contact.nohp,
+            message: message,
+        });
+    });
+
+    $("#submit-motor").on("click", function (e) {
+        e.preventDefault();
+        clearErrors();
+
+        const contact = readContact();
+        const form = {
+            produk: $("#pilih-produk").val(),
+            cara_bayar: $("#payment-method").val(),
+            dp: $("#down-payment").val(),
+            tenor: $("#tenor-pembelian").val(),
+            terms: $("#termsCheckbox").is(":checked"),
+        };
+
+        const contactOk = validateContact(contact);
+        const motorOk = validateMotor(form);
+
+        if (!contactOk || !motorOk) {
+            enableButton();
+            return;
+        }
+
+        submitForm(
+            "/submit-consultation-form",
+            {
+                name: contact.name,
+                nohp: contact.nohp,
+                produk: form.produk,
+                terms: form.terms,
+                cara_bayar: form.cara_bayar,
+                dp: form.dp,
+                tenor: form.tenor,
+                url: pageUrl(),
+            },
+            { onSuccess: clearQueryString }
+        );
+    });
+
+    $("#submit-dana").on("click", function (e) {
+        e.preventDefault();
+        clearErrors();
+
+        const contact = readContact();
+
+        if (!validateContact(contact)) {
+            enableButton();
+            return;
+        }
+
+        submitForm("/ajukan-angsuran", {
+            name: contact.name,
+            nohp: contact.nohp,
+            tipe: $("#tipe").val(),
+            tipeLain: $("#tipe-lain").val(),
+            unit_tahun: $("#unit_tahun").val(),
+            harga_motor: ($("#harga_motor").val() || "").replace(/\./g, ""),
+            dana_dicairkan: $("#dana_dicairkan").val(),
+            tenor: $("#tenor").val(),
+            angsuranMonthly: $("#angsuran-monthly").val(),
+            url: pageUrl(),
+        });
+    });
 });
