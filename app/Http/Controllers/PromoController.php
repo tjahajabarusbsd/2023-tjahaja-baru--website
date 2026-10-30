@@ -13,6 +13,7 @@ class PromoController extends Controller
     $promo = Promo::where('uri', $uri)
       ->where('is_active', true)
       ->where('show_on_mobile', true)
+      ->running()
       ->firstOrFail();
 
     return view('promo.detail', compact('promo'));

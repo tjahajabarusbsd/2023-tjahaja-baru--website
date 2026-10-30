@@ -6,7 +6,7 @@ $(document).ready(function () {
         localStorage.removeItem("visited");
     }
 
-    const swiperBanner = new Swiper(".banner-wrapper", {
+    new Swiper(".banner-wrapper", {
         slidesPerView: 1,
         autoplay: {
             delay: 3000,
@@ -20,16 +20,33 @@ $(document).ready(function () {
         },
     });
 
-    const swiperProductCategory = new Swiper(".grid-container", {
-        slidesPerView: 1,
+    new Swiper(".grid-container", {
+        slidesPerView: 1.15,
         spaceBetween: 12,
+        centerInsufficientSlides: true,
         breakpoints: {
-            640: { slidesPerView: 2, spaceBetween: 16 },
-            768: { slidesPerView: 3, spaceBetween: 20 },
-            1024: { slidesPerView: 4, spaceBetween: 24 },
+            640: { slidesPerView: 2.15, spaceBetween: 16 },
+            768: { slidesPerView: 3.15, spaceBetween: 20 },
+            1024: { slidesPerView: 4.15, spaceBetween: 24 },
         },
         pagination: {
             el: ".product-pagination",
+            clickable: true,
+        },
+    });
+
+    new Swiper(".promo-swiper", {
+        slidesPerView: 1.15,
+        spaceBetween: 12,
+        centerInsufficientSlides: true,
+        watchOverflow: true,
+        breakpoints: {
+            640: { slidesPerView: 2.15, spaceBetween: 16 },
+            768: { slidesPerView: 3.15, spaceBetween: 20 },
+            1024: { slidesPerView: 4.15, spaceBetween: 24 },
+        },
+        pagination: {
+            el: ".promo-pagination",
             clickable: true,
         },
     });

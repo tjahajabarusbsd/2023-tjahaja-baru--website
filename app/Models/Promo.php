@@ -77,6 +77,21 @@ class Promo extends Model
         return $query->where('is_active', true);
     }
 
+    public function scopeShowOnPc($query)
+    {
+        return $query->where('show_on_pc', true);
+    }
+
+    // promo yang sedang berjalan: start_date <= sekarang <= end_date (kosong = tidak dibatasi)
+    public function scopeRunning($query)
+    {
+        $now = now();
+
+        return $query
+            ->where(fn($q) => $q->whereNull('start_date')->orWhere('start_date', '<=', $now))
+            ->where(fn($q) => $q->whereNull('end_date')->orWhere('end_date', '>=', $now));
+    }
+
     /*
     |--------------------------------------------------------------------------
     | ACCESSORS
@@ -125,14 +140,18 @@ class Promo extends Model
         // if a base64 was sent, store it in the db
         if (Str::startsWith($value, 'data:image')) {
             // 0. Make the image
-            $image = Image::make($value);
+            $image = Image::make($value)->resize(1080, null, function ($constraint) {
+                $constraint->aspectRatio(); // tinggi mengikuti, rasio 4:5 tetap
+                $constraint->upsize();      // gambar kecil tidak diperbesar
+            });
 
             // 1. Generate a filename with original extension.
             $extension = explode('/', explode(':', substr($value, 0, strpos($value, ';')))[1])[1];
             $filename = md5($value . time()) . '.' . $extension;
 
             // 2. Store the image on disk.
-            Storage::disk($disk)->put($destination_path . '/' . $filename, $image->stream());
+            // Storage::disk($disk)->put($destination_path . '/' . $filename, $image->stream());
+            Storage::disk($disk)->put($destination_path . '/' . $filename, $image->stream(null, 85));
 
             // 3. Delete the previous image, if there was one.
             $previousImagePath = Str::replaceFirst('uploads/', '', $this->{$attribute_name});

@@ -7,13 +7,16 @@
     <meta property="og:description"
         content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="{{ url('/images/og-default.jpg') }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta name="twitter:card" content="summary_large_image">
 @endsection
 
 @section('main_class', 'home')
 
 @section('additional_css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}?v={{ filemtime(public_path('css/home.css')) }}" />
 @endsection
 
 @section('content')
@@ -65,55 +68,38 @@
     </section>
 
     <section class="second-section container-fluid">
-        <div class="top-container row">
-            <div class="col-sm-6 mb-3">
-                <div class="promo-container" style="background-color:#79dbc0;">
-                    <div class="promo-title-container mb-3">
-                        <p class="promo-title">Promo</p>
-                    </div>
-                    <div class="promo-banner-container row">
+        <div class="caption-container">
+            <p class="title">Promo Sales dan After Sales</p>
+        </div>
+        @if ($promos->isNotEmpty())
+            <div class="promo-slider">
+                <div class="swiper promo-swiper">
+                    <div class="swiper-wrapper">
                         @foreach ($promos as $promo)
-                            <div class="promo-banner-col col-sm-6 mb-3">
-                                <div class="promo-banner-item" data-id={{ $promo->id }}>
-                                    <img src="{{ url($promo->image) }}" alt="" data-bs-toggle="modal"
-                                        data-bs-target="#promoModal{{ $promo->id }}">
-                                    <div class="modal fade" id="promoModal{{ $promo->id }}" tabindex="-1"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true" data-id={{ $promo->id }}>
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title w-100" id="exampleModalLabel">
-                                                        {{ $promo->name }}
-                                                    </h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <!--Modal body with image-->
-                                                <div class="modal-body">
-                                                    <img src="{{ url($promo->image) }}" />
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="swiper-slide">
+                                {{-- <a class="promo-card" href="{{ url('/promo/' . $promo->uri) }}">
+                                    <img src="{{ url($promo->image) }}" alt="{{ $promo->name }}" loading="lazy">
+                                </a> --}}
+                                <div class="promo-card">
+                                    <img src="{{ url($promo->image) }}" alt="{{ $promo->name }}" loading="lazy">
                                 </div>
                             </div>
                         @endforeach
                     </div>
                 </div>
+                <div class="promo-pagination"></div>
             </div>
-            <div class="col-sm-6 mb-3 thumbnail">
-                <a href="https://www.yamaha-motor.co.id/part-accessories/ygp/" target="_blank" class="part-acc">
-                    <img src="{{ url('/images/parts.jpg') }}" alt="">
-                    <div class="middle">
-                        <div class="text">See More</div>
-                    </div>
-                </a>
-            </div>
+        @else
+            <p class="promo-empty">Belum ada promo saat ini.</p>
+        @endif
+
+    </section>
+
+    <section class="second-section container-fluid">
+        <div class="caption-container">
+            <p class="title">Berita</p>
         </div>
+        <p class="empty-section">Belum ada berita saat ini.</p>
     </section>
 
     <!-- Bootstrap Modal -->
@@ -142,5 +128,5 @@
 
 @section('additional_script')
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="{{ asset('js/home.js') }}"></script>
+    <script src="{{ asset('js/home.js') }}?v={{ filemtime(public_path('js/home.js')) }}"></script>
 @endsection

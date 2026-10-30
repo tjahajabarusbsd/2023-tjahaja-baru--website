@@ -1,148 +1,159 @@
-header {
-    height: 61px
+/* ==========================================================================
+   Navbar
+   Syarat markup (navbar.blade.php):
+     li.subnav   -> class "d-none d-lg-block"   (mega menu, desktop)
+     li.dropdown -> class "d-lg-none"           (dropdown, mobile)
+   ========================================================================== */
+
+:root {
+    --navbar-h: 61px;
 }
+
+header {
+    height: var(--navbar-h);
+}
+
+/* --- Bar ----------------------------------------------------------------- */
 
 .navbar {
     position: fixed;
+    top: 0;
     width: 100%;
     background-color: #183f9e;
-    z-index: 99
+    z-index: 99;
+    transition: box-shadow 0.3s;
+}
+
+.navbar.is-scrolled {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
 }
 
 .navbar img {
-    height: unset
+    height: unset;
 }
 
-.navbar .container {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start
+.navbar > .container {
+    align-items: flex-start;
 }
 
-.navbar-toggler-icon,
-.navbar-toggler-icon::after,
-.navbar-toggler-icon::before {
-    background-color: var(--bs-gray-800);
-    position: relative;
-    transform-origin: center
-}
+/* --- Logo ---------------------------------------------------------------- */
 
 .navbar .main-logo {
-    padding-top: 0
+    padding-top: 0;
 }
 
 .navbar .main-logo .logo-image {
-    height: 45px;
     width: 95px;
+    height: 45px;
     margin-right: 10px;
 }
 
+/* --- Link + garis bawah (hover / aktif) ---------------------------------- */
+
 .navbar .nav-link {
-    text-transform: uppercase;
-    text-align: center;
-    color: #fff;
-    border-radius: 5px;
     width: max-content;
-    margin: 0 auto
+    margin: 0 auto;
+    border-radius: 5px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
 }
 
-.navbar .link-login {
-    border: 1px solid rgba(0, 0, 0, 0);
-    background: white;
-    color: #183f9e;
-    font-weight: 500;
-    padding: unset;
-    line-height: unset;
-    height: 42px;
-    width: 80px;
-    padding-top: 9px;
-}
-
-.navbar .nav-login {
-    margin: auto;
-}
-
-.navbar li>a::after {
+.navbar li > a::after {
     content: "";
     display: block;
-    margin: auto;
-    height: 3px;
     width: 0;
-    top: 5px;
-    background: 0 0;
-    transition: .3s
-}
-
-.navbar li>a.active-nav::after,
-.navbar li>a:hover::after {
-    width: 100%;
-    background: #fff
-}
-
-.navbar-toggler-icon {
-    background-image: none !important;
     height: 3px;
-    width: 25px;
-    margin: 10px 0;
-    transition: .35s ease-out
-}
-
-.navbar-toggler-icon::before {
-    display: block;
-    height: 3px;
-    content: "";
-    top: -7px;
-    transition: .15s ease-out
-}
-
-.navbar-toggler-icon::after {
-    display: block;
-    height: 3px;
-    content: "";
-    top: 4px;
-    transition: .35s ease-out
-}
-
-.navbar-toggler:not(.collapsed) .navbar-toggler-icon {
-    transform: rotate(45deg)
-}
-
-.navbar-toggler:not(.collapsed) .navbar-toggler-icon::before {
-    opacity: 0
-}
-
-.navbar-toggler:not(.collapsed) .navbar-toggler-icon::after {
-    transform: rotate(-90deg) translateX(7px)
-}
-
-.navbar-dark .navbar-toggler-icon,
-.navbar-dark .navbar-toggler-icon::after,
-.navbar-dark .navbar-toggler-icon::before {
-    background-color: var(--bs-gray-100)
-}
-
-.navbar .icon-container {
-    display: block;
-    opacity: 0;
-    visibility: hidden;
-    background: #17285e;
-    position: absolute;
-    left: 0;
-    width: 100%;
-    z-index: 1;
-    top: 61px;
+    margin: auto;
+    background: transparent;
     transition: 0.3s;
 }
 
-.navbar .icon-row .icon {
-    margin: 0 auto
+.navbar li > a.active::after,
+.navbar li > a.active-nav::after,
+.navbar li > a:hover::after {
+    width: 100%;
+    background: #fff;
 }
 
-.navbar .icon-row,
-.navbar .subnav {
-    display: none
+.navbar a:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+/* --- Tombol hamburger ---------------------------------------------------- */
+
+.navbar-toggler-icon,
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+    position: relative;
+    transform-origin: center;
+    background-color: var(--bs-gray-100);
+}
+
+.navbar-toggler-icon {
+    height: 3px;
+    width: 25px;
+    margin: 10px 0;
+    background-image: none !important;
+    transition: 0.35s ease-out;
+}
+
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+    content: "";
+    display: block;
+    height: 3px;
+}
+
+.navbar-toggler-icon::before {
+    top: -7px;
+    transition: 0.15s ease-out;
+}
+
+.navbar-toggler-icon::after {
+    top: 4px;
+    transition: 0.35s ease-out;
+}
+
+.navbar-toggler:not(.collapsed) .navbar-toggler-icon {
+    transform: rotate(45deg);
+}
+
+.navbar-toggler:not(.collapsed) .navbar-toggler-icon::before {
+    opacity: 0;
+}
+
+.navbar-toggler:not(.collapsed) .navbar-toggler-icon::after {
+    transform: rotate(-90deg) translateX(7px);
+}
+
+/* --- Mega menu produk (desktop, tampil saat hover / fokus) ---------------- */
+
+.navbar .icon-container {
+    position: absolute;
+    top: var(--navbar-h);
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    background: #17285e;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+}
+
+.navbar .subnav:hover .icon-container,
+.navbar .subnav:focus-within .icon-container {
+    opacity: 1;
+    visibility: visible;
+}
+
+.navbar .icon-row {
+    justify-content: space-between;
+    width: 100%;
+    max-width: 950px;
+    height: 85px;
+    margin: 0 auto;
 }
 
 .navbar .product-icon-box {
@@ -151,132 +162,120 @@ header {
     align-items: center;
     justify-content: center;
     width: 104px;
-    cursor: pointer
+    cursor: pointer;
 }
 
-.navbar .product-icon-box.active,
-.navbar .product-icon-box:hover {
-    background: linear-gradient(180deg, #100e5a 0, rgba(255, 255, 255, 0) 53%)
+.navbar .product-icon-box:hover,
+.navbar .product-icon-box.active {
+    background: linear-gradient(180deg, #100e5a 0, rgba(255, 255, 255, 0) 53%);
+}
+
+/* seluruh kotak bisa diklik, bukan hanya ikon + teks */
+.navbar .product-icon-box a {
+    flex: 1;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
 
 .navbar .product-icon-box .icon {
-    width: 60px
-}
-
-.navbar .product-icon-box a {
-    text-decoration: none
+    width: 60px;
 }
 
 .navbar .product-icon-box .text {
+    margin: 10px 0 0;
     font-size: 13px;
     font-weight: 700;
     text-align: center;
     color: #fff;
-    margin-bottom: 0;
-    margin-top: 10px
 }
 
 .navbar .compare-menu {
-    background-color: red;
     height: 50px;
-    border-radius: 12px;
     margin: auto 0;
+    border-radius: 12px;
+    background-color: red;
 }
 
 .navbar .compare-menu a {
-    color: white;
+    color: #fff;
     font-weight: 700;
 }
 
+/* --- Dropdown produk (mobile) -------------------------------------------- */
+
 .navbar .dropdown-menu {
+    --bs-dropdown-bg: transparent;
+    --bs-dropdown-border-width: 0;
+    --bs-dropdown-link-color: #fff;
+    --bs-dropdown-link-hover-color: #fff;
+    --bs-dropdown-link-hover-bg: transparent;
+    --bs-dropdown-link-active-bg: transparent;
     text-align: center;
-    background: 0 0;
-    border: none
 }
 
 .navbar .dropdown-item {
     width: max-content;
     margin: 0 auto;
-    color: #fff;
 }
 
-.navbar .dropdown-item:hover {
-    background: 0 0
+/* --- Breakpoint ---------------------------------------------------------- */
+
+/* Mobile: menu panjang harus bisa di-scroll karena navbar fixed */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        max-height: calc(100vh - var(--navbar-h));
+        max-height: calc(100dvh - var(--navbar-h));
+        overflow-y: auto;
+    }
 }
 
-.navbar .logout-form {
-    margin: auto;
-}
-
-.navbar .logout-form button {
-    border: 1px solid rgba(0, 0, 0, 0);
-    border-radius: 5px;
-    padding: 8px;
-    width: 80px;
-}
-
-@media only screen and (min-width:992px) {
+@media (min-width: 992px) {
     .navbar {
         padding-top: 0;
-        padding-bottom: 0
+        padding-bottom: 0;
     }
 
     .navbar .main-logo {
-        padding-top: 8px
+        padding-top: 8px;
     }
 
     .navbar .navbar-nav .nav-link {
-        height: 61px;
+        height: var(--navbar-h);
         padding-top: 16px;
         line-height: 30px;
     }
-
-    .navbar .navbar-nav .link-login {
-        line-height: unset;
-        height: 42px;
-        width: 80px;
-        padding-top: 9px;
-    }
-
-    .navbar .subnav,
-    .navbar .subnav:hover .icon-container {
-        display: block;
-        opacity: 1;
-        visibility: visible;
-        transition: 0.3s;
-    }
-
-    .navbar .icon-row {
-        display: flex;
-        justify-content: space-between;
-        height: 85px;
-        width: 100%;
-        max-width: 950px;
-        margin: 0 auto
-    }
-
-    .navbar .dropdown {
-        display: none
-    }
 }
 
-@media only screen and (max-width:1115px) {
-    .nav-link {
+@media (max-width: 1115px) {
+    .navbar .nav-link {
         font-size: 14px;
     }
 }
 
-@media only screen and (max-width:425px) {
-    header {
-        height: 51px
+@media (max-width: 425px) {
+    :root {
+        --navbar-h: 51px;
     }
 
     .navbar .main-logo {
-        margin-top: 5px
+        margin-top: 5px;
     }
 
     .navbar .main-logo .logo-image {
+        width: 64px;
         height: 30px;
-        width: 64px
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .navbar,
+    .navbar *,
+    .navbar *::before,
+    .navbar *::after {
+        transition: none !important;
     }
 }

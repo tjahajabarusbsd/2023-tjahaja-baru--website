@@ -7,7 +7,7 @@ body {
 }
 
 a {
-    text-decoration: none
+    text-decoration: none;
 }
 
 #main-wrapper,
@@ -35,29 +35,29 @@ section {
     margin-bottom: 0;
     z-index: 1000;
     background: #26d968;
-    border-radius: 10px
+    border-radius: 10px;
 }
 
 .link-wa:hover {
     background-color: #52e086;
-    animation: .82s cubic-bezier(.36, .07, .19, .97) both shake;
+    animation: 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both shake;
     transform: translate3d(0, 0, 0);
-    perspective: 1000px
+    perspective: 1000px;
 }
 
 .link-wa .konten-gambar {
-    width: 40px
+    width: 40px;
 }
 
 .link-wa .konten-gambar img {
-    width: 30px
+    width: 30px;
 }
 
-.link-wa .konten-wa h3 {
+.link-wa .konten-wa .h3 {
     font-size: 14px;
     font-weight: 700;
     color: #fff;
-    margin-bottom: 0
+    margin-bottom: 0;
 }
 
 footer {
@@ -125,29 +125,28 @@ footer a {
 }
 
 @keyframes shake {
-
     10%,
     90% {
-        transform: translate3d(-1px, 0, 0)
+        transform: translate3d(-1px, 0, 0);
     }
 
     20%,
     80% {
-        transform: translate3d(2px, 0, 0)
+        transform: translate3d(2px, 0, 0);
     }
 
     30%,
     50%,
     70% {
-        transform: translate3d(-4px, 0, 0)
+        transform: translate3d(-4px, 0, 0);
     }
 
     40%,
     60% {
-        transform: translate3d(4px, 0, 0)
+        transform: translate3d(4px, 0, 0);
     }
 }
 
 .grecaptcha-badge {
-    visibility: hidden !important
+    visibility: hidden !important;
 }

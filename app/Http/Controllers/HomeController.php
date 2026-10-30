@@ -24,7 +24,12 @@ class HomeController extends Controller
 
         $banners = Banner::where('is_active', 1)->orderBy('created_at', 'desc')->get();
 
-        $promos = Promo::where('is_active', 1)->where('show_on_pc', true)->get();
+        $promos = Promo::active()
+            ->showOnPc()
+            ->running()
+            ->whereNotNull('image')
+            ->latest('id')
+            ->get();
 
         return view('home', compact('articles', 'recommendedVariants', 'banners', 'promos'));
     }

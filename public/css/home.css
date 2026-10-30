@@ -204,3 +204,52 @@ img {
         height: 20px;
     }
 }
+
+.promo-slider {
+    position: relative;
+    margin-top: 12px;
+}
+
+.promo-card {
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease;
+}
+
+/* global `img { height: 100% }` di atas akan merusak rasio, jadi di-override */
+.promo-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: contain;
+    background: #fff;
+}
+
+.promo-pagination {
+    margin-top: 16px;
+    text-align: center;
+    width: 100%;
+}
+
+.promo-empty {
+    margin: 12px 0 0;
+    color: #6b7280;
+}
+
+.empty-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 425px;
+    margin: 0;
+    color: #6b7280;
+}
+
+@media screen and (max-width: 575px) {
+    .empty-section {
+        min-height: 260px;
+    }
+}

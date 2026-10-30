@@ -46,6 +46,14 @@ class PromoCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('name');
+        CRUD::addColumn([
+            'name' => 'image',
+            'label' => 'Gambar',
+            'type' => 'image',
+            'prefix' => '',
+            'height' => '80px',
+            'width' => 'auto',
+        ]);
         $this->crud->addColumn([
             'name' => 'merchant_id',
             'type' => 'select',
@@ -122,6 +130,11 @@ class PromoCrudController extends CrudController
             'placeholder' => 'Pilih merchant',
         ]);
         CRUD::field('image')->type('image')->upload(true);
+        CRUD::field('image')
+            ->label('Gambar Promo')
+            ->type('image')
+            ->upload(true)
+            ->hint('Rasio 4:5 (portrait), disarankan 1080x1350 px, format JPG/WebP, maks. ~300 KB.');
         CRUD::field('description')->label('Deskripsi')->type('textarea');
         CRUD::field('terms_conditions')->label('Syarat dan Ketentuan')->type('ckeditor');
         CRUD::field('show_on_pc')->label('Muncul di web?')->type('checkbox');
@@ -156,7 +169,7 @@ class PromoCrudController extends CrudController
 
         $entry = $this->crud->entry;
 
-        if ($entry->is_active) {
+        if ($entry->is_active && $entry->show_on_mobile) {
             event(new PromoCreated($entry));
         }
 

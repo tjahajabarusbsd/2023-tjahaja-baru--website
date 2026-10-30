@@ -1,149 +1,95 @@
 @extends('layouts.master')
 
-@section('title', 'Product | Tjahaja Baru')
+@php
+    $categories = config('product_categories');
+
+    // /products = halaman indeks (isinya MAXi), /products/category/{slug} = halaman kategori
+    $isIndex = request()->is('products');
+    $slug = $isIndex ? 'maxi' : request()->segment(3);
+    $category = $categories[$slug] ?? null;
+
+    // Judul beda per kategori -> terbaca di Google Analytics (Page title)
+    $pageTitle =
+        $category && !$isIndex
+            ? "Motor Yamaha {$category['name']} | Tjahaja Baru"
+            : 'Produk Motor Yamaha | Tjahaja Baru';
+
+    $pageDescription =
+        $category && !$isIndex
+            ? "Daftar motor Yamaha {$category['name']} beserta harga OTR Sumatera Barat di Tjahaja Baru."
+            : 'Daftar motor Yamaha beserta harga OTR Sumatera Barat di Tjahaja Baru.';
+
+    // /products memakai $maxis, halaman kategori memakai $groups (field-nya sama)
+    $items = $isIndex ? $maxis : $groups;
+@endphp
+
+@section('title', $pageTitle)
+
+@section('meta_description', $pageDescription)
 
 @section('meta_og')
-	<meta property="og:title" content="Product | Tjahaja Baru">
-	<meta property="og:description" content="Website Resmi Yamaha Sumatera Barat: CV. Tjahaja Baru. Official Website for Yamaha motor West Sumatra, Indonesia.">
-	<meta property="og:type" content="website">
+    <meta property="og:title" content="{{ $pageTitle }}">
+    <meta property="og:description" content="{{ $pageDescription }}">
+    <meta property="og:type" content="website">
 @endsection
 
 @section('main_class', 'product')
 
 @section('additional_css')
-	<link rel="stylesheet" href="{{ asset('css/product.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/product.css') }}" />
 @endsection
 
 @section('content')
-	<section class="first-section">
-		<div class="container-fluid icon-container">
-			<div class="row icon-row pc">
-				<div class="product-icon-box">
-					<a href="/products/category/maxi">
-						<img src="{{ url('images/products/icons/maxi_i.png')}}" alt="" class="icon">
-						<p class="text">MAXi</p>
-					</a>
-				</div>
-				<div class="product-icon-box">
-					<a href="/products/category/classy">
-						<img src="{{ url('images/products/icons/classy_i.png')}}" alt="" class="icon">
-						<p class="text">Classy</p>
-					</a>
-				</div>
-				<div class="product-icon-box">
-					<a href="/products/category/matic">
-						<img src="{{ url('images/products/icons/matic_i.png')}}" alt="" class="icon">
-						<p class="text">Matic</p>
-					</a>
-				</div>
-				<div class="product-icon-box">
-					<a href="/products/category/sport">
-						<img src="{{ url('images/products/icons/sport_i.png')}}" alt="" class="icon">
-						<p class="text">Sport</p>
-					</a>
-				</div>
-				<div class="product-icon-box">
-					<a href="/products/category/moped">
-						<img src="{{ url('images/products/icons/moped_i.png')}}" alt="" class="icon">
-						<p class="text">Moped</p>
-					</a>
-				</div>
-				<div class="product-icon-box compare-menu">
-					<a href="/compare_product">Compare Product</a>
-				</div>
-			</div>
-			<div class="row icon-row mobile">
-				<div class="product-icon-box">
-					<a href="/products/category/maxi">
-						<img src="{{ url('images/products/icons/maxi_i.png')}}" alt="" class="icon">
-						<p class="text">MAXi</p>
-					</a>
-				</div>
-				<div class="product-icon-box">
-					<a href="/products/category/classy">
-						<img src="{{ url('images/products/icons/classy_i.png')}}" alt="" class="icon">
-						<p class="text">Classy</p>
-					</a>
-				</div>
-				<div class="product-icon-box">
-					<a href="/products/category/matic">
-						<img src="{{ url('images/products/icons/matic_i.png')}}" alt="" class="icon">
-						<p class="text">Matic</p>
-					</a>
-				</div>
-				<div class="product-icon-box">
-					<a href="/products/category/sport">
-						<img src="{{ url('images/products/icons/sport_i.png')}}" alt="" class="icon">
-						<p class="text">Sport</p>
-					</a>
-				</div>
-				<div class="product-icon-box">
-					<a href="/products/category/moped">
-						<img src="{{ url('images/products/icons/moped_i.png')}}" alt="" class="icon">
-						<p class="text">Moped</p>
-					</a>
-				</div>
-				<div class="product-icon-box compare-menu">
-					<a href="/compare_product">Compare Product</a>
-				</div>
-			</div>
-		</div>
-	</section>
+    <section class="first-section">
+        <div class="container-fluid icon-container">
+            {{-- Dua baris sengaja: .pc untuk desktop, .mobile untuk slider slick (lihat product.js / product.css) --}}
+            <div class="row icon-row pc">
+                @include('partials.category_icons')
+            </div>
+            <div class="row icon-row mobile">
+                @include('partials.category_icons')
+            </div>
+        </div>
+    </section>
 
-	<section class="second-section">
-		<div class="container-fluid">
-			<div class="row product-logo-container">
-				@if (Request::is('products') || Request::is('products/category/maxi'))
-					<img src="{{ url('images/products/logos/maxi.png') }}" alt="Maxi Product" class="logo">
-				@elseif (Request::is('products/category/classy'))
-					<img src="{{ url('images/products/logos/classy.png') }}" alt="Classy Product" class="logo">
-				@elseif (Request::is('products/category/matic'))
-					<img src="{{ url('images/products/logos/gen_125.png') }}" alt="Matic Product" class="logo">
-				@elseif (Request::is('products/category/sport'))
-					{{-- <img src="{{ url('images/products/logos/bLUcRU.png') }}" alt="Sport Product" class="logo"> --}}
-					<p class="logo">SPORT</p>
-				@elseif (Request::is('products/category/moped'))
-					<p class="logo">MOPED</p>
-				@endif
-				
-			</div>
-			<div class="grid-container">
-				@if (Request::is('products'))
-					@foreach ($maxis as $maxi)
-						<div class="grid-content">
-							<a class="product-link" href="/product/{{ $maxi->uri }}">
-								<div class="box-img">
-									<img src="{{ url($maxi->image) }}" alt="" class="product-unit-image">
-								</div>
-								<div class="box-text">
-									<p class="caption">OTR Sumatera Barat, Mulai Dari</p>
-									<p class="product-price">{{ $maxi->price }}</p>
-									<img class="tombol-biru" src="{{ url('/images/tombol1.png')}}" alt="">
-								</div>
-							</a>
-						</div>
-					@endforeach
-				@else
-					@foreach ($groups as $group)
-						<div class="grid-content">
-							<a class="product-link" href="/product/{{ $group->uri }}">
-								<div class="box-img">
-									<img src="{{ url($group->image) }}" alt="" class="product-unit-image">
-								</div>
-								<div class="box-text">
-									<p class="caption">OTR Sumatera Barat, Mulai Dari</p>
-									<p class="product-price">{{ $group->price }}</p>
-									<img class="tombol-biru" src="{{ url('/images/tombol1.png')}}" alt="">
-								</div>
-							</a>
-						</div>
-					@endforeach
-				@endif
-			</div>
-		</div>
-	</section>
+    <section class="second-section">
+        <div class="container-fluid">
+            <div class="row product-logo-container">
+                <h1 class="visually-hidden">
+                    {{ $category && !$isIndex ? "Motor Yamaha {$category['name']}" : 'Produk Motor Yamaha' }}
+                </h1>
+                @if ($category && $category['logo'])
+                    <img src="{{ url('images/products/logos/' . $category['logo']) }}" alt="Yamaha {{ $category['name'] }}"
+                        class="logo">
+                @elseif ($category)
+                    <p class="logo" aria-hidden="true">{{ strtoupper($category['name']) }}</p>
+                @endif
+            </div>
+
+            <div class="grid-container">
+                @forelse ($items as $item)
+                    <div class="grid-content">
+                        <a class="product-link" href="/product/{{ $item->uri }}">
+                            <div class="box-img">
+                                {{-- Nama produk hanya ada di dalam gambar, jadi alt wajib terisi --}}
+                                <img src="{{ url($item->image) }}" alt="{{ $item->name ?? '' }}" class="product-unit-image"
+                                    @if ($loop->index > 3) loading="lazy" @endif>
+                            </div>
+                            <div class="box-text">
+                                <p class="caption">OTR Sumatera Barat, Mulai Dari</p>
+                                <p class="product-price">{{ $item->price }}</p>
+                                <img class="tombol-biru" src="{{ url('/images/tombol1.png') }}" alt="">
+                            </div>
+                        </a>
+                    </div>
+                @empty
+                    <p class="text-center w-100">Belum ada produk pada kategori ini.</p>
+                @endforelse
+            </div>
+        </div>
+    </section>
 @endsection
 
 @section('additional_script')
-<script src="{{ asset('js/product.js') }}"></script>
+    <script src="{{ asset('js/product.js') }}"></script>
 @endsection

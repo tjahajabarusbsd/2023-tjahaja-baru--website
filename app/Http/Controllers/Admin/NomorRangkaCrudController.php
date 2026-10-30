@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\NomorRangkaRequest;
 use App\Models\NomorRangka;
 use App\Models\Notification;
+use App\Services\Notification\FcmService;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +20,6 @@ class NomorRangkaCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation {
@@ -183,7 +183,7 @@ class NomorRangkaCrudController extends CrudController
             $entry->nama_model = $data[0]['prod_nm'] ?? null;
             $entry->save();
 
-            $this->sendFcmNotification(
+            app(FcmService::class)->send(
                 $entry->user->fcm_token,
                 'Verifikasi Nomor Rangka Berhasil',
                 'Nomor rangka Anda telah berhasil diverifikasi.'
@@ -201,7 +201,7 @@ class NomorRangkaCrudController extends CrudController
         }
 
         if ($oldStatus === 'pending' && $newStatus === 'rejected') {
-            $this->sendFcmNotification(
+            app(FcmService::class)->send(
                 $entry->user->fcm_token,
                 'Verifikasi Nomor Rangka Ditolak',
                 'Nomor rangka Anda gagal diverifikasi. Silakan periksa kembali dokumen yang diunggah.'
@@ -227,38 +227,4 @@ class NomorRangkaCrudController extends CrudController
         $this->setupCreateOperation();
     }
 
-    protected function sendFcmNotification($deviceToken, $title, $body)
-    {
-        if (!$deviceToken) {
-            \Log::warning('User tidak punya FCM token, notifikasi tidak dikirim.');
-            return;
-        }
-
-        try {
-            $factory = (new \Kreait\Firebase\Factory)
-                ->withServiceAccount(config('services.firebase.credentials.file'));
-
-            $messaging = $factory->createMessaging();
-
-            $message = [
-                'token' => $deviceToken,
-                'notification' => [
-                    'title' => $title,
-                    'body' => $body,
-                ],
-                'android' => [
-                    'priority' => 'high',
-                    'notification' => [
-                        'sound' => 'default',
-                    ],
-                ],
-            ];
-
-            $messaging->send($message);
-
-            \Log::info("FCM notification sent to user ID {$deviceToken}");
-        } catch (\Exception $e) {
-            \Log::error('Gagal mengirim FCM notifikasi: ' . $e->getMessage());
-        }
-    }
 }
