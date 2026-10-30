@@ -14,8 +14,8 @@ class PinjamanDanaController extends Controller
     public function hitungPinjaman(Request $request)
     {
         $hargaMotor = $request->harga_motor;
-        
-        $maksimalPinjaman = $hargaMotor * 0.8; 
+
+        $maksimalPinjaman = $hargaMotor * 0.8;
 
         return response()->json(['maksimal_pinjaman' => $maksimalPinjaman]);
     }
@@ -37,10 +37,10 @@ class PinjamanDanaController extends Controller
     {
         $danaDicairkan = $request->dana_dicairkan;
         $tenor = $request->tenor;
-        $insurancePeriod = $this->masaAsuransi($tenor); 
+        $insurancePeriod = $this->masaAsuransi($tenor);
 
         $angsuranPerBulan = ($danaDicairkan + 450000) * (1 + (0.25 / 12 * $tenor)) / $tenor;
-        $angsuranPerBulan = ceil($angsuranPerBulan / 1000) * 1000; 
+        $angsuranPerBulan = ceil($angsuranPerBulan / 1000) * 1000;
 
         return response()->json([
             'angsuran_per_bulan' => $angsuranPerBulan,
@@ -55,10 +55,10 @@ class PinjamanDanaController extends Controller
     }
 
     public function ajukanAngsuran(Request $request, WhatsAppController $whatsAppController)
-    {   
+    {
         $currentURL = $request->input('url');
         $charactersAfterLastSlash = substr($currentURL, strrpos($currentURL, '/') + 1);
-        
+
         if ($charactersAfterLastSlash == 'myprofile') {
             $recaptchaResponse = RecaptchaV3::verify($request->input('g-recaptcha-response'), 'ajukan_pinjaman');
         } else {
@@ -66,15 +66,15 @@ class PinjamanDanaController extends Controller
         }
 
         if ($recaptchaResponse > 0.7) {
-            $phone = env('NO_BPR');
-            
+            $phone = config('services.whatsapp.bpr_number') ?? env('NO_BPR');
+
             if ($charactersAfterLastSlash == 'myprofile') {
                 $user = Auth::user();
 
                 if (empty($user->name)) {
                     return response()->json(['errorMessage' => 'Nama belum diisi'], 422);
                 }
-            
+
                 if (empty($user->phone_number)) {
                     return response()->json(['errorMessage' => 'No. Handphone belum diisi'], 422);
                 }
@@ -130,7 +130,7 @@ class PinjamanDanaController extends Controller
                 return response()->json(['errorMessage' => 'Pesan gagal terkirim!'], 422);
             }
         }
-        
+
         return response()->json(['errorMessage' => 'Anda kemungkinan adalah bot'], 400);
     }
 
@@ -156,7 +156,7 @@ class PinjamanDanaController extends Controller
         $messageBody[] = "Tenor: " . $request['tenor'] . ' Bulan';
         $messageBody[] = "Angsuran(Estimasi): " . 'Rp ' . number_format($request['angsuranMonthly'], 0, ',', '.');
         $messageBody[] = "Tolong segera diproses. Terima kasih.";
-        
+
         return implode("\n", $messageBody);
     }
 
@@ -182,7 +182,7 @@ class PinjamanDanaController extends Controller
         $messageBody[] = "Tenor: " . $request['tenor'] . ' Bulan';
         $messageBody[] = "Angsuran(Estimasi): " . 'Rp ' . number_format($request['angsuranMonthly'], 0, ',', '.');
         $messageBody[] = "Tolong segera diproses. Terima kasih.";
-        
+
         return implode("\n", $messageBody);
     }
 }

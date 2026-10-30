@@ -47,7 +47,7 @@ class ContactController extends Controller
     {
         $score = RecaptchaV3::verify($request->get('g-recaptcha-response'), 'contact');
         if ($score > 0.7) {
-            $phone = env('NO_MARKOM');
+            $phone = config('services.whatsapp.markom_number') ?? env('NO_MARKOM');
 
             $validatedData = $request->validated();
 

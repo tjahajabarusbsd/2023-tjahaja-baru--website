@@ -52,6 +52,8 @@ return [
         'token' => env('TOKEN_WA'),
         'url' => env('WA_API_URL'),
         'cro_numbers' => env('NO_CRO'),
+        'markom_number' => env('NO_MARKOM'),
+        'bpr_number' => env('NO_BPR'),
     ],
 
 ];
