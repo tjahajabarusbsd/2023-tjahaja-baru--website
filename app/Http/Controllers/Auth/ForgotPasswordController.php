@@ -47,15 +47,15 @@ class ForgotPasswordController extends Controller
         }
 
         $user = User::where('phone_number', $request->phone_number)->first();
-        
+
         $baseURL = config('app.url');
-        
-        if($user) {
+
+        if ($user) {
             $phone_tujuan = $request->phone_number;
             if (substr($phone_tujuan, 0, 1) === '0') {
                 $phone_tujuan = '62' . substr($phone_tujuan, 1);
             }
-            
+
             $token = Str::random(60);
             $user->reset_password_token = $token;
             $user->save();
@@ -67,7 +67,7 @@ class ForgotPasswordController extends Controller
                 'body' => $body,
             ];
 
-            $token_wa = env('TOKEN_WA');
+            $token_wa = config('services.whatsapp.token');
 
             $url = "https://api.1msg.io/434886/sendMessage?token=$token_wa";
 
@@ -88,7 +88,5 @@ class ForgotPasswordController extends Controller
         } else {
             return back()->withErrors(['phone_number' => 'Nomor telepon tidak terdaftar.']);
         }
-
     }
-
 }

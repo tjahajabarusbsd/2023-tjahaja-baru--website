@@ -65,9 +65,9 @@ class MyMotorController extends Controller
      */
     private function _fetchRiwayatServisMentah(string $nomorRangka): ?array
     {
-        $urlServices = env('GET_URL_SERIVCES');
+        $urlServices = config('services.riwayat_service.url');
         $apiUrl = $urlServices . '?id=' . $nomorRangka;
-        $secret = env('SECRET_RIWAYAT_SERVICE');
+        $secret = config('services.riwayat_service.secret');
         $now = date('Y_m_d');
         $token = md5($now . $secret);
 

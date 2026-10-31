@@ -25,8 +25,7 @@ class CroRotation
    */
   public static function numbers(): array
   {
-    // Fallback ke env() dipertahankan sampai config/services.php diisi
-    $raw = config('services.whatsapp.cro_numbers') ?? env('NO_CRO');
+    $raw = config('services.whatsapp.cro_numbers');
 
     return array_values(array_filter(array_map(
       fn($number) => str_replace('+', '', trim($number)),

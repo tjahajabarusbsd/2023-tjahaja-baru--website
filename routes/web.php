@@ -105,7 +105,7 @@ Route::post('/hitung-pinjaman', [PinjamanDanaController::class, 'hitungPinjaman'
 Route::post('/hitung-angsuran', [PinjamanDanaController::class, 'hitungAngsuran'])->name('hitung.angsuran');
 Route::post('/ajukan-angsuran', [PinjamanDanaController::class, 'ajukanAngsuran'])->name('ajukan.angsuran');
 
-if (env('APP_ENV') == 'local') {
+if (app()->environment('local')) {
     Route::middleware('auth')->group(function () {
         Route::get('/myprofile', [UserProfileController::class, 'getUserProfile'])->name('user.profile');
         Route::get('/myprofile/{nomorRangka}', [UserProfileController::class, 'getUserProfile']);

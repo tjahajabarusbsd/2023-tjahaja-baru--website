@@ -159,10 +159,10 @@ class ConsultationCrudController extends CrudController
                 // Ambil bulan dan tahun dari created_at
                 $year = date('Y', strtotime($entry->created_at));  // Ambil tahun (YYYY)
                 $month = date('m', strtotime($entry->created_at)); // Ambil bulan (MM)
-    
+
                 if (!$status) {
                     try {
-                        $urlSalesStatus = env('GET_URL_SALES_STATUS');
+                        $urlSalesStatus = config('services.riwayat_service.sales_status_url');
                         $apiUrl = $urlSalesStatus . "?nohp=" . urlencode($entry->nohp) . '&year=' . urlencode($year) . '&month=' . urlencode($month);
                         $response = Http::withoutVerifying()->get($apiUrl);
 

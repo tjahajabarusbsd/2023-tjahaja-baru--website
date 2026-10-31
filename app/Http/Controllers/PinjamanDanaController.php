@@ -66,7 +66,7 @@ class PinjamanDanaController extends Controller
         }
 
         if ($recaptchaResponse > 0.7) {
-            $phone = config('services.whatsapp.bpr_number') ?? env('NO_BPR');
+            $phone = config('services.whatsapp.bpr_number');
 
             if ($charactersAfterLastSlash == 'myprofile') {
                 $user = Auth::user();

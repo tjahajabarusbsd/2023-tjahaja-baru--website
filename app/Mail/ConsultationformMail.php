@@ -40,7 +40,7 @@ class ConsultationformMail extends Mailable
             'senderProduct' => $senderProduct
         ];
 
-        return $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+        return $this->from(config('mail.from.address'), config('mail.from.name'))
             ->subject('Submission from TB Website | Consultation')
             ->view('mails/consultationform')
             ->with($data);

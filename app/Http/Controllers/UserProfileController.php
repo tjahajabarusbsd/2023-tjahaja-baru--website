@@ -17,7 +17,7 @@ class UserProfileController extends Controller
 {
     protected function getRiwayatServis($nomorRangka)
     {
-        $url_services = env('GET_URL_SERIVCES');
+        $url_services = config('services.riwayat_service.url');
         $apiUrl = $url_services . "?id=" . $nomorRangka;
         $response = Http::withoutVerifying()->get($apiUrl);
         $data = $response->json();

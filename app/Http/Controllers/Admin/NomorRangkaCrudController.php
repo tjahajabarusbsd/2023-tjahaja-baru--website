@@ -161,9 +161,9 @@ class NomorRangkaCrudController extends CrudController
         if ($oldStatus === 'pending' && $newStatus === 'verified') {
             // dapatkan nomor rangka 
             $nomorRangka = $entry->nomor_rangka;
-            $url_services = env('GET_URL_SERIVCES');
+            $url_services = config('services.riwayat_service.url');
             $apiUrl = $url_services . "?id=" . $nomorRangka;
-            $secret = env('SECRET_RIWAYAT_SERVICE');
+            $secret = config('services.riwayat_service.secret');
             $now = date('Y_m_d');
             $token = md5($now . $secret);
 
@@ -226,5 +226,4 @@ class NomorRangkaCrudController extends CrudController
     {
         $this->setupCreateOperation();
     }
-
 }

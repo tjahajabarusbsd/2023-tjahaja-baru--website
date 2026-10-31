@@ -46,7 +46,7 @@ class ContactformMail extends Mailable
         //         ->view('mails/webform')
         //         ->with($data);
 
-        return $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+        return $this->from(config('mail.from.address'), config('mail.from.name'))
             ->subject('Submission from TB Website | Contact Us')
             ->view('mails/contactform')
             ->with($data);

@@ -56,4 +56,10 @@ return [
         'bpr_number' => env('NO_BPR'),
     ],
 
+    'riwayat_service' => [
+        'secret' => env('RIWAYAT_SERVICE_SECRET'),
+        'url' => env('RIWAYAT_SERVICE_URL'),
+        'sales_status_url' => env('GET_URL_SALES_STATUS'),
+    ],
+
 ];
