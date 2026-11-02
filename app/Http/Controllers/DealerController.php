@@ -12,7 +12,7 @@ class DealerController extends Controller
     {
         $perPage = 9; // Jumlah item per halaman
         $search = $request->input('search'); // Kata kunci pencarian
-        $products = Group::inRandomOrder()->limit(3)->get();
+        $products = Group::inRandomOrder()->where('is_active', true)->limit(3)->get();
 
         // Query builder untuk mencari dealer berdasarkan kolom 'name_dealer'
         $query = Dealer::query();

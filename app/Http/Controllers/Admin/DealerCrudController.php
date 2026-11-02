@@ -63,24 +63,10 @@ class DealerCrudController extends CrudController
     {
         CRUD::setValidation(DealerRequest::class);
 
-        // CRUD::field('id');
-        // CRUD::field('kode_dealer');
-        CRUD::addField([
-            'name' => 'kode_dealer',
-            'type' => 'custom_html',
-            'value' => '<p style="margin-bottom:0"><strong>Kode dealer: </strong>' . $this->crud->getCurrentEntry()->kode_dealer . '</p>',
-        ]);
+        CRUD::field('kode_dealer');
         CRUD::field('name_dealer');
         CRUD::field('kecamatan');
         CRUD::field('nohp');
-        // CRUD::field('created_at');
-        // CRUD::field('updated_at');
-
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
-         */
     }
 
     /**
