@@ -1,10 +1,9 @@
-.dealer-header,
-.dealer-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+/* ===== Header ===== */
+.dealer-header {
     max-width: 1075px;
-    margin: 50px auto;
+    margin: 50px auto 30px;
+    padding: 0 15px;
+    text-align: center;
 }
 
 .dealer-header .title {
@@ -15,109 +14,154 @@
     text-align: center;
 }
 
-.map-container,
-.product-list {
+/* ===== Layout peta + sidebar ===== */
+.dealer-layout {
+    display: flex;
+    gap: 20px;
     max-width: 1075px;
     margin: 0 auto 50px;
+    padding: 0 15px;
 }
 
-#searchForm {
-    margin: auto 0;
+.map-container {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+#dealer-map {
+    width: 100%;
+    height: 600px;
+    border-radius: 10px;
+    z-index: 0;
+}
+
+.dealer-sidebar {
+    flex: 0 0 340px;
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+}
+
+.dealer-search input {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.dealer-search input:focus {
+    outline: none;
+    border-color: #1645ca;
+}
+
+/* ===== Daftar dealer ===== */
+.dealer-list {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding-right: 4px;
 }
 
 .dealer-card {
-    width: 300px;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.dealer-card[hidden] {
+    display: none;
+}
+
+.dealer-card.active .card-body {
+    border-color: #1645ca;
+    background-color: #f3f6ff;
 }
 
 .card-body {
-    min-height: 300px;
     position: relative;
+    border: 1px solid transparent;
     border-radius: 10px;
-    padding: 2.5em 2em;
+    padding: 1.2em 1.4em;
     background-color: #fafafa;
-}
-
-.box-header {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    height: 50px;
+    transition: border-color 0.2s, background-color 0.2s;
 }
 
 .card-title {
-    margin-right: 10px;
+    margin: 0 0 4px;
     color: #282828;
     font-weight: 700;
-    font-size: 17px;
+    font-size: 16px;
 }
 
-.grid-container .grid-content .product-link,
-.link {
-    text-decoration: none;
-    color: #000;
+.area {
+    margin: 0 0 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #1f3781;
 }
 
-.link {
-    border: 1px solid #dbdbdb;
-    border-radius: 10px;
-    font-size: 15px;
-    width: 40px;
-    height: 40px;
+.address {
+    margin: 0 0 12px;
+    font-size: 14px;
+    color: #444;
+}
+
+.card-actions {
     display: flex;
-    justify-content: center;
     align-items: center;
-}
-
-.location-icon {
-    width: 20px;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .btn-tlpn {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    gap: 6px;
     font-size: 12px;
-}
-
-.address-container {
-    height: 140px;
-    padding-top: 20px;
-}
-
-.address,
-.grid-container .grid-content .box-text .product-price {
-    font-size: 15px;
 }
 
 .phone {
     width: 25px;
 }
 
-.load-more {
-    position: relative;
-    top: 10px;
-    text-align: center;
-}
-
-.btn-block {
-    position: relative;
-    background-color: #1645ca;
-    border-radius: 0;
-    border: 1px solid #1645ca;
-    color: #fff;
-}
-
-.btn-block:hover {
-    border: 1px solid #1645ca;
-    color: #1645ca;
-    background-color: transparent;
-}
-
-.pagination-wrapper {
+.link {
     display: flex;
     justify-content: center;
-    margin-bottom: 50px;
+    align-items: center;
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    background-color: #fff;
+    text-decoration: none;
+    color: #000;
+}
+
+.location-icon {
+    width: 20px;
+}
+
+.dealer-empty {
+    padding: 20px 0;
+    text-align: center;
+    color: #777;
+}
+
+/* ===== Produk ===== */
+.product-list {
+    max-width: 1075px;
+    margin: 0 auto 50px;
+}
+
+.grid-container .grid-content .product-link {
+    text-decoration: none;
+    color: #000;
+}
+
+.grid-container .grid-content .box-text .product-price {
+    font-size: 15px;
 }
 
 .grid-container .grid-content {
@@ -168,6 +212,7 @@
     scale: 0.256;
 }
 
+/* ===== Responsif ===== */
 @media only screen and (min-width: 338px) {
     .grid-container {
         display: flex;
@@ -195,14 +240,21 @@
     }
 }
 
-.map-container iframe {
-    width: 100%;
-    height: 600px;
-    border: 0;
-}
+@media (max-width: 991px) {
+    .dealer-layout {
+        flex-direction: column;
+    }
 
-@media (max-width: 768px) {
-    .map-container iframe {
+    .dealer-sidebar {
+        flex: none;
+        height: auto;
+    }
+
+    .dealer-list {
+        max-height: 420px;
+    }
+
+    #dealer-map {
         height: 450px;
     }
 }

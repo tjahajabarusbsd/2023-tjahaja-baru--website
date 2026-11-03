@@ -4,26 +4,44 @@ namespace App\Http\Controllers;
 
 use App\Models\Dealer;
 use App\Models\Group;
-use Illuminate\Http\Request;
 
 class DealerController extends Controller
 {
-    public function getDealer(Request $request)
+    public function getDealer()
     {
-        $perPage = 9; // Jumlah item per halaman
-        $search = $request->input('search'); // Kata kunci pencarian
-        $products = Group::inRandomOrder()->where('is_active', true)->limit(3)->get();
+        $dealers = Dealer::select(
+            'id',
+            'kode_dealer',
+            'name_dealer',
+            'kecamatan',
+            'kota',
+            'address',
+            'nohp',
+            'latitude',
+            'longitude'
+        )
+            ->orderBy('kota')
+            ->orderBy('name_dealer')
+            ->get();
 
-        // Query builder untuk mencari dealer berdasarkan kolom 'name_dealer'
-        $query = Dealer::query();
-        if ($search) {
-            $query->where('name_dealer', 'LIKE', '%' . $search . '%');
-        }
+        // Hanya dealer dengan koordinat valid yang dikirim ke peta
+        $mapDealers = $dealers
+            ->filter(fn($d) => is_numeric($d->latitude) && is_numeric($d->longitude))
+            ->map(fn($d) => [
+                'id'      => $d->id,
+                'name'    => $d->name_dealer,
+                'address' => $d->address,
+                'phone'   => $d->nohp,
+                'lat'     => (float) $d->latitude,
+                'lng'     => (float) $d->longitude,
+            ])
+            ->values();
 
-        $dealers = $query->paginate($perPage);
+        $products = Group::inRandomOrder()
+            ->where('is_active', true)
+            ->limit(3)
+            ->get();
 
-        $dealers->appends(['search' => $search]); // Menambahkan kata kunci pencarian ke URL tautan halaman
-
-        return view('dealers', compact('dealers', 'search', 'products'));
+        return view('dealers', compact('dealers', 'mapDealers', 'products'));
     }
 }
