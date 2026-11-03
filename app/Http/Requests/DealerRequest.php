@@ -6,50 +6,38 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class DealerRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
-        // only allow updates if the user is logged in
         return backpack_auth()->check();
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'kode_dealer' => 'nullable|string|max:50',
+            'name_dealer' => 'required|string|max:255',
+            'kecamatan'   => 'nullable|string|max:255',
+            'kota'        => 'nullable|string|max:255',
+            'address'     => 'nullable|string',
+            'nohp'        => 'nullable|string|max:50',
+            'latitude'    => 'nullable|numeric|between:-90,90',
+            'longitude'   => 'nullable|numeric|between:-180,180',
         ];
     }
 
-    /**
-     * Get the validation attributes that apply to the request.
-     *
-     * @return array
-     */
     public function attributes()
     {
         return [
-            //
+            'name_dealer' => 'nama dealer',
+            'nohp'        => 'nomor HP',
         ];
     }
 
-    /**
-     * Get the validation messages that apply to the request.
-     *
-     * @return array
-     */
     public function messages()
     {
         return [
-            //
+            'latitude.numeric'  => 'Latitude harus berupa angka, contoh: -0.9492',
+            'longitude.numeric' => 'Longitude harus berupa angka, contoh: 100.3543',
         ];
     }
 }

@@ -19,11 +19,6 @@ class DealerCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
-    /**
-     * Configure the CrudPanel object. Apply settings to all operations.
-     * 
-     * @return void
-     */
     public function setup()
     {
         CRUD::setModel(\App\Models\Dealer::class);
@@ -31,50 +26,61 @@ class DealerCrudController extends CrudController
         CRUD::setEntityNameStrings('dealer', 'dealers');
     }
 
-    /**
-     * Define what happens when the List operation is loaded.
-     * 
-     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
-     * @return void
-     */
     protected function setupListOperation()
     {
-        CRUD::column('id');
         CRUD::column('kode_dealer');
-        CRUD::column('name_dealer');
+        CRUD::column('name_dealer')->label('Nama Dealer');
         CRUD::column('kecamatan');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
+        CRUD::column('kota');
+        CRUD::column('nohp')->label('No. HP');
 
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
-         */
+        // Kolom bantu: cepat melihat dealer mana yang koordinatnya belum diisi
+        CRUD::addColumn([
+            'name'  => 'koordinat',
+            'label' => 'Koordinat',
+            'type'  => 'closure',
+            'function' => function ($entry) {
+                return ($entry->latitude && $entry->longitude)
+                    ? '<span class="text-success">Lengkap</span>'
+                    : '<span class="text-danger">Belum diisi</span>';
+            },
+            'escaped' => false,
+        ]);
+
+        CRUD::column('updated_at');
     }
 
-    /**
-     * Define what happens when the Create operation is loaded.
-     * 
-     * @see https://backpackforlaravel.com/docs/crud-operation-create
-     * @return void
-     */
+    protected function setupShowOperation()
+    {
+        $this->setupListOperation();
+        CRUD::column('address')->label('Alamat');
+        CRUD::column('latitude');
+        CRUD::column('longitude');
+    }
+
     protected function setupCreateOperation()
     {
         CRUD::setValidation(DealerRequest::class);
 
-        CRUD::field('kode_dealer');
-        CRUD::field('name_dealer');
-        CRUD::field('kecamatan');
-        CRUD::field('nohp');
+        CRUD::field('kode_dealer')->wrapper(['class' => 'form-group col-md-4']);
+        CRUD::field('name_dealer')->label('Nama Dealer')->wrapper(['class' => 'form-group col-md-8']);
+
+        CRUD::field('kecamatan')->wrapper(['class' => 'form-group col-md-6']);
+        CRUD::field('kota')->wrapper(['class' => 'form-group col-md-6']);
+
+        CRUD::field('address')->type('textarea')->label('Alamat');
+        CRUD::field('nohp')->label('No. HP / Telepon');
+
+        CRUD::field('latitude')
+            ->type('text')
+            ->hint('Contoh: -0.9492. Klik kanan lokasi di Google Maps, lalu klik angka koordinat untuk menyalin.')
+            ->wrapper(['class' => 'form-group col-md-6']);
+        CRUD::field('longitude')
+            ->type('text')
+            ->hint('Contoh: 100.3543')
+            ->wrapper(['class' => 'form-group col-md-6']);
     }
 
-    /**
-     * Define what happens when the Update operation is loaded.
-     * 
-     * @see https://backpackforlaravel.com/docs/crud-operation-update
-     * @return void
-     */
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
