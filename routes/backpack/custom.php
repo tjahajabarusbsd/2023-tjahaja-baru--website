@@ -30,6 +30,7 @@ Route::group([
         Route::crud('review', 'ReviewCrudController');
         Route::crud('group-product-spec', 'GroupProductSpecCrudController');
         Route::crud('consultation', 'ConsultationCrudController');
+        Route::crud('credit-tenor', 'CreditTenorCrudController');
     });
 
     Route::group([

@@ -43,6 +43,8 @@
                 class="nav-icon las la-wrench"></i> Group product specs</a></li>
     <li class="nav-item"><a class="nav-link" href="{{ backpack_url('consultation') }}"><i
                 class="nav-icon las la-file-alt"></i> Consultations</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{ backpack_url('credit-tenor') }}"><i
+                class="nav-icon las la-calendar-alt"></i> Credit tenors</a></li>
 @endcan
 
 @can('can_manage_menu_mobile')
@@ -56,13 +58,14 @@
     <li class="nav-item"><a class="nav-link" href="{{ backpack_url('merchant') }}"><i class='nav-icon la la-store'></i>
             Merchants</a></li>
     <!-- <li class="nav-item"><a class="nav-link" href="{{ backpack_url('reward') }}"><i class="nav-icon la la-gift"></i>
-                                    Rewards</a></li> -->
+                                        Rewards</a></li> -->
     <li class="nav-item"><a class="nav-link" href="{{ backpack_url('event') }}"><i class="nav-icon la la-calendar-alt"></i>
             Events</a></li>
     <li class="nav-item"><a class="nav-link" href="{{ backpack_url('qrcode') }}"><i class="nav-icon la la-qrcode"></i>
             QR Codes</a></li>
 @endcan
-<li class="nav-item"><a class="nav-link" href="{{ backpack_url('qr-scan-log') }}"><i class="nav-icon la la-qrcode"></i>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('qr-scan-log') }}"><i
+            class="nav-icon la la-qrcode"></i>
         QR Code scans</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('feature-status') }}"><i
             class="nav-icon la la-toggle-on"></i> Status Fitur</a></li>

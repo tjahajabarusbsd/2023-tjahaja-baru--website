@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\ProductController;
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\BookingServiceController;
+use App\Http\Controllers\Api\v1\CreditSimulationController;
 use App\Http\Controllers\Api\v1\DealerController;
 use App\Http\Controllers\Api\v1\EventController;
 use App\Http\Controllers\Api\v1\LoyaltyTierController;
@@ -64,6 +65,16 @@ Route::prefix('v1')->group(function () {
         Route::get('/events/{id}', [EventController::class, 'show']);
         Route::get('/dealers', [DealerController::class, 'index']);
         Route::get('/promos/banner', [PromoController::class, 'index']);
+
+        // Simulasi Kredit (publik, tidak perlu login)
+        Route::prefix('credit-simulation')->group(function () {
+            Route::get('/categories', [CreditSimulationController::class, 'categories']);
+            Route::get('/categories/{id}/groups', [CreditSimulationController::class, 'groups']);
+            Route::get('/groups/{id}/variants', [CreditSimulationController::class, 'variantsByGroup']);
+            Route::get('/variants/{id}', [CreditSimulationController::class, 'variantDetail']);
+            Route::get('/tenors', [CreditSimulationController::class, 'tenors']);
+            Route::post('/calculate', [CreditSimulationController::class, 'calculate']);
+        });
     });
 
     Route::middleware('auth:user_public')->group(function () {
