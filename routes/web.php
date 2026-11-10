@@ -21,6 +21,7 @@ use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+// use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,8 +33,6 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/consultation', [RedirectController::class, 'redirectToContact']);
 
 // --- Page Section --- 
 Route::get('/', [HomeController::class, 'getData'])->name('home');
@@ -63,15 +62,15 @@ Route::prefix('/product')->group(function () {
 Route::get('/get-data/{variant}', [VariantController::class, 'getData'])->name('get.data');
 // --- End Product Section --- 
 
-// --- Contact Section --- 
+// --- Contact Section ---
+// Halaman /contact berisi form Pesan, Konsultasi Motor, dan Pinjaman Dana Tunai
 Route::get('/contact', [ContactController::class, 'getContactForm'])->name('contact.get');
 Route::post('/submit-pesan-form', [ContactController::class, 'submitPesanForm'])->name('contact.submit');
-// --- End Contact Section --- 
+Route::post('/submit-consultation-form', [ConsultationController::class, 'submitConsultationForm'])->name('consultation.submit');
 
-// --- Consultation Section --- 
-// Route::get('/consultation', [ConsultationController::class, 'getConsultationForm']);
-Route::post('/submit-consultation-form', [ConsultationController::class, 'submitConsultationForm']);
-// --- End Consultation Section --- 
+// URL lama (bookmark/link sales) diarahkan ke /contact
+Route::get('/consultation', [RedirectController::class, 'redirectToContact'])->name('consultation.redirect');
+// --- End Contact Section ---
 
 // --- Comparison Section ---
 Route::controller(ComparisonController::class)->group(function () {
@@ -138,3 +137,7 @@ if (app()->environment('local')) {
 // --- Promo Section --- 
 Route::get('/promo/{uri}', [PromoController::class, 'detail'])
     ->name('promo.detail');
+
+// Route::post('/chatbot/ask', [ChatController::class, 'ask'])
+//     ->middleware('throttle:10,1')
+//     ->name('chatbot.ask');
