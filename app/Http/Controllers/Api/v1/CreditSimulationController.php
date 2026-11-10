@@ -201,10 +201,12 @@ class CreditSimulationController extends Controller
     ];
   }
 
+  // Format respons disamakan dengan API lain: status, code, message, data
   private function ok($data, string $message = 'Success'): JsonResponse
   {
     return response()->json([
-      'success' => true,
+      'status' => 'success',
+      'code' => 200,
       'message' => $message,
       'data' => $data,
     ]);
@@ -213,7 +215,8 @@ class CreditSimulationController extends Controller
   private function fail(string $message, int $status = 422, $errors = null): JsonResponse
   {
     $body = [
-      'success' => false,
+      'status' => 'error',
+      'code' => $status,
       'message' => $message,
     ];
 
