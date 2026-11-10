@@ -25,6 +25,22 @@ $(function () {
     });
 
     /* ====================================================================
+       Form motor: DP dan tenor hanya tampil untuk pembayaran kredit
+       (dipakai di halaman contact dan halaman detail produk)
+       ==================================================================== */
+
+    $('input[name="payment_method"]').on("change", function () {
+        const isKredit = $(this).val() === "kredit";
+
+        $("#option-bayar, #option-tenor-pembelian").toggle(isKredit);
+
+        if (!isKredit) {
+            $("#down-payment").val("");
+            $("#tenor-pembelian").val("");
+        }
+    });
+
+    /* ====================================================================
        reCAPTCHA
        ==================================================================== */
 
@@ -180,7 +196,12 @@ $(function () {
                 "Silakan pilih produk yang diminati."
             ),
             requireValue(
-                "#payment-method",
+                "#rencana-beli-group",
+                form.rencana_beli,
+                "Silakan pilih rencana beli."
+            ),
+            requireValue(
+                "#payment-method-group",
                 form.cara_bayar,
                 "Silakan pilih cara bayar."
             ),
@@ -363,7 +384,8 @@ $(function () {
         const contact = readContact();
         const form = {
             produk: $("#pilih-produk").val(),
-            cara_bayar: $("#payment-method").val(),
+            rencana_beli: $('input[name="rencana_beli"]:checked').val(),
+            cara_bayar: $('input[name="payment_method"]:checked').val(),
             dp: $("#down-payment").val(),
             tenor: $("#tenor-pembelian").val(),
             terms: $("#termsCheckbox").is(":checked"),
@@ -383,6 +405,7 @@ $(function () {
                 name: contact.name,
                 nohp: contact.nohp,
                 produk: form.produk,
+                rencana_beli: form.rencana_beli,
                 terms: form.terms,
                 cara_bayar: form.cara_bayar,
                 dp: form.dp,

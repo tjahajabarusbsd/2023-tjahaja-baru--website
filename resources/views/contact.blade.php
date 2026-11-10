@@ -18,6 +18,10 @@
 @endsection
 
 @section('content')
+    @php
+        $isCampaign = request()->hasCookie('sales') || request()->hasCookie('utm_campaign');
+    @endphp
+
     <section class="map">
         <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.2754950747762!2d100.35193247418114!3d-0.9451397353467688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2fd4b935ce843e1d%3A0x210ffc7693c22340!2sYamaha%20Tjahaja%20Baru!5e0!3m2!1sen!2sid!4v1685333788371!5m2!1sen!2sid"
@@ -32,7 +36,7 @@
                     <div class="main-form contact-form">
                         <div class="form-container">
                             <h1>Contact Us</h1>
-                            @if (request()->hasCookie('sales') || request()->hasCookie('utm_campaign'))
+                            @if ($isCampaign)
                                 <div class="form-group now">
                                     <label>Berminat dengan motor Yamaha? Segera konsultasikan langsung dengan dealer
                                         kami.</label>
@@ -55,71 +59,9 @@
                                 </div>
                             </div>
 
-                            @if (request()->hasCookie('sales') || request()->hasCookie('utm_campaign'))
+                            @if ($isCampaign)
                                 <div class="form-group">
-                                    <div class="form-group row">
-                                        <label class="col-md-4">Motor yang diminati</label>
-                                        <div class="col-md-8">
-                                            <select name="produk" id="pilih-produk" class="form-select"
-                                                aria-label="Default select example">
-                                                <option selected disabled value=""> - pilih motor - </option>
-                                                @foreach ($lists as $list)
-                                                    <option value="{{ $list->name }}">{{ $list->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-md-4">Metode Pembayaran</label>
-                                        <div class="col-md-8">
-                                            <select id="payment-method" name="payment_method" class="form-select">
-                                                <option selected disabled value=""> - pilih cara bayar - </option>
-                                                <option value="cash">Cash</option>
-                                                <option value="kredit">Kredit</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div id="option-bayar" class="form-group row" style="display: none;">
-                                        <label for="down-payment" class="col-md-4">Down Payment</label>
-                                        <div class="col-md-8">
-                                            <select id="down-payment" name="down_payment" class="form-select">
-                                                <option selected disabled value=""> - pilih down payment - </option>
-                                                <option value="dp-0">Rp 1 Juta - Rp 5 juta</option>
-                                                <option value="dp-1">Rp 5 juta - Rp 10 juta</option>
-                                                <option value="dp-2">Rp 10 juta - Rp 15 juta</option>
-                                                <option value="dp-3">Diatas Rp 15 juta</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div id="option-tenor-pembelian" class="form-group row" style="display: none;">
-                                        <label for="tenor-pembelian" class="col-md-4">Jumlah Tenor</label>
-                                        <div class="col-md-8">
-                                            <select id="tenor-pembelian" name="tenor_pembelian" class="form-select">
-                                                <option selected disabled value=""> - pilih jumlah tenor - </option>
-                                                <option value="11">11 bulan</option>
-                                                <option value="17">17 bulan</option>
-                                                <option value="23">23 bulan</option>
-                                                <option value="29">29 bulan</option>
-                                                <option value="35">35 bulan</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group" style="margin-top: 20px;">
-                                        <label id="label-checkbox" class="d-flex align-items-start">
-                                            <input type="checkbox" name="terms" id="termsCheckbox"
-                                                style="margin-top: 5px; margin-right: 10px;">
-                                            <span>Saya setuju bahwa informasi diatas mengizinkan TJAHAJA BARU untuk
-                                                menghubungi Saya melalui telepon/WhatsApp.</span>
-                                        </label>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <button id="submit-motor" type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
+                                    @include('partials.contact-motor-fields')
                                 </div>
                             @else
                                 <div class="form-group ">
@@ -157,76 +99,11 @@
                                 </div>
 
                                 <div id="optionMotor" style="display: none;" class="form-group">
-                                    @if (!empty($value))
-                                        <input name="sales" type="text" hidden value="{{ $value }}">
-                                    @endif
                                     <div class="form-group now">
                                         <label>Berminat dengan motor Yamaha? Segera konsultasikan langsung dengan dealer
                                             kami.</label>
                                     </div>
-                                    <div class="form-group row">
-                                        <label class="col-md-4">Motor yang diminati</label>
-                                        <div class="col-md-8">
-                                            <select name="produk" id="pilih-produk" class="form-select"
-                                                aria-label="Default select example">
-                                                <option selected disabled value=""> - pilih motor - </option>
-                                                @foreach ($lists as $list)
-                                                    <option value="{{ $list->name }}">{{ $list->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label class="col-md-4">Metode Pembayaran</label>
-                                        <div class="col-md-8">
-                                            <select id="payment-method" name="payment_method" class="form-select">
-                                                <option selected disabled value=""> - pilih cara bayar - </option>
-                                                <option value="cash">Cash</option>
-                                                <option value="kredit">Kredit</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div id="option-bayar" class="form-group row" style="display: none;">
-                                        <label for="down-payment" class="col-md-4">Down Payment</label>
-                                        <div class="col-md-8">
-                                            <select id="down-payment" name="down_payment" class="form-select">
-                                                <option selected disabled value=""> - pilih down payment - </option>
-                                                <option value="dp-0">Rp 1 Juta - Rp 5 juta</option>
-                                                <option value="dp-1">Rp 5 juta - Rp 10 juta</option>
-                                                <option value="dp-2">Rp 10 juta - Rp 15 juta</option>
-                                                <option value="dp-3">Diatas Rp 15 juta</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div id="option-tenor-pembelian" class="form-group row" style="display: none;">
-                                        <label for="tenor-pembelian" class="col-md-4">Jumlah Tenor</label>
-                                        <div class="col-md-8">
-                                            <select id="tenor-pembelian" name="tenor_pembelian" class="form-select">
-                                                <option selected disabled value=""> - pilih jumlah tenor - </option>
-                                                <option value="11">11 bulan</option>
-                                                <option value="17">17 bulan</option>
-                                                <option value="23">23 bulan</option>
-                                                <option value="29">29 bulan</option>
-                                                <option value="35">35 bulan</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group" style="margin-top: 20px;">
-                                        <label id="label-checkbox" class="d-flex align-items-start">
-                                            <input type="checkbox" name="terms" id="termsCheckbox"
-                                                style="margin-top: 5px; margin-right: 10px;">
-                                            <span>Saya setuju bahwa informasi diatas mengizinkan TJAHAJA BARU untuk
-                                                menghubungi Saya melalui telepon/WhatsApp.</span>
-                                        </label>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <button id="submit-motor" type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
+                                    @include('partials.contact-motor-fields')
                                 </div>
 
                                 <div id="optionDana" style="display: none;" class="form-group">
@@ -417,23 +294,6 @@
                     $('#optionMotor').show();
                 } else if (selectedOption === 'dana') {
                     $('#optionDana').show();
-                }
-            });
-
-            $('#payment-method').change(function() {
-                var selectedValue = $(this).val();
-
-                if (selectedValue === 'kredit') {
-                    $('#option-bayar').show();
-                    $('#option-tenor-pembelian').show();
-                } else if (selectedValue === 'cash') {
-                    $('#option-bayar').hide();
-                    $('#option-tenor-pembelian').hide();
-                    $('#down-payment').val('');
-                    $('#tenor-pembelian').val('');
-                } else {
-                    $('#option-bayar').hide();
-                    $('#option-tenor-pembelian').hide();
                 }
             });
         });
