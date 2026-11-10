@@ -5,15 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ConsultationRequest;
 use App\Models\Consultation;
 use App\Models\Staff;
-use App\Models\Variant;
 use App\Support\CroRotation;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
 use Throwable;
+
+/*
+ * Menangani pengiriman form "Konsultasi Motor".
+ *
+ * Halaman form-nya sendiri ada di ContactController::getContactForm (/contact).
+ * URL lama /consultation diarahkan ke /contact oleh RedirectController.
+ */
 
 class ConsultationController extends Controller
 {
@@ -30,19 +35,8 @@ class ConsultationController extends Controller
 
     private const DP_ABOVE_RANGES = 'Diatas Rp 15 juta';
 
-    public function getConsultationForm(Request $request): View
-    {
-        $value = $request->query('sales');
-
-        // Cookie 'sales' hanya diset bila ada parameter; tidak pernah dihapus dari sini
-        if (filled($request->input('sales'))) {
-            Cookie::queue('sales', $request->input('sales'));
-        }
-
-        $lists = Variant::query()->select('name')->distinct()->orderBy('name')->get();
-
-        return view('consultation', compact('value', 'lists'));
-    }
+    // Rencana beli yang diberi tanda prioritas di awal pesan WA
+    private const PRIORITY_RENCANA_BELI = 'minggu_ini';
 
     public function submitConsultationForm(
         ConsultationRequest $request,
@@ -154,12 +148,22 @@ class ConsultationController extends Controller
 
     private function buildMessageBody(array $validatedData, ?string $dpValue): string
     {
+        $rencanaBeli = $validatedData['rencana_beli'] ?? null;
+        $rencanaLabel = Consultation::RENCANA_BELI[$rencanaBeli] ?? null;
+
+        // Penanda prioritas ditaruh di paling awal supaya terbaca di preview notifikasi WA
+        $prioritas = $rencanaBeli === self::PRIORITY_RENCANA_BELI ? '*PRIORITAS* - ' : '';
+
         $messageBody = [
-            'Berikut ini data konsumen yang mengisi form di website kita yang minat dengan produk Yamaha: ',
+            $prioritas . 'Berikut ini data konsumen yang mengisi form di website kita yang minat dengan produk Yamaha: ',
             '*Nama:* ' . $validatedData['name'] . ', ',
             '*No HP:* ' . $validatedData['nohp'] . ', ',
             '*Produk yang diminati:* ' . $validatedData['produk'] . ', ',
         ];
+
+        if ($rencanaLabel !== null) {
+            $messageBody[] = '*Rencana beli:* ' . $rencanaLabel . ', ';
+        }
 
         if ($validatedData['cara_bayar'] === 'kredit') {
             $messageBody[] = '*Cara bayar:* ' . $validatedData['cara_bayar'] . ', ';

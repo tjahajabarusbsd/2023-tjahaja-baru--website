@@ -2,45 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
-use App\Models\Variant;
-use App\Models\Contact;
 use App\Http\Requests\ContactRequest;
-use App\Http\Controllers\WhatsAppController;
+use App\Models\Contact;
+use App\Models\Variant;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use Lunaweb\RecaptchaV3\Facades\RecaptchaV3;
+
+/*
+ * Halaman /contact: form Pesan, Konsultasi Motor, dan Pinjaman Dana Tunai.
+ *
+ * - Halaman ini yang menampilkan ketiga form (view 'contact').
+ * - Submit form Pesan ditangani di sini (submitPesanForm).
+ * - Submit form Konsultasi Motor ada di ConsultationController::submitConsultationForm.
+ * - Cookie 'sales' diset saat pengunjung membuka link sales di home (/?sales=KODE),
+ *   bukan di sini. Di halaman ini cookie hanya dibaca blade lewat request()->hasCookie('sales').
+ */
 
 class ContactController extends Controller
 {
-    public function getContactForm(Request $request)
+    public function getContactForm(Request $request): View
     {
         $lists = Variant::whereHas('group', function ($query) {
             $query->where('is_active', true);
         })->where('is_active', true)->get()->unique('name')->sortBy('name');
 
-        $utmCampaignParameter = $request->query('utm_campaign');
-        $salesCodeParameter = $request->query('sales');
+        // Cookie utm_campaign dibaca ConsultationController untuk mencatat asal lead
+        // dan dipakai blade untuk menampilkan form motor langsung.
+        // Tidak dihapus bila parameter tidak ada, jadi tetap berlaku sampai sesi berakhir.
+        $utmCampaign = $request->query('utm_campaign');
 
-        // Variable untuk menampung cookie yang akan disimpan ke database
-        $cookieValue = null;
-
-        // Cek dan set cookie utm_campaign
-        if ($utmCampaignParameter) {
-            Cookie::queue('utm_campaign', $utmCampaignParameter);
-            $cookieValue = $utmCampaignParameter;
-        } else {
-            Cookie::forget('utm_campaign');
+        if (is_string($utmCampaign) && $utmCampaign !== '') {
+            Cookie::queue('utm_campaign', $utmCampaign);
         }
 
-        // Cek dan set cookie sales jika utm_campaign tidak ada
-        // if ($salesCodeParameter && !$utmCampaignParameter) {
-        //     Cookie::queue('sales', $salesCodeParameter);
-        //     $cookieValue = $salesCodeParameter;
-        // } else {
-        //     Cookie::forget('sales');
-        // }
-
-        return view('contact', compact('cookieValue', 'lists'));
+        return view('contact', compact('lists'));
     }
 
     public function submitPesanForm(ContactRequest $request, WhatsAppController $whatsAppController)
