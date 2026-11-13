@@ -34,9 +34,9 @@ class BookingServiceController extends Controller
         $bookings = BookingService::with('dealer', 'motor')
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(2);
 
-        $formatted = $bookings->map(function ($booking) {
+        $formatted = $bookings->getCollection()->map(function ($booking) {
             return [
                 'id' => $booking->id,
                 'booking_id' => $booking->booking_id,
@@ -46,64 +46,47 @@ class BookingServiceController extends Controller
                 'plat' => optional($booking->motor)->nomor_plat,
                 'tanggal' => $booking->tanggal,
                 'jam' => $booking->jam,
+                'menu_layanan' => $booking->menu_layanan,
+                'permintaan_khusus' => $booking->permintaan_khusus,
                 'status' => $booking->status,
                 'created_at' => $booking->created_at->toDateTimeString(),
             ];
         });
 
+        $bookings->setCollection($formatted);
+
         return ApiResponse::success(
             'Daftar booking servis berhasil diambil',
-            $formatted
+            $bookings
         );
     }
 
-    /*
-    // ❌ FUNGSI STORE LAMA - SUDAH DI-COMMENT
-    // Fungsi ini digunakan untuk membuat booking servis dengan menggunakan BookingServiceCreator
-    // dan mengirim data ke N8n webhook
+    // ✅ FUNGSI STORE AKTIF - MENYIMPAN KE DB LALU KIRIM KE N8N WEBHOOK
+    /**
+     * Store booking service menggunakan BookingServiceCreator,
+     * lalu kirim data ke N8n webhook (jika diaktifkan via config).
+     *
+     * @param BookingServiceRequest $request
+     * @param BookingServiceCreator $creator
+     * @param N8nWebhookClient $n8nClient
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(
         BookingServiceRequest $request,
         BookingServiceCreator $creator,
         N8nWebhookClient $n8nClient
     ) {
-        $user = Auth::user();
-
-        $booking = $creator->handle($request, $user);
-
-        // optional: bisa dimatikan via env
-        if (config('services.n8n.enabled')) {
-            $n8nClient->sendBooking($booking);
-        }
-
-        return ApiResponse::success(
-            'Booking servis berhasil dibuat',
-            [
-                'id' => $booking->id,
-                'user_id' => $booking->user_id,
-                'motor_id' => $booking->motor_id,
-                'booking_id' => $booking->booking_id,
-                'dealer_id' => $booking->dealer_id,
-                'tanggal' => $booking->tanggal,
-                'menu_layanan' => $booking->menu_layanan,
-                'permintaan_khusus' => $booking->permintaan_khusus,
-                'jam' => $booking->jam,
-            ]
-        );
-    }
-    */
-
-    // ✅ FUNGSI STORE BARU - MENGIRIM KE API YAMAHA DEPACK
-    /**
-     * Store booking service dan kirim ke API Yamaha Motor
-     * 
-     * @param Request $request
-     * @param BookingServiceCreator $creator
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function store(Request $request, BookingServiceCreator $creator)
-    {
         try {
             $user = Auth::user();
+
+            Log::info('Booking store request received', [
+                'user_id' => $user->id,
+                'motor_id' => $request->input('motor_id'),
+                'dealer_id' => $request->input('dealer_id'),
+                'tanggal' => $request->input('tanggal'),
+                'jam' => $request->input('jam'),
+                'menu_layanan' => $request->input('menu_layanan'),
+            ]);
 
             // 🚫 CEK STATUS BOOKING TERAKHIR USER
             // User tidak boleh booking baru jika booking terakhirnya
@@ -111,7 +94,7 @@ class BookingServiceController extends Controller
             $blockedStatuses = ['pending', 'confirmed', 'progress'];
 
             $lastBooking = BookingService::where('user_id', $user->id)
-                ->latest('id') // pastikan urut berdasarkan yang paling baru, sesuaikan kolom jika perlu (created_at/id)
+                ->latest('id')
                 ->first();
 
             if ($lastBooking && in_array($lastBooking->status, $blockedStatuses)) {
@@ -127,201 +110,65 @@ class BookingServiceController extends Controller
                 );
             }
 
-            $cookieJar = new CookieJar();
+            // 💾 SIMPAN BOOKING KE DATABASE
+            $booking = $creator->handle($request, $user);
 
-            // 🔑 AMBIL CSRF TOKEN DARI API YAMAHA
-            $csrfResponse = Http::withOptions([
-                'cookies' => $cookieJar,
-            ])->get(
-                'https://www.yamaha-motor.co.id/ajax/com/csrf-token'
-            );
-
-            if (!$csrfResponse->successful()) {
-                Log::error('Failed to get CSRF token', [
-                    'status' => $csrfResponse->status(),
-                    'user_id' => $user->id,
-                ]);
-                return ApiResponse::error('Kesalahan pada server', 500);
-            }
-
-            $csrfToken = $csrfResponse->json('token');
-
-            Log::info('CSRF Token obtained', [
-                'token_length' => strlen($csrfToken),
-                'token_preview' => substr($csrfToken, 0, 30) . '...',
-                'user_id' => $user->id,
+            Log::info('Booking saved to database', [
+                'booking_id' => $booking->id,
+                'booking_code' => $booking->booking_id,
+                'user_id' => $booking->user_id,
+                'status' => $booking->status,
             ]);
 
-            // 📤 SIAPKAN DATA UNTUK DIKIRIM KE YAMAHA (BELUM SIMPAN KE DB)
-            // Buat booking object sementara untuk mempersiapkan payload
-            $bookingData = $request->all();
-            $bookingData['user_id'] = $user->id;
-            $motor = NomorRangka::find($bookingData['motor_id']);
-            $dealer = Dealer::find($bookingData['dealer_id']);
-
-            $yamahaPayload = [
-                'dealerCode' => $dealer->kode_dealer ?? '9FP002',
-                'targetDate' => Carbon::parse($bookingData['tanggal'])->format('Ymd'),
-                'targetTime' => str_replace(':', '', $bookingData['jam']),
-                'customerName' => $user->name,
-                'mobilePhone' => $user->phone_number ?? '',
-                'modelName' => $motor->nama_model ?? '',
-                'plateNo' => $motor->nomor_plat ?? '',
-                'serviceType' => $bookingData['menu_layanan'] ?? 'KSB',
-                'memo' => $bookingData['permintaan_khusus'] ?? '',
-            ];
-
-            Log::info('Yamaha payload prepared', [
-                'payload' => $yamahaPayload,
-                'user_id' => $user->id,
-            ]);
-
-            // 🚀 KIRIM KE API YAMAHA DEPACK TERLEBIH DAHULU
-            Log::info('Attempting to send booking to Yamaha', [
-                'url' => 'https://www.yamaha-motor.co.id/ajax/com/dpack/send-booking',
-                'csrf_token_length' => strlen($csrfToken),
-                'payload' => $yamahaPayload,
-                'user_id' => $user->id,
-            ]);
-
-            $dpackResponse = Http::withOptions([
-                'cookies' => $cookieJar,
-            ])->withHeaders([
-                'Accept' => 'application/json, text/javascript, */*; q=0.01',
-                'x-csrf-token' => $csrfToken,
-            ])->post(
-                'https://www.yamaha-motor.co.id/ajax/com/dpack/send-booking',
-                $yamahaPayload
-            );
-
-            $responseStatus = $dpackResponse->status();
-            $isSuccessful = $dpackResponse->successful();
-            $responseBody = $dpackResponse->json();
-
-            Log::info('Yamaha API response', [
-                'status' => $responseStatus,
-                'successful' => $isSuccessful,
-                'response_body' => $responseBody,
-                'user_id' => $user->id,
-            ]);
-
-            // ✅ KONDISI SUKSES: Status 2xx (200-299)
-            // BARU SIMPAN KE DATABASE JIKA YAMAHA API BERHASIL
-            if ($isSuccessful && $responseStatus >= 200 && $responseStatus < 300) {
-                // 🔍 Decode nested data (Yamaha mengirim data sebagai JSON string di dalam JSON)
-                $innerData = null;
-                if (isset($responseBody['data']) && is_string($responseBody['data'])) {
-                    $innerData = json_decode($responseBody['data'], true);
-                }
-
-                // Tentukan business-level success. Sesuaikan kondisi ini dengan
-                // dokumentasi resmi Yamaha kalau ada (misal code === 0 / code === 200 dianggap sukses)
-                $innerCode = $innerData['code'] ?? null;
-                $innerMsg  = $innerData['msg'] ?? ($responseBody['message'] ?? null);
-                $successCodes = [200];
-                $knownErrorCodes = [2924, 2915];
-
-                $isBusinessSuccess = is_null($innerCode) || in_array($innerCode, $successCodes, true);
-
-                if (!is_null($innerCode) && !in_array($innerCode, $successCodes, true) && !in_array($innerCode, $knownErrorCodes, true)) {
-                    Log::warning('Unrecognized Yamaha inner_code encountered', [
-                        'inner_code' => $innerCode,
-                        'inner_message' => $innerMsg,
-                        'user_id' => $user->id,
-                    ]);
-                }
-
-                if (!$isBusinessSuccess) {
-                    Log::error('Yamaha booking rejected at business level - booking NOT saved', [
-                        'inner_code' => $innerCode,
-                        'inner_message' => $innerMsg,
-                        'full_response' => $responseBody,
-                        'user_id' => $user->id,
-                        'payload_sent' => $yamahaPayload,
-                    ]);
-
-                    // Mapping pesan error spesifik biar user paham, bukan cuma "Kesalahan pada server"
-                    $userMessage = match ($innerCode) {
-                        2924 => 'Kuota reservasi untuk jadwal ini sudah penuh, silakan pilih tanggal/jam lain',
-                        2915 => 'Data booking Anda sudah terdaftar sebelumnya di sistem Yamaha',
-                        default => $innerMsg ?? 'Booking gagal diproses oleh Yamaha',
-                    };
-
-                    return ApiResponse::error($userMessage, 422);
-                }
-
-                $booking = $creator->handle($request, $user);
-
-                $booking->update([
-                    'status' => 'pending',
-                    'external_status' => $responseBody['status'] ?? 'Waiting',
-                ]);
-
-                Log::info('Booking saved to database after successful Yamaha API response', [
+            // 📤 KIRIM KE N8N (optional: bisa dimatikan via env)
+            if (config('services.n8n.enabled')) {
+                Log::info('Attempting to send booking to N8n', [
                     'booking_id' => $booking->id,
-                    'user_id' => $booking->user_id,
-                ]);
-
-                return ApiResponse::success(
-                    'Booking servis berhasil dibuat dan dikirim ke Yamaha Motor',
-                    [
-                        'id' => $booking->id,
-                        'user_id' => $booking->user_id,
-                        'motor_id' => $booking->motor_id,
-                        'booking_id' => $booking->booking_id,
-                        'dealer_id' => $booking->dealer_id,
-                        'tanggal' => $booking->tanggal,
-                        'menu_layanan' => $booking->menu_layanan,
-                        'permintaan_khusus' => $booking->permintaan_khusus,
-                        'jam' => $booking->jam,
-                        'status' => $booking->status,
-                        'yamaha_response' => $responseBody,
-                    ]
-                );
-            }
-
-            // ❌ KONDISI GAGAL: Status 4xx atau 5xx
-            // JANGAN SIMPAN KE DATABASE, HANYA LOG DETAIL ERROR
-            if (!$isSuccessful || $responseStatus >= 400) {
-                // Ekstrak error message dari berbagai format respons
-                $errorMessage = null;
-
-                if (is_array($responseBody)) {
-                    $errorMessage = $responseBody['error'] ?? $responseBody['message'] ?? $responseBody['msg'] ?? null;
-                } elseif (is_string($responseBody)) {
-                    $errorMessage = $responseBody;
-                }
-
-                $errorMessage = $errorMessage ?? 'Unknown error from Yamaha API';
-
-                Log::error('Yamaha API request failed - booking NOT saved to database', [
-                    'status' => $responseStatus,
-                    'error_message' => $errorMessage,
-                    'full_response' => $responseBody,
                     'user_id' => $user->id,
-                    'payload_sent' => $yamahaPayload,
                 ]);
 
-                return ApiResponse::error(
-                    'Kesalahan pada server',
-                    500
-                );
+                try {
+                    $n8nClient->sendBooking($booking);
+
+                    Log::info('Booking sent to N8n', [
+                        'booking_id' => $booking->id,
+                        'user_id' => $user->id,
+                    ]);
+                } catch (\Exception $e) {
+                    // Booking sudah tersimpan di DB, jadi kegagalan N8n
+                    // hanya dicatat di log dan tidak menggagalkan response
+                    Log::error('Failed to send booking to N8n - booking already saved', [
+                        'booking_id' => $booking->id,
+                        'user_id' => $user->id,
+                        'error_message' => $e->getMessage(),
+                        'error_file' => $e->getFile(),
+                        'error_line' => $e->getLine(),
+                    ]);
+                }
+            } else {
+                Log::info('N8n disabled - booking not sent to N8n', [
+                    'booking_id' => $booking->id,
+                    'user_id' => $user->id,
+                ]);
             }
 
-            // ⚠️ KONDISI TIDAK TERDUGA (Fallback)
-            Log::warning('Yamaha API response in undefined state - booking NOT saved', [
-                'status' => $responseStatus,
-                'successful' => $isSuccessful,
-                'response_body' => $responseBody,
-                'user_id' => $user->id,
-            ]);
-
-            return ApiResponse::error(
-                'Kesalahan pada server',
-                500
+            return ApiResponse::success(
+                'Booking servis berhasil dibuat',
+                [
+                    'id' => $booking->id,
+                    'user_id' => $booking->user_id,
+                    'motor_id' => $booking->motor_id,
+                    'booking_id' => $booking->booking_id,
+                    'dealer_id' => $booking->dealer_id,
+                    'tanggal' => $booking->tanggal,
+                    'menu_layanan' => $booking->menu_layanan,
+                    'permintaan_khusus' => $booking->permintaan_khusus,
+                    'jam' => $booking->jam,
+                    'status' => $booking->status,
+                ]
             );
         } catch (\Exception $e) {
-            Log::error('Exception in booking store function - booking NOT saved', [
+            Log::error('Exception in booking store function', [
                 'error_message' => $e->getMessage(),
                 'error_file' => $e->getFile(),
                 'error_line' => $e->getLine(),
@@ -334,6 +181,252 @@ class BookingServiceController extends Controller
             );
         }
     }
+
+    // ❌ FUNGSI STORE BARU (YAMAHA DEPACK) - SEMENTARA DI-COMMENT
+    // Memakai // per baris (bukan /* ... */) karena kode ini mengandung
+    // string '*/*' pada header Accept yang akan menutup block comment lebih awal.
+    //
+    // /**
+    //  * Store booking service dan kirim ke API Yamaha Motor
+    //  *
+    //  * @param Request $request
+    //  * @param BookingServiceCreator $creator
+    //  * @return \Illuminate\Http\JsonResponse
+    //  */
+    // public function store(Request $request, BookingServiceCreator $creator)
+    // {
+    //     try {
+    //         $user = Auth::user();
+    //
+    //         // 🚫 CEK STATUS BOOKING TERAKHIR USER
+    //         // User tidak boleh booking baru jika booking terakhirnya
+    //         // masih berstatus pending, confirmed, atau progress
+    //         $blockedStatuses = ['pending', 'confirmed', 'progress'];
+    //
+    //         $lastBooking = BookingService::where('user_id', $user->id)
+    //             ->latest('id') // pastikan urut berdasarkan yang paling baru, sesuaikan kolom jika perlu (created_at/id)
+    //             ->first();
+    //
+    //         if ($lastBooking && in_array($lastBooking->status, $blockedStatuses)) {
+    //             Log::info('Booking rejected - user still has active booking', [
+    //                 'user_id' => $user->id,
+    //                 'last_booking_id' => $lastBooking->id,
+    //                 'last_booking_status' => $lastBooking->status,
+    //             ]);
+    //
+    //             return ApiResponse::error(
+    //                 'Anda masih memiliki booking servis yang belum selesai (status: ' . $lastBooking->status . '). Selesaikan atau batalkan booking tersebut terlebih dahulu sebelum membuat booking baru.',
+    //                 422
+    //             );
+    //         }
+    //
+    //         $cookieJar = new CookieJar();
+    //
+    //         // 🔑 AMBIL CSRF TOKEN DARI API YAMAHA
+    //         $csrfResponse = Http::withOptions([
+    //             'cookies' => $cookieJar,
+    //         ])->get(
+    //             'https://www.yamaha-motor.co.id/ajax/com/csrf-token'
+    //         );
+    //
+    //         if (!$csrfResponse->successful()) {
+    //             Log::error('Failed to get CSRF token', [
+    //                 'status' => $csrfResponse->status(),
+    //                 'user_id' => $user->id,
+    //             ]);
+    //             return ApiResponse::error('Kesalahan pada server', 500);
+    //         }
+    //
+    //         $csrfToken = $csrfResponse->json('token');
+    //
+    //         Log::info('CSRF Token obtained', [
+    //             'token_length' => strlen($csrfToken),
+    //             'token_preview' => substr($csrfToken, 0, 30) . '...',
+    //             'user_id' => $user->id,
+    //         ]);
+    //
+    //         // 📤 SIAPKAN DATA UNTUK DIKIRIM KE YAMAHA (BELUM SIMPAN KE DB)
+    //         // Buat booking object sementara untuk mempersiapkan payload
+    //         $bookingData = $request->all();
+    //         $bookingData['user_id'] = $user->id;
+    //         $motor = NomorRangka::find($bookingData['motor_id']);
+    //         $dealer = Dealer::find($bookingData['dealer_id']);
+    //
+    //         $yamahaPayload = [
+    //             'dealerCode' => $dealer->kode_dealer ?? '9FP002',
+    //             'targetDate' => Carbon::parse($bookingData['tanggal'])->format('Ymd'),
+    //             'targetTime' => str_replace(':', '', $bookingData['jam']),
+    //             'customerName' => $user->name,
+    //             'mobilePhone' => $user->phone_number ?? '',
+    //             'modelName' => $motor->nama_model ?? '',
+    //             'plateNo' => $motor->nomor_plat ?? '',
+    //             'serviceType' => $bookingData['menu_layanan'] ?? 'KSB',
+    //             'memo' => $bookingData['permintaan_khusus'] ?? '',
+    //         ];
+    //
+    //         Log::info('Yamaha payload prepared', [
+    //             'payload' => $yamahaPayload,
+    //             'user_id' => $user->id,
+    //         ]);
+    //
+    //         // 🚀 KIRIM KE API YAMAHA DEPACK TERLEBIH DAHULU
+    //         Log::info('Attempting to send booking to Yamaha', [
+    //             'url' => 'https://www.yamaha-motor.co.id/ajax/com/dpack/send-booking',
+    //             'csrf_token_length' => strlen($csrfToken),
+    //             'payload' => $yamahaPayload,
+    //             'user_id' => $user->id,
+    //         ]);
+    //
+    //         $dpackResponse = Http::withOptions([
+    //             'cookies' => $cookieJar,
+    //         ])->withHeaders([
+    //             'Accept' => 'application/json, text/javascript, */*; q=0.01',
+    //             'x-csrf-token' => $csrfToken,
+    //         ])->post(
+    //             'https://www.yamaha-motor.co.id/ajax/com/dpack/send-booking',
+    //             $yamahaPayload
+    //         );
+    //
+    //         $responseStatus = $dpackResponse->status();
+    //         $isSuccessful = $dpackResponse->successful();
+    //         $responseBody = $dpackResponse->json();
+    //
+    //         Log::info('Yamaha API response', [
+    //             'status' => $responseStatus,
+    //             'successful' => $isSuccessful,
+    //             'response_body' => $responseBody,
+    //             'user_id' => $user->id,
+    //         ]);
+    //
+    //         // ✅ KONDISI SUKSES: Status 2xx (200-299)
+    //         // BARU SIMPAN KE DATABASE JIKA YAMAHA API BERHASIL
+    //         if ($isSuccessful && $responseStatus >= 200 && $responseStatus < 300) {
+    //             // 🔍 Decode nested data (Yamaha mengirim data sebagai JSON string di dalam JSON)
+    //             $innerData = null;
+    //             if (isset($responseBody['data']) && is_string($responseBody['data'])) {
+    //                 $innerData = json_decode($responseBody['data'], true);
+    //             }
+    //
+    //             // Tentukan business-level success. Sesuaikan kondisi ini dengan
+    //             // dokumentasi resmi Yamaha kalau ada (misal code === 0 / code === 200 dianggap sukses)
+    //             $innerCode = $innerData['code'] ?? null;
+    //             $innerMsg  = $innerData['msg'] ?? ($responseBody['message'] ?? null);
+    //             $successCodes = [200];
+    //             $knownErrorCodes = [2924, 2915];
+    //
+    //             $isBusinessSuccess = is_null($innerCode) || in_array($innerCode, $successCodes, true);
+    //
+    //             if (!is_null($innerCode) && !in_array($innerCode, $successCodes, true) && !in_array($innerCode, $knownErrorCodes, true)) {
+    //                 Log::warning('Unrecognized Yamaha inner_code encountered', [
+    //                     'inner_code' => $innerCode,
+    //                     'inner_message' => $innerMsg,
+    //                     'user_id' => $user->id,
+    //                 ]);
+    //             }
+    //
+    //             if (!$isBusinessSuccess) {
+    //                 Log::error('Yamaha booking rejected at business level - booking NOT saved', [
+    //                     'inner_code' => $innerCode,
+    //                     'inner_message' => $innerMsg,
+    //                     'full_response' => $responseBody,
+    //                     'user_id' => $user->id,
+    //                     'payload_sent' => $yamahaPayload,
+    //                 ]);
+    //
+    //                 // Mapping pesan error spesifik biar user paham, bukan cuma "Kesalahan pada server"
+    //                 $userMessage = match ($innerCode) {
+    //                     2924 => 'Kuota reservasi untuk jadwal ini sudah penuh, silakan pilih tanggal/jam lain',
+    //                     2915 => 'Data booking Anda sudah terdaftar sebelumnya di sistem Yamaha',
+    //                     default => $innerMsg ?? 'Booking gagal diproses oleh Yamaha',
+    //                 };
+    //
+    //                 return ApiResponse::error($userMessage, 422);
+    //             }
+    //
+    //             $booking = $creator->handle($request, $user);
+    //
+    //             $booking->update([
+    //                 'status' => 'pending',
+    //                 'external_status' => $responseBody['status'] ?? 'Waiting',
+    //             ]);
+    //
+    //             Log::info('Booking saved to database after successful Yamaha API response', [
+    //                 'booking_id' => $booking->id,
+    //                 'user_id' => $booking->user_id,
+    //             ]);
+    //
+    //             return ApiResponse::success(
+    //                 'Booking servis berhasil dibuat dan dikirim ke Yamaha Motor',
+    //                 [
+    //                     'id' => $booking->id,
+    //                     'user_id' => $booking->user_id,
+    //                     'motor_id' => $booking->motor_id,
+    //                     'booking_id' => $booking->booking_id,
+    //                     'dealer_id' => $booking->dealer_id,
+    //                     'tanggal' => $booking->tanggal,
+    //                     'menu_layanan' => $booking->menu_layanan,
+    //                     'permintaan_khusus' => $booking->permintaan_khusus,
+    //                     'jam' => $booking->jam,
+    //                     'status' => $booking->status,
+    //                     'yamaha_response' => $responseBody,
+    //                 ]
+    //             );
+    //         }
+    //
+    //         // ❌ KONDISI GAGAL: Status 4xx atau 5xx
+    //         // JANGAN SIMPAN KE DATABASE, HANYA LOG DETAIL ERROR
+    //         if (!$isSuccessful || $responseStatus >= 400) {
+    //             // Ekstrak error message dari berbagai format respons
+    //             $errorMessage = null;
+    //
+    //             if (is_array($responseBody)) {
+    //                 $errorMessage = $responseBody['error'] ?? $responseBody['message'] ?? $responseBody['msg'] ?? null;
+    //             } elseif (is_string($responseBody)) {
+    //                 $errorMessage = $responseBody;
+    //             }
+    //
+    //             $errorMessage = $errorMessage ?? 'Unknown error from Yamaha API';
+    //
+    //             Log::error('Yamaha API request failed - booking NOT saved to database', [
+    //                 'status' => $responseStatus,
+    //                 'error_message' => $errorMessage,
+    //                 'full_response' => $responseBody,
+    //                 'user_id' => $user->id,
+    //                 'payload_sent' => $yamahaPayload,
+    //             ]);
+    //
+    //             return ApiResponse::error(
+    //                 'Kesalahan pada server',
+    //                 500
+    //             );
+    //         }
+    //
+    //         // ⚠️ KONDISI TIDAK TERDUGA (Fallback)
+    //         Log::warning('Yamaha API response in undefined state - booking NOT saved', [
+    //             'status' => $responseStatus,
+    //             'successful' => $isSuccessful,
+    //             'response_body' => $responseBody,
+    //             'user_id' => $user->id,
+    //         ]);
+    //
+    //         return ApiResponse::error(
+    //             'Kesalahan pada server',
+    //             500
+    //         );
+    //     } catch (\Exception $e) {
+    //         Log::error('Exception in booking store function - booking NOT saved', [
+    //             'error_message' => $e->getMessage(),
+    //             'error_file' => $e->getFile(),
+    //             'error_line' => $e->getLine(),
+    //             'user_id' => Auth::id(),
+    //         ]);
+    //
+    //         return ApiResponse::error(
+    //             'Kesalahan pada server',
+    //             500
+    //         );
+    //     }
+    // }
 
     public function batal(Request $request)
     {
