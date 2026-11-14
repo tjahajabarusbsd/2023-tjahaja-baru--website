@@ -36,7 +36,7 @@ class BookingServiceController extends Controller
         $bookings = BookingService::with('dealer', 'motor')
             ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
-            ->paginate(2);
+            ->paginate(10);
 
         $formatted = $bookings->getCollection()->map(function ($booking) {
             return [
