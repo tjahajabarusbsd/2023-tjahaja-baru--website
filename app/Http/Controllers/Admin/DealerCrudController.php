@@ -34,6 +34,13 @@ class DealerCrudController extends CrudController
         CRUD::column('kota');
         CRUD::column('nohp')->label('No. HP');
 
+        // Status ketersediaan di fitur booking servis
+        CRUD::addColumn([
+            'name'  => 'is_booking_service_available',
+            'label' => 'Booking Servis',
+            'type'  => 'check',
+        ]);
+
         // Kolom bantu: cepat melihat dealer mana yang koordinatnya belum diisi
         CRUD::addColumn([
             'name'  => 'koordinat',
@@ -48,6 +55,22 @@ class DealerCrudController extends CrudController
         ]);
 
         CRUD::column('updated_at');
+
+        // Filter cepat di list admin: tampilkan hanya dealer yang aktif/tidak aktif untuk booking servis
+        CRUD::addFilter(
+            [
+                'name'  => 'is_booking_service_available',
+                'type'  => 'dropdown',
+                'label' => 'Booking Servis',
+            ],
+            [
+                1 => 'Tersedia',
+                0 => 'Tidak tersedia',
+            ],
+            function ($value) {
+                CRUD::addClause('where', 'is_booking_service_available', (bool) $value);
+            }
+        );
     }
 
     protected function setupShowOperation()
@@ -79,6 +102,14 @@ class DealerCrudController extends CrudController
             ->type('text')
             ->hint('Contoh: 100.3543')
             ->wrapper(['class' => 'form-group col-md-6']);
+
+        // Pembatasan dealer yang tampil di fitur booking servis
+        CRUD::addField([
+            'name'  => 'is_booking_service_available',
+            'label' => 'Tersedia untuk Booking Servis',
+            'type'  => 'checkbox',
+            'hint'  => 'Jika dicentang, dealer ini muncul di pilihan dealer pada booking servis di aplikasi.',
+        ]);
     }
 
     protected function setupUpdateOperation()
