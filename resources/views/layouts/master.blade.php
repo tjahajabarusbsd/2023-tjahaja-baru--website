@@ -68,7 +68,7 @@
     @include('partials/navbar')
     <div id="main-wrapper" class="@yield('main_class')">
         @yield('content')
-        @unless (request()->is('contact', 'product*') || request()->hasCookie('sales') || request()->has('sales'))
+        {{-- @unless (request()->is('contact', 'product*') || request()->hasCookie('sales') || request()->has('sales'))
             <a class="btn-wa" href="https://wa.me/628126643288?text={{ urlencode('Halo admin, saya ingin menanyakan') }}"
                 target="_blank" rel="noopener noreferrer">
                 <section class="link-wa">
@@ -80,7 +80,7 @@
                     </div>
                 </section>
             </a>
-        @endunless
+        @endunless --}}
     </div>
     @include('partials/footer')
     @include('partials/page_script')
