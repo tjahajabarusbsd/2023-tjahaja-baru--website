@@ -4,14 +4,13 @@ namespace App\Services;
 
 use App\Models\BookingService;
 use App\Models\NomorRangka;
-use App\Jobs\SendBookingToN8n;
-use Carbon\Carbon;
+use App\Models\UserPublic;
 
 class BookingServiceCreator
 {
-  public function handle($request, $user): BookingService
+  public function handle(array $data, UserPublic $user): BookingService
   {
-    $motor = NomorRangka::where('id', $request->motor_id)
+    $motor = NomorRangka::where('id', $data['motor_id'])
       ->where('user_public_id', $user->id)
       ->where('status_verifikasi', 'verified')
       ->firstOrFail();
@@ -20,13 +19,13 @@ class BookingServiceCreator
 
     $booking = BookingService::create([
       'user_id' => $user->id,
-      'motor_id' => $request->motor_id,
+      'motor_id' => $data['motor_id'],
       'booking_id' => $bookingId,
-      'dealer_id' => $request->dealer_id,
-      'menu_layanan' => $request->menu_layanan,
-      'permintaan_khusus' => $request->permintaan_khusus,
-      'tanggal' => $request->tanggal,
-      'jam' => $request->jam,
+      'dealer_id' => $data['dealer_id'],
+      'menu_layanan' => $data['menu_layanan'],
+      'permintaan_khusus' => $data['permintaan_khusus'] ?? null,
+      'tanggal' => $data['tanggal'],
+      'jam' => $data['jam'],
     ]);
 
     return $booking;

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Services\BookingServiceCreator;
+use App\Services\Booking\ActiveBookingException;
+use App\Services\Booking\BookingServiceWorkflow;
 use App\Services\BookingStatusSyncService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -63,94 +65,19 @@ class BookingServiceController extends Controller
 
     // ✅ FUNGSI STORE AKTIF - MENYIMPAN KE DB LALU KIRIM KE N8N WEBHOOK
     /**
-     * Store booking service menggunakan BookingServiceCreator,
-     * lalu kirim data ke N8n webhook (jika diaktifkan via config).
+     * Create a booking through the booking workflow service.
      *
      * @param BookingServiceRequest $request
-     * @param BookingServiceCreator $creator
-     * @param N8nWebhookClient $n8nClient
+     * @param BookingServiceWorkflow $workflow
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(
         BookingServiceRequest $request,
-        BookingServiceCreator $creator,
-        N8nWebhookClient $n8nClient
+        BookingServiceWorkflow $workflow
     ) {
         try {
             $user = Auth::user();
-
-            Log::info('Booking store request received', [
-                'user_id' => $user->id,
-                'motor_id' => $request->input('motor_id'),
-                'dealer_id' => $request->input('dealer_id'),
-                'tanggal' => $request->input('tanggal'),
-                'jam' => $request->input('jam'),
-                'menu_layanan' => $request->input('menu_layanan'),
-            ]);
-
-            // 🚫 CEK STATUS BOOKING TERAKHIR USER
-            // User tidak boleh booking baru jika booking terakhirnya
-            // masih berstatus pending, confirmed, atau progress
-            $blockedStatuses = ['pending', 'confirmed', 'progress'];
-
-            $lastBooking = BookingService::where('user_id', $user->id)
-                ->latest('id')
-                ->first();
-
-            if ($lastBooking && in_array($lastBooking->status, $blockedStatuses)) {
-                Log::info('Booking rejected - user still has active booking', [
-                    'user_id' => $user->id,
-                    'last_booking_id' => $lastBooking->id,
-                    'last_booking_status' => $lastBooking->status,
-                ]);
-
-                return ApiResponse::error(
-                    'Anda masih memiliki booking servis yang belum selesai (status: ' . $lastBooking->status . '). Selesaikan atau batalkan booking tersebut terlebih dahulu sebelum membuat booking baru.',
-                    422
-                );
-            }
-
-            // 💾 SIMPAN BOOKING KE DATABASE
-            $booking = $creator->handle($request, $user);
-
-            Log::info('Booking saved to database', [
-                'booking_id' => $booking->id,
-                'booking_code' => $booking->booking_id,
-                'user_id' => $booking->user_id,
-                'status' => $booking->status,
-            ]);
-
-            // 📤 KIRIM KE N8N (optional: bisa dimatikan via env)
-            if (config('services.n8n.enabled')) {
-                Log::info('Attempting to send booking to N8n', [
-                    'booking_id' => $booking->id,
-                    'user_id' => $user->id,
-                ]);
-
-                try {
-                    $n8nClient->sendBooking($booking);
-
-                    Log::info('Booking sent to N8n', [
-                        'booking_id' => $booking->id,
-                        'user_id' => $user->id,
-                    ]);
-                } catch (\Exception $e) {
-                    // Booking sudah tersimpan di DB, jadi kegagalan N8n
-                    // hanya dicatat di log dan tidak menggagalkan response
-                    Log::error('Failed to send booking to N8n - booking already saved', [
-                        'booking_id' => $booking->id,
-                        'user_id' => $user->id,
-                        'error_message' => $e->getMessage(),
-                        'error_file' => $e->getFile(),
-                        'error_line' => $e->getLine(),
-                    ]);
-                }
-            } else {
-                Log::info('N8n disabled - booking not sent to N8n', [
-                    'booking_id' => $booking->id,
-                    'user_id' => $user->id,
-                ]);
-            }
+            $booking = $workflow->create($user, $request->validated());
 
             return ApiResponse::success(
                 'Booking servis berhasil dibuat',
@@ -166,6 +93,11 @@ class BookingServiceController extends Controller
                     'jam' => $booking->jam,
                     'status' => $booking->status,
                 ]
+            );
+        } catch (ActiveBookingException $e) {
+            return ApiResponse::error(
+                'Anda masih memiliki booking servis yang belum selesai (status: ' . $e->booking->status . '). Selesaikan atau batalkan booking tersebut terlebih dahulu sebelum membuat booking baru.',
+                422
             );
         } catch (\Exception $e) {
             Log::error('Exception in booking store function', [
@@ -343,7 +275,7 @@ class BookingServiceController extends Controller
     //                 return ApiResponse::error($userMessage, 422);
     //             }
     //
-    //             $booking = $creator->handle($request, $user);
+    //             $booking = $creator->handle($request->all(), $user);
     //
     //             $booking->update([
     //                 'status' => 'pending',
