@@ -22,7 +22,18 @@ class Dealer extends Model
         'nohp',
         'latitude',
         'longitude',
+        'is_booking_service_available',
     ];
+
+    protected $casts = [
+        'is_booking_service_available' => 'boolean',
+    ];
+
+    public function scopeServiceAvailable($query)
+    {
+        return $query->where('is_booking_service_available', true);
+    }
+
     // protected $hidden = [];
     // protected $dates = [];
 

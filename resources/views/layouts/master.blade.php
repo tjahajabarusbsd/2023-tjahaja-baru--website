@@ -69,8 +69,7 @@
     <div id="main-wrapper" class="@yield('main_class')">
         @yield('content')
         @unless (request()->is('contact', 'product*') || request()->hasCookie('sales') || request()->has('sales'))
-            <a class="btn-wa"
-                href="https://wa.me/{{ \App\Support\CroRotation::forDate(now()) ?: '62811805898' }}?text={{ urlencode('Halo admin, saya ingin menanyakan') }}"
+            <a class="btn-wa" href="https://wa.me/628126643288?text={{ urlencode('Halo admin, saya ingin menanyakan') }}"
                 target="_blank" rel="noopener noreferrer">
                 <section class="link-wa">
                     <div class="konten-gambar">
@@ -86,6 +85,7 @@
     @include('partials/footer')
     @include('partials/page_script')
     @yield('additional_script')
+    {{-- @include('partials.chatbot') --}}
 </body>
 
 </html>
