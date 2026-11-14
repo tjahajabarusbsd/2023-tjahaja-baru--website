@@ -67,12 +67,14 @@
                                 <div class="form-group ">
                                     <label>Pilih Topik</label>
                                     <div class="choose-option">
+                                        {{--
                                         <label class="card">
                                             <input type="radio" name="option" class="radio" value="pesan" required>
                                             <span class="card-body">
                                                 <span class="topik-type">Tulis Pesan</span>
                                             </span>
                                         </label>
+                                        --}}
                                         <label class="card">
                                             <input type="radio" name="option" class="radio" value="motor" required>
                                             <span class="card-body">
@@ -88,6 +90,7 @@
                                     </div>
                                 </div>
 
+                                {{--
                                 <div id="optionPesan" style="display: none;" class="form-group">
                                     <div class="form-group">
                                         <label for="message">Tulis Pesan</label>
@@ -97,6 +100,7 @@
                                         <button id="submit-pesan" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>
+                                --}}
 
                                 <div id="optionMotor" style="display: none;" class="form-group">
                                     <div class="form-group now">
