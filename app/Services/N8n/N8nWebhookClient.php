@@ -6,22 +6,31 @@ use App\Models\BookingService;
 use App\Services\N8n\N8nBookingPayloadFactory;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Psr\Log\LoggerInterface;
 use Throwable;
 
 class N8nWebhookClient
 {
+  /**
+   * Semua log n8n ditulis ke channel `n8n` (storage/logs/n8n-YYYY-MM-DD.log).
+   */
+  private function log(): LoggerInterface
+  {
+    return Log::channel('n8n');
+  }
+
   public function sendBooking(BookingService $booking): void
   {
     $payload = N8nBookingPayloadFactory::store($booking);
     // dd($payload);
-    Log::info('[N8N] Store booking payload', $payload);
+    $this->log()->info('[N8N] Store booking payload', $payload);
 
     $response = Http::timeout(10)
       ->acceptJson()
       ->withToken(config('services.n8n.token'))
       ->post(config('services.n8n.webhook'), $payload);
 
-    Log::info('[N8N] Store booking response', [
+    $this->log()->info('[N8N] Store booking response', [
       'status' => $response->status(),
       'body' => $response->json(),
     ]);
@@ -47,32 +56,39 @@ class N8nWebhookClient
   public function cekStatus(BookingService $booking)
   {
     $payload = N8nBookingPayloadFactory::cekStatus($booking);
-    Log::info('[N8N] Cek status payload', $payload);
+
+    // Dipanggil tiap 5 menit per booking, jadi pakai debug
+    // supaya tidak memenuhi log di production.
+    $this->log()->debug('[N8N] Cek status payload', $payload);
 
     $response = Http::timeout(10)
       ->acceptJson()
       ->withToken(config('services.n8n.token'))
       ->post(config('services.n8n.webhook'), $payload);
 
-    Log::info('[N8N] Cek status response', [
+    $this->log()->debug('[N8N] Cek status response', [
+      'booking_id' => $booking->id,
       'status' => $response->status(),
       'body' => $response->json(),
     ]);
 
     if (!$response->successful()) {
+      $this->log()->warning('[N8N] Cek status gagal', [
+        'booking_id' => $booking->id,
+        'http_status' => $response->status(),
+      ]);
       return;
     }
-    
+
     $body = $response->json();
     if (($body['success'] ?? null) !== 'true') {
       return;
     }
 
-    // 🔍 Bandingkan data lama vs baru
-    $updates = [];
     $oldStatus = $booking->status;
+    $updates = [];
 
-    // ✅ Selalu update service_schedule_id dan serialized_product_id jika ada di response
+    // Selalu sinkronkan id dari response; hanya tersimpan kalau nilainya berbeda.
     if (isset($body['serviceScheduleId'])) {
       $updates['service_schedule_id'] = $body['serviceScheduleId'];
     }
@@ -81,46 +97,61 @@ class N8nWebhookClient
       $updates['serialized_product_id'] = $body['productId'];
     }
 
-    // 🔍 Cek perubahan status external
+    // Cek perubahan status external
     if (
       isset($body['status']) &&
       $body['status'] !== $booking->external_status
     ) {
       $updates['external_status'] = $body['status'];
-      $updates['status'] = $this->mapExternalStatus($body['status']);
+
+      $mappedStatus = $this->mapExternalStatus($body['status']);
+
+      if ($mappedStatus !== null) {
+        $updates['status'] = $mappedStatus;
+      } else {
+        // Status tidak dikenal: jangan timpa kolom status dengan null.
+        $this->log()->warning('[N8N] Status external tidak dikenal', [
+          'booking_id' => $booking->id,
+          'external_status' => $body['status'],
+        ]);
+      }
     }
 
-    // ⛔ TIDAK ADA PERUBAHAN → STOP
-    if (empty($updates)) {
-      Log::info('[N8N] No booking status changes', [
-        'booking_id' => $booking->id,
-      ]);
+    // fill() lalu isDirty() membandingkan nilai baru dengan nilai di database,
+    // jadi nilai yang sama tidak dihitung sebagai perubahan.
+    $booking->fill($updates);
+
+    if (!$booking->isDirty()) {
       return;
     }
 
-    // ✅ ADA PERUBAHAN → UPDATE
-    $booking->update($updates);
+    $statusChanged = $booking->isDirty('status');
+
+    $booking->save();
     $booking->refresh();
 
-    app(\App\Services\Booking\BookingStatusNotifier::class)
-      ->notify(
-        $booking,
-        $oldStatus,
-        $booking->status
-      );
+    // Notifikasi hanya dikirim kalau status benar-benar berubah.
+    if ($statusChanged) {
+      app(\App\Services\Booking\BookingStatusNotifier::class)
+        ->notify(
+          $booking,
+          $oldStatus,
+          $booking->status
+        );
 
-    Log::info('[N8N] Booking updated from dpack', [
-      'booking_id' => $booking->id,
-      'old_status' => $oldStatus,
-      'new_status' => $booking->status,
-    ]);
+      $this->log()->info('[N8N] Status booking berubah dari dpack', [
+        'booking_id' => $booking->id,
+        'old_status' => $oldStatus,
+        'new_status' => $booking->status,
+      ]);
+    }
   }
 
   public function cancel(BookingService $booking): bool
   {
     try {
       $payload = N8nBookingPayloadFactory::cancel($booking);
-      Log::info('[N8N] Cancel booking request', [
+      $this->log()->info('[N8N] Cancel booking request', [
         'booking_id' => $booking->id,
         'user_id' => $booking->user_id,
         'action' => $payload['action'] ?? null,
@@ -137,7 +168,7 @@ class N8nWebhookClient
         $body = [];
       }
 
-      Log::info('[N8N] Cancel booking response', [
+      $this->log()->info('[N8N] Cancel booking response', [
         'booking_id' => $booking->id,
         'status' => $response->status(),
         'success' => $body['success'] ?? null,
@@ -158,7 +189,7 @@ class N8nWebhookClient
 
       return true;
     } catch (Throwable $e) {
-      Log::error('[N8N] Cancel booking failed', [
+      $this->log()->error('[N8N] Cancel booking failed', [
         'booking_id' => $booking->id,
         'user_id' => $booking->user_id,
         'error_message' => $e->getMessage(),
@@ -183,5 +214,4 @@ class N8nWebhookClient
       default => null,
     };
   }
-
 }

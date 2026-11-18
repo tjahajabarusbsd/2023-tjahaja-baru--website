@@ -119,6 +119,13 @@ return [
             'level' => 'warning',
             'days' => 14,
         ],
+
+        'n8n' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/n8n.log'),
+            'level' => 'info',
+            'days' => 14,
+        ],
     ],
 
 ];
