@@ -14,6 +14,7 @@ class Notification extends Model
         'source_type',
         'source_id',
         'category',
+        'reminder_stage',
         'title',
         'description',
         'is_read',
