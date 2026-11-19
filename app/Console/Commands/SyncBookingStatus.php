@@ -31,18 +31,19 @@ class SyncBookingStatus extends Command
     {
         $this->info('⏳ Sync booking status started');
 
-        $bookings = BookingService::whereIn('status', [
-            'pending',
-            'booking',
-            'confirmed'
-        ])
+        $bookings = BookingService::with('motor')
+            ->whereIn('status', [
+                'pending',
+                'booking',
+                'confirmed'
+            ])
             ->get();
 
         foreach ($bookings as $booking) {
             $syncService->syncByBooking($booking);
         }
 
-        $this->info('✅ Sync booking status finished');
+        $this->info('✅ Sync booking status finished (' . $bookings->count() . ' booking diproses)');
         return 0;
     }
 }

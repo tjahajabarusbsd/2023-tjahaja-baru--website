@@ -4,6 +4,7 @@ namespace App\Services\N8n;
 
 use App\Models\BookingService;
 use App\Services\N8n\N8nBookingPayloadFactory;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Psr\Log\LoggerInterface;
@@ -61,10 +62,20 @@ class N8nWebhookClient
     // supaya tidak memenuhi log di production.
     $this->log()->debug('[N8N] Cek status payload', $payload);
 
-    $response = Http::timeout(10)
-      ->acceptJson()
-      ->withToken(config('services.n8n.token'))
-      ->post(config('services.n8n.webhook'), $payload);
+    try {
+      $response = Http::timeout(10)
+        ->acceptJson()
+        ->withToken(config('services.n8n.token'))
+        ->post(config('services.n8n.webhook'), $payload);
+    } catch (ConnectionException $e) {
+      // n8n lambat / tidak membalas. Jangan hentikan seluruh sync;
+      // run 5 menit berikutnya akan mencoba lagi.
+      $this->log()->warning('[N8N] Cek status timeout / tidak terhubung', [
+        'booking_id' => $booking->id,
+        'error' => $e->getMessage(),
+      ]);
+      return;
+    }
 
     $this->log()->debug('[N8N] Cek status response', [
       'booking_id' => $booking->id,
