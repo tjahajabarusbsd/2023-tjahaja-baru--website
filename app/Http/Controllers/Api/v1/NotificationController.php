@@ -124,33 +124,50 @@ class NotificationController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $notification = Notification::where('user_public_id', $request->user()->id)
             ->where('id', $id)
-            ->firstOrFail();
+            ->first();
+
+        if (!$notification) {
+            return response()->json([
+                'status' => 'error',
+                'code' => 404,
+                'message' => 'Notifikasi tidak ditemukan',
+            ], 404);
+        }
 
         $detail = null;
 
         switch ($notification->category) {
 
             case 'QR Scan':
-                $qr = QrScanLog::findOrFail($notification->source_id);
-                // dd($qr->scan_code);
+                $qr = QrScanLog::with(['user', 'qrcode.promo.merchant'])
+                    ->find($notification->source_id);
+
+                if (!$qr) {
+                    return $this->sourceNotFound();
+                }
+
                 $detail = [
                     'scan_id' => $qr->scan_code,
                     'merchant_name' => $qr->merchant_title,
-                    'nama_qrcode' => $qr->qrcode?->promo?->name,
-                    'benefit' => $qr->qrcode->benefit,
-                    'user_name' => $qr->user->name,
+                    'nama_qrcode' => optional(optional($qr->qrcode)->promo)->name,
+                    'benefit' => optional($qr->qrcode)->benefit,
+                    'user_name' => optional($qr->user)->name,
                     'usage_count' => $qr->usage_count,
                     'max_usage' => $qr->max_usage,
-                    'scanned_at' => $qr->scanned_at->format('d M Y H:i'),
+                    'scanned_at' => optional($qr->scanned_at)->format('d M Y H:i'),
                 ];
                 break;
 
             case 'Order Motor':
-                $order = OrderMotor::findOrFail($notification->source_id);
+                $order = OrderMotor::find($notification->source_id);
+
+                if (!$order) {
+                    return $this->sourceNotFound();
+                }
 
                 $detail = [
                     'order_code' => $order->order_id,
@@ -158,23 +175,38 @@ class NotificationController extends Controller
                     'warna' => $order->warna,
                     'tipe_pembayaran' => $order->tipe_pembayaran,
                     'status' => $order->status,
-                    'ordered_at' => $order->created_at->format('d M Y H:i'),
+                    'ordered_at' => optional($order->created_at)->format('d M Y H:i'),
                 ];
                 break;
 
             case 'Booking Service':
-                $booking = BookingService::findOrFail($notification->source_id);
+                $booking = BookingService::with(['dealer', 'motor'])
+                    ->find($notification->source_id);
+
+                if (!$booking) {
+                    return $this->sourceNotFound();
+                }
 
                 $detail = [
-                    'booking_code' => $booking->booking_code,
-                    'service_date' => $booking->service_date,
-                    'points' => $booking->points,
+                    'booking_id' => $booking->id,
+                    'booking_code' => $booking->booking_id,
+                    'service_date' => $booking->tanggal,
+                    'tanggal' => $booking->tanggal,
+                    'jam' => $booking->jam,
+                    'dealer' => optional($booking->dealer)->name_dealer,
+                    'model' => optional($booking->motor)->nama_model,
+                    'plat' => optional($booking->motor)->nomor_plat,
                     'status' => $booking->status,
                 ];
                 break;
 
             case 'Service Reminder':
-                $booking = BookingService::findOrFail($notification->source_id);
+                $booking = BookingService::with(['dealer', 'motor'])
+                    ->find($notification->source_id);
+
+                if (!$booking) {
+                    return $this->sourceNotFound();
+                }
 
                 $detail = [
                     'booking_id' => $booking->id,
@@ -186,6 +218,9 @@ class NotificationController extends Controller
                     'jam' => $booking->jam,
                     'status' => $booking->status,
                     'reminder_stage' => $notification->reminder_stage,
+                    'reminder_stage_minutes' => is_numeric($notification->reminder_stage)
+                        ? (int) $notification->reminder_stage
+                        : null,
                 ];
                 break;
 
@@ -206,9 +241,23 @@ class NotificationController extends Controller
                 'title' => $notification->title,
                 'category' => $notification->category,
                 'time' => $notification->created_at->format('d M Y H:i'),
-                'is_read' => $notification->is_read,
+                'is_read' => (bool) $notification->is_read,
                 'detail' => $detail
             ]
         ]);
+    }
+
+    /**
+     * Notifikasi menunjuk ke data sumber yang sudah tidak ada
+     * (mis. booking servis dihapus). Frontend menampilkan pesan ini
+     * sebagai state kosong, bukan error 500.
+     */
+    private function sourceNotFound()
+    {
+        return response()->json([
+            'status' => 'error',
+            'code' => 404,
+            'message' => 'Data terkait notifikasi ini sudah tidak tersedia',
+        ], 404);
     }
 }
