@@ -41,7 +41,6 @@ class NotificationController extends Controller
 
                 $query->whereYear('created_at', $date->year)
                     ->whereMonth('created_at', $date->month);
-
             } catch (\Exception $e) {
                 return response()->json([
                     'status' => 'error',
@@ -127,7 +126,9 @@ class NotificationController extends Controller
 
     public function show($id)
     {
-        $notification = Notification::findOrFail($id);
+        $notification = Notification::where('user_public_id', $request->user()->id)
+            ->where('id', $id)
+            ->firstOrFail();
 
         $detail = null;
 
@@ -172,6 +173,22 @@ class NotificationController extends Controller
                 ];
                 break;
 
+            case 'Service Reminder':
+                $booking = BookingService::findOrFail($notification->source_id);
+
+                $detail = [
+                    'booking_id' => $booking->id,
+                    'booking_code' => $booking->booking_id,
+                    'dealer' => optional($booking->dealer)->name_dealer,
+                    'model' => optional($booking->motor)->nama_model,
+                    'plat' => optional($booking->motor)->nomor_plat,
+                    'tanggal' => $booking->tanggal,
+                    'jam' => $booking->jam,
+                    'status' => $booking->status,
+                    'reminder_stage' => $notification->reminder_stage,
+                ];
+                break;
+
             default:
                 return response()->json([
                     'status' => 'error',
@@ -194,5 +211,4 @@ class NotificationController extends Controller
             ]
         ]);
     }
-
 }

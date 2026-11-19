@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\BookingServiceCreator;
 use App\Services\Booking\ActiveBookingException;
 use App\Services\Booking\BookingServiceWorkflow;
+use App\Services\Booking\ServiceReminderService;
 use App\Services\BookingStatusSyncService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -60,6 +61,86 @@ class BookingServiceController extends Controller
         return ApiResponse::success(
             'Daftar booking servis berhasil diambil',
             $bookings
+        );
+    }
+
+    /**
+     * Jadwal pengingat servis untuk user yang login.
+     *
+     * Menampilkan tahap 60/30/15 menit beserta status sudah terkirim
+     * atau belum untuk setiap booking berstatus "confirmed".
+     */
+    public function reminder(Request $request, ServiceReminderService $reminderService)
+    {
+        $user = Auth::user();
+        $now = Carbon::now();
+
+        $bookings = BookingService::with(['dealer', 'motor'])
+            ->where('user_id', $user->id)
+            ->where('status', 'confirmed')
+            ->whereDate('tanggal', '>=', $now->toDateString())
+            ->orderBy('tanggal')
+            ->orderBy('jam')
+            ->get();
+
+        $data = $bookings->map(function (BookingService $booking) use ($reminderService, $now) {
+            $bookingAt = $reminderService->bookingDateTime($booking);
+
+            $stages = collect(ServiceReminderService::STAGES)
+                ->map(function (int $stage) use ($booking, $bookingAt, $reminderService, $now) {
+                    $remindAt = $bookingAt?->copy()->subMinutes($stage);
+
+                    return [
+                        'stage_minutes' => $stage,
+                        'remind_at' => $remindAt?->toIso8601String(),
+                        'is_sent' => $reminderService->alreadySent($booking, $stage),
+                        'is_due' => $remindAt
+                            ? $now->betweenIncluded(
+                                $remindAt,
+                                $remindAt->copy()->addMinutes(ServiceReminderService::GRACE_MINUTES)
+                            )
+                            : false,
+                    ];
+                })
+                ->values();
+
+            return [
+                'booking_id' => $booking->id,
+                'booking_code' => $booking->booking_id,
+                'dealer' => optional($booking->dealer)->name_dealer,
+                'motor' => optional($booking->motor)->nomor_rangka,
+                'model' => optional($booking->motor)->nama_model,
+                'plat' => optional($booking->motor)->nomor_plat,
+                'tanggal' => $booking->tanggal,
+                'jam' => $booking->jam,
+                'status' => $booking->status,
+                'booking_at' => $bookingAt?->toIso8601String(),
+                'reminders' => $stages,
+            ];
+        })->values();
+
+        return ApiResponse::success(
+            'Jadwal pengingat servis berhasil diambil',
+            $data
+        );
+    }
+
+    /**
+     * Kirim pengingat servis yang jatuh tempo untuk user yang login.
+     *
+     * Idempotent: pengingat yang sudah pernah terkirim tidak dikirim ulang.
+     * Dipakai untuk trigger manual / testing; pengiriman otomatis
+     * dijalankan scheduler `booking:service-reminder` tiap menit.
+     */
+    public function sendReminder(Request $request, ServiceReminderService $reminderService)
+    {
+        $sent = $reminderService->sendDueReminders(Auth::user()->id);
+
+        return ApiResponse::success(
+            empty($sent)
+                ? 'Tidak ada pengingat servis yang jatuh tempo'
+                : 'Pengingat servis berhasil dikirim',
+            $sent
         );
     }
 

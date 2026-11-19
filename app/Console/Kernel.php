@@ -29,6 +29,13 @@ class Kernel extends ConsoleKernel
             ->everyFiveMinutes()
             ->withoutOverlapping()
             ->onOneServer();
+
+        // Pengingat servis: dicek tiap 5 menit, sama seperti sync-status.
+        // Toleransi di ServiceReminderService::GRACE_MINUTES harus > interval ini.
+        $schedule->command('booking:service-reminder')
+            ->everyFiveMinutes()
+            ->withoutOverlapping()
+            ->onOneServer();
     }
 
     /**

@@ -104,6 +104,10 @@ Route::prefix('v1')->group(function () {
         Route::post('/booking-servis', [BookingServiceController::class, 'store']);
         Route::post('/booking-servis/batal', [BookingServiceController::class, 'batal']);
 
+        // Pengingat Servis (60/30/15 menit sebelum jam booking)
+        Route::get('/booking-servis/reminder', [BookingServiceController::class, 'reminder']);
+        Route::post('/booking-servis/reminder/send', [BookingServiceController::class, 'sendReminder']);
+
         // QR Scan
         Route::post('/qr/scan', [QrScanController::class, 'scan'])->middleware(['feature:qr_scan', 'throttle:10,1']);
         Route::post('/qr/redeem', [QrScanController::class, 'manualInput']);
