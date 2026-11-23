@@ -38,7 +38,9 @@ Route::group([
     ], function () {
         Route::crud('nomor-rangka', 'NomorRangkaCrudController');
         Route::crud('booking-service', 'BookingServiceCrudController');
+        Route::get('event/{id}/qr', 'EventQrController@show');
         Route::crud('event', 'EventCrudController');
+        Route::crud('event-checkin', 'EventCheckinCrudController');
         Route::crud('order-motor', 'OrderMotorCrudController');
         Route::crud('merchant', 'MerchantCrudController');
         // Route::crud('reward', 'RewardCrudController');

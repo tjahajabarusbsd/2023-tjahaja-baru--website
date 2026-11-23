@@ -9,6 +9,7 @@ use Illuminate\Database\QueryException;
 use App\Models\Notification;
 use App\Models\Qrcode;
 use App\Models\QrScanLog;
+use App\Services\Event\EventCheckinService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -184,6 +185,21 @@ class QrScanController extends Controller
 
     public function processQr(QrScanRequest $request, $type)
     {
+        // QR event (prefix EVT-) ditangani terpisah dari QR promo
+        if (EventCheckinService::isEventCode($request->qr_code)) {
+            try {
+                $data = app(EventCheckinService::class)
+                    ->checkin(Auth::user(), $request->qr_code);
+
+                return ApiResponse::success('Check-in event berhasil.', $data);
+            } catch (Exception $e) {
+                return ApiResponse::error(
+                    $e->getMessage() ?: 'Terjadi kesalahan',
+                    $e->getCode() ?: 500
+                );
+            }
+        }
+
         DB::beginTransaction();
 
         try {

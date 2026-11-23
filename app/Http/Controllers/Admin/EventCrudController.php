@@ -30,6 +30,8 @@ class EventCrudController extends CrudController
         CRUD::setModel(Event::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/event');
         CRUD::setEntityNameStrings('event', 'events');
+
+        CRUD::addClause('withCount', 'checkins');
     }
 
     /**
@@ -45,6 +47,17 @@ class EventCrudController extends CrudController
         CRUD::column('is_active');
         CRUD::column('start_date');
         CRUD::column('end_date');
+        CRUD::addColumn([
+            'name' => 'checkin_enabled',
+            'label' => 'Check-in QR',
+            'type' => 'check',
+        ]);
+        CRUD::addColumn([
+            'name' => 'checkins_count',
+            'label' => 'Peserta',
+            'type' => 'closure',
+            'function' => fn ($entry) => $entry->checkins_count ?? 0,
+        ]);
         CRUD::column('created_at');
 
         // Filter by event type
@@ -113,6 +126,18 @@ class EventCrudController extends CrudController
             ->default('online');
         CRUD::field('is_active')->label('Tampilkan?')->type('checkbox');
 
+        // --- Check-in QR ---
+        CRUD::field('checkin_enabled')->label('Aktifkan check-in QR')->type('checkbox');
+        CRUD::field('location')->label('Lokasi')->hint('Contoh: Main Atrium, Mall Kelapa Gading');
+        CRUD::field('checkin_open_at')
+            ->label('Check-in dibuka')
+            ->type('datetime')
+            ->hint('Kosongkan = otomatis ikut tanggal mulai event (00:00)');
+        CRUD::field('checkin_close_at')
+            ->label('Check-in ditutup')
+            ->type('datetime')
+            ->hint('Kosongkan = otomatis ikut tanggal selesai event (23:59)');
+
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
@@ -129,5 +154,15 @@ class EventCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+
+        // QR hanya bisa ditampilkan kalau event sudah tersimpan (punya token)
+        if ($this->crud->getCurrentEntry()) {
+            CRUD::addField([
+                'name' => 'checkin_qr',
+                'type' => 'view',
+                'view' => 'admin.event.qr_field',
+                'label' => 'QR Check-in',
+            ]);
+        }
     }
 }

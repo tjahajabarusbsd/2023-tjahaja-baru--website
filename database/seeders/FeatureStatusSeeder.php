@@ -22,5 +22,13 @@ class FeatureStatusSeeder extends Seeder
                 'is_active' => true,
             ]
         );
+
+        FeatureStatus::firstOrCreate(
+            ['key' => 'event_checkin'],
+            [
+                'label' => 'Check-in Event',
+                'is_active' => true,
+            ]
+        );
     }
 }

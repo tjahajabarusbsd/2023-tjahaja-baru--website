@@ -20,6 +20,8 @@ class Event extends Model
         'offline' => 'Offline',
     ];
 
+    public const CHECKIN_TOKEN_PREFIX = 'EVT-';
+
     protected $fillable = [
         'name',
         'description',
@@ -28,12 +30,20 @@ class Event extends Model
         'end_date',
         'type',
         'is_active',
+        'checkin_enabled',
+        'checkin_token',
+        'checkin_open_at',
+        'checkin_close_at',
+        'location',
     ];
 
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
         'is_active' => 'boolean',
+        'checkin_enabled' => 'boolean',
+        'checkin_open_at' => 'datetime',
+        'checkin_close_at' => 'datetime',
     ];
 
     public function scopeOngoing($query)
@@ -49,9 +59,68 @@ class Event extends Model
         return $query->where('is_active', true);
     }
 
+    public function checkins()
+    {
+        return $this->hasMany(EventCheckin::class);
+    }
+
+    /**
+     * Jendela waktu check-in. Null berarti tanpa batas di sisi tersebut.
+     * Default: seluruh tanggal event (start_date 00:00 s/d end_date 23:59).
+     */
+    public function checkinWindow(): array
+    {
+        $from = $this->checkin_open_at
+            ? $this->checkin_open_at->copy()
+            : ($this->start_date ? $this->start_date->copy()->startOfDay() : null);
+
+        $to = $this->checkin_close_at
+            ? $this->checkin_close_at->copy()
+            : ($this->end_date ? $this->end_date->copy()->endOfDay() : null);
+
+        return [$from, $to];
+    }
+
+    public function checkinOpen(): bool
+    {
+        [$from, $to] = $this->checkinWindow();
+
+        if ($from && now()->lt($from)) {
+            return false;
+        }
+
+        if ($to && now()->gt($to)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Token yang di-encode menjadi QR event. Dibuat sekali, dipakai selamanya.
+     */
+    public function ensureCheckinToken(bool $save = true): string
+    {
+        if (empty($this->checkin_token)) {
+            $this->checkin_token = self::CHECKIN_TOKEN_PREFIX . Str::uuid()->toString();
+
+            if ($save && $this->exists) {
+                $this->saveQuietly();
+            }
+        }
+
+        return $this->checkin_token;
+    }
+
     public static function boot()
     {
         parent::boot();
+
+        static::creating(function ($event) {
+            if (empty($event->checkin_token)) {
+                $event->checkin_token = self::CHECKIN_TOKEN_PREFIX . Str::uuid()->toString();
+            }
+        });
 
         static::deleting(function ($obj) {
             Storage::disk('uploads')->delete(Str::replaceFirst('uploads/', '', $obj->image));
