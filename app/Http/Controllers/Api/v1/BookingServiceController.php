@@ -24,6 +24,16 @@ use GuzzleHttp\Cookie\CookieJar;
 
 class BookingServiceController extends Controller
 {
+    /**
+     * Status booking yang masih boleh dibatalkan user dari aplikasi.
+     *
+     * SEMENTARA: 'confirmed' ikut diizinkan untuk uji coba apakah DPACK
+     * menerima action "Cancelled" pada booking yang sudah approved.
+     * Kalau ternyata DPACK menolak, 'confirmed' dikeluarkan lagi dari sini
+     * dan aturan batas waktu (grace/cutoff) diberlakukan.
+     */
+    private const CANCELLABLE_STATUSES = ['pending', 'booking', 'confirmed'];
+
     public function index(BookingStatusSyncService $syncService)
     {
         $user = Auth::user();
@@ -52,6 +62,11 @@ class BookingServiceController extends Controller
                 'menu_layanan' => $booking->menu_layanan,
                 'permintaan_khusus' => $booking->permintaan_khusus,
                 'status' => $booking->status,
+                'external_status' => $booking->external_status,
+                // 🔓 Tombol batal di app mengikuti field ini, bukan string status.
+                // SEMENTARA: booking yang sudah 'confirmed' di DPACK tetap boleh
+                // dibatalkan untuk uji coba action Cancelled ke DPACK.
+                'can_cancel' => in_array($booking->status, self::CANCELLABLE_STATUSES, true),
                 'created_at' => $booking->created_at->toDateTimeString(),
             ];
         });
@@ -448,19 +463,47 @@ class BookingServiceController extends Controller
         ]);
 
         $user = Auth::user();
+
+        // Cari booking milik user tanpa memfilter status, supaya pesan error
+        // bisa membedakan "tidak ditemukan" vs "status tidak bisa dibatalkan".
         $booking = BookingService::where('id', $request->booking_id)
             ->where('user_id', $user->id)
-            ->where('status', 'pending')
             ->first();
 
         if (!$booking) {
-            return ApiResponse::error('Booking tidak ditemukan atau tidak dapat dibatalkan.', 404);
+            return ApiResponse::error('Booking tidak ditemukan.', 404);
         }
 
-        $cancelled = app(N8nWebhookClient::class)->cancel($booking);
+        if (!in_array($booking->status, self::CANCELLABLE_STATUSES, true)) {
+            return ApiResponse::error(
+                'Booking tidak dapat dibatalkan (status: ' . $booking->status . ').',
+                422
+            );
+        }
 
-        if (!$cancelled) {
-            return ApiResponse::error('Kesalahan pada server', 500);
+        $result = app(N8nWebhookClient::class)->cancel($booking);
+
+        // Pembatalan gagal: booking TIDAK diubah statusnya, karena slot di
+        // DPACK kemungkinan masih aktif. Respons tetap membawa detail dari
+        // DPACK supaya bisa dipakai saat uji coba.
+        if (!$result['success']) {
+            return ApiResponse::error(
+                $result['n8n_message']
+                    ? 'Sistem DPACK menolak pembatalan: ' . $result['n8n_message']
+                    : 'Gagal membatalkan booking ke sistem DPACK. Coba lagi beberapa saat atau hubungi dealer.',
+                422,
+                [
+                    'id' => $booking->id,
+                    'booking_id' => $booking->booking_id,
+                    'status' => $booking->status,
+                    'external_status' => $booking->external_status,
+                    'dpack' => [
+                        'http_status' => $result['http_status'],
+                        'body' => $result['body'],
+                        'error' => $result['error'],
+                    ],
+                ]
+            );
         }
 
         $booking->refresh();
@@ -469,6 +512,11 @@ class BookingServiceController extends Controller
             'id' => $booking->id,
             'booking_id' => $booking->booking_id,
             'status' => $booking->status,
+            'external_status' => $booking->external_status,
+            'dpack' => [
+                'http_status' => $result['http_status'],
+                'body' => $result['body'],
+            ],
         ]);
     }
 }

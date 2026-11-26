@@ -158,39 +158,68 @@ class N8nWebhookClient
     }
   }
 
-  public function cancel(BookingService $booking): bool
+  /**
+   * Kirim permintaan pembatalan ke DPACK lewat n8n.
+   *
+   * Mengembalikan detail respons apa adanya (bukan cuma bool) supaya
+   * pemanggil bisa membedakan "DPACK menolak" vs "n8n tidak terhubung",
+   * sekaligus bisa menampilkan alasan penolakan dari DPACK saat uji coba.
+   *
+   * @return array{success: bool, http_status: int|null, n8n_message: string|null, body: array|null, error: string|null}
+   */
+  public function cancel(BookingService $booking): array
   {
+    $response = [
+      'success' => false,
+      'http_status' => null,
+      'n8n_message' => null,
+      'body' => null,
+      'error' => null,
+    ];
+
     try {
       $payload = N8nBookingPayloadFactory::cancel($booking);
       $this->log()->info('[N8N] Cancel booking request', [
         'booking_id' => $booking->id,
+        'booking_status' => $booking->status,
+        'external_status' => $booking->external_status,
         'user_id' => $booking->user_id,
         'action' => $payload['action'] ?? null,
       ]);
 
-      $response = Http::timeout(10)
+      $httpResponse = Http::timeout(10)
         ->acceptJson()
         ->withToken(config('services.n8n.token'))
         ->post(config('services.n8n.webhook'), $payload);
 
-      $body = $response->json();
+      $body = $httpResponse->json();
 
       if (!is_array($body)) {
         $body = [];
       }
 
+      $response['http_status'] = $httpResponse->status();
+      $response['body'] = $body;
+      $response['n8n_message'] = $body['message'] ?? $body['msg'] ?? null;
+
       $this->log()->info('[N8N] Cancel booking response', [
         'booking_id' => $booking->id,
-        'status' => $response->status(),
+        'status' => $httpResponse->status(),
         'success' => $body['success'] ?? null,
+        'body' => $body,
       ]);
 
-      if (!$response->successful()) {
-        return false;
-      }
+      $isSuccess = $httpResponse->successful()
+        && in_array($body['success'] ?? null, [true, 'true', 1, '1'], true);
 
-      if (!in_array($body['success'] ?? null, [true, 'true', 1, '1'], true)) {
-        return false;
+      if (!$isSuccess) {
+        $this->log()->warning('[N8N] Cancel booking ditolak DPACK', [
+          'booking_id' => $booking->id,
+          'http_status' => $httpResponse->status(),
+          'n8n_message' => $response['n8n_message'],
+        ]);
+
+        return $response;
       }
 
       $booking->update([
@@ -198,7 +227,9 @@ class N8nWebhookClient
         'status' => 'cancelled',
       ]);
 
-      return true;
+      $response['success'] = true;
+
+      return $response;
     } catch (Throwable $e) {
       $this->log()->error('[N8N] Cancel booking failed', [
         'booking_id' => $booking->id,
@@ -206,7 +237,9 @@ class N8nWebhookClient
         'error_message' => $e->getMessage(),
       ]);
 
-      return false;
+      $response['error'] = $e->getMessage();
+
+      return $response;
     }
   }
 
