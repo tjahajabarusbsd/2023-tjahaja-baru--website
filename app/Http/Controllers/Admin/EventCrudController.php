@@ -157,6 +157,9 @@ class EventCrudController extends CrudController
 
         // QR hanya bisa ditampilkan kalau event sudah tersimpan (punya token)
         if ($this->crud->getCurrentEntry()) {
+            // Event lama (dibuat sebelum fitur ini) belum punya token: buat sekarang
+            $this->crud->getCurrentEntry()->ensureCheckinToken();
+
             CRUD::addField([
                 'name' => 'checkin_qr',
                 'type' => 'view',
