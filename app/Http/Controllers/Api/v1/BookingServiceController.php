@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use App\Services\BookingServiceCreator;
 use App\Services\Booking\ActiveBookingException;
+use App\Services\Booking\BookingCancelPolicy;
 use App\Services\Booking\BookingServiceWorkflow;
 use App\Services\Booking\ServiceReminderService;
 use App\Services\BookingStatusSyncService;
@@ -24,17 +25,7 @@ use GuzzleHttp\Cookie\CookieJar;
 
 class BookingServiceController extends Controller
 {
-    /**
-     * Status booking yang masih boleh dibatalkan user dari aplikasi.
-     *
-     * SEMENTARA: 'confirmed' ikut diizinkan untuk uji coba apakah DPACK
-     * menerima action "Cancelled" pada booking yang sudah approved.
-     * Kalau ternyata DPACK menolak, 'confirmed' dikeluarkan lagi dari sini
-     * dan aturan batas waktu (grace/cutoff) diberlakukan.
-     */
-    private const CANCELLABLE_STATUSES = ['pending', 'booking', 'confirmed'];
-
-    public function index(BookingStatusSyncService $syncService)
+    public function index(BookingStatusSyncService $syncService, BookingCancelPolicy $policy)
     {
         $user = Auth::user();
 
@@ -49,7 +40,9 @@ class BookingServiceController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        $formatted = $bookings->getCollection()->map(function ($booking) {
+        $formatted = $bookings->getCollection()->map(function ($booking) use ($policy) {
+            $deadline = $policy->deadline($booking);
+
             return [
                 'id' => $booking->id,
                 'booking_id' => $booking->booking_id,
@@ -63,10 +56,11 @@ class BookingServiceController extends Controller
                 'permintaan_khusus' => $booking->permintaan_khusus,
                 'status' => $booking->status,
                 'external_status' => $booking->external_status,
-                // 🔓 Tombol batal di app mengikuti field ini, bukan string status.
-                // SEMENTARA: booking yang sudah 'confirmed' di DPACK tetap boleh
-                // dibatalkan untuk uji coba action Cancelled ke DPACK.
-                'can_cancel' => in_array($booking->status, self::CANCELLABLE_STATUSES, true),
+                // Hak batal & alasannya ditentukan backend (BookingCancelPolicy),
+                // app tidak menebak dari string status.
+                'can_cancel' => $policy->canCancel($booking),
+                'cancel_deadline' => $deadline?->toIso8601String(),
+                'cancel_reason' => $policy->reason($booking),
                 'created_at' => $booking->created_at->toDateTimeString(),
             ];
         });
@@ -474,10 +468,19 @@ class BookingServiceController extends Controller
             return ApiResponse::error('Booking tidak ditemukan.', 404);
         }
 
-        if (!in_array($booking->status, self::CANCELLABLE_STATUSES, true)) {
+        // Aturan batas waktu: batal ditutup N jam sebelum jam servis.
+        $policy = app(BookingCancelPolicy::class);
+
+        if (!$policy->canCancel($booking)) {
             return ApiResponse::error(
-                'Booking tidak dapat dibatalkan (status: ' . $booking->status . ').',
-                422
+                $policy->reason($booking) ?? 'Booking ini tidak dapat dibatalkan.',
+                422,
+                [
+                    'id' => $booking->id,
+                    'booking_id' => $booking->booking_id,
+                    'status' => $booking->status,
+                    'cancel_deadline' => $policy->deadline($booking)?->toIso8601String(),
+                ]
             );
         }
 

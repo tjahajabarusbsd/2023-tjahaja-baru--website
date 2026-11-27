@@ -200,7 +200,7 @@ class N8nWebhookClient
 
       $response['http_status'] = $httpResponse->status();
       $response['body'] = $body;
-      $response['n8n_message'] = $body['message'] ?? $body['msg'] ?? null;
+      $response['n8n_message'] = $body['message'] ?? $body['msg'] ?? $body['pesan'] ?? null;
 
       $this->log()->info('[N8N] Cancel booking response', [
         'booking_id' => $booking->id,
